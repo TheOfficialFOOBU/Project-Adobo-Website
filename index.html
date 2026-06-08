@@ -505,7 +505,9 @@
     }
 
     #all-members-grid.expanded {
-        max-height: 3000px;
+        max-height: 60vh;
+        overflow: auto;
+        -webkit-overflow-scrolling: touch;
     }
 
     .members-grid-container {
@@ -1671,7 +1673,19 @@
             let idx = 0;
             img.onerror = null; // avoid recursion
             const tryNext = ()=>{
-                if(idx >= attempts.length) return; // give up
+                if(idx >= attempts.length) {
+                    // all attempts failed — render initials SVG fallback
+                    const name = img.alt || '';
+                    const initials = (name.split(' ').map(s=>s[0]).join('') || '').slice(0,2).toUpperCase();
+                    const bg = '#1a1a1a';
+                    const fg = '#e9e9e9';
+                    const svg = `<svg xmlns='http://www.w3.org/2000/svg' width='400' height='400'><rect width='100%' height='100%' fill='${bg}'/><text x='50%' y='50%' font-family='${encodeURIComponent("Inter, system-ui, -apple-system, 'Segoe UI', Roboto")}' font-size='140' fill='${fg}' dominant-baseline='middle' text-anchor='middle'>${initials}</text></svg>`;
+                    img.src = 'data:image/svg+xml;utf8,' + encodeURIComponent(svg);
+                    img.onerror = null;
+                    // reveal picture if wrapped
+                    const pic = img.closest('picture'); if(pic){ pic.querySelector('.skeleton-bg')?.classList.add('hidden'); pic.classList.remove('skeleton'); pic.classList.add('loaded'); }
+                    return;
+                }
                 img.src = attempts[idx++];
                 // reattach error handler
                 img.onerror = tryNext;
@@ -1764,6 +1778,29 @@
 
         // Initial render
         renderMembers();
+
+        // After initial render, verify member images load on hosted environment (GitHub Pages)
+        function checkAndFixImage(img){
+            if(!img || !img.src) return;
+            // Try a HEAD request to ensure the resource exists
+            fetch(img.src, { method: 'HEAD' }).then(res=>{
+                if(!res.ok) tryAlternateSources(img);
+            }).catch(()=>{
+                // network/CORS issues -> attempt alternate sources anyway
+                tryAlternateSources(img);
+            });
+        }
+
+        // Run checks for rendered member images and static team images
+        function verifyAllMemberImages(){
+            document.querySelectorAll('#members-list img, .team-member img, .leader-avatar').forEach(img=>{
+                // small delay to allow relative paths to resolve on some hosts
+                setTimeout(()=> checkAndFixImage(img), 150);
+            });
+        }
+
+        // Run verification once (also run after sorting/search which re-renders)
+        verifyAllMemberImages();
 
         // MEMBER SEARCH
         const memberSearch = document.getElementById('member-search');
