@@ -117,6 +117,24 @@ h1{word-wrap:break-word}
   .hero{padding:28px 0}
 }
 
+/* Mobile header/nav fixes for small screens (iPhone) */
+@media(max-width:780px){
+  header{padding:0.9rem 1rem}
+  .logo-text{font-size:1rem}
+  nav ul{display:none;flex-direction:column;gap:12px;padding:12px}
+  .menu-btn{display:inline-flex}
+  #site-nav{position:fixed;inset:60px 0 0 0;background:linear-gradient(180deg,var(--surface),rgba(0,0,0,0.9));transform:translateY(-120%);transition:transform 220ms ease;padding:1rem;z-index:1500;overflow:auto}
+  #site-nav.open{transform:translateY(0)}
+  nav a{display:block;padding:8px 12px;border-radius:8px}
+  .container{padding-left:1rem;padding-right:1rem}
+  .projects-grid{grid-template-columns:repeat(1,1fr)}
+  .team-grid{grid-template-columns:repeat(2,1fr)}
+  .members-grid-container{grid-template-columns:repeat(2,1fr)}
+}
+
+/* Ensure images are visible and not affected by any accidental display rules on mobile */
+img{max-width:100%;height:auto;display:block}
+
 /* Skeleton / smooth image loading */
 .skeleton-wrap{position:relative;overflow:hidden;border-radius:8px}
 .skeleton-wrap::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.035) 50%, rgba(255,255,255,0.02) 100%);transform:translateX(-100%);animation:shimmer 1.4s infinite}
