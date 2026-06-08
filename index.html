@@ -42,14 +42,14 @@
     .container {
         max-width: 1600px;
         margin: 0 auto;
-        padding: 0 4rem;
+        padding: 0 1rem;
     }
 
     header {
         position: fixed;
         top: 0;
         width: 100%;
-        padding: 2rem 4rem;
+        padding: 1rem 1rem;
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -1056,6 +1056,11 @@
             font-size: 0.6rem;
         }
     }
+    /* Restore larger paddings on wide screens */
+    @media(min-width:1100px){
+        .container{padding:0 4rem}
+        header{padding:2rem 4rem}
+    }
     </style>
 </head>
 <body>
@@ -1127,7 +1132,8 @@
                 <div class="project-card">
                     <picture class="skeleton-wrap">
                         <source type="image/webp" srcset="images/events/2-1600.webp 1600w, images/events/2-1024.webp 1024w, images/events/2-800.webp 800w, images/events/2-640.webp 640w, images/events/2-480.webp 480w, images/events/2-320.webp 320w" sizes="(max-width:600px) 100vw, 45vw">
-                        <img class="lightbox-target" data-full="images/events/2-1600.webp" data-lqip="images/events/2-320.webp" src="images/events/2.webp" alt="100 Casual Raids" loading="lazy" decoding="async">
+                        <source type="image/png" srcset="images/events/2.png">
+                        <img class="lightbox-target" data-full="images/events/2-1600.webp" data-lqip="images/events/2-320.webp" src="images/events/2.png" alt="100 Casual Raids" loading="lazy" decoding="async">
                     </picture>
                     <div class="project-overlay">
                         <div class="project-type">Guild Milestone</div>
@@ -1140,7 +1146,8 @@
                 <div class="project-card">
                     <picture class="skeleton-wrap">
                         <source type="image/webp" srcset="images/events/Pogi-1600.webp 1600w, images/events/Pogi-1024.webp 1024w, images/events/Pogi-800.webp 800w, images/events/Pogi-640.webp 640w, images/events/Pogi-480.webp 480w, images/events/Pogi-320.webp 320w" sizes="(max-width:600px) 100vw, 45vw">
-                        <img class="lightbox-target" data-full="images/events/Pogi-1600.webp" data-lqip="images/events/Pogi-320.webp" src="images/events/Pogi.webp" alt="Community United" loading="lazy" decoding="async">
+                        <source type="image/png" srcset="images/events/Pogi.png">
+                        <img class="lightbox-target" data-full="images/events/Pogi-1600.webp" data-lqip="images/events/Pogi-320.webp" src="images/events/Pogi.png" alt="Community United" loading="lazy" decoding="async">
                     </picture>
                     <div class="project-overlay">
                         <div class="project-type">Community Bond</div>
@@ -1153,7 +1160,8 @@
                 <div class="project-card">
                     <picture class="skeleton-wrap">
                         <source type="image/webp" srcset="images/events/1.JPG-1600.webp 1600w, images/events/1.JPG-1024.webp 1024w, images/events/1.JPG-800.webp 800w, images/events/1.JPG-640.webp 640w, images/events/1.JPG-480.webp 480w, images/events/1.JPG-320.webp 320w" sizes="(max-width:600px) 100vw, 45vw">
-                        <img class="lightbox-target" data-full="images/events/1.JPG-1600.webp" data-lqip="images/events/1.JPG-320.webp" src="images/events/1.JPG.webp" alt="Tournament Victory" loading="lazy" decoding="async">
+                        <source type="image/jpeg" srcset="images/events/1.JPG">
+                        <img class="lightbox-target" data-full="images/events/1.JPG-1600.webp" data-lqip="images/events/1.JPG-320.webp" src="images/events/1.JPG" alt="Tournament Victory" loading="lazy" decoding="async">
                     </picture>
                     <div class="project-overlay">
                         <div class="project-type">Funny Prison Break</div>
@@ -1166,7 +1174,8 @@
                 <div class="project-card">
                     <picture class="skeleton-wrap">
                         <source type="image/webp" srcset="images/events/4-1600.webp 1600w, images/events/4-1024.webp 1024w, images/events/4-800.webp 800w, images/events/4-640.webp 640w, images/events/4-480.webp 480w, images/events/4-320.webp 320w" sizes="(max-width:600px) 100vw, 45vw">
-                        <img class="lightbox-target" data-full="images/events/4-1600.webp" data-lqip="images/events/4-320.webp" src="images/events/4.webp" alt="Guild Picnic" loading="lazy" decoding="async">
+                        <source type="image/png" srcset="images/events/4.png">
+                        <img class="lightbox-target" data-full="images/events/4-1600.webp" data-lqip="images/events/4-320.webp" src="images/events/4.png" alt="Guild Picnic" loading="lazy" decoding="async">
                     </picture>
                     <div class="project-overlay">
                         <div class="project-type">NMW Prank Guild Picture</div>

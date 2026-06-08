@@ -132,6 +132,18 @@ h1{word-wrap:break-word}
   .members-grid-container{grid-template-columns:repeat(2,1fr)}
 }
 
+/* Strengthen mobile menu visibility and behavior */
+@media(max-width:780px){
+  /* show menu button reliably */
+  .menu-btn{display:inline-flex !important;align-items:center;gap:8px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);color:var(--text);padding:8px 12px;border-radius:10px;z-index:1600}
+  /* hide nav list until opened */
+  #site-nav:not(.open) ul{display:none}
+  #site-nav.open ul{display:flex;flex-direction:column;gap:12px;padding:8px}
+  #site-nav{top:60px}
+  /* stack events sidebar to prevent zoom-out from fixed-width column */
+  .events-grid{grid-template-columns:1fr !important}
+}
+
 /* Ensure images are visible and not affected by any accidental display rules on mobile */
 img{max-width:100%;height:auto;display:block}
 
