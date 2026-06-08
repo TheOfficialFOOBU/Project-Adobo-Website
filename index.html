@@ -1,0 +1,1452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adobo Guild - Warrior Crafted Excellence</title>
+    <style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif;
+        background: #000;
+        color: #fff;
+        line-height: 1.6;
+        overflow-x: hidden;
+    }
+        a {
+        color: inherit;
+        text-decoration: none;
+    }
+
+    .container {
+        max-width: 1600px;
+        margin: 0 auto;
+        padding: 0 4rem;
+    }
+
+    header {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        padding: 2rem 4rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        z-index: 1000;
+        background: rgba(0, 0, 0, 0.3);
+        backdrop-filter: blur(10px);
+    }
+
+    .logo {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        font-size: 1.5rem;
+        font-weight: 900;
+        letter-spacing: 0.05em;
+    }
+
+    .logo-image {
+        width: 42px;
+        height: 42px;
+        object-fit: contain;
+        border-radius: 8px;
+        border: 1px solid rgba(255,255,255,0.12);
+        background: rgba(255,255,255,0.03);
+    }
+
+    .logo-text {
+        display: inline-block;
+    }
+
+    nav ul {
+        display: flex;
+        list-style: none;
+        gap: 3rem;
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        font-weight: 500;
+    }
+
+    nav a {
+        position: relative;
+        transition: opacity 0.3s;
+    }
+
+    nav a:hover {
+        opacity: 0.6;
+    }
+    /* HERO SECTION */
+    .hero {
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+        padding-top: 8rem;
+    }
+
+    .hero h1 {
+        font-size: 8vw;
+        font-weight: 900;
+        line-height: 1;
+        letter-spacing: -0.02em;
+        margin-bottom: 1rem;
+        max-width: 90%;
+    }
+
+    .hero .subtitle {
+        font-size: 1.3rem;
+        color: #aaa;
+        margin-bottom: 3rem;
+        font-weight: 300;
+        letter-spacing: 0.05em;
+    }
+
+    .scroll-indicator {
+        position: absolute;
+        bottom: 2rem;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 0.85rem;
+        color: #666;
+        letter-spacing: 0.1em;
+        animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes float {
+        0%, 100% { transform: translateX(-50%) translateY(0); }
+        50% { transform: translateX(-50%) translateY(10px); }
+    }
+
+    /* HERO 2 */
+    .hero-2 {
+        min-height: 80vh;
+        display: flex;
+        align-items: center;
+        padding: 8rem 4rem;
+        position: relative;
+    }
+
+    .hero-2-content {
+        max-width: 700px;
+    }
+
+    .hero-2 h2 {
+        font-size: 6vw;
+        font-weight: 900;
+        line-height: 1;
+        letter-spacing: -0.02em;
+        margin-bottom: 2rem;
+    }
+
+    .hero-2 p {
+        font-size: 1.1rem;
+        line-height: 1.8;
+        color: #bbb;
+        margin-bottom: 2rem;
+    }
+
+    .cta-button {
+        display: inline-block;
+        padding: 1rem 2.5rem;
+        background: #fff;
+        color: #000;
+        font-weight: 600;
+        font-size: 0.9rem;
+        letter-spacing: 0.05em;
+        transition: all 0.3s;
+        cursor: pointer;
+        border: 1px solid #fff;
+        margin-right: 1rem;
+    }
+
+    .cta-button:hover {
+        background: transparent;
+        color: #fff;
+    }
+
+    .cta-button.light {
+        background: transparent;
+        color: #fff;
+        border: 1px solid #fff;
+    }
+
+    .cta-button.light:hover {
+        background: #fff;
+        color: #000;
+    }
+
+    /* SECTION STYLES */
+    .section-title {
+        font-size: 3.5rem;
+        font-weight: 900;
+        letter-spacing: -0.02em;
+        line-height: 1.1;
+        margin-bottom: 4rem;
+        position: relative;
+    }
+
+    .section-number {
+        font-size: 8rem;
+        font-weight: 900;
+        opacity: 0.05;
+        position: absolute;
+        left: 0;
+        top: -2rem;
+    }
+
+    section {
+        padding: 8rem 0;
+        position: relative;
+    }
+
+    /* PROJECTS SECTION */
+    .projects {
+        background: #000;
+    }
+
+    .projects-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 2rem;
+        margin-bottom: 4rem;
+    }
+
+    .project-card {
+        position: relative;
+        overflow: hidden;
+        aspect-ratio: 1;
+    }
+
+    .project-card img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.6s ease;
+    }
+
+    .project-card:hover img {
+        transform: scale(1.05);
+    }
+
+    .project-overlay {
+        position: absolute;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.7);
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        padding: 2rem;
+        opacity: 0;
+        transition: opacity 0.4s;
+    }
+
+    .project-card:hover .project-overlay {
+        opacity: 1;
+    }
+
+    .project-overlay h3 {
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+        letter-spacing: -0.01em;
+    }
+
+    .project-overlay .project-type {
+        font-size: 0.85rem;
+        color: #aaa;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        margin-bottom: 1rem;
+    }
+
+    .project-overlay a {
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        border-bottom: 1px solid #fff;
+        display: inline-block;
+        padding-bottom: 0.25rem;
+    }
+
+    /* CAPABILITIES SECTION */
+    .capabilities {
+        background: #0a0a0a;
+    }
+
+    .capabilities-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 2rem;
+    }
+
+    .capability-item {
+        padding: 1.5rem 0;
+        border-bottom: 1px solid #222;
+    }
+
+    .capability-item h4 {
+        font-size: 0.85rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: #fff;
+    }
+
+    /* PHILOSOPHY SECTION */
+    .philosophy {
+        background: #000;
+    }
+
+    .philosophy-content {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 4rem;
+        align-items: center;
+    }
+
+    .philosophy h3 {
+        font-size: 2rem;
+        font-weight: 700;
+        margin-bottom: 1.5rem;
+    }
+
+    .philosophy p {
+        font-size: 1rem;
+        line-height: 1.8;
+        color: #bbb;
+        margin-bottom: 1.5rem;
+    }
+
+    /* TEAM SECTION */
+    .team {
+        background: #0a0a0a;
+    }
+
+    .team-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 3rem;
+    }
+
+    .team-member {
+        text-align: center;
+    }
+
+    .team-member img {
+        width: 100%;
+        aspect-ratio: 1;
+        object-fit: contain;
+        margin-bottom: 1.5rem;
+    }
+
+    .team-member h4 {
+        font-size: 1.2rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+    }
+
+    .team-member .role {
+        font-size: 0.85rem;
+        color: #888;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        margin-bottom: 0.5rem;
+    }
+
+    .team-member .member-position,
+    .team-member .member-class,
+    .team-member .member-weapon {
+        font-size: 0.85rem;
+        color: #aaa;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        margin-bottom: 0.5rem;
+    }
+
+    .team-member .member-weapon {
+        color: #4dd0e1;
+    }
+
+    .team-member p {
+        font-size: 0.95rem;
+        line-height: 1.6;
+        color: #ccc;
+        margin-bottom: 1rem;
+    }
+
+    .team-member a {
+        display: inline-block;
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        border-bottom: 1px solid #fff;
+        padding-bottom: 0.25rem;
+    }
+
+    /* ALL MEMBERS SECTION */
+    .members-toggle {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 1rem;
+        margin-top: 3rem;
+        padding-top: 3rem;
+        border-top: 1px solid #222;
+    }
+
+    .sorting-controls {
+        display: none;
+        justify-content: center;
+        align-items: center;
+        gap: 1rem;
+        margin: 0 0 2rem 0;
+        padding: 1rem;
+        background: #0a0a0a;
+        border: 1px solid #222;
+        border-radius: 0;
+    }
+
+    #all-members-grid.expanded .sorting-controls {
+        display: flex;
+    }
+
+    .sorting-controls label {
+        font-size: 0.9rem;
+        color: #fff;
+        font-weight: 600;
+    }
+
+    .sorting-controls select {
+        padding: 0.5rem 1rem;
+        background: #000;
+        color: #fff;
+        border: 1px solid #444;
+        font-size: 0.85rem;
+        cursor: pointer;
+        transition: all 0.3s;
+    }
+
+    .sorting-controls select:hover {
+        border-color: #666;
+    }
+
+    .sorting-controls select:focus {
+        outline: none;
+        border-color: #fff;
+    }
+
+    .members-toggle-btn {
+        padding: 0.75rem 2rem;
+        background: transparent;
+        color: #fff;
+        border: 1px solid #fff;
+        font-weight: 600;
+        font-size: 0.9rem;
+        letter-spacing: 0.05em;
+        cursor: pointer;
+        transition: all 0.3s;
+        text-transform: uppercase;
+    }
+
+    .members-toggle-btn:hover {
+        background: #fff;
+        color: #000;
+    }
+
+    .members-count {
+        font-size: 0.9rem;
+        color: #888;
+        font-weight: 500;
+    }
+
+    #all-members-grid {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.4s ease;
+        margin-top: 3rem;
+    }
+
+    #all-members-grid.expanded {
+        max-height: 3000px;
+    }
+
+    .members-grid-container {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1.5rem;
+    }
+
+    .member-card {
+        text-align: center;
+        padding: 1.5rem;
+        background: #0a0a0a;
+        border: 1px solid #222;
+        transition: all 0.3s;
+    }
+
+    .member-card:hover {
+        background: #1a1a1a;
+        border-color: #444;
+    }
+
+    .member-card img {
+        width: 100%;
+        aspect-ratio: 4/3;
+        object-fit: contain;
+        margin-bottom: 0.75rem;
+    }
+
+    .member-card h5 {
+        font-size: 0.95rem;
+        font-weight: 600;
+        margin-bottom: 0.25rem;
+    }
+
+    .member-card .member-position {
+        font-size: 0.75rem;
+        color: #ff6b6b;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        margin-bottom: 0.25rem;
+        font-weight: 700;
+    }
+
+    .member-card .member-class {
+        font-size: 0.8rem;
+        color: #888;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        margin-bottom: 0.25rem;
+    }
+
+    .member-card .member-weapon {
+        font-size: 0.75rem;
+        color: #4ecdc4;
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+    }
+
+    .member-card .member-quote {
+        font-size: 0.75rem;
+        color: #aaa;
+        font-style: italic;
+        line-height: 1.3;
+        margin-top: 0.5rem;
+    }
+
+    .capacity-info {
+        padding: 1rem;
+        background: #0a0a0a;
+        border: 1px solid #222;
+        margin-top: 1rem;
+        border-radius: 0;
+        text-align: center;
+        font-size: 0.9rem;
+    }
+
+    .capacity-info .capacity-number {
+        font-weight: 700;
+        font-size: 1.1rem;
+        color: #fff;
+    }
+
+    /* MODAL */
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 2000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.85);
+        backdrop-filter: blur(8px);
+        animation: modalBackdropFadeIn 0.3s ease-out;
+    }
+
+    @keyframes modalBackdropFadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+
+    .modal-content {
+        background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
+        margin: 8% auto;
+        padding: 0;
+        border: 1px solid rgba(255, 107, 53, 0.3);
+        border-radius: 20px;
+        width: 90%;
+        max-width: 480px;
+        position: relative;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        animation: modalSlideIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        overflow: hidden;
+    }
+
+    @keyframes modalSlideIn {
+        from {
+            opacity: 0;
+            transform: translateY(-60px) scale(0.9);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    }
+
+    .modal-content::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, #ff6b35, #ff8c42, #ffb366);
+    }
+
+    .close-modal {
+        position: absolute;
+        top: 1.5rem;
+        right: 1.5rem;
+        color: #888;
+        font-size: 1.8rem;
+        font-weight: 300;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        width: 32px;
+        height: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.05);
+    }
+
+    .close-modal:hover {
+        color: #ff6b35;
+        background: rgba(255, 107, 53, 0.1);
+        transform: rotate(90deg);
+    }
+
+    .modal-content h3 {
+        text-align: center;
+        margin: 0;
+        padding: 2rem 2rem 1rem;
+        color: #fff;
+        font-size: 1.8rem;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+    }
+
+    .leader-info {
+        text-align: center;
+        padding: 0 2rem 2rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .leader-avatar {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        border: 4px solid transparent;
+        background: linear-gradient(135deg, #ff6b35, #ff8c42) padding-box,
+                    linear-gradient(135deg, #ff6b35, #ff8c42) border-box;
+        margin-bottom: 1.5rem;
+        box-shadow: 0 8px 24px rgba(255, 107, 53, 0.3);
+    }
+
+    .leader-info h4 {
+        font-size: 1.6rem;
+        margin-bottom: 0.5rem;
+        color: #fff;
+        font-weight: 600;
+    }
+
+    .leader-title {
+        color: #ff6b35;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        font-size: 0.9rem;
+        margin-bottom: 1rem;
+        background: rgba(255, 107, 53, 0.1);
+        padding: 0.4rem 0.8rem;
+        border-radius: 20px;
+        display: inline-block;
+    }
+
+    .leader-quote {
+        font-style: italic;
+        color: #ccc;
+        font-size: 0.95rem;
+        line-height: 1.5;
+        margin: 0;
+        position: relative;
+        padding: 0 1rem;
+    }
+
+    .leader-quote::before {
+        content: '"';
+        font-size: 1.5rem;
+        color: #ff6b35;
+        position: absolute;
+        left: -10px;
+        top: -5px;
+    }
+
+    .leader-quote::after {
+        content: '"';
+        font-size: 1.5rem;
+        color: #ff6b35;
+        position: absolute;
+        right: -10px;
+        bottom: -15px;
+    }
+
+    .leader-socials {
+        padding: 2rem;
+    }
+
+    .leader-socials h4 {
+        text-align: center;
+        margin-bottom: 1.5rem;
+        color: #fff;
+        font-size: 1.2rem;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+    }
+
+    .social-links-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+        max-width: 300px;
+        margin: 0 auto;
+    }
+
+    .social-link {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 1.5rem 1rem;
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 12px;
+        text-decoration: none;
+        color: #fff;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .social-link::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 107, 53, 0.1), transparent);
+        transition: left 0.5s;
+    }
+
+    .social-link:hover::before {
+        left: 100%;
+    }
+
+    .social-link:hover {
+        background: rgba(255, 107, 53, 0.05);
+        border-color: rgba(255, 107, 53, 0.3);
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(255, 107, 53, 0.15);
+    }
+
+    .social-icon-small {
+        width: 28px;
+        height: 28px;
+        object-fit: contain;
+        filter: brightness(0) invert(1);
+        transition: all 0.3s ease;
+    }
+
+    .social-link:hover .social-icon-small {
+        filter: brightness(0) invert(1) sepia(1) saturate(5) hue-rotate(5deg);
+        transform: scale(1.1);
+    }
+
+    .social-emoji {
+        font-size: 1.8rem;
+        transition: all 0.3s ease;
+    }
+
+    .social-link:hover .social-emoji {
+        transform: scale(1.1);
+    }
+
+    .social-link span:last-child {
+        font-size: 0.9rem;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
+        transition: color 0.3s ease;
+    }
+
+    .social-link:hover span:last-child {
+        color: #ff6b35;
+    }
+
+    /* Mobile responsive */
+    @media (max-width: 768px) {
+        .modal-content {
+            margin: 5% auto;
+            max-width: 95%;
+        }
+
+        .modal-content h3 {
+            font-size: 1.5rem;
+            padding: 1.5rem 1.5rem 1rem;
+        }
+
+        .leader-info {
+            padding: 0 1.5rem 1.5rem;
+        }
+
+        .leader-socials {
+            padding: 1.5rem;
+        }
+
+        .social-links-grid {
+            grid-template-columns: 1fr;
+            gap: 0.75rem;
+        }
+    }
+
+    /* FOOTER */
+    footer {
+        background: #000;
+        border-top: 1px solid #222;
+        padding: 6rem 4rem 3rem;
+    }
+
+    .footer-content {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 3rem;
+        margin-bottom: 3rem;
+    }
+
+    .footer-section h5 {
+        font-size: 0.85rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        margin-bottom: 1rem;
+    }
+
+    .footer-section a {
+        display: block;
+        font-size: 0.9rem;
+        line-height: 1.8;
+        color: #666;
+        transition: color 0.3s;
+    }
+
+    .footer-section a:hover {
+        color: #fff;
+    }
+
+    .footer-bottom {
+        border-top: 1px solid #222;
+        padding-top: 3rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 0.85rem;
+        color: #666;
+    }
+
+    .social-links {
+        display: flex;
+        gap: 1.5rem;
+    }
+
+    .social-links a {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        border: 1px solid #333;
+        border-radius: 50%;
+        font-size: 1rem;
+        transition: all 0.3s;
+    }
+
+    .social-links a:hover {
+        background: #fff;
+        color: #000;
+        border-color: #fff;
+    }
+
+    .social-icon {
+        width: 20px;
+        height: 20px;
+        object-fit: contain;
+        filter: brightness(0) invert(1);
+    }
+
+    .social-links a:hover .social-icon {
+        filter: brightness(0);
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 1024px) {
+        .capabilities-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .team-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .members-grid-container {
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        .member-card .member-quote {
+            font-size: 0.7rem;
+        }
+
+        .projects-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .philosophy-content {
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+
+        .footer-content {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    @media (max-width: 768px) {
+        .container {
+            padding: 0 2rem;
+        }
+
+        header {
+            padding: 1rem 2rem;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+        }
+
+        .hero-2 h2 {
+            font-size: 4rem;
+        }
+
+        .section-title {
+            font-size: 2rem;
+        }
+
+        nav ul {
+            gap: 1rem;
+            font-size: 0.75rem;
+        }
+
+        .capabilities-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .team-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .members-grid-container {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .member-card .member-position,
+        .member-card .member-class,
+        .member-card .member-weapon {
+            font-size: 0.65rem;
+        }
+
+        .member-card .member-quote {
+            font-size: 0.65rem;
+        }
+
+        .footer-content {
+            grid-template-columns: 1fr;
+        }
+
+        .footer-bottom {
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .projects-grid {
+            gap: 1rem;
+        }
+
+        .member-card .member-position,
+        .member-card .member-class,
+        .member-card .member-weapon,
+        .member-card .member-quote {
+            font-size: 0.6rem;
+        }
+    }
+    </style>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- HEADER -->
+    <header>
+        <div class="logo">
+            <img src="images/logo.png" alt="Guild Logo" class="logo-image">
+            <span class="logo-text">ADOBO</span>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#projects">Activites</a></li>
+                <li><a href="#team">Members</a></li>
+                <li><a href="#philosophy">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- HERO 1 -->
+    <section class="hero" id="home">
+        <h1>We<br>Play<br>For<br>Fun</h1>
+        <p class="subtitle">Where Winds Meet</p>
+        <div class="scroll-indicator">SCROLL</div>
+    </section>
+
+    <!-- HERO 2 - WARRIOR LED -->
+    <section class="hero-2">
+        <div class="hero-2-content">
+            <h2>Warrior-led<br>Fun-obsessed</h2>
+            <p>A guild in Where Winds Meet. We meticulously assemble the finest players to craft unforgettable moments of triumph, friendship, and respect.</p>
+            <button class="cta-button light">Explore Guild</button>
+        </div>
+    </section>
+
+    <!-- WHAT WE DO -->
+    <section class="hero-2" style="background: #0a0a0a;">
+        <div class="hero-2-content">
+            <h2>What we do</h2>
+            <p>We play to improve, and we improve to win together.
+                Adobo is a guild built on coordination, consistency, and growth.
+                We organize fun events, push high-level content, and compete with discipline but never at the cost of our identity.
+                
+                We train, we adapt, we refine our play individually and as a team.
+
+                Beyond the battles, we create a space where members can connect, contribute, and belong.
+                From guild events and sword trials to discussions and shared moments, everything we do is built around strengthening both skill and community.
+                
+                Because in Adobo, progress is shared and so is every victory.</p>
+            <button class="cta-button">Learn More</button>
+        </div>
+    </section>
+
+    <!-- ACHIEVEMENTS/PROJECTS -->
+    <section class="projects" id="projects">
+        <div class="container">
+            <h2 class="section-title">Guild Activities<span class="section-number">01</span></h2>
+            <div class="projects-grid">
+                <div class="project-card">
+                    <img src="images/events/2.png" alt="100 Casual Raids">
+                    <div class="project-overlay">
+                        <div class="project-type">Guild Milestone</div>
+                        <h3>'Guild Picture Taking'</h3>
+                        <p>Our biggest member count guild picture.</p>
+                        <a href="#">View Milestone</a>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <img src="images/events/Pogi.png" alt="Community United">
+                    <div class="project-overlay">
+                        <div class="project-type">Community Bond</div>
+                        <h3>'First Ever Guild Picture'</h3>
+                        <p>The first picture we took as a Guild since expanding from a 5 Member Guild.</p>
+                        <a href="#">View Achievement</a>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <img src="images/events/1.JPG" alt="Tournament Victory">
+                    <div class="project-overlay">
+                        <div class="project-type">Funny Prison Break</div>
+                        <h3>'Prison Break'</h3>
+                        <p>We tried to do Prison Break as Guild and ended up getting swarmed and camped. It's still funny to think as of this day.</p>
+                        <a href="#">View the Demolition</a>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <img src="images/events/4.png" alt="Guild Picnic">
+                    <div class="project-overlay">
+                        <div class="project-type">NMW Prank Guild Picture</div>
+                        <h3>'We Got NMW'd during Picture Taking'</h3>
+                        <p>waterlloyd used the NMW trick during our guild picture session.</p>
+                        <a href="#">View Event</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CAPABILITIES -->
+    <section class="capabilities">
+        <div class="container">
+            <h2 class="section-title">Guild Benefits<span class="section-number">02</span></h2>
+            <div class="capabilities-grid">
+                <div class="capability-item"><h4>Casual Runs</h4></div>
+                <div class="capability-item"><h4>Tactical Strategy</h4></div>
+                <div class="capability-item"><h4>Player Mentoring</h4></div>
+                <div class="capability-item"><h4>Approachable Officers/Members</h4></div>
+                <div class="capability-item"><h4>Stress-free Environment</h4></div>
+                <div class="capability-item"><h4>Skill Development</h4></div>
+                <div class="capability-item"><h4>Guild Growth</h4></div>
+                <div class="capability-item"><h4>PvX Guide</h4></div>
+                <div class="capability-item"><h4>Play at your own pace</h4></div>
+                <div class="capability-item"><h4>No Pressure</h4></div>
+                <div class="capability-item"><h4>Honor & Respect</h4></div>
+                <div class="capability-item"><h4>Friendship First</h4></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PHILOSOPHY -->
+    <section class="philosophy" id="philosophy">
+        <div class="container">
+            <h2 class="section-title">Our Guild Philosophy<span class="section-number">03</span></h2>
+            <div class="philosophy-content">   
+                <div>
+                    <h3>Forged<br>Together</h3>
+                    <p>Adobo is not built by chance it is forged through trust, discipline, and shared purpose. We are more than players chasing victories; we are individuals bound by respect, loyalty, and growth. Every member carries the guild’s name not just in battle, but in character. We rise together, we improve together, and we never leave our own behind.</p>
+                    <button class="cta-button light">Join Our Guild</button>
+                </div>
+                <img src="3.png" alt="Guild Philosophy" style="max-width: 100%; height: auto;">
+            </div>
+        </div>
+    </section>
+
+    <!-- TEAM -->
+    <section class="team" id="team">
+        <div class="container">
+            <h2 class="section-title">Core Members<span class="section-number">04</span></h2>
+            <div class="team-grid">
+                <div class="team-member">
+                    <img src="images/members/FOOBU.png" alt="FOOBU">
+                    <h4>FOOBU</h4>
+                    <div class="member-position">Guild Leader</div>
+                    <div class="member-class">DPS</div>
+                    <div class="member-weapon">Infernal Twinblades / Martial Rope Dart</div>
+                    <p>"Isang Quarter Pounder lang sapat na." Guild Leader by name, not by choice.</p>
+                    <a href="#">Profile</a>
+                </div>
+
+                <div class="team-member">
+                    <img src="images/members/Maxisle.png" alt="Maxisle">
+                    <h4>Maxisle</h4>
+                    <div class="member-position">Vice Master</div>
+                    <div class="member-class">DPS</div>
+                    <div class="member-weapon">Vernal Umbrella / Inkshade Fan</div>
+                    <p>""Huwag kang mahiya ka." - GL Foobu."</p>
+                    <a href="#">Profile</a>
+                </div>
+
+                <div class="team-member">
+                    <img src="images/members/Hrafna.jpg" alt="Hrafna">
+                    <h4>Hrafna</h4>
+                    <div class="member-position">Vice Master</div>
+                    <div class="member-class">DPS</div>
+                    <div class="member-weapon">Strategic Sword / Heavenquaker Spear</div>
+                    <p>"Sometimes we just have to lets go"</p>
+                    <a href="#">Profile</a>
+                </div>
+
+                <div class="team-member">
+                    <img src="images/members/Schalsweiser.png" alt="Schalsweiser">
+                    <h4>Schalsweiser</h4>
+                    <div class="member-position">Vice Master</div>
+                    <div class="member-class">Tank</div>
+                    <div class="member-weapon">Mo Blade / Stormbreaker Spear</div>
+                    <p>"Kung ang hotdog jumbo, kaya mo ba to?" The glue that holds the Guild together.</p>
+                    <a href="#">Profile</a>
+                </div>
+            </div>
+
+            <!-- ALL MEMBERS TOGGLE -->
+            <div class="members-toggle">
+                <span class="members-count">72 / 80 Guild Members</span>
+                <button class="members-toggle-btn" id="toggle-members-btn">View All Members</button>
+            </div>
+
+            <!-- ALL MEMBERS GRID -->
+            <div id="all-members-grid">
+                <!-- SORTING CONTROLS -->
+                <div class="sorting-controls">
+                    <label>Sort by:</label>
+                    <select id="sort-select">
+                        <option value="name">Name (A-Z)</option>
+                        <option value="position">Position</option>
+                        <option value="class">Role</option>
+                        <option value="weapon">Weapon</option>
+                    </select>
+                </div>
+
+                <div class="members-grid-container" id="members-list">
+                    <!-- Members will be populated by JavaScript -->
+                </div>
+                <div class="capacity-info">
+                    Guild Capacity: <span class="capacity-number">72 / 80</span> Members
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="hero-2" id="contact" style="background: #0a0a0a; text-align: center;">
+        <div class="hero-2-content" style="max-width: 100%;">
+            <h2>Ready to Become<br>a part of our Journey?</h2>
+            <p>Whether your idea is joining our casual guild, building lasting friendships, or creating legendary moments we're here to welcome you.</p>
+            <a href="https://discord.gg/NdZXkmYJnS" target="_blank" class="cta-button">Join Discord</a>
+            <button class="cta-button light" id="contact-leader-btn">Contact Leader</button>
+        </div>
+    </section>
+
+    <!-- CONTACT LEADER MODAL -->
+    <div id="contact-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h3>Contact Guild Leader</h3>
+            <div class="leader-info">
+                <img src="images/members/FOOBU.png" alt="FOOBU - Guild Leader" class="leader-avatar">
+                <h4>FOOBU</h4>
+                <p class="leader-title">Guild Leader • DPS</p>
+                <p class="leader-quote">"Isang Quarter Pounder lang sapat na."</p>
+            </div>
+            <div class="leader-socials">
+                <h4>Find me on:</h4>
+                <div class="social-links-grid">
+                    <a href="https://discord.gg/NdZXkmYJnS" target="_blank" class="social-link">
+                        <img src="images/socials/Discord-Symbol-Blurple.png" alt="Discord" class="social-icon-small">
+                        <span>Discord</span>
+                    </a>
+                    <a href="#" class="social-link">
+                        <span class="social-emoji">🎵</span>
+                        <span>TikTok</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h5>Guild</h5>
+                    <a href="#home">Home</a>
+                    <a href="#projects">Achievements</a>
+                    <a href="#team">Members</a>
+                    <a href="#philosophy">Philosophy</a>
+                </div>
+                <div class="footer-section">
+                    <h5>Social</h5>
+                    <a href="https://discord.gg/NdZXkmYJnS" target="_blank">Discord</a>
+                    <a href="https://twitter.com" target="_blank">Twitter</a>
+                    <a href="https://instagram.com" target="_blank">Instagram</a>
+                    <a href="https://youtube.com" target="_blank">YouTube</a>
+                </div>
+                <div class="footer-section">
+                    <h5>Where Winds Meet</h5>
+                    <a href="#contact">Contact</a>
+                    <a href="#about">About</a>
+                    <a href="#recruit">Recruitment</a>
+                    <a href="#faq">FAQ</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div>© 2025 ADOBO GUILD — Where Winds Meet</div>
+                <div class="social-links">
+                    <a href="https://discord.gg/NdZXkmYJnS" title="Discord"><img src="images/socials/Discord-Symbol-Blurple.png" alt="Discord" class="social-icon"></a>
+                    <a href="https://twitter.com" title="Twitter">𝕏</a>
+                    <a href="https://instagram.com" title="Instagram">📷</a>
+                    <a href="https://youtube.com" title="YouTube">▶️</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js" defer></script>
+    <script>
+        // Smooth scroll navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add scroll animation
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('section').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
+        });
+
+        // Guild Members Data - 72 members with images, quotes, positions, and weapons
+        const guildMembers = [
+            { name: '独Sanji', class: 'DPS', position: 'Officer', weapon: 'Nameless Sword / Nameless Spear', image: 'images/members/Sanji.jpg', quote: 'LF partner any gender basta babae.' },
+            { name: 'swaggo', class: 'DPS/Tank', position: 'Whale', weapon: 'Phalanxbane Blade / Heng Blade - Nameless Sword / Nameless Spear', image: 'images/members/Swaggo.png', quote: 'Heir to the porcelain throne (I\'m lactose intolerant).' },
+            { name: 'Ambón', class: 'Tank', position: 'Member', weapon: 'Thundercry Mo Blade / Stormbreaker Spear - Mo Blade / Heng Blade', image: 'images/members/Ambon.jpg', quote: 'If u think about it, pinagisipan mo' },
+            { name: 'AstrOphiliac', class: 'DPS/Healer', position: 'Member', weapon: 'Vernal Umbrella / Panacea Fan', image: 'images/members/Astro.png', quote: 'Just try and try bro, no one will judge... if there is? PUNCH THEM 😜.' },
+            { name: 'LANHAO', class: 'DPS', position: 'Member', weapon: 'Infernal Twinblades / Snowparting Blade', image: 'images/members/LANHAO.jpg', quote: 'SPAM DEFLECT KAHIT SELOS KAYA KO DEFLECT.' },
+            { name: 'Sumimasorry', class: 'Healer', position: 'Member', weapon: 'Soulshade Umbrella / Panacea Fan', image: 'images/members/Sumi.jpg', quote: 'Goodness gracious, ikaw yung nag shoplift ~' },
+            { name: 'Aeleigh', class: 'DPS', position: 'Member', weapon: 'Infernal Twinblades / Martial Rope Dart', image: 'images/members/Aeleigh.png', quote: 'Bumili ako ng bituka ng butiki sa botika na nakakapagpabagabag istg fr fr' },
+            { name: 'Paupauu', class: 'Healer', position: 'Member', weapon: 'Soulshade Umbrella / Panacea Fan', image: 'images/members/Paupau.jpg', quote: 'Hello hehe' },
+            { name: 'Raissia', class: 'DPS', position: 'Member', weapon: 'Inkwell Fan / Vernal Umbrella', image: 'images/members/Raissia.png', quote: '^^' },
+            { name: 'waterlloyd', class: 'DPS/Healer', position: 'Member', weapon: 'Vernal Umbrella / Panacea Fan', image: 'images/members/waterlloyd.jpg', quote: 'dili ko gahatag ug iyot (i dont give a fuck) XD' },
+            { name: 'HESPERUS', class: 'Tank', position: 'Member', weapon: 'Thundercry Mo Blade / Stormbreaker Spear', image: 'images/members/HESPERUS.png', quote: 'TAYO AY NASA FINE DINING RESTAURANT 🤬' },
+            { name: 'AutumnLeaf', class: 'DPS', position: 'Member', weapon: 'Nameless Sword / Nameless Spear', image: 'images/members/AutumnLeaf.png', quote: 'It is what is it' },
+            { name: 'Leiselle', class: 'Healer', position: 'Member', weapon: 'Soulshade Umbrella / Panacea Fan', image: 'images/members/Leiselle.png', quote: 'End Me.' },
+            { name: 'Heuphemia', class: 'Healer', position: 'Member', weapon: 'Soulshade Umbrella / Panacea Fan', image: 'images/members/Heuphemia.jpg', quote: '"..." [Time remaining: 24h0min]' },
+            { name: 'shiaaaaaaa', class: 'DPS', position: 'Member', weapon: 'Everspring Umbrella / Unfettered Rope Darts', image: 'images/members/shiaaaaaaa.jpg', quote: '...' },
+            { name: 'Raikoju', class: 'DPS/Healer', position: 'Member', weapon: 'Vernal Umbrella / Panacea Fan', image: 'images/members/Raikoju.jpg', quote: 'Wag ka maniniwala sa swerte, malas yan 🤧' },
+            { name: 'Yeesan', class: 'DPS', position: 'Member', weapon: 'Heng Blade / Vernal Umbrella', image: 'images/members/Yeesan.png', quote: 'Ano ka gold?' }
+        ];
+
+        // Populate members grid
+        const membersList = document.getElementById('members-list');
+        
+        function renderMembers(members = guildMembers) {
+            membersList.innerHTML = '';
+            members.forEach((member) => {
+                const memberCard = document.createElement('div');
+                memberCard.className = 'member-card';
+                memberCard.innerHTML = `
+                    <img src="${member.image}" alt="${member.name}">
+                    <h5>${member.name}</h5>
+                    <div class="member-position">${member.position}</div>
+                    <div class="member-class">${member.class}</div>
+                    <div class="member-weapon">⚔️ ${member.weapon}</div>
+                    <div class="member-quote">"${member.quote}"</div>
+                `;
+                membersList.appendChild(memberCard);
+            });
+        }
+
+        // Initial render
+        renderMembers();
+
+        // Sorting functionality
+        const sortSelect = document.getElementById('sort-select');
+        sortSelect.addEventListener('change', (e) => {
+            const sortBy = e.target.value;
+            let sortedMembers = [...guildMembers];
+
+            switch(sortBy) {
+                case 'name':
+                    sortedMembers.sort((a, b) => a.name.localeCompare(b.name));
+                    break;
+                case 'position':
+                    const positionOrder = { 'Guild Leader': 1, 'Vice Master': 2, 'Officer': 3, 'Member': 4 };
+                    sortedMembers.sort((a, b) => positionOrder[a.position] - positionOrder[b.position]);
+                    break;
+                case 'class':
+                    sortedMembers.sort((a, b) => a.class.localeCompare(b.class));
+                    break;
+                case 'weapon':
+                    sortedMembers.sort((a, b) => a.weapon.localeCompare(b.weapon));
+                    break;
+            }
+
+            renderMembers(sortedMembers);
+        });
+
+        // Toggle members grid functionality
+        const toggleBtn = document.getElementById('toggle-members-btn');
+        const allMembersGrid = document.getElementById('all-members-grid');
+        
+        toggleBtn.addEventListener('click', () => {
+            allMembersGrid.classList.toggle('expanded');
+            toggleBtn.textContent = allMembersGrid.classList.contains('expanded') ? 'Hide All Members' : 'View All Members';
+        });
+
+        // Contact Leader Modal functionality
+        const contactModal = document.getElementById('contact-modal');
+        const contactLeaderBtn = document.getElementById('contact-leader-btn');
+        const closeModal = document.querySelector('.close-modal');
+
+        contactLeaderBtn.addEventListener('click', () => {
+            contactModal.style.display = 'block';
+            document.body.style.overflow = 'hidden'; // Prevent background scrolling
+        });
+
+        closeModal.addEventListener('click', () => {
+            contactModal.style.display = 'none';
+            document.body.style.overflow = 'auto'; // Restore scrolling
+        });
+
+        // Close modal when clicking outside
+        window.addEventListener('click', (e) => {
+            if (e.target === contactModal) {
+                contactModal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        });
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && contactModal.style.display === 'block') {
+                contactModal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        });
+    </script>
+</body>
+</html>
