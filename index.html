@@ -1285,8 +1285,6 @@
             <div class="team-grid">
                 <div class="team-member">
                     <picture>
-                        <source type="image/webp" srcset="images/members/FOOBU-lossless-1600.webp 1600w, images/members/FOOBU-lossless-1024.webp 1024w, images/members/FOOBU-lossless-800.webp 800w, images/members/FOOBU-lossless-640.webp 640w, images/members/FOOBU-800.webp 800w, images/members/FOOBU-640.webp 640w" sizes="(max-width:400px) 100vw, 200px">
-                        <source type="image/png" srcset="images/members/FOOBU.png">
                         <img src="images/members/FOOBU.png" alt="FOOBU" loading="lazy" decoding="async">
                     </picture>
                     <h4>FOOBU</h4>
@@ -1299,8 +1297,6 @@
 
                 <div class="team-member">
                     <picture>
-                        <source type="image/webp" srcset="images/members/Maxisle-lossless-1600.webp 1600w, images/members/Maxisle-lossless-1024.webp 1024w, images/members/Maxisle-lossless-800.webp 800w, images/members/Maxisle-lossless-640.webp 640w, images/members/Maxisle-800.webp 800w, images/members/Maxisle-640.webp 640w" sizes="(max-width:400px) 100vw, 200px">
-                        <source type="image/png" srcset="images/members/Maxisle.png">
                         <img src="images/members/Maxisle.png" alt="Maxisle" loading="lazy" decoding="async">
                     </picture>
                     <h4>Maxisle</h4>
@@ -1313,8 +1309,6 @@
 
                 <div class="team-member">
                     <picture>
-                        <source type="image/webp" srcset="images/members/Hrafna-lossless-1600.webp 1600w, images/members/Hrafna-lossless-1024.webp 1024w, images/members/Hrafna-lossless-800.webp 800w, images/members/Hrafna-lossless-640.webp 640w, images/members/Hrafna-800.webp 800w, images/members/Hrafna-640.webp 640w" sizes="(max-width:400px) 100vw, 200px">
-                        <source type="image/jpeg" srcset="images/members/Hrafna.jpg">
                         <img src="images/members/Hrafna.jpg" alt="Hrafna" loading="lazy" decoding="async">
                     </picture>
                     <h4>Hrafna</h4>
@@ -1327,8 +1321,6 @@
 
                 <div class="team-member">
                     <picture>
-                        <source type="image/webp" srcset="images/members/Schalsweiser-lossless-1600.webp 1600w, images/members/Schalsweiser-lossless-1024.webp 1024w, images/members/Schalsweiser-lossless-800.webp 800w, images/members/Schalsweiser-lossless-640.webp 640w, images/members/Schalsweiser-800.webp 800w, images/members/Schalsweiser-640.webp 640w" sizes="(max-width:400px) 100vw, 200px">
-                        <source type="image/png" srcset="images/members/Schalsweiser.png">
                         <img src="images/members/Schalsweiser.png" alt="Schalsweiser" loading="lazy" decoding="async">
                     </picture>
                     <h4>Schalsweiser</h4>
@@ -1739,22 +1731,23 @@
                     // WebP source (prefer lossless variants if available)
                     const srcWebp = document.createElement('source');
                     srcWebp.type = 'image/webp';
-                    srcWebp.srcset = `${imgBase}-lossless-1600.webp 1600w, ${imgBase}-lossless-1024.webp 1024w, ${imgBase}-lossless-800.webp 800w, ${imgBase}-lossless-640.webp 640w, ${imgBase}-800.webp 800w, ${imgBase}-640.webp 640w`;
+                    const abs = p => new URL(p, window.location.href).href;
+                    srcWebp.srcset = `${abs(imgBase+'-lossless-1600.webp')} 1600w, ${abs(imgBase+'-lossless-1024.webp')} 1024w, ${abs(imgBase+'-lossless-800.webp')} 800w, ${abs(imgBase+'-lossless-640.webp')} 640w, ${abs(imgBase+'-800.webp')} 800w, ${abs(imgBase+'-640.webp')} 640w`;
                     srcWebp.sizes = '(max-width:400px) 100vw, 200px';
 
                     // Fallback source (PNG or JPEG) so browsers without WebP support still load image
                     const ext = (member.image || '').toLowerCase().endsWith('.png') ? 'png' : 'jpg';
                     const srcFallback = document.createElement('source');
                     srcFallback.type = ext === 'png' ? 'image/png' : 'image/jpeg';
-                    srcFallback.srcset = member.image;
+                    srcFallback.srcset = new URL(member.image, window.location.href).href;
 
                     const img = document.createElement('img');
-                    // Set <img> to the original file (PNG/JPG) so non-webp browsers load it
-                    img.src = member.image;
+                    // Resolve to absolute URL (avoids relative path issues on GitHub Pages)
+                    img.src = new URL(member.image, window.location.href).href;
                     img.style.opacity = '0';
 
                     // LQIP placeholder based on original basename
-                    const lq = member.image ? `${imgBase}-320.webp` : null;
+                    const lq = member.image ? new URL(`${imgBase}-320.webp`, window.location.href).href : null;
                     if (lq) {
                         const bg = document.createElement('div');
                         bg.className = 'skeleton-bg';
@@ -1765,7 +1758,7 @@
                     // attach robust load handler (also handles cached images)
                     revealPictureOnLoad(img, picture);
                     // attach error fallback to try alternate extensions
-                    img.setAttribute('data-orig', member.image);
+                    img.setAttribute('data-orig', img.src);
                     img.addEventListener('error', ()=> tryAlternateSources(img));
 
                     picture.classList.add('skeleton');
@@ -1777,7 +1770,7 @@
                     img.loading = 'lazy';
                     img.decoding = 'async';
 
-                    picture.appendChild(srcWebp);
+                    // Do not force WebP <source> for dynamic members to avoid WebP-specific failures on some mobile browsers/hosts.
                     picture.appendChild(srcFallback);
                     picture.appendChild(img);
 
