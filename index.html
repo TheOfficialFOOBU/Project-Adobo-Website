@@ -1670,10 +1670,14 @@
                 `${base}-lossless-1600.webp`,
                 `${base}-1600.webp`
             ];
+            // also try same paths with ./ prefix and absolute origin-prefixed URL (helps when site is served under subpath)
+            const tryExtras = [];
+            attempts.forEach(a=>{ tryExtras.push(`./${a}`); tryExtras.push(window.location.origin + '/' + a.replace(/^\//,'')); });
+            const allAttempts = attempts.concat(tryExtras);
             let idx = 0;
             img.onerror = null; // avoid recursion
             const tryNext = ()=>{
-                if(idx >= attempts.length) {
+                if(idx >= allAttempts.length) {
                     // all attempts failed — render initials SVG fallback
                     const name = img.alt || '';
                     const initials = (name.split(' ').map(s=>s[0]).join('') || '').slice(0,2).toUpperCase();
@@ -1686,11 +1690,30 @@
                     const pic = img.closest('picture'); if(pic){ pic.querySelector('.skeleton-bg')?.classList.add('hidden'); pic.classList.remove('skeleton'); pic.classList.add('loaded'); }
                     return;
                 }
-                img.src = attempts[idx++];
+                img.src = allAttempts[idx++];
                 // reattach error handler
                 img.onerror = tryNext;
             };
             tryNext();
+        }
+
+        // Diagnostics overlay: run quick HEAD checks and show results when images are broken on hosted site
+        function runImageDiagnostics(){
+            const imgs = Array.from(document.querySelectorAll('#members-list img, .team-member img, .leader-avatar'));
+            const panel = document.createElement('div');
+            panel.style.position='fixed';panel.style.right='12px';panel.style.bottom='12px';panel.style.maxWidth='320px';panel.style.maxHeight='40vh';panel.style.overflow='auto';panel.style.zIndex=9999;padding='8px';panel.style.background='rgba(0,0,0,0.7)';panel.style.color='#fff';panel.style.fontSize='12px';panel.style.borderRadius='8px';panel.innerHTML='<strong>Image diagnostics</strong><br>';
+            document.body.appendChild(panel);
+            imgs.forEach(img=>{
+                const url = img.getAttribute('data-orig') || img.src;
+                fetch(url, { method:'HEAD' }).then(r=>{
+                    const item = document.createElement('div'); item.textContent = `${url} → ${r.status} ${r.statusText}`; panel.appendChild(item);
+                    if(!r.ok) { const note = document.createElement('div'); note.style.color='#f99'; note.textContent='(attempting fallbacks)'; panel.appendChild(note); tryAlternateSources(img); }
+                }).catch(err=>{
+                    const item = document.createElement('div'); item.textContent = `${url} → network/CORS error`; item.style.color='#f99'; panel.appendChild(item); tryAlternateSources(img);
+                });
+            });
+            // auto-hide after 12s
+            setTimeout(()=>panel.remove(), 12000);
         }
 
         // Attach global error handlers to static member images (team section)
