@@ -1646,7 +1646,49 @@
 
         // Populate members grid
         const membersList = document.getElementById('members-list');
-        
+
+        // Helper: reveal a picture when its <img> is loaded (handles cached images too)
+        function revealPictureOnLoad(img, picture){
+            const done = ()=>{
+                const bgEl = picture.querySelector('.skeleton-bg'); if(bgEl) bgEl.classList.add('hidden');
+                picture.classList.remove('skeleton'); picture.classList.add('loaded'); img.style.opacity = '1';
+            };
+            if(img.complete && img.naturalWidth > 1){ done(); return; }
+            img.addEventListener('load', done, {once:true});
+        }
+
+        // Helper: try alternate extensions when an image fails to load
+        function tryAlternateSources(img){
+            const orig = img.getAttribute('data-orig') || img.src;
+            const base = orig.replace(/\.(webp|png|jpe?g)$/i, '');
+            const attempts = [
+                `${base}.png`,
+                `${base}.jpg`,
+                `${base}.jpeg`,
+                `${base}-lossless-1600.webp`,
+                `${base}-1600.webp`
+            ];
+            let idx = 0;
+            img.onerror = null; // avoid recursion
+            const tryNext = ()=>{
+                if(idx >= attempts.length) return; // give up
+                img.src = attempts[idx++];
+                // reattach error handler
+                img.onerror = tryNext;
+            };
+            tryNext();
+        }
+
+        // Attach global error handlers to static member images (team section)
+        function attachStaticImageFallbacks(){
+            document.querySelectorAll('.team-member img, .member-card img').forEach(i=>{
+                i.setAttribute('data-orig', i.src);
+                i.addEventListener('error', ()=> tryAlternateSources(i));
+                // if already loaded, ensure skeleton removal if picture wrapper exists
+                const pic = i.closest('picture'); if(pic) revealPictureOnLoad(i,pic);
+            });
+        }
+
         function renderMembers(members = guildMembers) {
             membersList.innerHTML = '';
             members.forEach((member) => {
@@ -1683,14 +1725,11 @@
                         picture.appendChild(bg);
                     }
 
-                    // attach load handler to remove skeleton and fade image in
-                    img.addEventListener('load', ()=>{
-                        const bgEl = picture.querySelector('.skeleton-bg');
-                        if(bgEl) bgEl.classList.add('hidden');
-                        picture.classList.remove('skeleton');
-                        picture.classList.add('loaded');
-                        img.style.opacity = '1';
-                    });
+                    // attach robust load handler (also handles cached images)
+                    revealPictureOnLoad(img, picture);
+                    // attach error fallback to try alternate extensions
+                    img.setAttribute('data-orig', member.image);
+                    img.addEventListener('error', ()=> tryAlternateSources(img));
 
                     picture.classList.add('skeleton');
 
@@ -1719,6 +1758,9 @@
                     if (btn) btn.addEventListener('click', ()=> openMemberProfile(member));
             });
         }
+
+                // Run static fallback attachment (for team section images already in DOM)
+                attachStaticImageFallbacks();
 
         // Initial render
         renderMembers();
