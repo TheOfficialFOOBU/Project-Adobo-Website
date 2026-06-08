@@ -1,0 +1,11 @@
+{
+  "name": "adobo-guild-site",
+  "version": "1.0.0",
+  "description": "Tools for generating responsive WebP images for the Adobo Guild site",
+  "scripts": {
+    "convert-images": "node ./scripts/convert-images.js"
+  },
+  "dependencies": {
+    "sharp": "^0.32.0"
+  }
+}

@@ -3,7 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Adobo Guild — warrior-led, fun-obsessed community in Where Winds Meet. Join events, meet members, and grow together.">
+    <meta name="theme-color" content="#0a0a0a">
+    <link rel="manifest" href="manifest.json">
     <title>Adobo Guild - Warrior Crafted Excellence</title>
+    <style id="critical-css">
+    /* Critical CSS: header, hero, basic layout */
+    :root{--bg:#0a0a0a;--text:#e9e9e9;--accent:#ff7043}
+    html,body{background:var(--bg);color:var(--text);height:100%}
+    .container{max-width:1100px;margin:0 auto;padding:0 1.5rem}
+    header{position:fixed;top:0;left:0;right:0;display:flex;align-items:center;justify-content:space-between;padding:1.25rem 1.5rem;backdrop-filter:blur(8px);background:rgba(0,0,0,0.28);z-index:1000}
+    .logo{display:flex;align-items:center;gap:.6rem;font-weight:900}
+    nav ul{display:flex;gap:1.25rem;list-style:none;margin:0;padding:0}
+    .hero{display:flex;align-items:center;justify-content:center;min-height:60vh;padding-top:5.5rem;padding-bottom:3rem;text-align:center}
+    .hero h1{margin:0;font-weight:900}
+    .cta-button{padding:.85rem 1.6rem;border-radius:10px;background:var(--accent);color:#0a0a0a;border:0}
+    </style>
+    <link rel="preload" href="style.css" as="style" onload="this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="style.css"></noscript>
     <style>
     * {
         margin: 0;
@@ -13,8 +30,8 @@
 
     body {
         font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif;
-        background: #000;
-        color: #fff;
+        background: var(--bg);
+        color: var(--text);
         line-height: 1.6;
         overflow-x: hidden;
     }
@@ -84,7 +101,7 @@
     }
     /* HERO SECTION */
     .hero {
-        height: 100vh;
+        min-height: var(--max-hero-height, 88vh);
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -92,24 +109,35 @@
         text-align: center;
         position: relative;
         overflow: hidden;
-        padding-top: 8rem;
+        padding-top: 7.5rem;
+        padding-bottom: 6rem;
+        background:
+            linear-gradient(180deg, rgba(0,0,0,0.18), rgba(0,0,0,0.26)),
+            radial-gradient(800px 360px at 50% 12%, rgba(255,107,53,0.03), transparent 18%),
+            var(--hero-image);
+        background-size: cover, cover, cover;
+        background-position: center 12%, center, center;
+        background-repeat: no-repeat;
     }
 
     .hero h1 {
-        font-size: 8vw;
+        font-size: clamp(2.75rem, 8vw, 6rem);
         font-weight: 900;
-        line-height: 1;
+        line-height: 1.02;
         letter-spacing: -0.02em;
-        margin-bottom: 1rem;
-        max-width: 90%;
+        margin-bottom: 0.75rem;
+        max-width: 92%;
+        color: var(--text);
+        -webkit-font-smoothing:antialiased;
     }
 
     .hero .subtitle {
-        font-size: 1.3rem;
-        color: #aaa;
-        margin-bottom: 3rem;
+        font-size: clamp(0.95rem, 1.6vw, 1.35rem);
+        color: var(--muted);
+        margin-bottom: 2.25rem;
         font-weight: 300;
-        letter-spacing: 0.05em;
+        letter-spacing: 0.04em;
+        max-width: 70ch;
     }
 
     .scroll-indicator {
@@ -118,7 +146,7 @@
         left: 50%;
         transform: translateX(-50%);
         font-size: 0.85rem;
-        color: #666;
+        color: var(--muted);
         letter-spacing: 0.1em;
         animation: float 3s ease-in-out infinite;
     }
@@ -152,38 +180,38 @@
     .hero-2 p {
         font-size: 1.1rem;
         line-height: 1.8;
-        color: #bbb;
+        color: var(--muted);
         margin-bottom: 2rem;
     }
 
     .cta-button {
         display: inline-block;
         padding: 1rem 2.5rem;
-        background: #fff;
-        color: #000;
+        background: var(--accent);
+        color: var(--bg);
         font-weight: 600;
         font-size: 0.9rem;
         letter-spacing: 0.05em;
         transition: all 0.3s;
         cursor: pointer;
-        border: 1px solid #fff;
+        border: 1px solid rgba(255,255,255,0.06);
         margin-right: 1rem;
     }
 
     .cta-button:hover {
-        background: transparent;
-        color: #fff;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 24px rgba(0,0,0,0.4);
     }
 
     .cta-button.light {
         background: transparent;
-        color: #fff;
-        border: 1px solid #fff;
+        color: var(--text);
+        border: 1px solid rgba(255,255,255,0.08);
     }
 
     .cta-button.light:hover {
-        background: #fff;
-        color: #000;
+        background: rgba(255,255,255,0.06);
+        color: var(--text);
     }
 
     /* SECTION STYLES */
@@ -212,7 +240,7 @@
 
     /* PROJECTS SECTION */
     .projects {
-        background: #000;
+        background: var(--bg);
     }
 
     .projects-grid {
@@ -264,7 +292,7 @@
 
     .project-overlay .project-type {
         font-size: 0.85rem;
-        color: #aaa;
+        color: var(--muted);
         text-transform: uppercase;
         letter-spacing: 0.05em;
         margin-bottom: 1rem;
@@ -274,14 +302,14 @@
         font-size: 0.9rem;
         text-transform: uppercase;
         letter-spacing: 0.05em;
-        border-bottom: 1px solid #fff;
+        border-bottom: 1px solid rgba(255,255,255,0.08);
         display: inline-block;
         padding-bottom: 0.25rem;
     }
 
     /* CAPABILITIES SECTION */
     .capabilities {
-        background: #0a0a0a;
+        background: var(--surface);
     }
 
     .capabilities-grid {
@@ -292,7 +320,7 @@
 
     .capability-item {
         padding: 1.5rem 0;
-        border-bottom: 1px solid #222;
+        border-bottom: 1px solid var(--card-border);
     }
 
     .capability-item h4 {
@@ -300,12 +328,12 @@
         font-weight: 700;
         text-transform: uppercase;
         letter-spacing: 0.1em;
-        color: #fff;
+        color: var(--text);
     }
 
     /* PHILOSOPHY SECTION */
     .philosophy {
-        background: #000;
+        background: var(--bg);
     }
 
     .philosophy-content {
@@ -324,13 +352,13 @@
     .philosophy p {
         font-size: 1rem;
         line-height: 1.8;
-        color: #bbb;
+        color: var(--muted);
         margin-bottom: 1.5rem;
     }
 
     /* TEAM SECTION */
     .team {
-        background: #0a0a0a;
+        background: var(--surface);
     }
 
     .team-grid {
@@ -358,7 +386,7 @@
 
     .team-member .role {
         font-size: 0.85rem;
-        color: #888;
+        color: var(--muted);
         text-transform: uppercase;
         letter-spacing: 0.05em;
         margin-bottom: 0.5rem;
@@ -368,20 +396,20 @@
     .team-member .member-class,
     .team-member .member-weapon {
         font-size: 0.85rem;
-        color: #aaa;
+        color: var(--muted);
         text-transform: uppercase;
         letter-spacing: 0.05em;
         margin-bottom: 0.5rem;
     }
 
     .team-member .member-weapon {
-        color: #4dd0e1;
+        color: var(--accent2);
     }
 
     .team-member p {
         font-size: 0.95rem;
         line-height: 1.6;
-        color: #ccc;
+        color: var(--muted);
         margin-bottom: 1rem;
     }
 
@@ -390,7 +418,7 @@
         font-size: 0.85rem;
         text-transform: uppercase;
         letter-spacing: 0.05em;
-        border-bottom: 1px solid #fff;
+        border-bottom: 1px solid rgba(255,255,255,0.08);
         padding-bottom: 0.25rem;
     }
 
@@ -402,7 +430,7 @@
         gap: 1rem;
         margin-top: 3rem;
         padding-top: 3rem;
-        border-top: 1px solid #222;
+        border-top: 1px solid var(--card-border);
     }
 
     .sorting-controls {
@@ -412,8 +440,8 @@
         gap: 1rem;
         margin: 0 0 2rem 0;
         padding: 1rem;
-        background: #0a0a0a;
-        border: 1px solid #222;
+        background: var(--surface);
+        border: 1px solid var(--card-border);
         border-radius: 0;
     }
 
@@ -460,8 +488,8 @@
     }
 
     .members-toggle-btn:hover {
-        background: #fff;
-        color: #000;
+        background: rgba(255,255,255,0.04);
+        color: var(--text);
     }
 
     .members-count {
@@ -843,9 +871,20 @@
 
     .footer-content {
         display: grid;
-        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-columns: repeat(4, 1fr);
         gap: 3rem;
         margin-bottom: 3rem;
+        align-items: start;
+    }
+
+    @media (max-width: 1024px) {
+        .footer-content { grid-template-columns: repeat(2, 1fr); gap: 2rem; }
+        .footer-bottom { flex-direction: column; gap: 1rem; align-items: flex-start }
+    }
+
+    @media (max-width: 640px) {
+        .footer-content { grid-template-columns: 1fr; gap: 1rem; }
+        footer { padding: 3rem 1.25rem; }
     }
 
     .footer-section h5 {
@@ -896,9 +935,9 @@
     }
 
     .social-links a:hover {
-        background: #fff;
-        color: #000;
-        border-color: #fff;
+        background: rgba(255,255,255,0.03);
+        color: var(--text);
+        border-color: rgba(255,255,255,0.06);
     }
 
     .social-icon {
@@ -1013,16 +1052,20 @@
         }
     }
     </style>
-    <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <a class="skip-link" href="#main">Skip to content</a>
     <!-- HEADER -->
     <header>
+        <button class="menu-btn" id="menu-btn" aria-controls="site-nav" aria-expanded="false">Menu</button>
         <div class="logo">
-            <img src="images/logo.png" alt="Guild Logo" class="logo-image">
+            <picture>
+                <source type="image/webp" srcset="images/logo-320.webp 320w, images/logo-480.webp 480w, images/logo-640.webp 640w" sizes="48px">
+                <img src="images/logo.png" alt="Guild Logo" class="logo-image" width="42" height="42" decoding="async" loading="lazy">
+            </picture>
             <span class="logo-text">ADOBO</span>
         </div>
-        <nav>
+        <nav id="site-nav" role="navigation" aria-label="Main navigation">
             <ul>
                 <li><a href="#home">Home</a></li>
                 <li><a href="#projects">Activites</a></li>
@@ -1033,11 +1076,15 @@
         </nav>
     </header>
 
+    <main id="main">
+
     <!-- HERO 1 -->
-    <section class="hero" id="home">
-        <h1>We<br>Play<br>For<br>Fun</h1>
-        <p class="subtitle">Where Winds Meet</p>
-        <div class="scroll-indicator">SCROLL</div>
+    <section class="hero hero-animated" id="home">
+        <div class="hero-inner">
+            <h1>We<br>Play<br>For<br>Fun</h1>
+            <p class="subtitle">Where Winds Meet</p>
+            <div class="scroll-indicator">SCROLL</div>
+        </div>
     </section>
 
     <!-- HERO 2 - WARRIOR LED -->
@@ -1073,7 +1120,10 @@
             <h2 class="section-title">Guild Activities<span class="section-number">01</span></h2>
             <div class="projects-grid">
                 <div class="project-card">
-                    <img src="images/events/2.png" alt="100 Casual Raids">
+                    <picture class="skeleton-wrap">
+                        <source type="image/webp" srcset="images/events/2-1600.webp 1600w, images/events/2-1024.webp 1024w, images/events/2-800.webp 800w, images/events/2-640.webp 640w, images/events/2-480.webp 480w, images/events/2-320.webp 320w" sizes="(max-width:600px) 100vw, 45vw">
+                        <img class="lightbox-target" data-full="images/events/2-1600.webp" data-lqip="images/events/2-320.webp" src="images/events/2.webp" alt="100 Casual Raids" loading="lazy" decoding="async">
+                    </picture>
                     <div class="project-overlay">
                         <div class="project-type">Guild Milestone</div>
                         <h3>'Guild Picture Taking'</h3>
@@ -1083,7 +1133,10 @@
                 </div>
 
                 <div class="project-card">
-                    <img src="images/events/Pogi.png" alt="Community United">
+                    <picture class="skeleton-wrap">
+                        <source type="image/webp" srcset="images/events/Pogi-1600.webp 1600w, images/events/Pogi-1024.webp 1024w, images/events/Pogi-800.webp 800w, images/events/Pogi-640.webp 640w, images/events/Pogi-480.webp 480w, images/events/Pogi-320.webp 320w" sizes="(max-width:600px) 100vw, 45vw">
+                        <img class="lightbox-target" data-full="images/events/Pogi-1600.webp" data-lqip="images/events/Pogi-320.webp" src="images/events/Pogi.webp" alt="Community United" loading="lazy" decoding="async">
+                    </picture>
                     <div class="project-overlay">
                         <div class="project-type">Community Bond</div>
                         <h3>'First Ever Guild Picture'</h3>
@@ -1093,7 +1146,10 @@
                 </div>
 
                 <div class="project-card">
-                    <img src="images/events/1.JPG" alt="Tournament Victory">
+                    <picture class="skeleton-wrap">
+                        <source type="image/webp" srcset="images/events/1.JPG-1600.webp 1600w, images/events/1.JPG-1024.webp 1024w, images/events/1.JPG-800.webp 800w, images/events/1.JPG-640.webp 640w, images/events/1.JPG-480.webp 480w, images/events/1.JPG-320.webp 320w" sizes="(max-width:600px) 100vw, 45vw">
+                        <img class="lightbox-target" data-full="images/events/1.JPG-1600.webp" data-lqip="images/events/1.JPG-320.webp" src="images/events/1.JPG.webp" alt="Tournament Victory" loading="lazy" decoding="async">
+                    </picture>
                     <div class="project-overlay">
                         <div class="project-type">Funny Prison Break</div>
                         <h3>'Prison Break'</h3>
@@ -1103,7 +1159,10 @@
                 </div>
 
                 <div class="project-card">
-                    <img src="images/events/4.png" alt="Guild Picnic">
+                    <picture class="skeleton-wrap">
+                        <source type="image/webp" srcset="images/events/4-1600.webp 1600w, images/events/4-1024.webp 1024w, images/events/4-800.webp 800w, images/events/4-640.webp 640w, images/events/4-480.webp 480w, images/events/4-320.webp 320w" sizes="(max-width:600px) 100vw, 45vw">
+                        <img class="lightbox-target" data-full="images/events/4-1600.webp" data-lqip="images/events/4-320.webp" src="images/events/4.webp" alt="Guild Picnic" loading="lazy" decoding="async">
+                    </picture>
                     <div class="project-overlay">
                         <div class="project-type">NMW Prank Guild Picture</div>
                         <h3>'We Got NMW'd during Picture Taking'</h3>
@@ -1117,6 +1176,51 @@
 
     <!-- CAPABILITIES -->
     <section class="capabilities">
+        <div class="container">
+            <h2 class="section-title">Upcoming Events<span class="section-number">00</span></h2>
+            <div class="events-section">
+                <div class="events-grid">
+                        <div>
+                            <ul class="events-list" id="events-list">
+                                <li class="event-item" data-start="2026-06-21T18:00:00">
+                                    <strong>Guild Picnic</strong>
+                                    <div style="color:var(--muted)">June 21 — Meet at the Harbor</div>
+                                    <div class="event-actions"><a class="cta-button small add-gcal" data-title="Guild Picnic" data-start="2026-06-21T18:00:00" data-end="2026-06-21T20:00:00">Add to Google Calendar</a></div>
+                                </li>
+                                <li class="event-item" data-start="2026-06-28T20:00:00">
+                                    <strong>Practice Raid</strong>
+                                    <div style="color:var(--muted)">June 28 — 8PM Server Time</div>
+                                    <div class="event-actions"><a class="cta-button small add-gcal" data-title="Practice Raid" data-start="2026-06-28T20:00:00" data-end="2026-06-28T22:00:00">Add to Google Calendar</a></div>
+                                </li>
+                                <li class="event-item" data-start="2026-07-05T19:00:00">
+                                    <strong>Picture Day</strong>
+                                    <div style="color:var(--muted)">July 5 — 7PM</div>
+                                    <div class="event-actions"><a class="cta-button small add-gcal" data-title="Picture Day" data-start="2026-07-05T19:00:00" data-end="2026-07-05T20:00:00">Add to Google Calendar</a></div>
+                                </li>
+                            </ul>
+                        </div>
+                        <aside>
+                            <form id="rsvp-form" class="rsvp-form" aria-label="RSVP to events">
+                                <label for="rsvp-name">Name</label>
+                                <input id="rsvp-name" name="name" required placeholder="Your name">
+                                <label for="rsvp-email">Discord / Contact</label>
+                                <input id="rsvp-email" name="contact" required placeholder="Discord#1234 or email">
+                                <label for="rsvp-event">Event</label>
+                                <select id="rsvp-event" name="event">
+                                    <option value="Guild Picnic">Guild Picnic — June 21</option>
+                                    <option value="Practice Raid">Practice Raid — June 28</option>
+                                    <option value="Picture Day">Picture Day — July 5</option>
+                                </select>
+                                <button class="cta-button" type="submit">RSVP</button>
+                            </form>
+                            <div style="margin-top:1rem;color:var(--muted);font-size:0.9rem">
+                                <strong>Calendar</strong>
+                                <div id="mini-calendar" style="margin-top:.5rem">Upcoming events listed use "Add to Google Calendar" to save.</div>
+                            </div>
+                        </aside>
+                    </div>
+            </div>
+        </div>
         <div class="container">
             <h2 class="section-title">Guild Benefits<span class="section-number">02</span></h2>
             <div class="capabilities-grid">
@@ -1146,7 +1250,10 @@
                     <p>Adobo is not built by chance it is forged through trust, discipline, and shared purpose. We are more than players chasing victories; we are individuals bound by respect, loyalty, and growth. Every member carries the guild’s name not just in battle, but in character. We rise together, we improve together, and we never leave our own behind.</p>
                     <button class="cta-button light">Join Our Guild</button>
                 </div>
-                <img src="3.png" alt="Guild Philosophy" style="max-width: 100%; height: auto;">
+                <picture>
+                    <source type="image/webp" srcset="images/events/3-1600.webp 1600w, images/events/3-1024.webp 1024w, images/events/3-800.webp 800w, images/events/3-640.webp 640w, images/events/3-480.webp 480w, images/events/3-320.webp 320w" sizes="(max-width:600px) 100vw, 50vw">
+                    <img src="images/events/3.png" alt="Guild Philosophy" style="max-width: 100%; height: auto;" loading="lazy" decoding="async">
+                </picture>
             </div>
         </div>
     </section>
@@ -1155,9 +1262,16 @@
     <section class="team" id="team">
         <div class="container">
             <h2 class="section-title">Core Members<span class="section-number">04</span></h2>
+            <div style="margin-bottom:1rem;display:flex;gap:1rem;align-items:center">
+                <input id="member-search" type="search" placeholder="Search members, class, or weapon" aria-label="Search members" style="flex:1;padding:10px;border-radius:10px;border:1px solid var(--card-border);background:transparent;color:var(--text)">
+                <button id="clear-search" class="menu-btn" style="padding:8px 12px">Clear</button>
+            </div>
             <div class="team-grid">
                 <div class="team-member">
-                    <img src="images/members/FOOBU.png" alt="FOOBU">
+                    <picture>
+                        <source type="image/webp" srcset="images/members/FOOBU-lossless-1600.webp 1600w, images/members/FOOBU-lossless-1024.webp 1024w, images/members/FOOBU-lossless-800.webp 800w, images/members/FOOBU-lossless-640.webp 640w, images/members/FOOBU-800.webp 800w, images/members/FOOBU-640.webp 640w" sizes="(max-width:400px) 100vw, 200px">
+                        <img src="images/members/FOOBU-lossless-1600.webp" alt="FOOBU" loading="lazy" decoding="async">
+                    </picture>
                     <h4>FOOBU</h4>
                     <div class="member-position">Guild Leader</div>
                     <div class="member-class">DPS</div>
@@ -1167,7 +1281,10 @@
                 </div>
 
                 <div class="team-member">
-                    <img src="images/members/Maxisle.png" alt="Maxisle">
+                    <picture>
+                        <source type="image/webp" srcset="images/members/Maxisle-lossless-1600.webp 1600w, images/members/Maxisle-lossless-1024.webp 1024w, images/members/Maxisle-lossless-800.webp 800w, images/members/Maxisle-lossless-640.webp 640w, images/members/Maxisle-800.webp 800w, images/members/Maxisle-640.webp 640w" sizes="(max-width:400px) 100vw, 200px">
+                        <img src="images/members/Maxisle-lossless-1600.webp" alt="Maxisle" loading="lazy" decoding="async">
+                    </picture>
                     <h4>Maxisle</h4>
                     <div class="member-position">Vice Master</div>
                     <div class="member-class">DPS</div>
@@ -1177,7 +1294,10 @@
                 </div>
 
                 <div class="team-member">
-                    <img src="images/members/Hrafna.jpg" alt="Hrafna">
+                    <picture>
+                        <source type="image/webp" srcset="images/members/Hrafna-lossless-1600.webp 1600w, images/members/Hrafna-lossless-1024.webp 1024w, images/members/Hrafna-lossless-800.webp 800w, images/members/Hrafna-lossless-640.webp 640w, images/members/Hrafna-800.webp 800w, images/members/Hrafna-640.webp 640w" sizes="(max-width:400px) 100vw, 200px">
+                        <img src="images/members/Hrafna-lossless-1600.webp" alt="Hrafna" loading="lazy" decoding="async">
+                    </picture>
                     <h4>Hrafna</h4>
                     <div class="member-position">Vice Master</div>
                     <div class="member-class">DPS</div>
@@ -1187,7 +1307,10 @@
                 </div>
 
                 <div class="team-member">
-                    <img src="images/members/Schalsweiser.png" alt="Schalsweiser">
+                    <picture>
+                        <source type="image/webp" srcset="images/members/Schalsweiser-lossless-1600.webp 1600w, images/members/Schalsweiser-lossless-1024.webp 1024w, images/members/Schalsweiser-lossless-800.webp 800w, images/members/Schalsweiser-lossless-640.webp 640w, images/members/Schalsweiser-800.webp 800w, images/members/Schalsweiser-640.webp 640w" sizes="(max-width:400px) 100vw, 200px">
+                        <img src="images/members/Schalsweiser-lossless-1600.webp" alt="Schalsweiser" loading="lazy" decoding="async">
+                    </picture>
                     <h4>Schalsweiser</h4>
                     <div class="member-position">Vice Master</div>
                     <div class="member-class">Tank</div>
@@ -1242,7 +1365,10 @@
             <span class="close-modal">&times;</span>
             <h3>Contact Guild Leader</h3>
             <div class="leader-info">
-                <img src="images/members/FOOBU.png" alt="FOOBU - Guild Leader" class="leader-avatar">
+                <picture>
+                    <source type="image/webp" srcset="images/members/FOOBU-lossless-1600.webp 1600w, images/members/FOOBU-lossless-1024.webp 1024w, images/members/FOOBU-lossless-800.webp 800w, images/members/FOOBU-lossless-640.webp 640w" sizes="100px">
+                    <img src="images/members/FOOBU-lossless-1600.webp" alt="FOOBU - Guild Leader" class="leader-avatar" loading="lazy" decoding="async">
+                </picture>
                 <h4>FOOBU</h4>
                 <p class="leader-title">Guild Leader • DPS</p>
                 <p class="leader-quote">"Isang Quarter Pounder lang sapat na."</p>
@@ -1250,8 +1376,11 @@
             <div class="leader-socials">
                 <h4>Find me on:</h4>
                 <div class="social-links-grid">
-                    <a href="https://discord.gg/NdZXkmYJnS" target="_blank" class="social-link">
-                        <img src="images/socials/Discord-Symbol-Blurple.png" alt="Discord" class="social-icon-small">
+                    <a href="https://discord.gg/NdZXkmYJnS" target="_blank" class="social-link" aria-label="Discord">
+                        <svg class="social-icon-small" viewBox="0 0 71 55" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="false">
+                            <title>Discord</title>
+                            <path fill="currentColor" d="M60.104 4.68A58.84 58.84 0 0046.8.5a41.72 41.72 0 00-1.98 4.12 55.6 55.6 0 00-14.64 0A41.72 41.72 0 0027.2.5 58.84 58.84 0 0011.896 4.68C4.296 18.44 1.88 31.6 2.56 44.6a57.72 57.72 0 0017.52 8.8c1.32-.92 2.5-1.92 3.56-3.04-6.12-1.84-10.72-5.08-13.32-9.16 2.52 1.6 5.16 2.84 7.84 3.76 6.2 2.28 12.64 3.36 19.12 3.76 6.48-.4 13-.88 19.12-3.76 2.68-.92 5.32-2.16 7.84-3.76-2.6 4.08-7.2 7.32-13.32 9.16 1.06 1.12 2.24 2.12 3.56 3.04a57.72 57.72 0 0017.52-8.8c.68-13 .24-26.16-7.36-39.92zM24.96 37.56c-3.12 0-5.64-2.88-5.64-6.44 0-3.56 2.52-6.44 5.64-6.44 3.12 0 5.64 2.88 5.64 6.44 0 3.56-2.52 6.44-5.64 6.44zm21.12 0c-3.12 0-5.64-2.88-5.64-6.44 0-3.56 2.52-6.44 5.64-6.44 3.12 0 5.64 2.88 5.64 6.44 0 3.56-2.52 6.44-5.64 6.44z"/>
+                        </svg>
                         <span>Discord</span>
                     </a>
                     <a href="#" class="social-link">
@@ -1263,10 +1392,56 @@
         </div>
     </div>
 
+    <!-- LIGHTBOX -->
+    <div id="lightbox" aria-hidden="true">
+        <div class="lb-inner">
+            <button class="lb-close" aria-label="Close">✕</button>
+            <div class="lb-nav">
+                <button id="lb-prev" aria-label="Previous">‹</button>
+                <button id="lb-next" aria-label="Next">›</button>
+            </div>
+            <div style="text-align:center; width:100%">
+                <img id="lb-image" alt="" src="">
+                <div id="lb-caption" class="lb-caption"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MEMBER PROFILE MODAL -->
+    <div id="member-modal" class="modal" aria-hidden="true">
+        <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="member-modal-name">
+            <span class="close-modal" id="close-member-modal">&times;</span>
+            <div style="padding:2rem;text-align:center">
+                <img id="member-modal-avatar" src="" alt="" style="width:120px;height:120px;border-radius:12px;margin-bottom:1rem;object-fit:cover;border:4px solid rgba(255,255,255,0.04)">
+                <h3 id="member-modal-name"></h3>
+                <div id="member-modal-position" style="color:var(--muted)"></div>
+                <div id="member-modal-class" style="color:var(--muted);margin-bottom:1rem"></div>
+                <p id="member-modal-quote" style="font-style:italic;color:var(--text)"></p>
+                <div style="margin-top:1rem">
+                    <a id="member-modal-profilelink" class="cta-button" href="#">Contact</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- FOOTER -->
     <footer>
         <div class="container">
             <div class="footer-content">
+                    <div class="footer-section">
+                        <h5>Community</h5>
+                        <div class="discord-widget" id="discord-widget">
+                            <div class="discord-card" style="display:flex;align-items:center;gap:1rem;justify-content:center">
+                                <a href="https://discord.gg/NdZXkmYJnS" target="_blank" rel="noopener" aria-label="Open Discord invite" style="display:inline-flex;align-items:center;justify-content:center;text-decoration:none">
+                                    <svg width="56" height="44" viewBox="0 0 71 55" class="social-icon" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="false">
+                                        <title>Discord</title>
+                                        <path fill="currentColor" d="M60.104 4.68A58.84 58.84 0 0046.8.5a41.72 41.72 0 00-1.98 4.12 55.6 55.6 0 00-14.64 0A41.72 41.72 0 0027.2.5 58.84 58.84 0 0011.896 4.68C4.296 18.44 1.88 31.6 2.56 44.6a57.72 57.72 0 0017.52 8.8c1.32-.92 2.5-1.92 3.56-3.04-6.12-1.84-10.72-5.08-13.32-9.16 2.52 1.6 5.16 2.84 7.84 3.76 6.2 2.28 12.64 3.36 19.12 3.76 6.48-.4 13-.88 19.12-3.76 2.68-.92 5.32-2.16 7.84-3.76-2.6 4.08-7.2 7.32-13.32 9.16 1.06 1.12 2.24 2.12 3.56 3.04a57.72 57.72 0 0017.52-8.8c.68-13 .24-26.16-7.36-39.92zM24.96 37.56c-3.12 0-5.64-2.88-5.64-6.44 0-3.56 2.52-6.44 5.64-6.44 3.12 0 5.64 2.88 5.64 6.44 0 3.56-2.52 6.44-5.64 6.44zm21.12 0c-3.12 0-5.64-2.88-5.64-6.44 0-3.56 2.52-6.44 5.64-6.44 3.12 0 5.64 2.88 5.64 6.44 0 3.56-2.52 6.44-5.64 6.44z"/>
+                                    </svg>
+                                </a>
+                            </div>
+                            <small style="display:block;margin-top:.5rem;color:var(--muted);font-size:0.85rem">Enable the official Discord Widget in your server settings to replace this card with the embeddable widget.</small>
+                        </div>
+                    </div>
                 <div class="footer-section">
                     <h5>Guild</h5>
                     <a href="#home">Home</a>
@@ -1292,7 +1467,12 @@
             <div class="footer-bottom">
                 <div>© 2025 ADOBO GUILD — Where Winds Meet</div>
                 <div class="social-links">
-                    <a href="https://discord.gg/NdZXkmYJnS" title="Discord"><img src="images/socials/Discord-Symbol-Blurple.png" alt="Discord" class="social-icon"></a>
+                    <a href="https://discord.gg/NdZXkmYJnS" title="Discord" aria-label="Discord">
+                        <svg class="social-icon" viewBox="0 0 71 55" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="false">
+                            <title>Discord</title>
+                            <path fill="currentColor" d="M60.104 4.68A58.84 58.84 0 0046.8.5a41.72 41.72 0 00-1.98 4.12 55.6 55.6 0 00-14.64 0A41.72 41.72 0 0027.2.5 58.84 58.84 0 0011.896 4.68C4.296 18.44 1.88 31.6 2.56 44.6a57.72 57.72 0 0017.52 8.8c1.32-.92 2.5-1.92 3.56-3.04-6.12-1.84-10.72-5.08-13.32-9.16 2.52 1.6 5.16 2.84 7.84 3.76 6.2 2.28 12.64 3.36 19.12 3.76 6.48-.4 13-.88 19.12-3.76 2.68-.92 5.32-2.16 7.84-3.76-2.6 4.08-7.2 7.32-13.32 9.16 1.06 1.12 2.24 2.12 3.56 3.04a57.72 57.72 0 0017.52-8.8c.68-13 .24-26.16-7.36-39.92zM24.96 37.56c-3.12 0-5.64-2.88-5.64-6.44 0-3.56 2.52-6.44 5.64-6.44 3.12 0 5.64 2.88 5.64 6.44 0 3.56-2.52 6.44-5.64 6.44zm21.12 0c-3.12 0-5.64-2.88-5.64-6.44 0-3.56 2.52-6.44 5.64-6.44 3.12 0 5.64 2.88 5.64 6.44 0 3.56-2.52 6.44-5.64 6.44z"/>
+                        </svg>
+                    </a>
                     <a href="https://twitter.com" title="Twitter">𝕏</a>
                     <a href="https://instagram.com" title="Instagram">📷</a>
                     <a href="https://youtube.com" title="YouTube">▶️</a>
@@ -1303,6 +1483,91 @@
 
     <script src="script.js" defer></script>
     <script>
+        // Mobile menu toggle
+        const menuBtn = document.getElementById('menu-btn');
+        const siteNav = document.getElementById('site-nav');
+        menuBtn && menuBtn.addEventListener('click', () => {
+            const expanded = menuBtn.getAttribute('aria-expanded') === 'true';
+            menuBtn.setAttribute('aria-expanded', String(!expanded));
+            siteNav.classList.toggle('open');
+        });
+
+        // Simple RSVP events form handling (client-side)
+        function showToast(msg) {
+            const t = document.createElement('div');
+            t.textContent = msg;
+            t.style.position = 'fixed';
+            t.style.right = '16px';
+            t.style.bottom = '16px';
+            t.style.padding = '12px 16px';
+            t.style.background = 'linear-gradient(90deg,var(--accent),var(--accent2))';
+            t.style.color = 'var(--bg)';
+            t.style.borderRadius = '10px';
+            t.style.zIndex = 3000;
+            document.body.appendChild(t);
+            setTimeout(() => t.remove(), 3500);
+        }
+
+        const RSVP_ENDPOINT = '/.netlify/functions/rsvp'; // change if you deploy elsewhere
+        const rsvpForm = document.getElementById('rsvp-form');
+        if (rsvpForm) {
+            rsvpForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const submitBtn = rsvpForm.querySelector('button[type="submit"]');
+                const formData = Object.fromEntries(new FormData(rsvpForm).entries());
+                submitBtn && (submitBtn.disabled = true);
+
+                // try server submit first
+                try {
+                    const res = await fetch(RSVP_ENDPOINT, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(formData)
+                    });
+                    if (res.ok) {
+                        const json = await res.json();
+                        rsvpForm.reset();
+                        showToast('Thanks — RSVP received!');
+                        submitBtn && (submitBtn.disabled = false);
+                        return;
+                    }
+                    // non-ok: fallthrough to local save
+                } catch (err) {
+                    // network or CORS error — fallback to local
+                    console.warn('RSVP server error:', err);
+                }
+
+                // fallback: save locally
+                const store = JSON.parse(localStorage.getItem('rsvps')||'[]');
+                store.push(formData);
+                localStorage.setItem('rsvps', JSON.stringify(store));
+                rsvpForm.reset();
+                showToast('Saved locally — will sync when server is available.');
+                submitBtn && (submitBtn.disabled = false);
+            });
+        }
+
+        // Google Calendar link generator for event buttons
+        function toGCalURL(title, startIso, endIso, details=''){
+            const start = startIso.replace(/-|:|\.\d{3}/g,'');
+            const end = endIso.replace(/-|:|\.\d{3}/g,'');
+            const base = 'https://www.google.com/calendar/render?action=TEMPLATE';
+            const params = new URLSearchParams({text: title, dates: `${start}/${end}`, details});
+            return `${base}&${params.toString()}`;
+        }
+
+        document.querySelectorAll('.add-gcal').forEach(btn=>{
+            btn.addEventListener('click', (e)=>{
+                e.preventDefault();
+                const title = btn.dataset.title;
+                const start = btn.dataset.start;
+                const end = btn.dataset.end;
+                const url = toGCalURL(title, start, end, 'Adobo Guild Event');
+                window.open(url, '_blank');
+            });
+        });
+
+
         // Smooth scroll navigation
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
@@ -1366,22 +1631,122 @@
         function renderMembers(members = guildMembers) {
             membersList.innerHTML = '';
             members.forEach((member) => {
-                const memberCard = document.createElement('div');
-                memberCard.className = 'member-card';
-                memberCard.innerHTML = `
-                    <img src="${member.image}" alt="${member.name}">
-                    <h5>${member.name}</h5>
-                    <div class="member-position">${member.position}</div>
-                    <div class="member-class">${member.class}</div>
-                    <div class="member-weapon">⚔️ ${member.weapon}</div>
-                    <div class="member-quote">"${member.quote}"</div>
-                `;
-                membersList.appendChild(memberCard);
+                    const memberCard = document.createElement('div');
+                    memberCard.className = 'member-card';
+                    // create picture element with webp sources (if generated by the converter script)
+                    const imgBase = member.image.replace(/\.(jpg|jpeg|png)$/i, '');
+                    const picture = document.createElement('picture');
+                    picture.className = 'skeleton-wrap';
+                    const src = document.createElement('source');
+                    src.type = 'image/webp';
+                    // prefer lossless large variants for member avatars when available, then fallback to resized webp
+                    if (member.image.toLowerCase().includes('/members/')){
+                        src.srcset = `${imgBase}-lossless-1600.webp 1600w, ${imgBase}-lossless-1024.webp 1024w, ${imgBase}-lossless-800.webp 800w, ${imgBase}-lossless-640.webp 640w, ${imgBase}-800.webp 800w, ${imgBase}-640.webp 640w`;
+                    } else {
+                        src.srcset = `${imgBase}-1600.webp 1600w, ${imgBase}-1024.webp 1024w, ${imgBase}-800.webp 800w, ${imgBase}-640.webp 640w, ${imgBase}-480.webp 480w, ${imgBase}-320.webp 320w`;
+                    }
+                    src.sizes = '(max-width:400px) 100vw, 200px';
+                    const img = document.createElement('img');
+                    // Use lossless large WebP fallback when available for member avatars
+                    if (member.image.toLowerCase().includes('/members/')) {
+                        img.src = `${imgBase}-lossless-1600.webp`;
+                    } else {
+                        img.src = member.image;
+                    }
+                    img.style.opacity = '0';
+                    // add LQIP placeholder element if available
+                    const lq = (member.image ? img.src.replace(/\.(jpg|jpeg|png)$/i, '') + '-320.webp' : null);
+                    if(lq){
+                        const bg = document.createElement('div');
+                        bg.className = 'skeleton-bg';
+                        bg.style.backgroundImage = `url(${lq})`;
+                        picture.appendChild(bg);
+                    }
+                    // attach load handler to remove skeleton and fade image in
+                    img.addEventListener('load', ()=>{
+                        // hide skeleton bg then mark loaded
+                        const bgEl = picture.querySelector('.skeleton-bg');
+                        if(bgEl) bgEl.classList.add('hidden');
+                        picture.classList.remove('skeleton');
+                        picture.classList.add('loaded');
+                        img.style.opacity = '1';
+                    });
+                    // start in skeleton state
+                    picture.classList.add('skeleton');
+                    // expose full-size for lightbox and mark target
+                    img.dataset.full = img.src;
+                    img.classList.add('lightbox-target');
+                    img.alt = member.name;
+                    img.loading = 'lazy';
+                    img.decoding = 'async';
+                    picture.appendChild(src);
+                    picture.appendChild(img);
+
+                    memberCard.appendChild(picture);
+                    memberCard.insertAdjacentHTML('beforeend', `
+                        <h5>${member.name}</h5>
+                        <div class="member-position">${member.position}</div>
+                        <div class="member-class">${member.class}</div>
+                        <div class="member-weapon">⚔️ ${member.weapon}</div>
+                        <div class="member-quote">"${member.quote}"</div>
+                        <div style="margin-top:0.75rem"><button class="cta-button profile-btn" type="button">Profile</button></div>
+                    `);
+                    membersList.appendChild(memberCard);
+                    // wire profile button
+                    const btn = memberCard.querySelector('.profile-btn');
+                    if (btn) btn.addEventListener('click', ()=> openMemberProfile(member));
             });
         }
 
         // Initial render
         renderMembers();
+
+        // MEMBER SEARCH
+        const memberSearch = document.getElementById('member-search');
+        const clearSearch = document.getElementById('clear-search');
+        function applySearch() {
+            const q = (memberSearch.value || '').trim().toLowerCase();
+            if (!q) return renderMembers();
+            const filtered = guildMembers.filter(m => {
+                return [m.name, m.class, m.position, m.weapon].join(' ').toLowerCase().includes(q);
+            });
+            renderMembers(filtered);
+        }
+        memberSearch && memberSearch.addEventListener('input', applySearch);
+        clearSearch && clearSearch.addEventListener('click', ()=>{ memberSearch.value=''; applySearch(); memberSearch.focus(); });
+
+        // MEMBER PROFILE MODAL
+        const memberModal = document.getElementById('member-modal');
+        const closeMemberModal = document.getElementById('close-member-modal');
+        const memberModalName = document.getElementById('member-modal-name');
+        const memberModalAvatar = document.getElementById('member-modal-avatar');
+        const memberModalPosition = document.getElementById('member-modal-position');
+        const memberModalClass = document.getElementById('member-modal-class');
+        const memberModalQuote = document.getElementById('member-modal-quote');
+        const memberModalProfilelink = document.getElementById('member-modal-profilelink');
+
+        function openMemberProfile(member){
+            memberModal.setAttribute('aria-hidden','false');
+            memberModal.style.display = 'block';
+            memberModalName.textContent = member.name;
+            memberModalAvatar.src = member.image;
+            memberModalAvatar.alt = member.name;
+            memberModalPosition.textContent = member.position;
+            memberModalClass.textContent = member.class + ' • ' + member.weapon;
+            memberModalQuote.textContent = `"${member.quote}"`;
+            memberModalProfilelink.href = '#';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMember(){
+            memberModal.setAttribute('aria-hidden','true');
+            memberModal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        closeMemberModal.addEventListener('click', closeMember);
+        window.addEventListener('click', (e)=>{ if (e.target === memberModal) closeMember(); });
+        document.addEventListener('keydown', (e)=>{ if (e.key === 'Escape' && memberModal.style.display === 'block') closeMember(); });
 
         // Sorting functionality
         const sortSelect = document.getElementById('sort-select');
@@ -1447,6 +1812,109 @@
                 document.body.style.overflow = 'auto';
             }
         });
+
+        // LIGHTBOX FUNCTIONALITY
+        const lightbox = document.getElementById('lightbox');
+        const lbImage = document.getElementById('lb-image');
+        const lbCaption = document.getElementById('lb-caption');
+        const lbClose = document.querySelector('#lightbox .lb-close');
+        const lbPrev = document.getElementById('lb-prev');
+        const lbNext = document.getElementById('lb-next');
+
+        let lbTargets = [];
+        function refreshLightboxTargets(){
+            lbTargets = Array.from(document.querySelectorAll('.lightbox-target'));
+        }
+        refreshLightboxTargets();
+
+        function openLightbox(src, caption){
+            lbImage.src = src;
+            lbImage.alt = caption || '';
+            lbCaption.textContent = caption || '';
+            lightbox.classList.add('open');
+            lightbox.setAttribute('aria-hidden','false');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightbox(){
+            lightbox.classList.remove('open');
+            lightbox.setAttribute('aria-hidden','true');
+            lbImage.src = '';
+            document.body.style.overflow = 'auto';
+        }
+
+        // find index by src
+        function currentIndex(){
+            return lbTargets.findIndex(t => t.dataset.full === lbImage.src || t.src === lbImage.src);
+        }
+
+        function showPrev(){
+            const i = currentIndex();
+            if(i > 0) {
+                const t = lbTargets[i-1];
+                openLightbox(t.dataset.full || t.src, t.alt || '');
+            }
+        }
+        function showNext(){
+            const i = currentIndex();
+            if(i < lbTargets.length-1){
+                const t = lbTargets[i+1];
+                openLightbox(t.dataset.full || t.src, t.alt || '');
+            }
+        }
+
+        // delegate click to open
+        document.addEventListener('click', (e)=>{
+            const t = e.target.closest('.lightbox-target');
+            if(!t) return;
+            e.preventDefault();
+            refreshLightboxTargets();
+            openLightbox(t.dataset.full || t.src, t.alt || t.getAttribute('title') || '');
+        });
+
+        lbClose.addEventListener('click', closeLightbox);
+        lightbox.addEventListener('click', (e)=>{ if(e.target === lightbox) closeLightbox(); });
+        lbPrev.addEventListener('click', showPrev);
+        lbNext.addEventListener('click', showNext);
+        document.addEventListener('keydown', (e)=>{
+            if(lightbox.classList.contains('open')){
+                if(e.key === 'Escape') closeLightbox();
+                if(e.key === 'ArrowLeft') showPrev();
+                if(e.key === 'ArrowRight') showNext();
+            }
+        });
+
+        // Initialize skeletons for existing project images
+        function initSkeletons(){
+            document.querySelectorAll('picture.skeleton-wrap img').forEach(img => {
+                const pic = img.closest('picture');
+                // attach LQIP bg if data-lqip present
+                const lqip = img.dataset.lqip || img.getAttribute('data-lqip');
+                if(lqip && !pic.querySelector('.skeleton-bg')){
+                    const bg = document.createElement('div');
+                    bg.className = 'skeleton-bg';
+                    bg.style.backgroundImage = `url(${lqip})`;
+                    pic.appendChild(bg);
+                }
+                if(img.complete && img.naturalWidth > 1){
+                    const bgEl = pic.querySelector('.skeleton-bg'); if(bgEl) bgEl.classList.add('hidden');
+                    pic.classList.add('loaded');
+                    img.style.opacity = '1';
+                } else {
+                    pic.classList.add('skeleton');
+                    img.style.opacity = '0';
+                    img.addEventListener('load', ()=>{
+                        const bgEl = pic.querySelector('.skeleton-bg'); if(bgEl) bgEl.classList.add('hidden');
+                        pic.classList.remove('skeleton');
+                        pic.classList.add('loaded');
+                        img.style.opacity = '1';
+                    }, {once:true});
+                }
+            });
+        }
+
+        // Run after DOM ready
+        initSkeletons();
     </script>
 </body>
 </html>
