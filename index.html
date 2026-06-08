@@ -1007,6 +1007,12 @@
             gap: 1rem;
             font-size: 0.75rem;
         }
+        /* Mobile: hide full nav, use menu button and off-canvas nav */
+        nav ul { display: none; }
+        .menu-btn { display: inline-flex; }
+        #site-nav{position:fixed;inset:60px 0 0 0;background:linear-gradient(180deg,var(--surface),rgba(0,0,0,0.9));transform:translateY(-120%);transition:transform 220ms ease;padding:1rem;z-index:1500;overflow:auto}
+        #site-nav.open{transform:translateY(0)}
+        nav a{display:block;padding:8px 12px;border-radius:8px}
 
         .capabilities-grid {
             grid-template-columns: 1fr;
@@ -1269,7 +1275,8 @@
                 <div class="team-member">
                     <picture>
                         <source type="image/webp" srcset="images/members/FOOBU-lossless-1600.webp 1600w, images/members/FOOBU-lossless-1024.webp 1024w, images/members/FOOBU-lossless-800.webp 800w, images/members/FOOBU-lossless-640.webp 640w, images/members/FOOBU-800.webp 800w, images/members/FOOBU-640.webp 640w" sizes="(max-width:400px) 100vw, 200px">
-                        <img src="images/members/FOOBU-lossless-1600.webp" alt="FOOBU" loading="lazy" decoding="async">
+                        <source type="image/png" srcset="images/members/FOOBU.png">
+                        <img src="images/members/FOOBU.png" alt="FOOBU" loading="lazy" decoding="async">
                     </picture>
                     <h4>FOOBU</h4>
                     <div class="member-position">Guild Leader</div>
@@ -1282,7 +1289,8 @@
                 <div class="team-member">
                     <picture>
                         <source type="image/webp" srcset="images/members/Maxisle-lossless-1600.webp 1600w, images/members/Maxisle-lossless-1024.webp 1024w, images/members/Maxisle-lossless-800.webp 800w, images/members/Maxisle-lossless-640.webp 640w, images/members/Maxisle-800.webp 800w, images/members/Maxisle-640.webp 640w" sizes="(max-width:400px) 100vw, 200px">
-                        <img src="images/members/Maxisle-lossless-1600.webp" alt="Maxisle" loading="lazy" decoding="async">
+                        <source type="image/png" srcset="images/members/Maxisle.png">
+                        <img src="images/members/Maxisle.png" alt="Maxisle" loading="lazy" decoding="async">
                     </picture>
                     <h4>Maxisle</h4>
                     <div class="member-position">Vice Master</div>
@@ -1295,7 +1303,8 @@
                 <div class="team-member">
                     <picture>
                         <source type="image/webp" srcset="images/members/Hrafna-lossless-1600.webp 1600w, images/members/Hrafna-lossless-1024.webp 1024w, images/members/Hrafna-lossless-800.webp 800w, images/members/Hrafna-lossless-640.webp 640w, images/members/Hrafna-800.webp 800w, images/members/Hrafna-640.webp 640w" sizes="(max-width:400px) 100vw, 200px">
-                        <img src="images/members/Hrafna-lossless-1600.webp" alt="Hrafna" loading="lazy" decoding="async">
+                        <source type="image/jpeg" srcset="images/members/Hrafna.jpg">
+                        <img src="images/members/Hrafna.jpg" alt="Hrafna" loading="lazy" decoding="async">
                     </picture>
                     <h4>Hrafna</h4>
                     <div class="member-position">Vice Master</div>
@@ -1308,7 +1317,8 @@
                 <div class="team-member">
                     <picture>
                         <source type="image/webp" srcset="images/members/Schalsweiser-lossless-1600.webp 1600w, images/members/Schalsweiser-lossless-1024.webp 1024w, images/members/Schalsweiser-lossless-800.webp 800w, images/members/Schalsweiser-lossless-640.webp 640w, images/members/Schalsweiser-800.webp 800w, images/members/Schalsweiser-640.webp 640w" sizes="(max-width:400px) 100vw, 200px">
-                        <img src="images/members/Schalsweiser-lossless-1600.webp" alt="Schalsweiser" loading="lazy" decoding="async">
+                        <source type="image/png" srcset="images/members/Schalsweiser.png">
+                        <img src="images/members/Schalsweiser.png" alt="Schalsweiser" loading="lazy" decoding="async">
                     </picture>
                     <h4>Schalsweiser</h4>
                     <div class="member-position">Vice Master</div>
@@ -1366,7 +1376,8 @@
             <div class="leader-info">
                 <picture>
                     <source type="image/webp" srcset="images/members/FOOBU-lossless-1600.webp 1600w, images/members/FOOBU-lossless-1024.webp 1024w, images/members/FOOBU-lossless-800.webp 800w, images/members/FOOBU-lossless-640.webp 640w" sizes="100px">
-                    <img src="images/members/FOOBU-lossless-1600.webp" alt="FOOBU - Guild Leader" class="leader-avatar" loading="lazy" decoding="async">
+                    <source type="image/png" srcset="images/members/FOOBU.png">
+                    <img src="images/members/FOOBU.png" alt="FOOBU - Guild Leader" class="leader-avatar" loading="lazy" decoding="async">
                 </picture>
                 <h4>FOOBU</h4>
                 <p class="leader-title">Guild Leader • DPS</p>
