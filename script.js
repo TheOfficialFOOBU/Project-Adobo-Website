@@ -325,6 +325,63 @@ document.addEventListener('DOMContentLoaded', () => {
   // Populate members grid
   const membersList = document.getElementById('members-list');
 
+  // Render core members (leaders/officers) into the team grid
+  function renderCoreMembers() {
+    const coreContainer = document.getElementById('core-members-list');
+    if (!coreContainer) return;
+    coreContainer.innerHTML = '';
+    const core = guildMembers.filter((m) =>
+      ['Guild Leader', 'Vice Master', 'Officer'].includes(m.position)
+    );
+    core.forEach((member) => {
+      const el = document.createElement('div');
+      el.className = 'team-member';
+      const base = member.image ? member.image.replace(/\.(jpg|jpeg|png)$/i, '') : '';
+      const pic = document.createElement('picture');
+      const srcWebp = document.createElement('source');
+      srcWebp.type = 'image/webp';
+      srcWebp.srcset = `${base}-640.webp 640w, ${base}-1024.webp 1024w`;
+      srcWebp.sizes = '(max-width:600px) 100vw, 220px';
+      const img = document.createElement('img');
+      img.src = member.image;
+      img.alt = member.name;
+      img.width = 320;
+      img.height = 320;
+      img.loading = 'lazy';
+      img.decoding = 'async';
+      img.style.width = '100%';
+      img.style.height = 'auto';
+      pic.appendChild(srcWebp);
+      pic.appendChild(img);
+      el.appendChild(pic);
+      const name = document.createElement('h4');
+      name.textContent = member.name;
+      el.appendChild(name);
+      const pos = document.createElement('div');
+      pos.className = 'member-position';
+      pos.textContent = member.position;
+      el.appendChild(pos);
+      const cls = document.createElement('div');
+      cls.className = 'member-class';
+      cls.textContent = member.class;
+      el.appendChild(cls);
+      if (member.weapon) {
+        const w = document.createElement('div');
+        w.className = 'member-weapon';
+        w.textContent = member.weapon;
+        el.appendChild(w);
+      }
+      if (member.quote) {
+        const q = document.createElement('p');
+        q.textContent = member.quote;
+        el.appendChild(q);
+      }
+      coreContainer.appendChild(el);
+      // Attach fallback handlers
+      img.addEventListener('error', () => tryAlternateSources(img));
+    });
+  }
+
   // Helper: reveal a picture when its <img> is loaded (handles cached images too)
   function revealPictureOnLoad(img, picture) {
     const done = () => {
