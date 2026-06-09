@@ -153,7 +153,7 @@ document.addEventListener('DOMContentLoaded', () => {
     observer.observe(el);
   });
 
-  // Guild Members Data - (trimmed for brevity in this file; kept small sample)
+  // Guild Members Data (restored full list)
   const guildMembers = [
     {
       name: '独Sanji',
@@ -178,6 +178,118 @@ document.addEventListener('DOMContentLoaded', () => {
       weapon: 'Thundercry Mo Blade / Stormbreaker Spear - Mo Blade / Heng Blade',
       image: 'images/members/Ambon.jpg',
       quote: 'If u think about it, pinagisipan mo',
+    },
+    {
+      name: 'AstrOphiliac',
+      class: 'DPS/Healer',
+      position: 'Member',
+      weapon: 'Vernal Umbrella / Panacea Fan',
+      image: 'images/members/Astro.png',
+      quote: 'Just try and try bro, no one will judge... if there is? PUNCH THEM 😜.',
+    },
+    {
+      name: 'LANHAO',
+      class: 'DPS',
+      position: 'Member',
+      weapon: 'Infernal Twinblades / Snowparting Blade',
+      image: 'images/members/LANHAO.jpg',
+      quote: 'SPAM DEFLECT KAHIT SELOS KAYA KO DEFLECT.',
+    },
+    {
+      name: 'Sumimasorry',
+      class: 'Healer',
+      position: 'Member',
+      weapon: 'Soulshade Umbrella / Panacea Fan',
+      image: 'images/members/Sumi.jpg',
+      quote: 'Goodness gracious, ikaw yung nag shoplift ~',
+    },
+    {
+      name: 'Aeleigh',
+      class: 'DPS',
+      position: 'Member',
+      weapon: 'Infernal Twinblades / Martial Rope Dart',
+      image: 'images/members/Aeleigh.png',
+      quote: 'Bumili ako ng bituka ng butiki sa botika na nakakapagpabagabag istg fr fr',
+    },
+    {
+      name: 'Paupauu',
+      class: 'Healer',
+      position: 'Member',
+      weapon: 'Soulshade Umbrella / Panacea Fan',
+      image: 'images/members/Paupau.jpg',
+      quote: 'Hello hehe',
+    },
+    {
+      name: 'Raissia',
+      class: 'DPS',
+      position: 'Member',
+      weapon: 'Inkwell Fan / Vernal Umbrella',
+      image: 'images/members/Raissia.png',
+      quote: '^^',
+    },
+    {
+      name: 'waterlloyd',
+      class: 'DPS/Healer',
+      position: 'Member',
+      weapon: 'Vernal Umbrella / Panacea Fan',
+      image: 'images/members/waterlloyd.jpg',
+      quote: 'dili ko gahatag ug iyot (i dont give a fuck) XD',
+    },
+    {
+      name: 'HESPERUS',
+      class: 'Tank',
+      position: 'Member',
+      weapon: 'Thundercry Mo Blade / Stormbreaker Spear',
+      image: 'images/members/HESPERUS.png',
+      quote: 'TAYO AY NASA FINE DINING RESTAURANT 🤬',
+    },
+    {
+      name: 'AutumnLeaf',
+      class: 'DPS',
+      position: 'Member',
+      weapon: 'Nameless Sword / Nameless Spear',
+      image: 'images/members/AutumnLeaf.png',
+      quote: 'It is what is it',
+    },
+    {
+      name: 'Leiselle',
+      class: 'Healer',
+      position: 'Member',
+      weapon: 'Soulshade Umbrella / Panacea Fan',
+      image: 'images/members/Leiselle.png',
+      quote: 'End Me.',
+    },
+    {
+      name: 'Heuphemia',
+      class: 'Healer',
+      position: 'Member',
+      weapon: 'Soulshade Umbrella / Panacea Fan',
+      image: 'images/members/Heuphemia.jpg',
+      quote: '"..." [Time remaining: 24h0min]',
+    },
+    {
+      name: 'shiaaaaaaa',
+      class: 'DPS',
+      position: 'Member',
+      weapon: 'Everspring Umbrella / Unfettered Rope Darts',
+      image: 'images/members/shiaaaaaaa.jpg',
+      quote: '...',
+    },
+    {
+      name: 'Raikoju',
+      class: 'DPS/Healer',
+      position: 'Member',
+      weapon: 'Vernal Umbrella / Panacea Fan',
+      image: 'images/members/Raikoju.jpg',
+      quote: 'Wag ka maniniwala sa swerte, malas yan 🤧',
+    },
+    {
+      name: 'Yeesan',
+      class: 'DPS',
+      position: 'Member',
+      weapon: 'Heng Blade / Vernal Umbrella',
+      image: 'images/members/Yeesan.png',
+      quote: 'Ano ka gold?',
     },
   ];
 
