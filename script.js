@@ -381,6 +381,12 @@ document.addEventListener('DOMContentLoaded', () => {
       img.addEventListener('error', () => tryAlternateSources(img));
     });
   }
+  // Render core members now and attach image fallbacks
+  renderCoreMembers();
+  // Refresh lightbox targets so core images are included
+  refreshLightboxTargets();
+  // Ensure core images get error handlers and skeleton handling
+  attachStaticImageFallbacks();
 
   // Helper: reveal a picture when its <img> is loaded (handles cached images too)
   function revealPictureOnLoad(img, picture) {
