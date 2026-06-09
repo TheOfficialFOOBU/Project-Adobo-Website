@@ -1,0 +1,7 @@
+node_modules
+dist
+.git
+images/**/README.txt
+*.min.js
+netlify/functions/**/node_modules
+/*.lock

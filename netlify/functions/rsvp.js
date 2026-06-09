@@ -1,10 +1,15 @@
+/*
+  netlify/functions/rsvp.js
+  Lightweight Netlify Function to create RSVP issues on GitHub.
+  Coded by FOOBU
+*/
 const fetch = require('node-fetch');
 
-exports.handler = async function(event, context) {
+exports.handler = async function (event, context) {
   const headers = {
     'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Headers': 'Content-Type',
-    'Content-Type': 'application/json'
+    'Content-Type': 'application/json',
   };
 
   if (event.httpMethod === 'OPTIONS') {
@@ -43,20 +48,28 @@ exports.handler = async function(event, context) {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `token ${GITHUB_TOKEN}`,
-        'Accept': 'application/vnd.github.v3+json'
+        Authorization: `token ${GITHUB_TOKEN}`,
+        Accept: 'application/vnd.github.v3+json',
       },
-      body: JSON.stringify({ title: issueTitle, body: issueBody, labels: ['rsvp'] })
+      body: JSON.stringify({ title: issueTitle, body: issueBody, labels: ['rsvp'] }),
     });
 
     if (!res.ok) {
       const text = await res.text();
-      return { statusCode: 502, body: JSON.stringify({ error: 'GitHub API error', detail: text }), headers };
+      return {
+        statusCode: 502,
+        body: JSON.stringify({ error: 'GitHub API error', detail: text }),
+        headers,
+      };
     }
 
     const data = await res.json();
     return { statusCode: 201, body: JSON.stringify({ ok: true, url: data.html_url }), headers };
   } catch (err) {
-    return { statusCode: 500, body: JSON.stringify({ error: 'Request failed', detail: err.message }), headers };
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ error: 'Request failed', detail: err.message }),
+      headers,
+    };
   }
 };
