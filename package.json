@@ -20,9 +20,12 @@
     "prettier": "^3.8.4"
   },
   "lint-staged": {
-    "*.{js,css,html,md}": [
+    "*.js": [
       "npx prettier --write",
       "npx eslint --fix"
+    ],
+    "*.{css,html,md}": [
+      "npx prettier --write"
     ],
     "*.json": [
       "npx prettier --write"
