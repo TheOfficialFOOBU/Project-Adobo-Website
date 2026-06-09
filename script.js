@@ -291,7 +291,36 @@ document.addEventListener('DOMContentLoaded', () => {
       image: 'images/members/Yeesan.png',
       quote: 'Ano ka gold?',
     },
+    {
+      name: 'FOOBU',
+      class: 'Guild Leader',
+      position: 'Guild Leader',
+      weapon: '',
+      image: 'images/members/FOOBU.png',
+      quote: '',
+    },
+    {
+      name: 'Maxisle',
+      class: 'DPS',
+      position: 'Vice Master',
+      weapon: '',
+      image: 'images/members/Maxisle.png',
+      quote: '',
+    },
+    {
+      name: 'Schalsweiser',
+      class: 'Tank',
+      position: 'Vice Master',
+      weapon: '',
+      image: 'images/members/Schalsweiser.png',
+      quote: '',
+    },
   ];
+
+  // Pagination & search state
+  let pageSize = 12;
+  let currentPage = 1;
+  let filteredMembers = guildMembers.slice();
 
   // Populate members grid
   const membersList = document.getElementById('members-list');
@@ -419,9 +448,11 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  function renderMembers(members = guildMembers) {
+  function renderMembers(members = filteredMembers, page = currentPage) {
     membersList.innerHTML = '';
-    members.forEach((member) => {
+    const start = (page - 1) * pageSize;
+    const pageSlice = members.slice(start, start + pageSize);
+    pageSlice.forEach((member) => {
       const memberCard = document.createElement('div');
       memberCard.className = 'member-card';
       const imgBase = member.image.replace(/\.(jpg|jpeg|png)$/i, '');
@@ -468,12 +499,53 @@ document.addEventListener('DOMContentLoaded', () => {
       const btn = memberCard.querySelector('.profile-btn');
       if (btn) btn.addEventListener('click', () => openMemberProfile(member));
     });
+    renderPagination(Math.ceil(members.length / pageSize), page);
+  }
+
+  function renderPagination(totalPages, page) {
+    let pag = document.getElementById('members-pagination');
+    if (!pag) {
+      pag = document.createElement('div');
+      pag.id = 'members-pagination';
+      pag.style.display = 'flex';
+      pag.style.gap = '8px';
+      pag.style.justifyContent = 'center';
+      pag.style.marginTop = '1rem';
+      membersList.parentNode.appendChild(pag);
+    }
+    pag.innerHTML = '';
+    if (totalPages <= 1) return;
+    const prev = document.createElement('button');
+    prev.className = 'cta-button small';
+    prev.textContent = 'Prev';
+    prev.disabled = page <= 1;
+    prev.addEventListener('click', () => {
+      currentPage = Math.max(1, page - 1);
+      renderMembers(filteredMembers, currentPage);
+    });
+    pag.appendChild(prev);
+
+    const info = document.createElement('div');
+    info.textContent = `Page ${page} of ${totalPages}`;
+    info.style.alignSelf = 'center';
+    pag.appendChild(info);
+
+    const next = document.createElement('button');
+    next.className = 'cta-button small';
+    next.textContent = 'Next';
+    next.disabled = page >= totalPages;
+    next.addEventListener('click', () => {
+      currentPage = Math.min(totalPages, page + 1);
+      renderMembers(filteredMembers, currentPage);
+    });
+    pag.appendChild(next);
   }
 
   // Run static fallback attachment
   attachStaticImageFallbacks();
-  // Initial render
-  renderMembers();
+  // Initial filtered set and render
+  filteredMembers = guildMembers.slice();
+  renderMembers(filteredMembers, currentPage);
 
   // After initial render, verify member images load on hosted environment (GitHub Pages)
   function checkAndFixImage(img) {
@@ -498,17 +570,29 @@ document.addEventListener('DOMContentLoaded', () => {
   verifyAllMemberImages();
 
   // MEMBER SEARCH
+  function debounce(fn, wait = 200) {
+    let t;
+    return function (...args) {
+      clearTimeout(t);
+      t = setTimeout(() => fn.apply(this, args), wait);
+    };
+  }
   const memberSearch = document.getElementById('member-search');
   const clearSearch = document.getElementById('clear-search');
   function applySearch() {
     const q = (memberSearch.value || '').trim().toLowerCase();
-    if (!q) return renderMembers();
-    const filtered = guildMembers.filter((m) => {
+    if (!q) {
+      filteredMembers = guildMembers.slice();
+      currentPage = 1;
+      return renderMembers(filteredMembers, currentPage);
+    }
+    filteredMembers = guildMembers.filter((m) => {
       return [m.name, m.class, m.position, m.weapon].join(' ').toLowerCase().includes(q);
     });
-    renderMembers(filtered);
+    currentPage = 1;
+    renderMembers(filteredMembers, currentPage);
   }
-  memberSearch && memberSearch.addEventListener('input', applySearch);
+  memberSearch && memberSearch.addEventListener('input', debounce(applySearch, 200));
   clearSearch &&
     clearSearch.addEventListener('click', () => {
       memberSearch.value = '';
