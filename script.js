@@ -269,6 +269,7 @@ document.addEventListener('DOMContentLoaded', () => {
       position: 'Member',
       weapon: 'Heng blade / Phalanxbane Blade',
       image: 'images/members/HyßrıðTheøry.jpg',
+      webp: false,
       quote: 'Kung ang hotdog jumbo, kaya mo ba to?',
     },
     {
@@ -277,6 +278,7 @@ document.addEventListener('DOMContentLoaded', () => {
       position: 'Member',
       weapon: 'SVernal Umbrella / Inkwell-Panacea Fan',
       image: 'images/members/NikPicken.jpg',
+      webp: false,
       quote: 'Remember this eternal truth: Girls with pink hair are never to be underestimated.',
     },
     {
@@ -285,6 +287,7 @@ document.addEventListener('DOMContentLoaded', () => {
       position: 'Member',
       weapon: 'Martial Rope Dart / Infernal Twinblades & Gauntlets & Ropedart',
       image: 'images/members/Aiyaria.png',
+      webp: false,
       quote: ' Du bist gut genug. 👍',
     },
     {
@@ -293,6 +296,7 @@ document.addEventListener('DOMContentLoaded', () => {
       position: 'Member',
       weapon: 'Soulshade Umbrella / Panacea Fan',
       image: 'images/members/zylthia.jpg',
+      webp: false,
       quote:
         "Annyeonghaseyo, junun rufu mikaela imnida. (plss tell me y'all get the reference haha) Kam sam hamnida!",
     },
@@ -312,6 +316,7 @@ document.addEventListener('DOMContentLoaded', () => {
       position: 'Member',
       weapon: 'Soulshade Umbrella / Panacea Fan',
       image: 'images/members/TokiDrip.png',
+      webp: false,
       quote: 'When kaya mag ssend ng partnership? 😂',
     },
     {
@@ -320,6 +325,7 @@ document.addEventListener('DOMContentLoaded', () => {
       position: 'Member',
       weapon: 'Vernal Umbrella / Inkwell Fan',
       image: 'images/members/雯清.png',
+      webp: false,
       quote: "I still don't know what I'm doing in this game",
     },
   ];
@@ -578,19 +584,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Attach static image fallbacks
   function attachStaticImageFallbacks() {
-    document
-      .querySelectorAll('.team-member img, .member-card img, picture.skeleton-wrap img')
-      .forEach((i) => {
-        if (!i.getAttribute('data-orig')) {
-          i.setAttribute('data-orig', i.src);
-        }
-        i.addEventListener('error', () => tryAlternateSources(i));
-        const pic = i.closest('picture');
-        if (pic) {
-          pic.classList.add('skeleton');
-          revealPictureOnLoad(i, pic);
-        }
-      });
+    document.querySelectorAll('.team-member img, picture.skeleton-wrap img').forEach((i) => {
+      if (!i.getAttribute('data-orig')) {
+        i.setAttribute('data-orig', i.src);
+      }
+      i.addEventListener('error', () => tryAlternateSources(i));
+      const pic = i.closest('picture');
+      if (pic) {
+        pic.classList.add('skeleton');
+        revealPictureOnLoad(i, pic);
+      }
+    });
   }
 
   function renderMembers(members = filteredMembers, page = currentPage) {
@@ -598,56 +602,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const start = (page - 1) * pageSize;
     const pageSlice = members.slice(start, start + pageSize);
     pageSlice.forEach((member) => {
-      const memberCard = document.createElement('div');
-      memberCard.className = 'member-card';
-      const imgBase = member.image.replace(/\.(jpg|jpeg|png)$/i, '');
-      const picture = document.createElement('picture');
-      picture.className = 'skeleton-wrap';
-      const ext = (member.image || '').toLowerCase().endsWith('.png') ? 'png' : 'jpg';
-      const srcFallback = document.createElement('source');
-      srcFallback.type = ext === 'png' ? 'image/png' : 'image/jpeg';
-      srcFallback.srcset = new URL(member.image, window.location.href).href;
-      const img = document.createElement('img');
-      img.src = new URL(member.image, window.location.href).href;
-      img.style.opacity = '0';
-      const lq =
-        member.webp === false
-          ? null
-          : member.image
-            ? new URL(`${imgBase}-320.webp`, window.location.href).href
-            : null;
-      if (lq) {
-        const bg = document.createElement('div');
-        bg.className = 'skeleton-bg';
-        bg.style.backgroundImage = `url(${lq})`;
-        picture.appendChild(bg);
-      }
-      revealPictureOnLoad(img, picture);
-      img.setAttribute('data-orig', img.src);
-      img.addEventListener('error', () => tryAlternateSources(img));
-      picture.classList.add('skeleton');
-      img.dataset.full = member.webp === false ? img.src : `${imgBase}-lossless-1600.webp`;
-      img.classList.add('lightbox-target');
-      img.alt = member.name;
-      img.loading = 'lazy';
-      img.decoding = 'async';
-      picture.appendChild(srcFallback);
-      picture.appendChild(img);
-      memberCard.appendChild(picture);
-      memberCard.insertAdjacentHTML(
-        'beforeend',
-        `
-          <h5>${member.name}</h5>
-          <div class="member-position">${member.position}</div>
-          <div class="member-class">${member.class}</div>
-          <div class="member-weapon">⚔️ ${member.weapon}</div>
-          <div class="member-quote">"${member.quote}"</div>
-          <div style="margin-top:0.75rem"><button class="cta-button profile-btn" type="button">Profile</button></div>
-        `
-      );
-      membersList.appendChild(memberCard);
-      const btn = memberCard.querySelector('.profile-btn');
-      if (btn) btn.addEventListener('click', () => openMemberProfile(member));
+      membersList.appendChild(createTeamMemberCard(member));
     });
     renderPagination(Math.ceil(members.length / pageSize), page);
   }
