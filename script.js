@@ -175,9 +175,10 @@ document.addEventListener('DOMContentLoaded', () => {
       name: 'Ambón',
       class: 'Tank',
       position: 'Officer',
-      weapon: 'Thundercry Mo Blade / Stormbreaker Spear - Mo Blade / Heng Blade',
+      weapon:
+        'Thundercry Mo Blade / Stormbreaker Spear - Heavenwill Gauntlets / Skygrasp Rope Dart',
       image: 'images/members/Ambon.jpg',
-      quote: 'If u think about it, pinagisipan mo',
+      quote: 'dont tell them I like sinigang better',
     },
     {
       name: 'AstrOphiliac',
