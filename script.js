@@ -183,7 +183,7 @@ document.addEventListener('DOMContentLoaded', () => {
       name: 'AstrOphiliac',
       class: 'DPS/Healer',
       position: 'Officer',
-      weapon: 'Vernal Umbrella / Panacea Fan',
+      weapon: 'Vernal Umbrella / Inkwell Fan - Vernal Umbrella / Panacea Fan',
       image: 'images/members/Astro.png',
       quote: "The Adobo guilds' best Amazing Wanderer at your call. ✨.",
     },
