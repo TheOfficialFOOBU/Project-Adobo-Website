@@ -166,7 +166,7 @@ document.addEventListener('DOMContentLoaded', () => {
     {
       name: 'swaggo',
       class: 'DPS/Tank',
-      position: 'Whale',
+      position: 'Officer',
       weapon: 'Phalanxbane Blade / Heng Blade - Nameless Sword / Nameless Spear',
       image: 'images/members/Swaggo.png',
       quote: "Heir to the porcelain throne (I'm lactose intolerant).",
@@ -174,7 +174,7 @@ document.addEventListener('DOMContentLoaded', () => {
     {
       name: 'Ambón',
       class: 'Tank',
-      position: 'Member',
+      position: 'Officer',
       weapon: 'Thundercry Mo Blade / Stormbreaker Spear - Mo Blade / Heng Blade',
       image: 'images/members/Ambon.jpg',
       quote: 'If u think about it, pinagisipan mo',
@@ -182,10 +182,10 @@ document.addEventListener('DOMContentLoaded', () => {
     {
       name: 'AstrOphiliac',
       class: 'DPS/Healer',
-      position: 'Member',
+      position: 'Officer',
       weapon: 'Vernal Umbrella / Panacea Fan',
       image: 'images/members/Astro.png',
-      quote: 'Just try and try bro, no one will judge... if there is? PUNCH THEM 😜.',
+      quote: "The Adobo guilds' best Amazing Wanderer at your call. ✨.",
     },
     {
       name: 'LANHAO',
@@ -193,15 +193,8 @@ document.addEventListener('DOMContentLoaded', () => {
       position: 'Member',
       weapon: 'Infernal Twinblades / Snowparting Blade',
       image: 'images/members/LANHAO.jpg',
-      quote: 'SPAM DEFLECT KAHIT SELOS KAYA KO DEFLECT.',
-    },
-    {
-      name: 'Sumimasorry',
-      class: 'Healer',
-      position: 'Member',
-      weapon: 'Soulshade Umbrella / Panacea Fan',
-      image: 'images/members/Sumi.jpg',
-      quote: 'Goodness gracious, ikaw yung nag shoplift ~',
+      quote:
+        'She has no idea that the moment she entered my life, every wall I built crumbled, turning her into my favorite thought and the only future I want',
     },
     {
       name: 'Aeleigh',
@@ -220,41 +213,18 @@ document.addEventListener('DOMContentLoaded', () => {
       quote: 'Hello hehe',
     },
     {
-      name: 'Raissia',
+      name: 'Hrafna',
       class: 'DPS',
-      position: 'Member',
-      weapon: 'Inkwell Fan / Vernal Umbrella',
-      image: 'images/members/Raissia.png',
-      quote: '^^',
-    },
-    {
-      name: 'waterlloyd',
-      class: 'DPS/Healer',
-      position: 'Member',
-      weapon: 'Vernal Umbrella / Panacea Fan',
-      image: 'images/members/waterlloyd.jpg',
-      quote: 'dili ko gahatag ug iyot (i dont give a fuck) XD',
-    },
-    {
-      name: 'HESPERUS',
-      class: 'Tank',
-      position: 'Member',
-      weapon: 'Thundercry Mo Blade / Stormbreaker Spear',
-      image: 'images/members/HESPERUS.png',
-      quote: 'TAYO AY NASA FINE DINING RESTAURANT 🤬',
-    },
-    {
-      name: 'AutumnLeaf',
-      class: 'DPS',
-      position: 'Member',
-      weapon: 'Nameless Sword / Nameless Spear',
-      image: 'images/members/AutumnLeaf.png',
-      quote: 'It is what is it',
+      position: 'Vice Master',
+      weapon: 'Strategic sword / Heavenquaker Spear',
+      image: 'images/members/Hrafna.jpg',
+      founder: true,
+      quote: 'Sometimes we just have to lets go.',
     },
     {
       name: 'Leiselle',
       class: 'Healer',
-      position: 'Member',
+      position: 'Vice Master',
       weapon: 'Soulshade Umbrella / Panacea Fan',
       image: 'images/members/Leiselle.png',
       quote: 'End Me.',
@@ -268,121 +238,218 @@ document.addEventListener('DOMContentLoaded', () => {
       quote: '"..." [Time remaining: 24h0min]',
     },
     {
-      name: 'shiaaaaaaa',
-      class: 'DPS',
-      position: 'Member',
-      weapon: 'Everspring Umbrella / Unfettered Rope Darts',
-      image: 'images/members/shiaaaaaaa.jpg',
-      quote: '...',
-    },
-    {
-      name: 'Raikoju',
-      class: 'DPS/Healer',
-      position: 'Member',
-      weapon: 'Vernal Umbrella / Panacea Fan',
-      image: 'images/members/Raikoju.jpg',
-      quote: 'Wag ka maniniwala sa swerte, malas yan 🤧',
-    },
-    {
-      name: 'Yeesan',
-      class: 'DPS',
-      position: 'Member',
-      weapon: 'Heng Blade / Vernal Umbrella',
-      image: 'images/members/Yeesan.png',
-      quote: 'Ano ka gold?',
-    },
-    {
       name: 'FOOBU',
-      class: 'Guild Leader',
-      position: 'Guild Leader',
-      weapon: '',
+      class: 'DPS',
+      position: 'Guild Master',
+      weapon: 'Martial Rope Dart / Infernal Twinblades & Gauntlets / Ropedart',
       image: 'images/members/FOOBU.png',
-      quote: '',
+      founder: true,
+      quote: 'Isang Quarter Pounder lang sapat na.',
     },
     {
       name: 'Maxisle',
       class: 'DPS',
       position: 'Vice Master',
-      weapon: '',
+      weapon: 'Vernal umbrella / Inkwell fan',
       image: 'images/members/Maxisle.png',
-      quote: '',
+      founder: true,
+      quote: '"Huwag kang mahiya ka." - GL Foobu',
     },
     {
       name: 'Schalsweiser',
       class: 'Tank',
-      position: 'Vice Master',
-      weapon: '',
+      position: 'Guild Master',
+      weapon: 'Shielding the Guild Frontline',
       image: 'images/members/Schalsweiser.png',
-      quote: '',
+      quote: 'Kung ang hotdog jumbo, kaya mo ba to?',
+    },
+    {
+      name: 'HyßrıðTheøry',
+      class: 'DPS',
+      position: 'Member',
+      weapon: 'Heng blade / Phalanxbane Blade',
+      image: 'images/members/HyßrıðTheøry.jpg',
+      quote: 'Kung ang hotdog jumbo, kaya mo ba to?',
+    },
+    {
+      name: 'NikPicken',
+      class: 'DPS/Healer',
+      position: 'Member',
+      weapon: 'SVernal Umbrella / Inkwell-Panacea Fan',
+      image: 'images/members/NikPicken.jpg',
+      quote: 'Remember this eternal truth: Girls with pink hair are never to be underestimated.',
+    },
+    {
+      name: 'Aiyaria',
+      class: 'DPS/Healer',
+      position: 'Member',
+      weapon: 'Martial Rope Dart / Infernal Twinblades & Gauntlets & Ropedart',
+      image: 'images/members/Aiyaria.png',
+      quote: ' Du bist gut genug. 👍',
+    },
+    {
+      name: 'zylthia',
+      class: 'Healer',
+      position: 'Member',
+      weapon: 'Soulshade Umbrella / Panacea Fan',
+      image: 'images/members/zylthia.jpg',
+      quote:
+        "Annyeonghaseyo, junun rufu mikaela imnida. (plss tell me y'all get the reference haha) Kam sam hamnida!",
+    },
+    {
+      name: 'Calialy',
+      class: 'DPS/Emotional Support Kuya',
+      position: 'Officer',
+      weapon: 'Nameless Sword / Nameless Spear',
+      image: 'images/members/Calialy.png',
+      webp: false,
+      quote:
+        "I'm not lagging I'm fighting in the future and if I dodge on my screen, that's what really matters.",
+    },
+    {
+      name: 'TokiDrip',
+      class: 'Healer',
+      position: 'Member',
+      weapon: 'Soulshade Umbrella / Panacea Fan',
+      image: 'images/members/TokiDrip.png',
+      quote: 'When kaya mag ssend ng partnership? 😂',
+    },
+    {
+      name: '雯清 (wen for short!)',
+      class: 'DPS',
+      position: 'Member',
+      weapon: 'Vernal Umbrella / Inkwell Fan',
+      image: 'images/members/雯清.png',
+      quote: "I still don't know what I'm doing in this game",
     },
   ];
 
   // Pagination & search state
   let pageSize = 12;
   let currentPage = 1;
-  let filteredMembers = guildMembers.slice();
+  let filteredMembers = getCurrentMembers();
 
   // Populate members grid
   const membersList = document.getElementById('members-list');
 
   // Render core members (leaders/officers) into the team grid
-  function renderCoreMembers() {
-    const coreContainer = document.getElementById('core-members-list');
-    if (!coreContainer) return;
-    coreContainer.innerHTML = '';
-    const core = guildMembers.filter((m) =>
-      ['Guild Leader', 'Vice Master', 'Officer'].includes(m.position)
-    );
-    core.forEach((member) => {
-      const el = document.createElement('div');
-      el.className = 'team-member';
-      const base = member.image ? member.image.replace(/\.(jpg|jpeg|png)$/i, '') : '';
-      const pic = document.createElement('picture');
+  function createTeamMemberCard(member) {
+    const el = document.createElement('div');
+    el.className = 'team-member';
+    const base = member.image ? member.image.replace(/\.(jpg|jpeg|png)$/i, '') : '';
+    const pic = document.createElement('picture');
+    const ext =
+      member.image && member.image.toLowerCase().endsWith('.png') ? 'image/png' : 'image/jpeg';
+    const srcFallback = document.createElement('source');
+    srcFallback.type = ext;
+    srcFallback.srcset = member.image;
+    const img = document.createElement('img');
+    img.src = member.image;
+    img.alt = member.name;
+    img.width = 320;
+    img.height = 320;
+    img.loading = 'lazy';
+    img.decoding = 'async';
+    img.style.width = '100%';
+    img.style.height = 'auto';
+    if (member.name === 'Calialy' || member.image.endsWith('Calialy.png')) {
+      img.style.display = 'block';
+      img.style.margin = '0 auto';
+      img.style.objectPosition = 'center';
+    }
+    img.setAttribute('data-orig', member.image);
+    img.dataset.full = member.webp === false ? member.image : `${base}-lossless-1600.webp`;
+    img.classList.add('lightbox-target');
+    if (member.webp !== false) {
       const srcWebp = document.createElement('source');
       srcWebp.type = 'image/webp';
       srcWebp.srcset = `${base}-640.webp 640w, ${base}-1024.webp 1024w`;
       srcWebp.sizes = '(max-width:600px) 100vw, 220px';
-      const img = document.createElement('img');
-      img.src = member.image;
-      img.alt = member.name;
-      img.width = 320;
-      img.height = 320;
-      img.loading = 'lazy';
-      img.decoding = 'async';
-      img.style.width = '100%';
-      img.style.height = 'auto';
       pic.appendChild(srcWebp);
-      pic.appendChild(img);
-      el.appendChild(pic);
-      const name = document.createElement('h4');
-      name.textContent = member.name;
-      el.appendChild(name);
-      const pos = document.createElement('div');
-      pos.className = 'member-position';
-      pos.textContent = member.position;
-      el.appendChild(pos);
-      const cls = document.createElement('div');
-      cls.className = 'member-class';
-      cls.textContent = member.class;
-      el.appendChild(cls);
-      if (member.weapon) {
-        const w = document.createElement('div');
-        w.className = 'member-weapon';
-        w.textContent = member.weapon;
-        el.appendChild(w);
-      }
-      if (member.quote) {
-        const q = document.createElement('p');
-        q.textContent = member.quote;
-        el.appendChild(q);
-      }
-      coreContainer.appendChild(el);
-      // Attach fallback handlers
-      img.addEventListener('error', () => tryAlternateSources(img));
-    });
+    }
+    pic.appendChild(srcFallback);
+    pic.appendChild(img);
+    el.appendChild(pic);
+    revealPictureOnLoad(img, pic);
+    const name = document.createElement('h4');
+    name.textContent = member.name;
+    el.appendChild(name);
+    const pos = document.createElement('div');
+    pos.className = 'member-position';
+    pos.textContent = member.position;
+    el.appendChild(pos);
+    const cls = document.createElement('div');
+    cls.className = 'member-class';
+    cls.textContent = member.class;
+    el.appendChild(cls);
+    if (member.weapon) {
+      const w = document.createElement('div');
+      w.className = 'member-weapon';
+      w.textContent = member.weapon;
+      el.appendChild(w);
+    }
+    if (member.quote) {
+      const q = document.createElement('p');
+      q.textContent = member.quote;
+      el.appendChild(q);
+    }
+    img.addEventListener('error', () => tryAlternateSources(img));
+    return el;
   }
-  // Render core members now and attach image fallbacks
+
+  function renderFounders() {
+    const foundersContainer = document.getElementById('founders-list');
+    if (!foundersContainer) return;
+    foundersContainer.innerHTML = '';
+    const founders = guildMembers.filter((m) => m.founder);
+    founders.forEach((member) => foundersContainer.appendChild(createTeamMemberCard(member)));
+  }
+
+  function renderCoreMembers() {
+    const coreContainer = document.getElementById('core-members-list');
+    if (!coreContainer) return;
+    coreContainer.innerHTML = '';
+    const core = guildMembers
+      .filter(
+        (m) =>
+          !m.founder &&
+          (['Vice Master', 'Officer'].includes(m.position) || m.name === 'Schalsweiser')
+      )
+      .sort((a, b) => {
+        const order = { 'Guild Master': 0, 'Vice Master': 1, Officer: 2 };
+        const rankA = order[a.position] ?? 2;
+        const rankB = order[b.position] ?? 2;
+        if (rankA !== rankB) return rankA - rankB;
+        return a.name.localeCompare(b.name);
+      });
+    core.forEach((member) => coreContainer.appendChild(createTeamMemberCard(member)));
+  }
+
+  function activateMemberTab(tabId) {
+    document.querySelectorAll('.tab-panel').forEach((panel) => {
+      panel.classList.toggle('active', panel.id === tabId);
+    });
+    document.querySelectorAll('.tab-btn').forEach((button) => {
+      button.classList.toggle('active', button.dataset.tab === tabId);
+    });
+
+    if (tabId === 'members-tab') {
+      filteredMembers = getCurrentMembers();
+      currentPage = 1;
+      renderMembers(filteredMembers, currentPage);
+    }
+  }
+
+  document.querySelectorAll('.tab-btn').forEach((button) => {
+    button.addEventListener('click', () => {
+      activateMemberTab(button.dataset.tab);
+    });
+  });
+
+  // Render initial tab content
+  renderFounders();
   renderCoreMembers();
+  activateMemberTab('founders-tab');
   // Refresh lightbox targets so core images are included
   refreshLightboxTargets();
   // Ensure core images get error handlers and skeleton handling
@@ -408,13 +475,21 @@ document.addEventListener('DOMContentLoaded', () => {
   function tryAlternateSources(img) {
     const orig = img.getAttribute('data-orig') || img.src;
     const base = orig.replace(/\.(webp|png|jpe?g)$/i, '');
+    const extPreserve = (suffix) => orig.replace(/\.(png|jpe?g)$/i, `.$1${suffix}`);
     const attempts = [
+      orig,
       `${base}.png`,
       `${base}.jpg`,
       `${base}.jpeg`,
+      `${base}.webp`,
       `${base}-lossless-1600.webp`,
       `${base}-1600.webp`,
-    ];
+      extPreserve('-1600.webp'),
+      extPreserve('-lossless-1600.webp'),
+      extPreserve('-320.webp'),
+    ]
+      .filter(Boolean)
+      .filter((value, index, self) => self.indexOf(value) === index);
     const tryExtras = [];
     attempts.forEach((a) => {
       tryExtras.push(`./${a}`);
@@ -503,12 +578,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Attach static image fallbacks
   function attachStaticImageFallbacks() {
-    document.querySelectorAll('.team-member img, .member-card img').forEach((i) => {
-      i.setAttribute('data-orig', i.src);
-      i.addEventListener('error', () => tryAlternateSources(i));
-      const pic = i.closest('picture');
-      if (pic) revealPictureOnLoad(i, pic);
-    });
+    document
+      .querySelectorAll('.team-member img, .member-card img, picture.skeleton-wrap img')
+      .forEach((i) => {
+        if (!i.getAttribute('data-orig')) {
+          i.setAttribute('data-orig', i.src);
+        }
+        i.addEventListener('error', () => tryAlternateSources(i));
+        const pic = i.closest('picture');
+        if (pic) {
+          pic.classList.add('skeleton');
+          revealPictureOnLoad(i, pic);
+        }
+      });
   }
 
   function renderMembers(members = filteredMembers, page = currentPage) {
@@ -528,7 +610,12 @@ document.addEventListener('DOMContentLoaded', () => {
       const img = document.createElement('img');
       img.src = new URL(member.image, window.location.href).href;
       img.style.opacity = '0';
-      const lq = member.image ? new URL(`${imgBase}-320.webp`, window.location.href).href : null;
+      const lq =
+        member.webp === false
+          ? null
+          : member.image
+            ? new URL(`${imgBase}-320.webp`, window.location.href).href
+            : null;
       if (lq) {
         const bg = document.createElement('div');
         bg.className = 'skeleton-bg';
@@ -539,7 +626,7 @@ document.addEventListener('DOMContentLoaded', () => {
       img.setAttribute('data-orig', img.src);
       img.addEventListener('error', () => tryAlternateSources(img));
       picture.classList.add('skeleton');
-      img.dataset.full = `${imgBase}-lossless-1600.webp`;
+      img.dataset.full = member.webp === false ? img.src : `${imgBase}-lossless-1600.webp`;
       img.classList.add('lightbox-target');
       img.alt = member.name;
       img.loading = 'lazy';
@@ -645,11 +732,11 @@ document.addEventListener('DOMContentLoaded', () => {
   function applySearch() {
     const q = (memberSearch.value || '').trim().toLowerCase();
     if (!q) {
-      filteredMembers = guildMembers.slice();
+      filteredMembers = getCurrentMembers();
       currentPage = 1;
       return renderMembers(filteredMembers, currentPage);
     }
-    filteredMembers = guildMembers.filter((m) => {
+    filteredMembers = getCurrentMembers().filter((m) => {
       return [m.name, m.class, m.position, m.weapon].join(' ').toLowerCase().includes(q);
     });
     currentPage = 1;
@@ -662,6 +749,12 @@ document.addEventListener('DOMContentLoaded', () => {
       applySearch();
       memberSearch.focus();
     });
+
+  function getCurrentMembers() {
+    return guildMembers
+      .filter((m) => m.position === 'Member')
+      .sort((a, b) => a.name.localeCompare(b.name));
+  }
 
   // MEMBER PROFILE MODAL
   const memberModal = document.getElementById('member-modal');
@@ -832,6 +925,10 @@ document.addEventListener('DOMContentLoaded', () => {
   function initSkeletons() {
     document.querySelectorAll('picture.skeleton-wrap img').forEach((img) => {
       const pic = img.closest('picture');
+      if (!pic) return;
+      if (!img.getAttribute('data-orig')) {
+        img.setAttribute('data-orig', img.src);
+      }
       const lqip = img.dataset.lqip || img.getAttribute('data-lqip');
       if (lqip && !pic.querySelector('.skeleton-bg')) {
         const bg = document.createElement('div');
@@ -839,26 +936,23 @@ document.addEventListener('DOMContentLoaded', () => {
         bg.style.backgroundImage = `url(${lqip})`;
         pic.appendChild(bg);
       }
-      if (img.complete && img.naturalWidth > 1) {
+      if (!pic.classList.contains('loaded')) {
+        pic.classList.add('skeleton');
+      }
+      img.style.opacity = '0';
+      const reveal = () => {
         const bgEl = pic.querySelector('.skeleton-bg');
         if (bgEl) bgEl.classList.add('hidden');
+        pic.classList.remove('skeleton');
         pic.classList.add('loaded');
         img.style.opacity = '1';
+      };
+      if (img.complete && img.naturalWidth > 1) {
+        reveal();
       } else {
-        pic.classList.add('skeleton');
-        img.style.opacity = '0';
-        img.addEventListener(
-          'load',
-          () => {
-            const bgEl = pic.querySelector('.skeleton-bg');
-            if (bgEl) bgEl.classList.add('hidden');
-            pic.classList.remove('skeleton');
-            pic.classList.add('loaded');
-            img.style.opacity = '1';
-          },
-          { once: true }
-        );
+        img.addEventListener('load', reveal, { once: true });
       }
+      img.addEventListener('error', () => tryAlternateSources(img));
     });
   }
 

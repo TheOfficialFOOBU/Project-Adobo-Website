@@ -335,6 +335,7 @@
       .project-overlay {
         position: absolute;
         inset: 0;
+        z-index: 2;
         background: rgba(0, 0, 0, 0.7);
         display: flex;
         flex-direction: column;
@@ -424,6 +425,45 @@
       /* TEAM SECTION */
       .team {
         background: var(--surface);
+      }
+
+      .member-tabs {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+        margin-bottom: 2rem;
+      }
+
+      .tab-btn {
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        background: rgba(255, 255, 255, 0.04);
+        color: var(--text);
+        padding: 0.9rem 1.3rem;
+        font-size: 0.9rem;
+        border-radius: 999px;
+        cursor: pointer;
+        transition:
+          background 0.2s ease,
+          border-color 0.2s ease,
+          color 0.2s ease;
+      }
+
+      .tab-btn.active {
+        background: var(--accent);
+        border-color: var(--accent);
+        color: var(--bg);
+      }
+
+      .tab-panel {
+        display: none;
+      }
+
+      .tab-panel.active {
+        display: block;
+      }
+
+      .tab-panel .team-grid {
+        margin-top: 1rem;
       }
 
       .team-grid {
@@ -1531,37 +1571,42 @@
       <!-- TEAM -->
       <section class="team" id="team">
         <div class="container">
-          <h2 class="section-title">Core Members<span class="section-number">04</span></h2>
-          <div style="margin-bottom: 1rem; display: flex; gap: 1rem; align-items: center">
-            <input
-              id="member-search"
-              type="search"
-              placeholder="Search members, class, or weapon"
-              aria-label="Search members"
-              style="
-                flex: 1;
-                padding: 10px;
-                border-radius: 10px;
-                border: 1px solid var(--card-border);
-                background: transparent;
-                color: var(--text);
-              "
-            />
-            <button id="clear-search" class="menu-btn" style="padding: 8px 12px">Clear</button>
-          </div>
-          <div class="team-grid" id="core-members-list">
-            <!-- Core members (Guild Leader, Vice Masters, Officers) are rendered dynamically by script.js -->
+          <h2 class="section-title">Guild Roster<span class="section-number">04</span></h2>
+          <div class="member-tabs">
+            <button type="button" class="tab-btn active" data-tab="founders-tab">Founders</button>
+            <button type="button" class="tab-btn" data-tab="core-tab">Core Members</button>
+            <button type="button" class="tab-btn" data-tab="members-tab">Members</button>
           </div>
 
-          <!-- ALL MEMBERS TOGGLE -->
-          <div class="members-toggle">
-            <span class="members-count">72 / 80 Guild Members</span>
-            <button class="members-toggle-btn" id="toggle-members-btn">View All Members</button>
+          <div class="tab-panel active" id="founders-tab">
+            <div class="team-grid" id="founders-list"></div>
           </div>
 
-          <!-- ALL MEMBERS GRID -->
-          <div id="all-members-grid">
-            <!-- SORTING CONTROLS -->
+          <div class="tab-panel" id="core-tab">
+            <div class="team-grid" id="core-members-list"></div>
+          </div>
+
+          <div class="tab-panel" id="members-tab">
+            <div
+              class="member-search-wrap"
+              style="margin-bottom: 1rem; display: flex; gap: 1rem; align-items: center"
+            >
+              <input
+                id="member-search"
+                type="search"
+                placeholder="Search members, class, or weapon"
+                aria-label="Search members"
+                style="
+                  flex: 1;
+                  padding: 10px;
+                  border-radius: 10px;
+                  border: 1px solid var(--card-border);
+                  background: transparent;
+                  color: var(--text);
+                "
+              />
+              <button id="clear-search" class="menu-btn" style="padding: 8px 12px">Clear</button>
+            </div>
             <div class="sorting-controls">
               <label>Sort by:</label>
               <select id="sort-select">
@@ -1571,10 +1616,7 @@
                 <option value="weapon">Weapon</option>
               </select>
             </div>
-
-            <div class="members-grid-container" id="members-list">
-              <!-- Members will be populated by JavaScript -->
-            </div>
+            <div class="members-grid-container" id="members-list"></div>
             <div class="capacity-info">
               Guild Capacity: <span class="capacity-number">72 / 80</span> Members
             </div>
