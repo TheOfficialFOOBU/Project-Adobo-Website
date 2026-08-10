@@ -11,6 +11,68 @@ document.addEventListener('DOMContentLoaded', () => {
     toggle.addEventListener('click', () => nav.classList.toggle('open'));
   }
 
+  // Background music: place an MP3 in the audio folder and it will play on interaction.
+  const backgroundMusic = new Audio('audio/Sleep Sounds Cooking Bacon 45mins ASMR.mp3');
+  backgroundMusic.loop = true;
+  backgroundMusic.volume = 0.2;
+  backgroundMusic.preload = 'auto';
+
+  const musicToggle = document.createElement('button');
+  musicToggle.type = 'button';
+  musicToggle.setAttribute('aria-label', 'Toggle background music');
+  musicToggle.textContent = '🔊';
+  musicToggle.style.position = 'fixed';
+  musicToggle.style.left = '16px';
+  musicToggle.style.bottom = '16px';
+  musicToggle.style.zIndex = '3001';
+  musicToggle.style.padding = '10px 12px';
+  musicToggle.style.borderRadius = '999px';
+  musicToggle.style.border = '1px solid rgba(255,255,255,0.2)';
+  musicToggle.style.background = 'rgba(10,10,10,0.9)';
+  musicToggle.style.color = '#fff';
+  musicToggle.style.cursor = 'pointer';
+  musicToggle.style.backdropFilter = 'blur(6px)';
+  document.body.appendChild(musicToggle);
+
+  const updateMusicButton = (isPlaying) => {
+    musicToggle.textContent = isPlaying ? '🔊' : '🔈';
+    musicToggle.setAttribute('aria-pressed', String(isPlaying));
+  };
+
+  const startBackgroundMusic = async () => {
+    try {
+      if (backgroundMusic.paused) {
+        await backgroundMusic.play();
+      }
+      updateMusicButton(!backgroundMusic.muted);
+    } catch (err) {
+      console.warn('Background music could not start:', err);
+      updateMusicButton(false);
+    }
+  };
+
+  musicToggle.addEventListener('click', async () => {
+    if (backgroundMusic.muted) {
+      backgroundMusic.muted = false;
+      await startBackgroundMusic();
+      return;
+    }
+
+    backgroundMusic.muted = true;
+    updateMusicButton(false);
+  });
+
+  const tryStartMusic = async () => {
+    await startBackgroundMusic();
+    window.removeEventListener('pointerdown', tryStartMusic);
+    window.removeEventListener('keydown', tryStartMusic);
+  };
+
+  window.addEventListener('pointerdown', tryStartMusic, { once: true });
+  window.addEventListener('keydown', tryStartMusic, { once: true });
+  backgroundMusic.muted = false;
+  updateMusicButton(true);
+
   // Lazy-load images with data-src
   const lazyImgs = document.querySelectorAll('img[data-src]');
   if ('IntersectionObserver' in window) {
