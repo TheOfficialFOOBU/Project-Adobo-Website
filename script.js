@@ -12,7 +12,9 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Background music: place an MP3 in the audio folder and it will play on interaction.
-  const backgroundMusic = new Audio('audio/Frying Pan, Oil Sizzling - Sound Effect (SFX).mp3');
+  const backgroundMusic = new Audio(
+    'audio/Ooh Lala Baby #viral  #trending #shorts  #fyp #tiktoktrend.mp3'
+  );
   backgroundMusic.loop = true;
   backgroundMusic.volume = 0.2;
   backgroundMusic.preload = 'auto';
