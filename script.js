@@ -266,12 +266,12 @@ document.addEventListener('DOMContentLoaded', () => {
     },
     {
       name: 'HyßrıðTheøry',
-      class: 'DPS',
+      class: 'DPS / Star section pupil - best in shenanigans',
       position: 'Member',
-      weapon: 'Heng blade / Phalanxbane Blade',
+      weapon: 'Fists and Whips 😏',
       image: 'images/members/HyßrıðTheøry.jpg',
       webp: false,
-      quote: 'Kung ang hotdog jumbo, kaya mo ba to?',
+      quote: "I'm just a horsey with massive balls. I mean bells. (awkwardly dangles my carrot)",
     },
     {
       name: 'NikPicken',
@@ -328,6 +328,15 @@ document.addEventListener('DOMContentLoaded', () => {
       image: 'images/members/雯清.png',
       webp: false,
       quote: "I still don't know what I'm doing in this game",
+    },
+    {
+      name: 'xeinneyo',
+      class: 'DPS tryhard with puhonk moosick jk',
+      position: 'Member',
+      weapon: 'Mo,Heng blades',
+      image: 'images/members/xeinneyo.jpg',
+      webp: false,
+      quote: 'a mobile donkey whos phone is thwas😭',
     },
   ];
 
