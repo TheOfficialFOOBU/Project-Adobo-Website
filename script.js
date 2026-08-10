@@ -41,10 +41,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const startBackgroundMusic = async () => {
     try {
+      backgroundMusic.muted = false;
       if (backgroundMusic.paused) {
         await backgroundMusic.play();
       }
-      updateMusicButton(!backgroundMusic.muted);
+      updateMusicButton(true);
     } catch (err) {
       console.warn('Background music could not start:', err);
       updateMusicButton(false);
