@@ -170,7 +170,7 @@
         padding-bottom: 6rem;
         background:
           linear-gradient(180deg, rgba(0, 0, 0, 0.18), rgba(0, 0, 0, 0.26)),
-          radial-gradient(800px 360px at 50% 12%, rgba(255, 107, 53, 0.03), transparent 18%),
+          radial-gradient(800px 360px at 50% 12%, rgba(255, 107, 53, 0.05), transparent 18%),
           var(--hero-image);
         background-size: cover, cover, cover;
         background-position:
@@ -178,6 +178,42 @@
           center,
           center;
         background-repeat: no-repeat;
+      }
+
+      .hero::before,
+      .hero::after {
+        content: '';
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(52px);
+        pointer-events: none;
+        opacity: 0.7;
+      }
+
+      .hero::before {
+        width: 28rem;
+        height: 28rem;
+        background: rgba(255, 112, 67, 0.12);
+        top: 6%;
+        left: 7%;
+        animation: drift 18s ease-in-out infinite alternate;
+      }
+
+      .hero::after {
+        width: 24rem;
+        height: 24rem;
+        background: rgba(78, 205, 196, 0.12);
+        right: 8%;
+        bottom: 10%;
+        animation: drift 20s ease-in-out infinite alternate-reverse;
+      }
+
+      .hero-inner {
+        position: relative;
+        z-index: 1;
+        opacity: 0;
+        transform: translateY(18px);
+        animation: heroFadeUp 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
       }
 
       .hero h1 {
@@ -189,6 +225,7 @@
         max-width: 92%;
         color: var(--text);
         -webkit-font-smoothing: antialiased;
+        text-shadow: 0 8px 30px rgba(0, 0, 0, 0.22);
       }
 
       .hero .subtitle {
@@ -198,6 +235,9 @@
         font-weight: 300;
         letter-spacing: 0.04em;
         max-width: 70ch;
+        opacity: 0;
+        transform: translateY(10px);
+        animation: heroFadeUp 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) 0.15s forwards;
       }
 
       .scroll-indicator {
@@ -208,7 +248,10 @@
         font-size: 0.85rem;
         color: var(--muted);
         letter-spacing: 0.1em;
-        animation: float 3s ease-in-out infinite;
+        opacity: 0;
+        animation:
+          fadeIn 0.9s ease 0.45s forwards,
+          float 3s ease-in-out infinite 1.1s;
       }
 
       @keyframes float {
@@ -218,6 +261,35 @@
         }
         50% {
           transform: translateX(-50%) translateY(10px);
+        }
+      }
+
+      @keyframes drift {
+        0% {
+          transform: translate3d(0, 0, 0) scale(1);
+        }
+        100% {
+          transform: translate3d(20px, -18px, 0) scale(1.08);
+        }
+      }
+
+      @keyframes heroFadeUp {
+        0% {
+          opacity: 0;
+          transform: translateY(18px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes fadeIn {
+        0% {
+          opacity: 0;
+        }
+        100% {
+          opacity: 1;
         }
       }
 
@@ -274,8 +346,8 @@
       }
 
       .cta-button:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+        transform: translateY(-2px) scale(1.01);
+        box-shadow: 0 12px 30px rgba(255, 112, 67, 0.22);
       }
 
       .cta-button.light {
@@ -291,26 +363,72 @@
 
       /* SECTION STYLES */
       .section-title {
-        font-size: 3.5rem;
-        font-weight: 900;
-        letter-spacing: -0.02em;
-        line-height: 1.1;
-        margin-bottom: 4rem;
+        font-size: clamp(2.2rem, 4vw, 3.3rem);
+        font-weight: 800;
+        letter-spacing: -0.05em;
+        line-height: 0.96;
+        margin: 0 0 2rem;
         position: relative;
+        display: inline-block;
       }
 
       .section-number {
-        font-size: 8rem;
+        font-size: clamp(3rem, 8vw, 6rem);
         font-weight: 900;
-        opacity: 0.05;
+        opacity: 0.06;
         position: absolute;
         left: 0;
-        top: -2rem;
+        top: -1.2rem;
+        z-index: 0;
+        pointer-events: none;
       }
 
       section {
-        padding: 8rem 0;
+        padding: 7rem 0;
         position: relative;
+      }
+
+      [data-animate] {
+        opacity: 0;
+        transform: translateY(20px);
+        transition:
+          opacity 0.75s ease,
+          transform 0.75s ease;
+      }
+
+      [data-animate].in-view {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .capabilities .container + .container {
+        margin-top: 3.5rem;
+      }
+
+      body {
+        font-size: 16px;
+        line-height: 1.7;
+        letter-spacing: -0.01em;
+      }
+
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6 {
+        letter-spacing: -0.04em;
+        line-height: 1.1;
+      }
+
+      p,
+      li,
+      div,
+      span,
+      input,
+      select,
+      button {
+        letter-spacing: -0.01em;
       }
 
       /* PROJECTS SECTION */
@@ -391,20 +509,47 @@
       .capabilities-grid {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
-        gap: 2rem;
+        gap: 1.5rem 2rem;
       }
 
       .capability-item {
-        padding: 1.5rem 0;
-        border-bottom: 1px solid var(--card-border);
+        padding: 1.35rem 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
       }
 
       .capability-item h4 {
-        font-size: 0.85rem;
+        font-size: 0.82rem;
         font-weight: 700;
         text-transform: uppercase;
-        letter-spacing: 0.1em;
+        letter-spacing: 0.12em;
         color: var(--text);
+        margin: 0;
+      }
+
+      .guild-hall-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 1.5rem;
+        margin-top: 1rem;
+      }
+
+      .guild-stat-card {
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 16px;
+        padding: 1.5rem;
+      }
+
+      .guild-stat-card h3 {
+        margin: 0 0 0.8rem;
+        font-size: clamp(1.2rem, 2vw, 1.7rem);
+        color: var(--text);
+      }
+
+      .guild-stat-card p {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.75;
       }
 
       /* PHILOSOPHY SECTION */
@@ -483,49 +628,155 @@
       }
 
       .team-member {
-        text-align: center;
+        position: relative;
+        perspective: 1200px;
+        min-height: 420px;
       }
 
-      .team-member img {
+      .member-card {
+        cursor: pointer;
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      .member-card-inner {
+        position: relative;
         width: 100%;
-        aspect-ratio: 1;
-        object-fit: contain;
-        margin-bottom: 1.5rem;
+        height: 100%;
+        min-height: 420px;
+        transform-style: preserve-3d;
+        transition: transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
       }
 
-      .team-member h4 {
+      .member-card.is-flipped .member-card-inner {
+        transform: rotateY(180deg);
+      }
+
+      .member-card-face {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 18px;
+        background: rgba(17, 17, 17, 0.96);
+        box-shadow: 0 18px 36px rgba(0, 0, 0, 0.16);
+        backface-visibility: hidden;
+        overflow: hidden;
+      }
+
+      .member-card-front {
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        overflow: hidden;
+      }
+
+      .member-card-back {
+        transform: rotateY(180deg);
+        padding: 1.2rem 1rem 1rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+
+      .member-card-photo {
+        display: block;
+        width: 100%;
+        max-height: 330px;
+        height: auto;
+        object-fit: contain;
+        object-position: center;
+        border-radius: 18px 18px 0 0;
+        background: #121212;
+        margin: 0 auto;
+        padding: 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      }
+
+      .member-card-front h4,
+      .member-card-back h4 {
         font-size: 1.2rem;
         font-weight: 700;
-        margin-bottom: 0.5rem;
+        margin: 0;
+        text-align: center;
+        line-height: 1.2;
       }
 
-      .team-member .role {
-        font-size: 0.85rem;
+      .member-card-front .member-card-front-body {
+        padding: 0.9rem 0.8rem 1rem;
+        background: transparent;
+        border-radius: 0 0 14px 14px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 0.45rem;
+        min-height: 112px;
+      }
+
+      .member-card .member-position,
+      .member-card .member-class,
+      .member-card .member-weapon {
+        display: block;
+        font-size: 0.78rem;
         color: var(--muted);
         text-transform: uppercase;
-        letter-spacing: 0.05em;
-        margin-bottom: 0.5rem;
+        letter-spacing: 0.08em;
+        margin: 0;
+        text-align: center;
+        line-height: 1.4;
       }
 
-      .team-member .member-position,
-      .team-member .member-class,
-      .team-member .member-weapon {
-        font-size: 0.85rem;
-        color: var(--muted);
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
-        margin-bottom: 0.5rem;
-      }
-
-      .team-member .member-weapon {
+      .member-card .member-weapon {
         color: var(--accent2);
       }
 
-      .team-member p {
-        font-size: 0.95rem;
-        line-height: 1.6;
+      .member-card-back {
+        text-align: center;
+      }
+
+      .member-card-back .member-card-meta {
+        display: grid;
+        gap: 0.85rem;
+        margin-top: 0.5rem;
+        width: 100%;
+      }
+
+      .member-card-detail {
+        font-size: 0.72rem;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
         color: var(--muted);
-        margin-bottom: 1rem;
+      }
+
+      .member-card-detail strong {
+        display: block;
+        margin-top: 0.2rem;
+        font-size: 0.92rem;
+        line-height: 1.5;
+        color: var(--text);
+        letter-spacing: 0;
+        text-transform: none;
+      }
+
+      .member-card-quote {
+        margin-top: 1rem;
+        font-size: 0.96rem;
+        line-height: 1.7;
+        color: var(--text);
+        font-style: italic;
+      }
+
+      .member-card-hint {
+        align-self: center;
+        margin: 0;
+        font-size: 0.68rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: rgba(255, 255, 255, 0.58);
+        line-height: 1.3;
       }
 
       .team-member a {
@@ -1165,8 +1416,8 @@
 
     <main id="main">
       <!-- HERO 1 -->
-      <section class="hero hero-animated" id="home">
-        <div class="hero-inner">
+      <section class="hero hero-animated" id="home" data-animate>
+        <div class="hero-inner" data-animate>
           <h1>We<br />Play<br />For<br />Fun</h1>
           <p class="subtitle">Where Winds Meet</p>
           <div class="scroll-indicator">SCROLL</div>
@@ -1174,7 +1425,7 @@
       </section>
 
       <!-- HERO 2 - WARRIOR LED -->
-      <section class="hero-2">
+      <section class="hero-2" data-animate>
         <div class="hero-2-content">
           <h2>Warrior-led<br />Fun-obsessed</h2>
           <p>
@@ -1186,7 +1437,7 @@
       </section>
 
       <!-- WHAT WE DO -->
-      <section class="hero-2" style="background: #0a0a0a">
+      <section class="hero-2" style="background: #0a0a0a" data-animate>
         <div class="hero-2-content right-aligned">
           <h2>What we do</h2>
           <p>
@@ -1203,7 +1454,7 @@
       </section>
 
       <!-- ACHIEVEMENTS/PROJECTS -->
-      <section class="projects" id="projects">
+      <section class="projects" id="projects" data-animate>
         <div class="container">
           <h2 class="section-title">Guild Activities<span class="section-number">01</span></h2>
           <div class="projects-grid">
@@ -1346,80 +1597,17 @@
       </section>
 
       <!-- CAPABILITIES -->
-      <section class="capabilities">
+      <section class="capabilities" data-animate>
         <div class="container">
-          <h2 class="section-title">Upcoming Events<span class="section-number">00</span></h2>
-          <div class="events-section">
-            <div class="events-grid">
-              <div>
-                <ul class="events-list" id="events-list">
-                  <li class="event-item" data-start="2026-06-21T18:00:00">
-                    <strong>Guild Picnic</strong>
-                    <div style="color: var(--muted)">June 21 — Meet at the Harbor</div>
-                    <div class="event-actions">
-                      <a
-                        class="cta-button small add-gcal"
-                        data-title="Guild Picnic"
-                        data-start="2026-06-21T18:00:00"
-                        data-end="2026-06-21T20:00:00"
-                        >Add to Google Calendar</a
-                      >
-                    </div>
-                  </li>
-                  <li class="event-item" data-start="2026-06-28T20:00:00">
-                    <strong>Practice Raid</strong>
-                    <div style="color: var(--muted)">June 28 — 8PM Server Time</div>
-                    <div class="event-actions">
-                      <a
-                        class="cta-button small add-gcal"
-                        data-title="Practice Raid"
-                        data-start="2026-06-28T20:00:00"
-                        data-end="2026-06-28T22:00:00"
-                        >Add to Google Calendar</a
-                      >
-                    </div>
-                  </li>
-                  <li class="event-item" data-start="2026-07-05T19:00:00">
-                    <strong>Picture Day</strong>
-                    <div style="color: var(--muted)">July 5 — 7PM</div>
-                    <div class="event-actions">
-                      <a
-                        class="cta-button small add-gcal"
-                        data-title="Picture Day"
-                        data-start="2026-07-05T19:00:00"
-                        data-end="2026-07-05T20:00:00"
-                        >Add to Google Calendar</a
-                      >
-                    </div>
-                  </li>
-                </ul>
-              </div>
-              <aside>
-                <form id="rsvp-form" class="rsvp-form" aria-label="RSVP to events">
-                  <label for="rsvp-name">Name</label>
-                  <input id="rsvp-name" name="name" required placeholder="Your name" />
-                  <label for="rsvp-email">Discord / Contact</label>
-                  <input
-                    id="rsvp-email"
-                    name="contact"
-                    required
-                    placeholder="Discord#1234 or email"
-                  />
-                  <label for="rsvp-event">Event</label>
-                  <select id="rsvp-event" name="event">
-                    <option value="Guild Picnic">Guild Picnic — June 21</option>
-                    <option value="Practice Raid">Practice Raid — June 28</option>
-                    <option value="Picture Day">Picture Day — July 5</option>
-                  </select>
-                  <button class="cta-button" type="submit">RSVP</button>
-                </form>
-                <div style="margin-top: 1rem; color: var(--muted); font-size: 0.9rem">
-                  <strong>Calendar</strong>
-                  <div id="mini-calendar" style="margin-top: 0.5rem">
-                    Upcoming events listed use "Add to Google Calendar" to save.
-                  </div>
-                </div>
-              </aside>
+          <h2 class="section-title">Guild Hall of Fame<span class="section-number">00</span></h2>
+          <div class="guild-hall-grid">
+            <div class="guild-stat-card">
+              <h3>Hall of Fame</h3>
+              <p>The number of times a guild member completes a 69-second BA.</p>
+            </div>
+            <div class="guild-stat-card">
+              <h3>Hall of Shame</h3>
+              <p>The number of times a guild member completes a 67-second BA.</p>
             </div>
           </div>
         </div>
@@ -1443,7 +1631,7 @@
       </section>
 
       <!-- PHILOSOPHY -->
-      <section class="philosophy" id="philosophy">
+      <section class="philosophy" id="philosophy" data-animate>
         <div class="container">
           <h2 class="section-title">Our Guild Philosophy<span class="section-number">03</span></h2>
           <div class="philosophy-content">
@@ -1484,7 +1672,7 @@
       </section>
 
       <!-- TEAM -->
-      <section class="team" id="team">
+      <section class="team" id="team" data-animate>
         <div class="container">
           <h2 class="section-title">Guild Roster<span class="section-number">04</span></h2>
           <div class="member-tabs">
@@ -1544,7 +1732,11 @@
             Whether your idea is joining our casual guild, building lasting friendships, or creating
             legendary moments we're here to welcome you.
           </p>
-          <a href="https://discord.gg/NdZXkmYJnS" target="_blank" class="cta-button"
+          <a
+            href="https://discord.gg/NdZXkmYJnS"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="cta-button"
             >Join Discord</a
           >
           <button class="cta-button light" id="contact-leader-btn">Contact Leader</button>
@@ -1587,6 +1779,7 @@
               <a
                 href="https://discord.gg/NdZXkmYJnS"
                 target="_blank"
+                rel="noopener noreferrer"
                 class="social-link"
                 aria-label="Discord"
               >
@@ -1694,7 +1887,9 @@
           </div>
           <div class="footer-section">
             <h5>Social</h5>
-            <a href="https://discord.gg/NdZXkmYJnS" target="_blank">Discord</a>
+            <a href="https://discord.gg/NdZXkmYJnS" target="_blank" rel="noopener noreferrer"
+              >Discord</a
+            >
             <a href="https://twitter.com" target="_blank"
               ><img src="images/icons/twitter.svg" class="social-icon" alt="Twitter"
             /></a>
@@ -1716,7 +1911,13 @@
         <div class="footer-bottom">
           <div>© 2025 ADOBO GUILD — Where Winds Meet • Powered by FOOBU</div>
           <div class="social-links">
-            <a href="https://discord.gg/NdZXkmYJnS" title="Discord" aria-label="Discord">
+            <a
+              href="https://discord.gg/NdZXkmYJnS"
+              title="Discord"
+              aria-label="Discord"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <img src="images/icons/discord.svg" class="social-icon" alt="Discord" />
             </a>
             <a href="https://twitter.com" title="Twitter"
