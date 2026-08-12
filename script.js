@@ -4,6 +4,26 @@
   Small, readable helpers for navigation and lazy-loading images.
 */
 document.addEventListener('DOMContentLoaded', () => {
+  const animatedEls = document.querySelectorAll('[data-animate]');
+
+  if ('IntersectionObserver' in window) {
+    const revealObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('in-view');
+            revealObserver.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.18 }
+    );
+
+    animatedEls.forEach((el) => revealObserver.observe(el));
+  } else {
+    animatedEls.forEach((el) => el.classList.add('in-view'));
+  }
+
   // Example: simple mobile nav toggle if you add a .nav-toggle button
   const toggle = document.querySelector('.nav-toggle');
   const nav = document.querySelector('nav');
@@ -216,7 +236,7 @@ document.addEventListener('DOMContentLoaded', () => {
     observer.observe(el);
   });
 
-  // Guild Members Data (restored full list)
+  // Guild Members Data
   const guildMembers = [
     {
       name: '独Sanji',
@@ -232,7 +252,7 @@ document.addEventListener('DOMContentLoaded', () => {
       position: 'Officer',
       weapon: 'Phalanxbane Blade / Heng Blade - Nameless Sword / Nameless Spear',
       image: 'images/members/Swaggo.png',
-      quote: "Heir to the porcelain throne (I'm lactose intolerant).",
+      quote: "I'm not lazy, I'm just highly motivated to do nothing",
     },
     {
       name: 'Ambón',
@@ -308,7 +328,7 @@ document.addEventListener('DOMContentLoaded', () => {
       weapon: 'Martial Rope Dart / Infernal Twinblades & Gauntlets / Ropedart',
       image: 'images/members/FOOBU.png',
       founder: true,
-      quote: 'Isang Quarter Pounder lang sapat na.',
+      quote: 'Wanted to be Spider-Man so badly, but life only ever made me Peter Parker.',
     },
     {
       name: 'Maxisle',
@@ -414,7 +434,20 @@ document.addEventListener('DOMContentLoaded', () => {
   // Render core members (leaders/officers) into the team grid
   function createTeamMemberCard(member) {
     const el = document.createElement('div');
-    el.className = 'team-member';
+    el.className = 'team-member member-card';
+    el.setAttribute('role', 'button');
+    el.setAttribute('tabindex', '0');
+    el.setAttribute('aria-label', `Flip card for ${member.name}`);
+
+    const inner = document.createElement('div');
+    inner.className = 'member-card-inner';
+
+    const front = document.createElement('div');
+    front.className = 'member-card-face member-card-front';
+
+    const back = document.createElement('div');
+    back.className = 'member-card-face member-card-back';
+
     const base = member.image ? member.image.replace(/\.(jpg|jpeg|png)$/i, '') : '';
     const pic = document.createElement('picture');
     const ext =
@@ -429,6 +462,7 @@ document.addEventListener('DOMContentLoaded', () => {
     img.height = 320;
     img.loading = 'lazy';
     img.decoding = 'async';
+    img.className = 'member-card-photo lightbox-target';
     img.style.width = '100%';
     img.style.height = 'auto';
     if (member.name === 'Calialy' || member.image.endsWith('Calialy.png')) {
@@ -438,7 +472,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     img.setAttribute('data-orig', member.image);
     img.dataset.full = member.webp === false ? member.image : `${base}-lossless-1600.webp`;
-    img.classList.add('lightbox-target');
     if (member.webp !== false) {
       const srcWebp = document.createElement('source');
       srcWebp.type = 'image/webp';
@@ -448,30 +481,75 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     pic.appendChild(srcFallback);
     pic.appendChild(img);
-    el.appendChild(pic);
+    front.appendChild(pic);
     revealPictureOnLoad(img, pic);
+
+    const frontBody = document.createElement('div');
+    frontBody.className = 'member-card-front-body';
+
     const name = document.createElement('h4');
     name.textContent = member.name;
-    el.appendChild(name);
+    frontBody.appendChild(name);
+
     const pos = document.createElement('div');
     pos.className = 'member-position';
     pos.textContent = member.position;
-    el.appendChild(pos);
+    frontBody.appendChild(pos);
+
+    const hint = document.createElement('div');
+    hint.className = 'member-card-hint';
+    hint.textContent = 'Click to reveal';
+    frontBody.appendChild(hint);
+
+    front.appendChild(frontBody);
+
+    const backName = document.createElement('h4');
+    backName.textContent = member.name;
+    back.appendChild(backName);
+
+    const info = document.createElement('div');
+    info.className = 'member-card-meta';
+
     const cls = document.createElement('div');
-    cls.className = 'member-class';
-    cls.textContent = member.class;
-    el.appendChild(cls);
-    if (member.weapon) {
-      const w = document.createElement('div');
-      w.className = 'member-weapon';
-      w.textContent = member.weapon;
-      el.appendChild(w);
-    }
+    cls.className = 'member-card-detail';
+    cls.innerHTML = '<span>Class</span><strong>' + (member.class || 'Unknown') + '</strong>';
+
+    const w = document.createElement('div');
+    w.className = 'member-card-detail';
+    w.innerHTML = '<span>Weapon</span><strong>' + (member.weapon || 'Unknown') + '</strong>';
+
+    info.appendChild(cls);
+    info.appendChild(w);
+
     if (member.quote) {
-      const q = document.createElement('p');
-      q.textContent = member.quote;
-      el.appendChild(q);
+      const q = document.createElement('div');
+      q.className = 'member-card-quote';
+      q.textContent = `"${member.quote}"`;
+      info.appendChild(q);
     }
+
+    back.appendChild(info);
+
+    inner.appendChild(front);
+    inner.appendChild(back);
+    el.appendChild(inner);
+
+    img.addEventListener('click', (event) => {
+      event.stopPropagation();
+      openLightbox(img.dataset.full || img.src, img.alt || member.name);
+    });
+
+    el.addEventListener('click', () => {
+      el.classList.toggle('is-flipped');
+    });
+
+    el.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        el.classList.toggle('is-flipped');
+      }
+    });
+
     img.addEventListener('error', () => tryAlternateSources(img));
     return el;
   }
@@ -787,25 +865,6 @@ document.addEventListener('DOMContentLoaded', () => {
   // MEMBER PROFILE MODAL
   const memberModal = document.getElementById('member-modal');
   const closeMemberModal = document.getElementById('close-member-modal');
-  const memberModalName = document.getElementById('member-modal-name');
-  const memberModalAvatar = document.getElementById('member-modal-avatar');
-  const memberModalPosition = document.getElementById('member-modal-position');
-  const memberModalClass = document.getElementById('member-modal-class');
-  const memberModalQuote = document.getElementById('member-modal-quote');
-  const memberModalProfilelink = document.getElementById('member-modal-profilelink');
-
-  function openMemberProfile(member) {
-    memberModal.setAttribute('aria-hidden', 'false');
-    memberModal.style.display = 'block';
-    memberModalName.textContent = member.name;
-    memberModalAvatar.src = member.image;
-    memberModalAvatar.alt = member.name;
-    memberModalPosition.textContent = member.position;
-    memberModalClass.textContent = member.class + ' • ' + member.weapon;
-    memberModalQuote.textContent = `"${member.quote}"`;
-    memberModalProfilelink.href = '#';
-    document.body.style.overflow = 'hidden';
-  }
 
   function closeMember() {
     memberModal.setAttribute('aria-hidden', 'true');
