@@ -293,7 +293,8 @@ document.addEventListener('DOMContentLoaded', () => {
       class: 'Healer',
       position: 'Member',
       weapon: 'Soulshade Umbrella / Panacea Fan',
-      image: 'images/members/Paupau.jpg',
+      image: 'images/members/Paupau.png',
+      webp: false,
       quote: 'Hello hehe',
     },
     {
@@ -301,7 +302,8 @@ document.addEventListener('DOMContentLoaded', () => {
       class: 'DPS',
       position: 'Vice Master',
       weapon: 'Strategic sword / Heavenquaker Spear',
-      image: 'images/members/Hrafna.jpg',
+      image: 'images/members/Hrafna.jpeg',
+      webp: false,
       founder: true,
       quote: 'Sometimes we just have to lets go.',
     },
@@ -391,8 +393,7 @@ document.addEventListener('DOMContentLoaded', () => {
       weapon: 'Nameless Sword / Nameless Spear',
       image: 'images/members/Calialy.png',
       webp: false,
-      quote:
-        "I'm not lagging I'm fighting in the future and if I dodge on my screen, that's what really matters.",
+      quote: 'Live long enough to bring happiness to those around you.',
     },
     {
       name: 'TokiDrip',
@@ -416,10 +417,29 @@ document.addEventListener('DOMContentLoaded', () => {
       name: 'xeinneyo',
       class: 'DPS tryhard with puhonk moosick jk',
       position: 'Member',
-      weapon: 'Mo,Heng blades',
+      weapon: 'Mo, Heng blades',
       image: 'images/members/xeinneyo.jpg',
       webp: false,
       quote: 'a mobile donkey whos phone is thwas😭',
+    },
+    {
+      name: 'YUXIA',
+      class: 'DPS',
+      position: 'Member',
+      weapon: 'Mo, Heng blades',
+      image: 'images/members/YUXIA.png',
+      webp: false,
+      quote:
+        'He has no idea that while he was tearing down every wall for me, I was quietly weaving a cage around his heart—and making sure he would never wish to leave.',
+    },
+    {
+      name: 'Nyxnoir',
+      class: 'DPS',
+      position: 'Member',
+      weapon: 'Everspring Umbrella / Unfettered Rope Dart / Snowparting Blade',
+      image: 'images/members/Nyxnoir.png',
+      webp: false,
+      quote: '[Inhale, Exhale] The sky, clouds, the grass, and the berries.',
     },
   ];
 
