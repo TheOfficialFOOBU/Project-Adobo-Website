@@ -64,10 +64,7 @@ export function SiteFooter() {
                   />
                 </a>
               </div>
-              <small className="discord-widget-note">
-                Enable the official Discord Widget in your server settings to replace this card with
-                the embeddable widget.
-              </small>
+              <small className="discord-widget-note">Adobo Where Winds Meet Discord</small>
             </div>
           </div>
           <div className="footer-section">
