@@ -1,3 +1,4 @@
+import { GlowCta } from '@/components/glow-cta';
 import { HeroScrollFx } from '@/components/hero-scroll-fx';
 import { asset } from '@/lib/site';
 
@@ -36,14 +37,9 @@ export function HeroSection() {
         </h1>
         <p className="subtitle">Where Winds Meet</p>
         <div className="hero-cta-row">
-          <a
-            className="cta-button glow"
-            href="https://discord.gg/NdZXkmYJnS"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+          <GlowCta className="cta-button glow" href="https://discord.gg/NdZXkmYJnS">
             Join the Discord
-          </a>
+          </GlowCta>
           <a className="cta-button light" href="#team">
             Meet the Guild
           </a>

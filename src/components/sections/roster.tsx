@@ -1,7 +1,7 @@
 'use client';
 
 import { Search } from 'lucide-react';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 
 import { MemberCard } from '@/components/member-card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -43,6 +43,7 @@ function MembersPanel() {
   const [roleFilter, setRoleFilter] = useState<RoleFilter>('All');
   const [sortKey, setSortKey] = useState<MemberSortKey>('name');
   const [page, setPage] = useState(1);
+  const gridRef = useRef<HTMLDivElement | null>(null);
   const debouncedQuery = useDebouncedValue(query, 200);
 
   const filtered = useMemo(() => {
@@ -58,6 +59,26 @@ function MembersPanel() {
   const totalPages = Math.ceil(filtered.length / PAGE_SIZE);
   const currentPage = Math.min(page, Math.max(totalPages, 1));
   const pageSlice = filtered.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE);
+
+  /** Page change + bring the grid back into view (skipped for filter edits). */
+  const goToPage = (next: number) => {
+    const clamped = Math.min(Math.max(next, 1), Math.max(totalPages, 1));
+    if (clamped === currentPage) return;
+    setPage(clamped);
+    const reduce = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+    requestAnimationFrame(() => {
+      gridRef.current?.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+    });
+  };
+
+  const resetFilters = () => {
+    setQuery('');
+    setRoleFilter('All');
+    setPage(1);
+  };
+
+  const rangeStart = filtered.length === 0 ? 0 : (currentPage - 1) * PAGE_SIZE + 1;
+  const rangeEnd = Math.min(currentPage * PAGE_SIZE, filtered.length);
 
   return (
     <>
@@ -125,11 +146,27 @@ function MembersPanel() {
         </select>
       </div>
 
-      <div className="members-grid-container" id="members-list">
-        {pageSlice.map((member) => (
-          <MemberCard key={member.name} member={member} />
-        ))}
-      </div>
+      {filtered.length > 0 ? (
+        <p className="members-count" role="status">
+          Showing {rangeStart}–{rangeEnd} of {filtered.length} members
+        </p>
+      ) : null}
+
+      {pageSlice.length === 0 ? (
+        <div className="members-empty" role="status">
+          <Search aria-hidden="true" />
+          <p>No members match your search or filters.</p>
+          <button type="button" className="chip" onClick={resetFilters}>
+            Reset search &amp; filters
+          </button>
+        </div>
+      ) : (
+        <div className="members-grid-container" id="members-list" ref={gridRef}>
+          {pageSlice.map((member) => (
+            <MemberCard key={member.name} member={member} />
+          ))}
+        </div>
+      )}
 
       {totalPages > 1 ? (
         <div className="members-pagination" id="members-pagination">
@@ -137,7 +174,7 @@ function MembersPanel() {
             type="button"
             className="cta-button small"
             disabled={currentPage <= 1}
-            onClick={() => setPage(Math.max(1, currentPage - 1))}
+            onClick={() => goToPage(currentPage - 1)}
           >
             Prev
           </button>
@@ -148,7 +185,7 @@ function MembersPanel() {
             type="button"
             className="cta-button small"
             disabled={currentPage >= totalPages}
-            onClick={() => setPage(Math.min(totalPages, currentPage + 1))}
+            onClick={() => goToPage(currentPage + 1)}
           >
             Next
           </button>

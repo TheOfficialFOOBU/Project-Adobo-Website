@@ -74,6 +74,18 @@
   --crimson-rgb: 184 67 46;
   --type-scale-ratio: 1.195;
   --lead: 1.05rem;
+
+  /* Spacing rhythm */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4rem;
+  --section-pad: clamp(4.5rem, 9vw, 7.5rem);
+
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif;
   --font-display: 'Cormorant Garamond', 'Songti SC', 'STSong', SimSun, 'Noto Serif SC', serif;
   --max-hero-height: 88vh;
@@ -377,12 +389,6 @@ body::after {
   background-repeat: repeat;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  body::after {
-    opacity: 0;
-  }
-}
-
 .skip-link {
   position: absolute;
   left: 12px;
@@ -662,12 +668,14 @@ nav a.active::after {
 .hero-mark--right {
   right: clamp(2.2rem, 5vw, 4.5rem);
   top: 18%;
+  animation: mark-drift 9s ease-in-out infinite;
 }
 
 .hero-mark--left {
   left: clamp(2.2rem, 5vw, 4.5rem);
   bottom: 14%;
   color: rgb(var(--crimson-rgb) / 0.5);
+  animation: mark-drift 11s ease-in-out 1.2s infinite reverse;
 }
 
 .hero-inner {
@@ -901,6 +909,25 @@ nav a.active::after {
   animation: ctaGlow 3.2s ease-in-out infinite;
 }
 
+/* Cursor-following warm light (coords set from GlowCta pointer tracking). */
+.cta-button.glow::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    130px circle at var(--mx, 50%) var(--my, 50%),
+    rgb(255 240 205 / 0.32),
+    transparent 65%
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.cta-button.glow:hover::before {
+  opacity: 1;
+}
+
 .cta-button.light {
   background: transparent;
   color: var(--text);
@@ -921,8 +948,13 @@ nav a.active::after {
 /* ---------- Generic sections ---------- */
 
 section {
-  padding: 7.5rem 0;
+  padding: var(--section-pad) 0;
   position: relative;
+}
+
+:focus-visible {
+  outline: 2px solid rgb(var(--accent-rgb) / 0.75);
+  outline-offset: 3px;
 }
 
 .section-title {
@@ -1003,6 +1035,53 @@ section {
 [data-animate].in-view {
   opacity: 1;
   transform: translateY(0);
+}
+
+/* Staggered entrance for roster cards once their section reveals. */
+[data-animate] .team-member {
+  opacity: 0;
+}
+
+[data-animate].in-view .team-member {
+  opacity: 1;
+  animation: card-in 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) backwards;
+}
+
+[data-animate].in-view .team-member:nth-child(1) {
+  animation-delay: 40ms;
+}
+[data-animate].in-view .team-member:nth-child(2) {
+  animation-delay: 100ms;
+}
+[data-animate].in-view .team-member:nth-child(3) {
+  animation-delay: 160ms;
+}
+[data-animate].in-view .team-member:nth-child(4) {
+  animation-delay: 220ms;
+}
+[data-animate].in-view .team-member:nth-child(5) {
+  animation-delay: 280ms;
+}
+[data-animate].in-view .team-member:nth-child(6) {
+  animation-delay: 340ms;
+}
+[data-animate].in-view .team-member:nth-child(7) {
+  animation-delay: 400ms;
+}
+[data-animate].in-view .team-member:nth-child(8) {
+  animation-delay: 460ms;
+}
+[data-animate].in-view .team-member:nth-child(9) {
+  animation-delay: 520ms;
+}
+[data-animate].in-view .team-member:nth-child(10) {
+  animation-delay: 580ms;
+}
+[data-animate].in-view .team-member:nth-child(11) {
+  animation-delay: 640ms;
+}
+[data-animate].in-view .team-member:nth-child(12) {
+  animation-delay: 700ms;
 }
 
 .capabilities .container + .container {
@@ -1349,6 +1428,10 @@ section {
   transform: scaleX(1);
 }
 
+.tab-btn:not([data-state='active']):not(.active):hover::after {
+  transform: scaleX(0.45);
+}
+
 .tab-panel {
   display: none;
 }
@@ -1380,6 +1463,19 @@ section {
 .member-card {
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
+  transition: transform 0.35s ease;
+}
+
+@media (hover: hover) {
+  .member-card:hover {
+    transform: translateY(-4px);
+  }
+}
+
+.member-card:hover .member-card-face {
+  box-shadow:
+    0 18px 40px rgba(8, 6, 3, 0.35),
+    0 26px 56px rgba(8, 6, 3, 0.4);
 }
 
 .member-card-inner {
@@ -1438,15 +1534,28 @@ section {
 .member-card-photo {
   display: block;
   width: 100%;
-  max-height: 330px;
-  height: auto;
-  object-fit: contain;
-  object-position: center;
-  border-radius: 4px 4px 0 0;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 18%;
+  border-radius: 0;
   background: var(--photo-bg);
   margin: 0 auto;
   padding: 0;
-  border-bottom: 1px solid var(--border-softer);
+  border-bottom: 0;
+}
+
+.member-card-front .skeleton-wrap {
+  height: clamp(280px, 30vw, 400px);
+  border-radius: 4px 4px 0 0;
+}
+
+.member-card-front .skeleton-wrap::after {
+  content: '';
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 38%;
+  background: linear-gradient(180deg, transparent, rgba(10, 8, 6, 0.55));
+  pointer-events: none;
 }
 
 .member-card-front h4,
@@ -1567,11 +1676,30 @@ section {
 .member-card-hint {
   align-self: center;
   margin: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
   font-size: 0.62rem;
   letter-spacing: 0.2em;
   text-transform: uppercase;
   color: var(--hint);
   line-height: 1.3;
+  animation: hint-pulse 2.4s ease-out 0.8s 3;
+}
+
+.member-card-hint svg {
+  width: 10px;
+  height: 10px;
+}
+
+@keyframes hint-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.35;
+  }
 }
 
 .team-member a {
@@ -1674,7 +1802,6 @@ section {
 }
 
 .sorting-controls select:focus {
-  outline: none;
   border-color: rgb(var(--accent-rgb) / 0.7);
 }
 
@@ -1682,6 +1809,40 @@ section {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 1.5rem;
+  scroll-margin-top: 6rem;
+}
+
+.members-count {
+  margin: -1rem 0 1.25rem;
+  text-align: center;
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.members-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 3.5rem 1.5rem;
+  border: 1px dashed var(--border-soft);
+  border-radius: 4px;
+  background: var(--wash);
+  color: var(--muted);
+}
+
+.members-empty svg {
+  width: 22px;
+  height: 22px;
+  opacity: 0.6;
+}
+
+.members-empty p {
+  margin: 0;
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
 }
 
 .members-pagination {
@@ -1983,6 +2144,7 @@ section {
   backdrop-filter: blur(6px);
   z-index: 3000;
   padding: 2rem;
+  overflow: hidden;
 }
 #lightbox.open {
   display: flex;
@@ -2009,6 +2171,26 @@ section {
   font-size: 0.95rem;
   margin-top: 0.75rem;
   text-align: center;
+}
+#lb-image {
+  cursor: zoom-in;
+  transition: transform 0.25s ease;
+}
+#lb-image.zoomed {
+  cursor: zoom-out;
+  transform: scale(2);
+}
+.lb-open {
+  display: inline-block;
+  margin-top: 0.6rem;
+  font-size: 0.66rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+  transition: color 0.25s ease;
+}
+.lb-open:hover {
+  color: var(--accent);
 }
 #lightbox .lb-close {
   position: absolute;
@@ -2086,6 +2268,10 @@ section {
   color: var(--accent);
   border-color: rgb(var(--accent-rgb) / 0.5);
   background: var(--btn-wash);
+}
+#lightbox .lb-nav button[disabled] {
+  opacity: 0.25;
+  cursor: default;
 }
 
 /* ---------- Skeleton / LQIP image loading ---------- */
@@ -2455,6 +2641,7 @@ footer::before {
   padding: 2.5rem;
   box-shadow: 0 24px 60px rgba(8, 6, 3, 0.4);
   position: relative;
+  animation: card-in 0.55s cubic-bezier(0.2, 0.7, 0.2, 1) backwards;
 }
 
 .profile-card::before {
@@ -2589,6 +2776,106 @@ footer::before {
   border-color: rgb(var(--accent-rgb) / 0.6);
 }
 
+.profile-sticky-bar {
+  position: fixed;
+  top: 4.4rem;
+  left: 0;
+  right: 0;
+  z-index: 900;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.45rem 1rem;
+  background: var(--header-bg);
+  border-bottom: 1px solid var(--border-softer);
+  transform: translateY(-160%);
+  transition: transform 0.3s ease;
+}
+
+.profile-sticky-bar.is-visible {
+  transform: translateY(0);
+}
+
+.profile-sticky-bar > img {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid var(--border-soft);
+  background: var(--photo-bg);
+}
+
+.profile-sticky-meta {
+  min-width: 0;
+}
+
+.profile-sticky-meta strong {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.profile-sticky-meta span {
+  display: block;
+  font-size: 0.58rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.profile-sticky-nav {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.profile-sticky-nav a,
+.profile-sticky-nav span {
+  font-size: 0.62rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+  transition: color 0.25s ease;
+}
+
+.profile-sticky-nav a {
+  max-width: 11rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.profile-sticky-nav a:hover {
+  color: var(--accent);
+}
+
+@media (max-width: 768px) {
+  .profile-sticky-bar {
+    top: 4.5rem;
+    padding: 0.4rem 0.75rem;
+    gap: 0.6rem;
+  }
+
+  .profile-sticky-meta span {
+    display: none;
+  }
+
+  .profile-sticky-nav {
+    gap: 0.9rem;
+  }
+
+  .profile-sticky-nav a {
+    max-width: 6.5rem;
+  }
+}
+
 @media (max-width: 768px) {
   .profile-main {
     padding-top: 6rem;
@@ -2601,6 +2888,27 @@ footer::before {
 }
 
 /* ---------- Keyframes ---------- */
+
+@keyframes card-in {
+  from {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes mark-drift {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-14px);
+  }
+}
 
 @keyframes float {
   0%,
@@ -2882,13 +3190,31 @@ footer::before {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  body::after {
+    opacity: 0;
+  }
   .hero::before,
   .hero::after {
     animation: none;
   }
+  .hero-mark--right,
+  .hero-mark--left,
+  .member-card-hint,
+  [data-animate].in-view .team-member {
+    animation: none;
+  }
+  [data-animate] .team-member {
+    opacity: 1;
+  }
+  .member-card,
+  .profile-sticky-bar,
+  #lb-image {
+    transition: none;
+  }
   .cta-button.glow {
     animation: none;
   }
+  .cta-button.glow::before,
   .cta-button::after {
     display: none;
   }

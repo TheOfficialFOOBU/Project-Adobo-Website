@@ -1,6 +1,6 @@
 'use client';
 
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, RotateCw } from 'lucide-react';
 import Link from 'next/link';
 import { useEffect, useMemo, useRef, useState } from 'react';
 
@@ -67,6 +67,7 @@ export function MemberCard({ member }: MemberCardProps) {
       role="button"
       tabIndex={0}
       aria-label={`Flip card for ${member.name}`}
+      aria-expanded={flipped}
       onClick={() => setFlipped((f) => !f)}
       onKeyDown={(event) => {
         if (event.key === 'Enter' || event.key === ' ') {
@@ -113,7 +114,10 @@ export function MemberCard({ member }: MemberCardProps) {
           <div className="member-card-front-body">
             <h4>{member.name}</h4>
             <div className="member-position">{member.position}</div>
-            <div className="member-card-hint">Click to reveal</div>
+            <div className="member-card-hint">
+              <RotateCw aria-hidden="true" />
+              Click to reveal
+            </div>
           </div>
         </div>
         <div className="member-card-face member-card-back">

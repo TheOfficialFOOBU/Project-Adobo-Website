@@ -10,6 +10,7 @@ import {
   memberNeighbors,
   memberSlug,
 } from '@/lib/members';
+import { ProfileStickyBar } from '@/components/profile-sticky-bar';
 import { asset } from '@/lib/site';
 
 interface MemberPageProps {
@@ -72,6 +73,8 @@ export default async function MemberProfilePage({ params }: MemberPageProps) {
   const tier = badgeTier(member);
   const srcSet = portraitSrcSet(member);
   const fallbackSrc = member.webp === false ? member.image : `${imageBase(member.image)}-640.webp`;
+  const prevLink = prev ? { name: prev.name, href: `/members/${memberSlug(prev)}` } : null;
+  const nextLink = next ? { name: next.name, href: `/members/${memberSlug(next)}` } : null;
 
   return (
     <main id="main" className="profile-main">
@@ -80,63 +83,71 @@ export default async function MemberProfilePage({ params }: MemberPageProps) {
           ← Back to the Guild
         </Link>
 
-        <article className="profile-card">
-          <div className="profile-photo-wrap">
-            {/* eslint-disable-next-line @next/next/no-img-element -- pre-generated WebP assets */}
-            <img
-              src={asset(fallbackSrc)}
-              srcSet={srcSet}
-              alt={member.name}
-              width={640}
-              height={640}
-              decoding="async"
-              fetchPriority="high"
-            />
-          </div>
+        <ProfileStickyBar
+          name={member.name}
+          position={member.position}
+          thumb={portraitThumb(member)}
+          prev={prevLink}
+          next={nextLink}
+        >
+          <article className="profile-card">
+            <div className="profile-photo-wrap">
+              {/* eslint-disable-next-line @next/next/no-img-element -- pre-generated WebP assets */}
+              <img
+                src={asset(fallbackSrc)}
+                srcSet={srcSet}
+                alt={member.name}
+                width={640}
+                height={640}
+                decoding="async"
+                fetchPriority="high"
+              />
+            </div>
 
-          <div className="profile-info">
-            <span className={tier ? `profile-badge ${tier}` : 'profile-badge'}>
-              {member.position}
-            </span>
-            <h1>{member.name}</h1>
+            <div className="profile-info">
+              <span className={tier ? `profile-badge ${tier}` : 'profile-badge'}>
+                {member.position}
+              </span>
+              <h1>{member.name}</h1>
 
-            <dl className="profile-meta">
-              <div>
-                <dt>Class</dt>
-                <dd>{member.class || 'Unknown'}</dd>
-              </div>
-              <div>
-                <dt>Weapon</dt>
-                <dd>{member.weapon || 'Unknown'}</dd>
-              </div>
-            </dl>
+              <dl className="profile-meta">
+                <div>
+                  <dt>Class</dt>
+                  <dd>{member.class || 'Unknown'}</dd>
+                </div>
+                <div>
+                  <dt>Weapon</dt>
+                  <dd>{member.weapon || 'Unknown'}</dd>
+                </div>
+              </dl>
 
-            {member.quote ? (
-              <blockquote className="profile-quote">&ldquo;{member.quote}&rdquo;</blockquote>
-            ) : null}
+              {member.quote ? (
+                <blockquote className="profile-quote">&ldquo;{member.quote}&rdquo;</blockquote>
+              ) : null}
 
-            <nav className="profile-nav" aria-label="Member navigation">
-              {prev ? (
-                <Link href={`/members/${memberSlug(prev)}`}>
-                  {/* eslint-disable-next-line @next/next/no-img-element -- pre-generated WebP assets */}
-                  <img src={portraitThumb(prev)} alt="" width={36} height={36} loading="lazy" />
-                  <span>&larr; {prev.name}</span>
-                </Link>
-              ) : (
-                <span aria-hidden="true" />
-              )}
-              {next ? (
-                <Link href={`/members/${memberSlug(next)}`}>
-                  <span>{next.name} &rarr;</span>
-                  {/* eslint-disable-next-line @next/next/no-img-element -- pre-generated WebP assets */}
-                  <img src={portraitThumb(next)} alt="" width={36} height={36} loading="lazy" />
-                </Link>
-              ) : (
-                <span aria-hidden="true" />
-              )}
-            </nav>
-          </div>
-        </article>
+              <nav className="profile-nav" aria-label="Member navigation">
+                {prev ? (
+                  <Link href={`/members/${memberSlug(prev)}`}>
+                    {/* eslint-disable-next-line @next/next/no-img-element -- pre-generated WebP assets */}
+                    <img src={portraitThumb(prev)} alt="" width={36} height={36} loading="lazy" />
+                    <span>&larr; {prev.name}</span>
+                  </Link>
+                ) : (
+                  <span aria-hidden="true" />
+                )}
+                {next ? (
+                  <Link href={`/members/${memberSlug(next)}`}>
+                    <span>{next.name} &rarr;</span>
+                    {/* eslint-disable-next-line @next/next/no-img-element -- pre-generated WebP assets */}
+                    <img src={portraitThumb(next)} alt="" width={36} height={36} loading="lazy" />
+                  </Link>
+                ) : (
+                  <span aria-hidden="true" />
+                )}
+              </nav>
+            </div>
+          </article>
+        </ProfileStickyBar>
       </div>
     </main>
   );

@@ -59,6 +59,7 @@ export function LightboxProvider({ children }: { children: ReactNode }) {
   const [items, setItems] = useState<LightboxItem[]>([]);
   const [active, setActive] = useState<ActiveImage | null>(null);
   const [failedSrc, setFailedSrc] = useState<string | null>(null);
+  const [zoom, setZoom] = useState<{ x: number; y: number } | null>(null);
   const containerRef = useRef<HTMLDivElement | null>(null);
   const closeBtnRef = useRef<HTMLButtonElement | null>(null);
   const lastFocusedRef = useRef<Element | null>(null);
@@ -76,6 +77,8 @@ export function LightboxProvider({ children }: { children: ReactNode }) {
         : active.src;
 
   const activeIndex = active ? items.findIndex((i) => i.src === active.src) : -1;
+  const canPrev = activeIndex > 0;
+  const canNext = activeIndex >= 0 && activeIndex < items.length - 1;
 
   const register = useCallback((item: LightboxItem) => {
     setItems((prev) => (prev.some((i) => i.id === item.id) ? prev : [...prev, item]));
@@ -87,6 +90,7 @@ export function LightboxProvider({ children }: { children: ReactNode }) {
   const openLightbox = useCallback((target: ActiveImage) => {
     lastFocusedRef.current = document.activeElement;
     setActive(target);
+    setZoom(null);
   }, []);
 
   const value = useMemo(() => ({ register, openLightbox }), [register, openLightbox]);
@@ -99,6 +103,7 @@ export function LightboxProvider({ children }: { children: ReactNode }) {
 
   const closeLightbox = useCallback(() => {
     setActive(null);
+    setZoom(null);
     restoreFocus();
   }, [restoreFocus]);
 
@@ -106,14 +111,20 @@ export function LightboxProvider({ children }: { children: ReactNode }) {
     if (!active) return;
     const index = items.findIndex((i) => i.src === active.src);
     const prev = index > 0 ? items[index - 1] : undefined;
-    if (prev) setActive({ src: prev.src, alt: prev.alt, fallback: prev.fallback });
+    if (prev) {
+      setActive({ src: prev.src, alt: prev.alt, fallback: prev.fallback });
+      setZoom(null);
+    }
   }, [items, active]);
 
   const showNext = useCallback(() => {
     if (!active) return;
     const index = items.findIndex((i) => i.src === active.src);
     const next = index >= 0 && index < items.length - 1 ? items[index + 1] : undefined;
-    if (next) setActive({ src: next.src, alt: next.alt, fallback: next.fallback });
+    if (next) {
+      setActive({ src: next.src, alt: next.alt, fallback: next.fallback });
+      setZoom(null);
+    }
   }, [items, active]);
 
   useEffect(() => {
@@ -189,7 +200,10 @@ export function LightboxProvider({ children }: { children: ReactNode }) {
         return;
       }
       const match = items.find((item) => item.id === id);
-      if (match) setActive({ src: match.src, alt: match.alt, fallback: match.fallback });
+      if (match) {
+        setActive({ src: match.src, alt: match.alt, fallback: match.fallback });
+        setZoom(null);
+      }
     };
     window.addEventListener('hashchange', onHashChange);
     return () => window.removeEventListener('hashchange', onHashChange);
@@ -242,10 +256,22 @@ export function LightboxProvider({ children }: { children: ReactNode }) {
               </div>
             ) : null}
             <div className="lb-nav">
-              <button type="button" id="lb-prev" aria-label="Previous" onClick={showPrev}>
+              <button
+                type="button"
+                id="lb-prev"
+                aria-label="Previous"
+                onClick={showPrev}
+                disabled={!canPrev}
+              >
                 <ChevronLeft aria-hidden="true" />
               </button>
-              <button type="button" id="lb-next" aria-label="Next" onClick={showNext}>
+              <button
+                type="button"
+                id="lb-next"
+                aria-label="Next"
+                onClick={showNext}
+                disabled={!canNext}
+              >
                 <ChevronRight aria-hidden="true" />
               </button>
             </div>
@@ -253,13 +279,30 @@ export function LightboxProvider({ children }: { children: ReactNode }) {
               {/* eslint-disable-next-line @next/next/no-img-element -- lightbox displays pre-generated full-size assets */}
               <img
                 id="lb-image"
+                className={zoom ? 'zoomed' : undefined}
+                style={zoom ? { transformOrigin: `${zoom.x}% ${zoom.y}%` } : undefined}
                 alt={active.alt}
                 src={displaySrc ?? active.src}
                 onError={() => setFailedSrc(active.src)}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  const rect = e.currentTarget.getBoundingClientRect();
+                  const x = ((e.clientX - rect.left) / rect.width) * 100;
+                  const y = ((e.clientY - rect.top) / rect.height) * 100;
+                  setZoom((z) => (z ? null : { x, y }));
+                }}
               />
               <div id="lb-caption" className="lb-caption">
                 {active.alt}
               </div>
+              <a
+                className="lb-open"
+                href={displaySrc ?? active.src}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Open original ↗
+              </a>
             </div>
           </div>
         </div>
