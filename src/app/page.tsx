@@ -1,6 +1,7 @@
 import { LightboxProvider } from '@/components/lightbox-provider';
 import { ActivitiesSection } from '@/components/sections/activities';
 import { ContactCtaSection } from '@/components/sections/contact-cta';
+import { FaqSection } from '@/components/sections/faq';
 import { GuildBenefitsSection } from '@/components/sections/guild-benefits';
 import { HeroSection } from '@/components/sections/hero';
 import { PhilosophySection } from '@/components/sections/philosophy';
@@ -18,6 +19,7 @@ export default function HomePage() {
         <GuildBenefitsSection />
         <PhilosophySection />
         <RosterSection />
+        <FaqSection />
         <ContactCtaSection />
       </main>
     </LightboxProvider>

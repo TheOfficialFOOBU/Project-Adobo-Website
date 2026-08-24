@@ -13,7 +13,9 @@ test('member search shows an empty state with a working reset', async ({ page })
   await openMembersTab(page);
 
   await page.locator('#member-search').fill('zzzz-no-such-member');
-  const emptyState = page.locator('.members-empty');
+  // Search filters every roster tab now, so each panel renders its own
+  // empty state — target the Members panel's.
+  const emptyState = page.locator('#members-tab .members-empty');
   await expect(emptyState).toBeVisible();
   await expect(page.locator('#members-list')).toHaveCount(0);
 

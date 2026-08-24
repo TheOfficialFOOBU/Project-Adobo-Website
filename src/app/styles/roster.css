@@ -508,3 +508,52 @@
   color: var(--muted);
   padding: 0 0.5rem;
 }
+
+/* Numbered page buttons (aria-current marks the active page). */
+.page-btn {
+  min-width: 34px;
+  height: 34px;
+  padding: 0 6px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-sans);
+  font-size: 0.76rem;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+  background: transparent;
+  border: 1px solid var(--border-soft);
+  border-radius: 2px;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.page-btn:hover {
+  color: var(--text);
+  border-color: rgb(var(--accent-rgb) / 0.45);
+}
+
+.page-btn[aria-current='page'] {
+  background: var(--crimson);
+  border-color: var(--crimson);
+  color: var(--on-crimson);
+}
+
+.members-pagination-ellipsis {
+  color: var(--hint);
+  padding: 0 2px;
+  user-select: none;
+}
+
+/* Search match highlighting inside member cards. */
+.member-card mark,
+.members-empty mark,
+.team-grid mark {
+  background: rgb(var(--accent-rgb) / 0.28);
+  color: inherit;
+  border-radius: 2px;
+  padding: 0 0.08em;
+}

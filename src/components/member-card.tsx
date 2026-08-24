@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useEffect, useMemo, useRef, useState } from 'react';
 
 import { useLightbox } from '@/components/lightbox-provider';
+import { Highlight } from '@/components/highlight';
 import {
   imageBase,
   initialsPlaceholder,
@@ -18,6 +19,8 @@ import { cn } from '@/lib/utils';
 
 interface MemberCardProps {
   member: GuildMember;
+  /** Active roster search term — matching substrings render in <mark>. */
+  highlight?: string;
 }
 
 /**
@@ -26,7 +29,7 @@ interface MemberCardProps {
  * original responsive WebP variants with the fallback chain + initials
  * placeholder ported from script.js.
  */
-export function MemberCard({ member }: MemberCardProps) {
+export function MemberCard({ member, highlight = '' }: MemberCardProps) {
   const { register, openLightbox } = useLightbox();
   const [flipped, setFlipped] = useState(false);
   const [loaded, setLoaded] = useState(false);
@@ -112,8 +115,12 @@ export function MemberCard({ member }: MemberCardProps) {
             />
           </picture>
           <div className="member-card-front-body">
-            <h4>{member.name}</h4>
-            <div className="member-position">{member.position}</div>
+            <h4>
+              <Highlight text={member.name} query={highlight} />
+            </h4>
+            <div className="member-position">
+              <Highlight text={member.position} query={highlight} />
+            </div>
             <div className="member-card-hint">
               <RotateCw aria-hidden="true" />
               Click to reveal
@@ -121,15 +128,21 @@ export function MemberCard({ member }: MemberCardProps) {
           </div>
         </div>
         <div className="member-card-face member-card-back">
-          <h4>{member.name}</h4>
+          <h4>
+            <Highlight text={member.name} query={highlight} />
+          </h4>
           <div className="member-card-meta">
             <div className="member-card-detail">
               <span>Class</span>
-              <strong>{member.class || 'Unknown'}</strong>
+              <strong>
+                <Highlight text={member.class || 'Unknown'} query={highlight} />
+              </strong>
             </div>
             <div className="member-card-detail">
               <span>Weapon</span>
-              <strong>{member.weapon || 'Unknown'}</strong>
+              <strong>
+                <Highlight text={member.weapon || 'Unknown'} query={highlight} />
+              </strong>
             </div>
             {member.quote ? <div className="member-card-quote">{`"${member.quote}"`}</div> : null}
           </div>

@@ -55,7 +55,51 @@ function readRosterParams() {
   };
 }
 
-function MembersPanel() {
+/** Shared search/sort/role filtering applied to every roster tab. */
+function filterMembers(members: GuildMember[], query: string, role: RoleFilter): GuildMember[] {
+  const q = query.trim().toLowerCase();
+  return members.filter((m) => {
+    if (!matchesRole(m, role)) return false;
+    if (!q) return true;
+    return [m.name, m.class, m.position, m.weapon].join(' ').toLowerCase().includes(q);
+  });
+}
+
+/** Windowed page list: 1 … c-1 c c+1 … total (all pages when ≤7). */
+function buildPageItems(current: number, total: number): (number | 'ellipsis')[] {
+  if (total <= 7) return Array.from({ length: total }, (_, i) => i + 1);
+  const items: (number | 'ellipsis')[] = [1];
+  const start = Math.max(2, current - 1);
+  const end = Math.min(total - 1, current + 1);
+  if (start > 2) items.push('ellipsis');
+  for (let p = start; p <= end; p++) items.push(p);
+  if (end < total - 1) items.push('ellipsis');
+  items.push(total);
+  return items;
+}
+
+function EmptyRoster({ onReset }: { onReset: () => void }) {
+  return (
+    <div className="members-empty" role="status">
+      <Search aria-hidden="true" />
+      <p>No members match your search or filters.</p>
+      <button type="button" className="chip" onClick={onReset}>
+        Reset search &amp; filters
+      </button>
+    </div>
+  );
+}
+
+/**
+ * “Guild Roster” — founders / core / members tabs rendered with Radix Tabs
+ * (shadcn/ui) styled with the original Adobo classes. Panels use
+ * forceMount so every grid stays registered (matching the original DOM)
+ * while inactive panels are hidden by the ported CSS.
+ *
+ * The search/sort/role toolbar sits above the tabs and filters every
+ * roster group; pagination applies to the paginated Members tab.
+ */
+export function RosterSection() {
   const [query, setQuery] = useState('');
   const [roleFilter, setRoleFilter] = useState<RoleFilter>('All');
   const [sortKey, setSortKey] = useState<MemberSortKey>('name');
@@ -75,15 +119,18 @@ function MembersPanel() {
     /* eslint-enable react-hooks/set-state-in-effect */
   }, []);
 
-  const filtered = useMemo(() => {
-    const q = debouncedQuery.trim().toLowerCase();
-    const matching = REGULAR_MEMBERS.filter((m) => {
-      if (!matchesRole(m, roleFilter)) return false;
-      if (!q) return true;
-      return [m.name, m.class, m.position, m.weapon].join(' ').toLowerCase().includes(q);
-    });
-    return sortMembers(matching, sortKey);
-  }, [debouncedQuery, sortKey, roleFilter]);
+  const filteredFounders = useMemo(
+    () => sortMembers(filterMembers(FOUNDERS, debouncedQuery, roleFilter), sortKey),
+    [debouncedQuery, roleFilter, sortKey]
+  );
+  const filteredCore = useMemo(
+    () => sortMembers(filterMembers(CORE_MEMBERS, debouncedQuery, roleFilter), sortKey),
+    [debouncedQuery, roleFilter, sortKey]
+  );
+  const filtered = useMemo(
+    () => sortMembers(filterMembers(REGULAR_MEMBERS, debouncedQuery, roleFilter), sortKey),
+    [debouncedQuery, roleFilter, sortKey]
+  );
 
   const totalPages = Math.ceil(filtered.length / PAGE_SIZE);
   const currentPage = Math.min(page, Math.max(totalPages, 1));
@@ -124,146 +171,8 @@ function MembersPanel() {
     );
   }, [query, roleFilter, sortKey, currentPage]);
 
-  return (
-    <>
-      <div className="filter-chips" role="group" aria-label="Filter members by combat role">
-        {ROLE_FILTERS.map((role) => (
-          <button
-            key={role}
-            type="button"
-            className={cn('chip', roleFilter === role && 'chip-active')}
-            aria-pressed={roleFilter === role}
-            onClick={() => {
-              setRoleFilter(role);
-              setPage(1);
-            }}
-          >
-            {role}
-          </button>
-        ))}
-      </div>
-
-      <div className="member-search-wrap">
-        <div className="member-search-field">
-          <Search aria-hidden="true" />
-          <input
-            id="member-search"
-            type="search"
-            placeholder="Search members, class, or weapon"
-            aria-label="Search members"
-            className="member-search-input"
-            value={query}
-            onChange={(event) => {
-              setQuery(event.target.value);
-              setPage(1);
-            }}
-            onKeyDown={(event) => {
-              if (event.key === 'Escape') {
-                setQuery('');
-                setPage(1);
-                event.currentTarget.blur();
-              }
-            }}
-          />
-        </div>
-        <button
-          type="button"
-          id="clear-search"
-          className="chip"
-          onClick={() => {
-            setQuery('');
-            setPage(1);
-          }}
-        >
-          Clear
-        </button>
-      </div>
-
-      {/* Members-tab sort bar (surfaced in v2 — the logic was always wired). */}
-      <div className="sorting-controls">
-        <label htmlFor="sort-select">Sort by:</label>
-        <select
-          id="sort-select"
-          value={sortKey}
-          onChange={(event) => {
-            setSortKey(event.target.value as MemberSortKey);
-            setPage(1);
-          }}
-        >
-          <option value="name">Name (A-Z)</option>
-          <option value="position">Position</option>
-          <option value="class">Role</option>
-          <option value="weapon">Weapon</option>
-        </select>
-      </div>
-
-      {filtered.length > 0 ? (
-        <p className="members-count" role="status">
-          Showing {rangeStart}–{rangeEnd} of {filtered.length} members
-        </p>
-      ) : null}
-
-      {pageSlice.length === 0 ? (
-        <div className="members-empty" role="status">
-          <Search aria-hidden="true" />
-          <p>No members match your search or filters.</p>
-          <button type="button" className="chip" onClick={resetFilters}>
-            Reset search &amp; filters
-          </button>
-        </div>
-      ) : (
-        <div className="members-grid-container" id="members-list" ref={gridRef}>
-          {pageSlice.map((member) => (
-            <MemberCard key={member.name} member={member} />
-          ))}
-        </div>
-      )}
-
-      {totalPages > 1 ? (
-        <div className="members-pagination" id="members-pagination">
-          <button
-            type="button"
-            className="cta-button small"
-            disabled={currentPage <= 1}
-            onClick={() => goToPage(currentPage - 1)}
-          >
-            Prev
-          </button>
-          <div className="members-pagination-info">
-            Page {currentPage} of {totalPages}
-          </div>
-          <button
-            type="button"
-            className="cta-button small"
-            disabled={currentPage >= totalPages}
-            onClick={() => goToPage(currentPage + 1)}
-          >
-            Next
-          </button>
-        </div>
-      ) : null}
-    </>
-  );
-}
-
-function memberGrid(members: GuildMember[]) {
-  return (
-    <div className="team-grid">
-      {members.map((member) => (
-        <MemberCard key={member.name} member={member} />
-      ))}
-    </div>
-  );
-}
-
-/**
- * “Guild Roster” — founders / core / members tabs rendered with Radix Tabs
- * (shadcn/ui) styled with the original Adobo classes. Panels use
- * forceMount so every grid stays registered (matching the original DOM)
- * while inactive panels are hidden by the ported CSS.
- */
-export function RosterSection() {
-  /* "/" focuses the roster search from anywhere on the page. */
+  /* "/" focuses the roster search from anywhere on the page. The toolbar
+     is shared across tabs, so no tab switch is needed anymore. */
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key !== '/') return;
@@ -273,28 +182,19 @@ export function RosterSection() {
         return;
       }
       event.preventDefault();
-      const focusSearch = () => document.getElementById('member-search')?.focus();
-      // Don't trust offsetParent here — content-visibility skips layout
-      // for below-fold sections. Ask the Radix panel for its state.
-      const membersPanel = document.getElementById('members-tab');
-      if (membersPanel?.getAttribute('data-state') === 'active') {
-        focusSearch();
-        return;
-      }
-      const tabs = Array.from(document.querySelectorAll<HTMLButtonElement>('#team [role="tab"]'));
-      const membersTab = tabs.find((tab) => tab.textContent?.trim() === 'Members');
-      // Radix activates triggers on mousedown — a bare .click() is ignored.
-      if (membersTab) {
-        membersTab.dispatchEvent(
-          new MouseEvent('mousedown', { bubbles: true, cancelable: true, button: 0 })
-        );
-        membersTab.click();
-      }
-      window.setTimeout(focusSearch, 80);
+      document.getElementById('member-search')?.focus();
     };
     document.addEventListener('keydown', onKeyDown);
     return () => document.removeEventListener('keydown', onKeyDown);
   }, []);
+
+  const memberGrid = (members: GuildMember[]) => (
+    <div className="team-grid">
+      {members.map((member) => (
+        <MemberCard key={member.name} member={member} highlight={debouncedQuery} />
+      ))}
+    </div>
+  );
 
   return (
     <section className="team" id="team" data-animate>
@@ -305,6 +205,77 @@ export function RosterSection() {
             肆
           </span>
         </h2>
+
+        {/* Shared toolbar — search, roles, and sorting apply to every tab. */}
+        <div className="filter-chips" role="group" aria-label="Filter members by combat role">
+          {ROLE_FILTERS.map((role) => (
+            <button
+              key={role}
+              type="button"
+              className={cn('chip', roleFilter === role && 'chip-active')}
+              aria-pressed={roleFilter === role}
+              onClick={() => {
+                setRoleFilter(role);
+                setPage(1);
+              }}
+            >
+              {role}
+            </button>
+          ))}
+        </div>
+
+        <div className="member-search-wrap">
+          <div className="member-search-field">
+            <Search aria-hidden="true" />
+            <input
+              id="member-search"
+              type="search"
+              placeholder="Search members, class, or weapon"
+              aria-label="Search members"
+              className="member-search-input"
+              value={query}
+              onChange={(event) => {
+                setQuery(event.target.value);
+                setPage(1);
+              }}
+              onKeyDown={(event) => {
+                if (event.key === 'Escape') {
+                  setQuery('');
+                  setPage(1);
+                  event.currentTarget.blur();
+                }
+              }}
+            />
+          </div>
+          <button
+            type="button"
+            id="clear-search"
+            className="chip"
+            onClick={() => {
+              setQuery('');
+              setPage(1);
+            }}
+          >
+            Clear
+          </button>
+        </div>
+
+        <div className="sorting-controls">
+          <label htmlFor="sort-select">Sort by:</label>
+          <select
+            id="sort-select"
+            value={sortKey}
+            onChange={(event) => {
+              setSortKey(event.target.value as MemberSortKey);
+              setPage(1);
+            }}
+          >
+            <option value="name">Name (A-Z)</option>
+            <option value="position">Position</option>
+            <option value="class">Role</option>
+            <option value="weapon">Weapon</option>
+          </select>
+        </div>
 
         <Tabs defaultValue="founders-tab">
           <TabsList className="member-tabs" aria-label="Guild roster tabs">
@@ -320,15 +291,80 @@ export function RosterSection() {
           </TabsList>
 
           <TabsContent value="founders-tab" className="tab-panel" forceMount>
-            {memberGrid(FOUNDERS)}
+            {filteredFounders.length > 0 ? (
+              memberGrid(filteredFounders)
+            ) : (
+              <EmptyRoster onReset={resetFilters} />
+            )}
           </TabsContent>
 
           <TabsContent value="core-tab" className="tab-panel" id="core-tab" forceMount>
-            {memberGrid(CORE_MEMBERS)}
+            {filteredCore.length > 0 ? (
+              memberGrid(filteredCore)
+            ) : (
+              <EmptyRoster onReset={resetFilters} />
+            )}
           </TabsContent>
 
           <TabsContent value="members-tab" className="tab-panel" id="members-tab" forceMount>
-            <MembersPanel />
+            {filtered.length > 0 ? (
+              <p className="members-count" role="status">
+                Showing {rangeStart}&ndash;{rangeEnd} of {filtered.length} members
+              </p>
+            ) : null}
+
+            {pageSlice.length === 0 ? (
+              <EmptyRoster onReset={resetFilters} />
+            ) : (
+              <div className="members-grid-container" id="members-list" ref={gridRef}>
+                {pageSlice.map((member) => (
+                  <MemberCard key={member.name} member={member} highlight={debouncedQuery} />
+                ))}
+              </div>
+            )}
+
+            {totalPages > 1 ? (
+              <nav className="members-pagination" id="members-pagination" aria-label="Roster pages">
+                <button
+                  type="button"
+                  className="cta-button small"
+                  disabled={currentPage <= 1}
+                  onClick={() => goToPage(currentPage - 1)}
+                >
+                  Prev
+                </button>
+                {buildPageItems(currentPage, totalPages).map((item, index) =>
+                  item === 'ellipsis' ? (
+                    <span
+                      key={`ellipsis-${index}`}
+                      className="members-pagination-ellipsis"
+                      aria-hidden="true"
+                    >
+                      &hellip;
+                    </span>
+                  ) : (
+                    <button
+                      key={item}
+                      type="button"
+                      className="page-btn"
+                      aria-current={item === currentPage ? 'page' : undefined}
+                      aria-label={`Go to page ${item}`}
+                      onClick={() => goToPage(item)}
+                    >
+                      {item}
+                    </button>
+                  )
+                )}
+                <button
+                  type="button"
+                  className="cta-button small"
+                  disabled={currentPage >= totalPages}
+                  onClick={() => goToPage(currentPage + 1)}
+                >
+                  Next
+                </button>
+              </nav>
+            ) : null}
           </TabsContent>
         </Tabs>
       </div>

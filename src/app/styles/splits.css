@@ -38,6 +38,12 @@
   margin-bottom: 2rem;
 }
 
+/* Tighten runs of consecutive paragraphs (e.g. "What we do") — the 2rem
+   gap above still applies before headings, CTAs, and single paragraphs. */
+.hero-2 p + p {
+  margin-top: -1rem;
+}
+
 /* Full-bleed contact CTA (replaces the old hardcoded black inline style). */
 .contact-cta {
   background:

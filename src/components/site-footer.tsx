@@ -1,5 +1,5 @@
 import { DiscordWidget } from '@/components/discord-widget';
-import { asset, DISCORD_INVITE } from '@/lib/site';
+import { DISCORD_INVITE } from '@/lib/site';
 
 const GUILD_LINKS = [
   { href: '#home', label: 'Home' },
@@ -9,25 +9,14 @@ const GUILD_LINKS = [
 ] as const;
 
 // Anchors resolve to real sections only (the original #about/#recruit/#faq
-// pointed at content that never existed).
+// pointed at content that never existed). Discord absorbs the old one-link
+// Social column.
 const WWM_LINKS = [
   { href: '#contact', label: 'Contact' },
-  { href: '#philosophy', label: 'About' },
+  { href: '#faq', label: 'FAQ' },
 ] as const;
 
-// Only links that actually resolve somewhere real. Re-add Twitter/Instagram/
-// YouTube rows here (with real URLs) once those profiles exist.
-const BOTTOM_SOCIALS = [
-  {
-    href: DISCORD_INVITE,
-    title: 'Discord',
-    icon: '/images/icons/discord.svg',
-    alt: 'Discord',
-    labeled: true,
-  },
-] as const;
-
-/** Site footer — community card, link columns, social row. */
+/** Site footer — community card, link columns. */
 export function SiteFooter() {
   return (
     <footer>
@@ -49,37 +38,19 @@ export function SiteFooter() {
             ))}
           </div>
           <div className="footer-section">
-            <h5>Social</h5>
-            <a href={DISCORD_INVITE} target="_blank" rel="noopener noreferrer">
-              Discord
-            </a>
-          </div>
-          <div className="footer-section">
             <h5>Where Winds Meet</h5>
             {WWM_LINKS.map((link) => (
               <a href={link.href} key={link.href}>
                 {link.label}
               </a>
             ))}
+            <a href={DISCORD_INVITE} target="_blank" rel="noopener noreferrer">
+              Join our Discord
+            </a>
           </div>
         </div>
         <div className="footer-bottom">
           <div>© {new Date().getFullYear()} ADOBO GUILD — Where Winds Meet • Powered by FOOBU</div>
-          <div className="social-links">
-            {BOTTOM_SOCIALS.map((social) => (
-              <a
-                href={social.href}
-                title={social.title}
-                aria-label={social.labeled ? social.title : undefined}
-                target="_blank"
-                rel="noopener noreferrer"
-                key={social.title}
-              >
-                {/* eslint-disable-next-line @next/next/no-img-element -- original SVG icon assets */}
-                <img src={asset(social.icon)} className="social-icon" alt={social.alt} />
-              </a>
-            ))}
-          </div>
         </div>
       </div>
     </footer>

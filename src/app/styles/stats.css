@@ -22,6 +22,7 @@
 .capability-item,
 .benefit-card {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: 0.85rem;
   padding: 1rem 1.1rem;
@@ -32,6 +33,11 @@
     border-color 0.25s ease,
     background-color 0.25s ease,
     transform 0.25s ease;
+}
+
+/* Descriptions span the tile beneath the icon + label row. */
+.capability-item .capability-desc {
+  flex-basis: 100%;
 }
 
 .capability-item:hover,
@@ -121,8 +127,59 @@
   color: var(--text);
 }
 
+/* Animated counter (see components/count-up.tsx). */
+.guild-stat-value {
+  display: block;
+  margin-bottom: 0.4rem;
+  font-family: var(--font-display);
+  font-size: clamp(2.6rem, 4vw, 3.5rem);
+  font-weight: 700;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  color: var(--accent-strong);
+}
+
 .guild-stat-card p {
   margin: 0;
   color: var(--muted);
   line-height: 1.75;
+}
+
+/* Expandable benefit descriptions — revealed on hover/focus, always
+   visible on touch devices (no hover to trigger them there). */
+.capability-desc {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transform: translateY(-2px);
+  transition:
+    max-height 0.3s ease,
+    opacity 0.3s ease,
+    margin-top 0.3s ease,
+    transform 0.3s ease;
+}
+
+.capability-item:hover .capability-desc,
+.capability-item:focus-visible .capability-desc,
+.capability-item:focus-within .capability-desc {
+  max-height: 7rem;
+  opacity: 1;
+  margin-top: 0.6rem;
+  transform: translateY(0);
+}
+
+@media (hover: none) {
+  .capability-desc {
+    max-height: none;
+    opacity: 1;
+    margin-top: 0.6rem;
+    transform: none;
+  }
+}
+
+.capability-desc p {
+  margin: 0;
+  font-size: 0.78rem;
+  line-height: 1.6;
+  letter-spacing: 0.01em;
 }
