@@ -1,7 +1,7 @@
 node_modules
-dist
-.git
-images/**/README.txt
-*.min.js
-netlify/functions/**/node_modules
-/*.lock
+.next
+out
+public
+package-lock.json
+next-env.d.ts
+tsconfig.tsbuildinfo
