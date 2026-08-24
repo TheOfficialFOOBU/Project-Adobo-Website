@@ -84,7 +84,7 @@ test('profile page shows sticky nav, share button, and back-to-top', async ({ pa
   await page.goto(`${SITE}/members/foobu`);
 
   // Share button is present.
-  await expect(page.locator('.copy-profile-link')).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Share profile' })).toBeVisible();
 
   // Sticky bar hidden until scrolled past the card's top edge.
   const sticky = page.locator('.profile-sticky-bar');
