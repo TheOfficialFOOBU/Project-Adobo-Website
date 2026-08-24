@@ -1,5 +1,5 @@
 import { DiscordWidget } from '@/components/discord-widget';
-import { asset } from '@/lib/site';
+import { asset, DISCORD_INVITE } from '@/lib/site';
 
 const GUILD_LINKS = [
   { href: '#home', label: 'Home' },
@@ -19,7 +19,7 @@ const WWM_LINKS = [
 // YouTube rows here (with real URLs) once those profiles exist.
 const BOTTOM_SOCIALS = [
   {
-    href: 'https://discord.gg/NdZXkmYJnS',
+    href: DISCORD_INVITE,
     title: 'Discord',
     icon: '/images/icons/discord.svg',
     alt: 'Discord',
@@ -50,7 +50,7 @@ export function SiteFooter() {
           </div>
           <div className="footer-section">
             <h5>Social</h5>
-            <a href="https://discord.gg/NdZXkmYJnS" target="_blank" rel="noopener noreferrer">
+            <a href={DISCORD_INVITE} target="_blank" rel="noopener noreferrer">
               Discord
             </a>
           </div>

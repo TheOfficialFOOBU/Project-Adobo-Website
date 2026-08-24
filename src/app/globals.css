@@ -2478,6 +2478,99 @@ footer::before {
   border: 1px solid var(--border-soft);
   border-radius: 8px;
   background: var(--surface);
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+
+.discord-iframe.loaded {
+  opacity: 1;
+}
+
+/* Static stand-in shown when the widget iframe is blocked or times out. */
+.discord-fallback {
+  width: 100%;
+  max-width: 350px;
+  min-height: 440px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 2rem 1.5rem;
+  border: 1px solid var(--menu-border);
+  border-radius: 8px;
+  background:
+    radial-gradient(120% 90% at 50% 0%, rgb(var(--accent-rgb) / 0.07), transparent 60%),
+    var(--surface);
+}
+
+.discord-fallback-icon {
+  width: 42px;
+  height: 42px;
+  opacity: 0.9;
+}
+
+.discord-fallback p {
+  margin: 0;
+  color: var(--footer-text);
+  font-size: 0.82rem;
+  letter-spacing: 0.08em;
+  line-height: 1.6;
+}
+
+.discord-live-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  width: fit-content;
+  margin: 1.4rem auto 0;
+  padding: 0.5rem 1rem;
+  border-radius: 999px;
+  border: 1px solid var(--border-soft);
+  background: rgba(10, 8, 6, 0.45);
+  backdrop-filter: blur(4px);
+  font-family: var(--font-sans);
+  font-size: 0.66rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(242, 236, 223, 0.78);
+}
+
+.discord-live-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #3ba55d;
+  box-shadow: 0 0 0 3px rgb(59 165 93 / 0.22);
+  animation: live-pulse 2.4s ease-in-out infinite;
+}
+
+@keyframes live-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 3px rgb(59 165 93 / 0.22);
+  }
+  50% {
+    box-shadow: 0 0 0 5px rgb(59 165 93 / 0.08);
+  }
+}
+
+.discord-live-avatars {
+  display: inline-flex;
+}
+
+.discord-live-avatars img {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid rgba(10, 8, 6, 0.8);
+  margin-left: -7px;
+}
+
+.discord-live-avatars img:first-child {
+  margin-left: 0;
 }
 
 .discord-widget-note {
@@ -2780,6 +2873,65 @@ footer::before {
 .copy-profile-link svg {
   width: 12px;
   height: 12px;
+}
+
+.discord-presence {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.75rem;
+  margin: -0.25rem 0 1.5rem;
+}
+
+.discord-presence-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.discord-presence-line {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  margin: 0;
+  padding: 0.45rem 0.9rem;
+  border-radius: 999px;
+  border: 1px solid var(--border-soft);
+  background: var(--wash);
+  font-family: var(--font-sans);
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.discord-presence-line .discord-live-dot {
+  animation: none;
+  box-shadow: none;
+}
+
+.discord-presence-line.status-online .discord-live-dot {
+  background: #3ba55d;
+}
+
+.discord-presence-line.status-idle .discord-live-dot {
+  background: #faa81a;
+}
+
+.discord-presence-line.status-dnd .discord-live-dot {
+  background: #ed4245;
+}
+
+.discord-presence-line.status-offline .discord-live-dot {
+  background: #747f8d;
+}
+
+.copy-invite-button {
+  background: rgba(10, 8, 6, 0.35);
+  border-color: rgb(var(--accent-rgb) / 0.35);
+  color: rgba(242, 236, 223, 0.8);
+  backdrop-filter: blur(4px);
 }
 
 .profile-meta {
@@ -3282,6 +3434,9 @@ footer::before {
   .hero-mark--left,
   .member-card-hint,
   [data-animate].in-view .team-member {
+    animation: none;
+  }
+  .discord-live-dot {
     animation: none;
   }
   [data-animate] .team-member {

@@ -18,6 +18,9 @@ export const SITE_URL =
 
 export const SITE_TITLE = 'Adobo Guild - Where Winds Meet';
 
+/** Single source of truth — update here if the invite ever resets. */
+export const DISCORD_INVITE = 'https://discord.gg/NdZXkmYJnS';
+
 export const SITE_DESCRIPTION =
   'Adobo Guild — warrior-led, fun-obsessed community in Where Winds Meet. Join events, meet members, and grow together.';
 

@@ -10,7 +10,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import { asset } from '@/lib/site';
+import { asset, DISCORD_INVITE } from '@/lib/site';
 
 /**
  * “Contact Leader” modal — Radix Dialog (shadcn/ui) styled with the original
@@ -59,7 +59,7 @@ export function ContactLeaderDialog() {
               <h4>Find me on:</h4>
               <div className="social-links-grid">
                 <a
-                  href="https://discord.gg/NdZXkmYJnS"
+                  href={DISCORD_INVITE}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="social-link"

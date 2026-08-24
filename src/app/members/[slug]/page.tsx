@@ -11,6 +11,7 @@ import {
   memberSlug,
 } from '@/lib/members';
 import { CopyProfileLink } from '@/components/copy-profile-link';
+import { DiscordPresence } from '@/components/discord-presence';
 import { ProfileStickyBar } from '@/components/profile-sticky-bar';
 import { asset, SITE_URL } from '@/lib/site';
 
@@ -111,6 +112,7 @@ export default async function MemberProfilePage({ params }: MemberPageProps) {
               </span>
               <h1>{member.name}</h1>
               <CopyProfileLink url={`${SITE_URL}/members/${memberSlug(member)}`} />
+              {member.discordId ? <DiscordPresence discordId={member.discordId} /> : null}
 
               <dl className="profile-meta">
                 <div>

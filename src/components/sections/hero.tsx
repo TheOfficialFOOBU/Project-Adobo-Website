@@ -1,6 +1,9 @@
+import { CopyButton } from '@/components/copy-button';
+import { DiscordPresenceBadge } from '@/components/discord-presence-badge';
 import { GlowCta } from '@/components/glow-cta';
 import { HeroScrollFx } from '@/components/hero-scroll-fx';
-import { asset } from '@/lib/site';
+import { fetchDiscordPresence } from '@/lib/discord';
+import { DISCORD_INVITE, asset } from '@/lib/site';
 
 /**
  * Root-relative URLs inside CSS can't be prefixed with the GitHub Pages
@@ -13,8 +16,14 @@ const HERO_BG_VARS = {
   '--hero-bg-lg': `url('${asset('/images/hero-bg-1920.webp')}')`,
 } as React.CSSProperties;
 
-/** Hero 1 — full-screen intro with drifting orbs and entrance animations. */
-export function HeroSection() {
+/**
+ * Hero 1 — full-screen intro with drifting orbs and entrance animations.
+ * Async so the build can snapshot live Discord presence for the badge;
+ * offline or blocked builds simply omit the badge.
+ */
+export async function HeroSection() {
+  const presence = await fetchDiscordPresence();
+
   return (
     <section className="hero hero-animated" id="home" data-animate>
       <div className="hero-bg" aria-hidden="true" style={HERO_BG_VARS} />
@@ -37,13 +46,15 @@ export function HeroSection() {
         </h1>
         <p className="subtitle">Where Winds Meet</p>
         <div className="hero-cta-row">
-          <GlowCta className="cta-button glow" href="https://discord.gg/NdZXkmYJnS">
+          <GlowCta className="cta-button glow" href={DISCORD_INVITE}>
             Join the Discord
           </GlowCta>
+          <CopyButton value={DISCORD_INVITE} label="Copy invite" className="copy-invite-button" />
           <a className="cta-button light" href="#team">
             Meet the Guild
           </a>
         </div>
+        {presence ? <DiscordPresenceBadge initial={presence} /> : null}
       </div>
       <div className="scroll-indicator">SCROLL</div>
       <HeroScrollFx />

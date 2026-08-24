@@ -4,6 +4,10 @@
  *
  * `webp: false` marks members whose photos have no responsive WebP variants
  * (scripts/convert-images.js generates them for new photos).
+ *
+ * Optional `discordId` (Developer Mode → Copy User ID) unlocks the profile
+ * page's Discord deep link; live presence shows once the member has also
+ * joined the Lanyard Discord (discord.gg/lanyard).
  */
 import rawMembers from '@/data/members.json';
 
@@ -16,6 +20,7 @@ export interface GuildMember {
   quote?: string;
   founder?: boolean;
   webp?: boolean;
+  discordId?: string;
 }
 
 export const GUILD_MEMBERS: GuildMember[] = rawMembers;
