@@ -10,8 +10,9 @@ import {
   memberNeighbors,
   memberSlug,
 } from '@/lib/members';
+import { CopyProfileLink } from '@/components/copy-profile-link';
 import { ProfileStickyBar } from '@/components/profile-sticky-bar';
-import { asset } from '@/lib/site';
+import { asset, SITE_URL } from '@/lib/site';
 
 interface MemberPageProps {
   params: Promise<{ slug: string }>;
@@ -109,6 +110,7 @@ export default async function MemberProfilePage({ params }: MemberPageProps) {
                 {member.position}
               </span>
               <h1>{member.name}</h1>
+              <CopyProfileLink url={`${SITE_URL}/members/${memberSlug(member)}`} />
 
               <dl className="profile-meta">
                 <div>

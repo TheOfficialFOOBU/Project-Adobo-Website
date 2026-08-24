@@ -21,9 +21,9 @@ interface ProfileStickyBarProps {
 
 /**
  * Slim context bar that slides in under the fixed site header once the
- * profile card has been scrolled past — keeps the member's identity and
- * prev/next navigation reachable on long pages. The wrapped children act
- * as the IntersectionObserver sentinel.
+ * profile card's top has scrolled out of view — keeps the member's
+ * identity and prev/next navigation reachable on long pages. The zero-
+ * height sentinel sits just above the wrapped children.
  */
 export function ProfileStickyBar({
   name,
@@ -48,7 +48,8 @@ export function ProfileStickyBar({
 
   return (
     <>
-      <div ref={sentinelRef}>{children}</div>
+      <div ref={sentinelRef} aria-hidden="true" />
+      {children}
       <div
         className={cn('profile-sticky-bar', visible && 'is-visible')}
         aria-hidden={!visible}

@@ -38,6 +38,23 @@ function useDebouncedValue<T>(value: T, wait = 200): T {
   return debounced;
 }
 
+const SORT_KEYS = ['name', 'position', 'class', 'weapon'] as const;
+
+/** Initial toolbar state restored from the URL (?q=&role=&sort=&page=). */
+function readRosterParams() {
+  const fallback = { q: '', role: 'All' as RoleFilter, sort: 'name' as MemberSortKey, page: 1 };
+  if (typeof window === 'undefined') return fallback;
+  const params = new URLSearchParams(window.location.search);
+  const roleParam = params.get('role') as RoleFilter | null;
+  const sortParam = params.get('sort') as MemberSortKey | null;
+  return {
+    q: params.get('q') ?? '',
+    role: roleParam && ROLE_FILTERS.includes(roleParam) ? roleParam : ('All' as RoleFilter),
+    sort: sortParam && SORT_KEYS.includes(sortParam) ? sortParam : ('name' as MemberSortKey),
+    page: Math.max(1, Number(params.get('page')) || 1),
+  };
+}
+
 function MembersPanel() {
   const [query, setQuery] = useState('');
   const [roleFilter, setRoleFilter] = useState<RoleFilter>('All');
@@ -45,6 +62,18 @@ function MembersPanel() {
   const [page, setPage] = useState(1);
   const gridRef = useRef<HTMLDivElement | null>(null);
   const debouncedQuery = useDebouncedValue(query, 200);
+
+  // Restore shareable URL state post-hydration — reading it during first
+  // render desyncs SSR markup (React #418) and drops <html data-theme>.
+  useEffect(() => {
+    const restored = readRosterParams();
+    /* eslint-disable react-hooks/set-state-in-effect -- one-shot restore from the URL, an external system */
+    if (restored.q) setQuery(restored.q);
+    if (restored.role !== 'All') setRoleFilter(restored.role);
+    if (restored.sort !== 'name') setSortKey(restored.sort);
+    if (restored.page > 1) setPage(restored.page);
+    /* eslint-enable react-hooks/set-state-in-effect */
+  }, []);
 
   const filtered = useMemo(() => {
     const q = debouncedQuery.trim().toLowerCase();
@@ -80,6 +109,21 @@ function MembersPanel() {
   const rangeStart = filtered.length === 0 ? 0 : (currentPage - 1) * PAGE_SIZE + 1;
   const rangeEnd = Math.min(currentPage * PAGE_SIZE, filtered.length);
 
+  /* Mirror toolbar state into the URL so filtered views are shareable. */
+  useEffect(() => {
+    const params = new URLSearchParams();
+    if (query.trim()) params.set('q', query.trim());
+    if (roleFilter !== 'All') params.set('role', roleFilter);
+    if (sortKey !== 'name') params.set('sort', sortKey);
+    if (currentPage > 1) params.set('page', String(currentPage));
+    const search = params.toString();
+    history.replaceState(
+      null,
+      '',
+      `${window.location.pathname}${search ? `?${search}` : ''}${window.location.hash}`
+    );
+  }, [query, roleFilter, sortKey, currentPage]);
+
   return (
     <>
       <div className="filter-chips" role="group" aria-label="Filter members by combat role">
@@ -112,6 +156,13 @@ function MembersPanel() {
             onChange={(event) => {
               setQuery(event.target.value);
               setPage(1);
+            }}
+            onKeyDown={(event) => {
+              if (event.key === 'Escape') {
+                setQuery('');
+                setPage(1);
+                event.currentTarget.blur();
+              }
             }}
           />
         </div>
@@ -212,6 +263,39 @@ function memberGrid(members: GuildMember[]) {
  * while inactive panels are hidden by the ported CSS.
  */
 export function RosterSection() {
+  /* "/" focuses the roster search from anywhere on the page. */
+  useEffect(() => {
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key !== '/') return;
+      const target = event.target as HTMLElement | null;
+      const tag = target?.tagName;
+      if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || target?.isContentEditable) {
+        return;
+      }
+      event.preventDefault();
+      const focusSearch = () => document.getElementById('member-search')?.focus();
+      // Don't trust offsetParent here — content-visibility skips layout
+      // for below-fold sections. Ask the Radix panel for its state.
+      const membersPanel = document.getElementById('members-tab');
+      if (membersPanel?.getAttribute('data-state') === 'active') {
+        focusSearch();
+        return;
+      }
+      const tabs = Array.from(document.querySelectorAll<HTMLButtonElement>('#team [role="tab"]'));
+      const membersTab = tabs.find((tab) => tab.textContent?.trim() === 'Members');
+      // Radix activates triggers on mousedown — a bare .click() is ignored.
+      if (membersTab) {
+        membersTab.dispatchEvent(
+          new MouseEvent('mousedown', { bubbles: true, cancelable: true, button: 0 })
+        );
+        membersTab.click();
+      }
+      window.setTimeout(focusSearch, 80);
+    };
+    document.addEventListener('keydown', onKeyDown);
+    return () => document.removeEventListener('keydown', onKeyDown);
+  }, []);
+
   return (
     <section className="team" id="team" data-animate>
       <div className="container">

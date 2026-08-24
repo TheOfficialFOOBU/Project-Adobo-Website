@@ -952,6 +952,16 @@ section {
   position: relative;
 }
 
+/* Skip rendering work for far-below-fold sections until approached. */
+.projects,
+.capabilities,
+.philosophy,
+.team,
+.contact-cta {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 900px;
+}
+
 :focus-visible {
   outline: 2px solid rgb(var(--accent-rgb) / 0.75);
   outline-offset: 3px;
@@ -2510,6 +2520,44 @@ footer::before {
   height: 17px;
 }
 
+.back-to-top {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  z-index: 900;
+  width: 42px;
+  height: 42px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  border: 1px solid var(--menu-border);
+  background: var(--music-bg);
+  color: var(--accent);
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+  line-height: 1;
+  opacity: 0;
+  transform: translateY(12px);
+  pointer-events: none;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    opacity 0.25s ease,
+    transform 0.25s ease;
+}
+
+.back-to-top.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.back-to-top:hover {
+  background: var(--btn-wash);
+  border-color: rgb(var(--accent-rgb) / 0.6);
+}
+
 .music-toggle:hover {
   background: var(--btn-wash);
   border-color: rgb(var(--accent-rgb) / 0.6);
@@ -2699,6 +2747,39 @@ footer::before {
 .profile-info h1 {
   font-size: clamp(2.2rem, 4vw, 3.2rem);
   margin-bottom: 1.25rem;
+}
+
+.copy-profile-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin: -0.5rem 0 1.5rem;
+  padding: 0.45rem 0.85rem;
+  border-radius: 2px;
+  border: 1px solid var(--border-soft);
+  background: transparent;
+  color: var(--muted);
+  font-family: var(--font-sans);
+  font-size: 0.64rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition:
+    color 0.25s ease,
+    border-color 0.25s ease,
+    background 0.25s ease;
+}
+
+.copy-profile-link:hover {
+  color: var(--accent);
+  border-color: rgb(var(--accent-rgb) / 0.55);
+  background: var(--btn-wash);
+}
+
+.copy-profile-link svg {
+  width: 12px;
+  height: 12px;
 }
 
 .profile-meta {

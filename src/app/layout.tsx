@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from 'next';
 
+import { BackToTop } from '@/components/back-to-top';
 import { MusicToggle } from '@/components/music-toggle';
 import { ScrollReveal } from '@/components/scroll-reveal';
 import { SiteFooter } from '@/components/site-footer';
@@ -82,6 +83,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         {children}
         <SiteFooter />
         <MusicToggle />
+        <BackToTop />
         <ScrollReveal />
         <SmoothAnchors />
       </body>
