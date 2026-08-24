@@ -36,13 +36,13 @@ export async function HeroSection() {
       </span>
       <div className="hero-inner" data-animate>
         <h1>
-          We
+          Where
           <br />
-          Play
+          we put
           <br />
-          For
+          FUN in
           <br />
-          Fun
+          FUNtastic
         </h1>
         <p className="subtitle">Where Winds Meet</p>
         <div className="hero-cta-row">

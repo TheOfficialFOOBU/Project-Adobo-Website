@@ -1,16 +1,16 @@
-/** “Warrior-led / Fun-obsessed” intro split. */
+/** “Peace-first / Fun-obsessed” intro split. */
 export function WarriorLedSection() {
   return (
     <section className="hero-2" data-animate>
       <div className="hero-2-content">
         <h2>
-          Warrior-led
+          Peace-first
           <br />
           Fun-obsessed
         </h2>
         <p>
-          A guild in Where Winds Meet. We meticulously assemble the finest players to craft
-          unforgettable moments of triumph, friendship, and respect.
+          A guild in Where Winds Meet built as a safe haven for those who simply want to relax, have
+          fun, and enjoy the game with good people.
         </p>
         <a className="cta-button light" href="#projects">
           Explore Guild
@@ -27,13 +27,29 @@ export function WhatWeDoSection() {
       <div className="hero-2-content right-aligned">
         <h2>What we do</h2>
         <p>
-          We play to improve, and we improve to win together. Adobo is a guild built on
-          coordination, consistency, and growth. We organize fun events, push high-level content,
-          and compete with discipline but never at the cost of our identity. We train, we adapt, we
-          refine our play individually and as a team. Beyond the battles, we create a space where
-          members can connect, contribute, and belong. From guild events and sword trials to
-          discussions and shared moments, everything we do is built around strengthening both skill
-          and community. Because in Adobo, progress is shared and so is every victory.
+          We play at our own pace, without pressure, expectations, or unnecessary hassle. Adobo was
+          built for players who want a casual, stress-free place to enjoy Where Winds Meet while
+          building genuine friendships and camaraderie along the way.
+        </p>
+        <p>
+          We&apos;re not here to be the strongest or most competitive guild. When it comes to GvG,
+          we fight together, have fun together, and laugh whether we win or lose. Winning is great,
+          losing is funny, and neither changes what we&apos;re here for.
+        </p>
+        <p>
+          We don&apos;t impose strict rules or demand constant activity. We understand that real
+          life comes first, and games should be a way to unwind not another responsibility. Whether
+          you&apos;re online every day or only have time to play occasionally, there&apos;s always a
+          place for you here.
+        </p>
+        <p>
+          Above everything else, we value peace, respect, friendship, and a sense of belonging. We
+          want Adobo to be a place where people can relax, meet good friends, share laughs, and
+          enjoy the journey without unnecessary drama.
+        </p>
+        <p>
+          Because at the end of the day, it&apos;s not about how we play the game&mdash;it&apos;s
+          about the people we share it with.
         </p>
         <a className="cta-button" href="#philosophy">
           Learn More
