@@ -2251,60 +2251,20 @@ footer::before {
   filter: brightness(0) opacity(1);
 }
 
-/* Footer Discord widget glyph — ink on paper in the light theme. */
-:root[data-theme='light'] .discord-widget .social-icon {
-  filter: brightness(0) opacity(0.65);
-}
-
-:root[data-theme='light'] .discord-widget a:hover .social-icon,
-:root[data-theme='light'] .discord-widget a:focus .social-icon {
-  filter: brightness(0) opacity(1);
-}
-
 .discord-widget {
   display: block;
   text-align: center;
 }
-.discord-widget .discord-card {
-  background: transparent;
-  border: 0;
-  padding: 0;
-}
-.discord-widget a {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 10px;
-  padding: 6px;
-  transition:
-    transform 180ms ease,
-    box-shadow 180ms ease,
-    color 180ms ease;
-  cursor: pointer;
-  color: var(--accent2);
-  text-decoration: none;
-}
-.discord-widget .social-icon {
-  width: 64px;
-  height: auto;
+
+.discord-iframe {
   display: block;
-  transition:
-    transform 180ms ease,
-    opacity 180ms ease,
-    color 180ms ease;
-}
-.discord-widget a:hover .social-icon,
-.discord-widget a:focus .social-icon {
-  transform: scale(1.1);
-  opacity: 1;
-}
-.discord-widget a:focus-visible {
-  outline: 3px solid rgb(var(--accent2-rgb) / 0.3);
-  outline-offset: 6px;
-}
-.discord-widget a:hover {
-  box-shadow: 0 8px 28px rgb(var(--accent-rgb) / 0.12);
-  color: var(--accent);
+  width: 100%;
+  max-width: 350px;
+  height: 440px;
+  margin: 0 auto;
+  border: 1px solid var(--border-soft);
+  border-radius: 8px;
+  background: var(--surface);
 }
 
 .discord-widget-note {
@@ -2897,9 +2857,6 @@ footer::before {
   .footer-content {
     grid-template-columns: 1fr;
     gap: 1.5rem;
-  }
-  .discord-widget .social-icon {
-    width: 56px;
   }
   #lightbox {
     padding: 1rem;

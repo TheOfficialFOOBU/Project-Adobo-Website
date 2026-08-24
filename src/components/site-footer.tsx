@@ -1,3 +1,4 @@
+import { DiscordWidget } from '@/components/discord-widget';
 import { asset } from '@/lib/site';
 
 const GUILD_LINKS = [
@@ -35,35 +36,7 @@ export function SiteFooter() {
           <div className="footer-section">
             <h5>Community</h5>
             <div className="discord-widget" id="discord-widget">
-              <div
-                className="discord-card"
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '1rem',
-                  justifyContent: 'center',
-                }}
-              >
-                <a
-                  href="https://discord.gg/NdZXkmYJnS"
-                  target="_blank"
-                  rel="noopener"
-                  aria-label="Open Discord invite"
-                  style={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    textDecoration: 'none',
-                  }}
-                >
-                  {/* eslint-disable-next-line @next/next/no-img-element -- original SVG icon assets */}
-                  <img
-                    src={asset('/images/icons/discord.svg')}
-                    className="social-icon"
-                    alt="Discord"
-                  />
-                </a>
-              </div>
+              <DiscordWidget />
               <small className="discord-widget-note">Adobo Where Winds Meet Discord</small>
             </div>
           </div>
