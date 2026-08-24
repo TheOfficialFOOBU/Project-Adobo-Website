@@ -28,20 +28,37 @@ const LOAD_TIMEOUT_MS = 8000;
 
 /**
  * Discord server widget (online count + join button). The embed follows the
- * site theme via the theme query param. Ad blockers and some networks block
- * the widget outright — if the iframe hasn't reported a load within the
- * timeout we swap in a themed static card so the footer never shows a hole.
+ * site theme via the theme query param. The iframe mounts only after the
+ * visitor opts in: Discord's CDN answers avatar requests with a third-party
+ * `__cf_bm` cookie, which tanks the Lighthouse best-practices score on a
+ * passive page load. Ad blockers and some networks block the widget outright
+ * too — if the iframe hasn't reported a load within the timeout we swap in a
+ * themed static card so the footer never shows a hole.
  */
 export function DiscordWidget() {
   const theme = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
+  const [enabled, setEnabled] = useState(false);
   const [loaded, setLoaded] = useState(false);
   const [failed, setFailed] = useState(false);
 
   useEffect(() => {
-    if (loaded) return;
+    if (!enabled || loaded) return;
     const timer = setTimeout(() => setFailed(true), LOAD_TIMEOUT_MS);
     return () => clearTimeout(timer);
-  }, [loaded]);
+  }, [enabled, loaded]);
+
+  if (!enabled) {
+    return (
+      <div className="discord-fallback">
+        {/* eslint-disable-next-line @next/next/no-img-element -- original SVG icon asset */}
+        <img src={discordIcon()} className="discord-fallback-icon" alt="" />
+        <p>Adobo Where Winds Meet Discord</p>
+        <button type="button" onClick={() => setEnabled(true)} className="cta-button small">
+          Show online members
+        </button>
+      </div>
+    );
+  }
 
   if (failed) {
     return (

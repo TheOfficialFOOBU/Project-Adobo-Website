@@ -10,6 +10,10 @@ const REFRESH_MS = 5 * 60 * 1000;
  * Live "N online" pill for the hero — seeded with the build-time snapshot
  * and refreshed client-side so long-open tabs stay current. Silent no-op
  * on refetch failures (keeps showing the last good numbers).
+ *
+ * Deliberately text-only: the widget payload's avatar URLs point at
+ * cdn.discordapp.com, whose responses carry a third-party `__cf_bm`
+ * cookie that drags the Lighthouse best-practices score down.
  */
 export function DiscordPresenceBadge({ initial }: { initial: DiscordPresence }) {
   const [presence, setPresence] = useState(initial);
@@ -38,14 +42,6 @@ export function DiscordPresenceBadge({ initial }: { initial: DiscordPresence }) 
       <span aria-live="polite">
         {presence.online} wanderer{presence.online === 1 ? '' : 's'} online now
       </span>
-      {presence.avatars.length > 0 ? (
-        <span className="discord-live-avatars" aria-hidden="true">
-          {presence.avatars.map((url) => (
-            // eslint-disable-next-line @next/next/no-img-element -- remote Discord CDN avatars
-            <img key={url} src={url} alt="" width={22} height={22} loading="lazy" />
-          ))}
-        </span>
-      ) : null}
     </p>
   );
 }

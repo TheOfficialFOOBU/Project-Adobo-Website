@@ -28,6 +28,9 @@ walk(SRC, (p) => {
   if (!/\.(ts|tsx)$/.test(p)) return;
   const src = fs.readFileSync(p, 'utf8');
   for (const m of src.matchAll(/\/(?:images|audio)\/[^\s"'`,)\\]+/g)) {
+    // Skip dynamic template-literal refs (e.g. `/images/og/members/${slug}.jpg`)
+    // — those are covered by the roster expansion below.
+    if (m[0].includes('${')) continue;
     refs.add(m[0].replace(/[.,)]+$/, ''));
   }
 });
@@ -41,7 +44,38 @@ walk(SRC, (p) => {
 const membersData = JSON.parse(
   fs.readFileSync(path.join(ROOT, 'src', 'data', 'members.json'), 'utf8')
 );
-for (const member of membersData) {
+
+// Kebab-case slug mirroring slugifyMember() in src/lib/members.ts, with the
+// same -2/-3 de-duplication for name collisions.
+function slugifyMember(name) {
+  const cleaned = name.normalize('NFKD').replace(/[\u0300-\u036f]/g, '');
+  return (
+    cleaned
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-+|-+$/g, '') || 'member'
+  );
+}
+
+function memberSlugs(members) {
+  const slugs = [];
+  const used = new Set();
+  for (const member of members) {
+    let slug = slugifyMember(member.name);
+    for (let n = 2; used.has(slug); n += 1) slug = `${slugifyMember(member.name)}-${n}`;
+    used.add(slug);
+    slugs.push(slug);
+  }
+  return slugs;
+}
+
+const slugs = memberSlugs(membersData);
+
+for (let i = 0; i < membersData.length; i += 1) {
+  const member = membersData[i];
+  // Profile-page OG card (/images/og/members/<slug>.jpg), referenced
+  // dynamically in src/app/members/[slug]/page.tsx.
+  refs.add(`/images/og/members/${slugs[i]}.jpg`);
   const img = member.image;
   if (!img) continue;
   if (member.webp === false) {
