@@ -1395,6 +1395,11 @@ section {
   transform: rotateY(180deg);
 }
 
+.member-card:not(.is-flipped) .member-card-back,
+.member-card.is-flipped .member-card-front {
+  pointer-events: none;
+}
+
 .member-card-face {
   position: absolute;
   inset: 0;
@@ -1522,6 +1527,7 @@ section {
 
 .member-profile-link {
   align-self: center;
+  position: relative;
   margin: 0.75rem 0 0.5rem;
   display: inline-flex;
   align-items: center;
@@ -1535,6 +1541,12 @@ section {
   transition:
     color 0.25s ease,
     border-color 0.25s ease;
+}
+
+.member-profile-link::after {
+  content: '';
+  position: absolute;
+  inset: -0.75rem -1.25rem;
 }
 
 .member-profile-link svg {
