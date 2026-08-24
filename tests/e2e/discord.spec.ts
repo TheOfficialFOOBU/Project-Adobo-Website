@@ -33,3 +33,21 @@ test('profile pages render the Discord block only when an id is set', async ({ p
   await page.goto(`${SITE}/members/swaggo`);
   await expect(page.locator('.discord-presence')).toHaveCount(0);
 });
+
+test('recruitment banner shows on home, persists dismissal, stays off profiles', async ({
+  page,
+}) => {
+  await page.goto(`${SITE}/`);
+  const banner = page.locator('.recruit-banner');
+  await expect(banner).toBeVisible();
+  await expect(banner.locator('.chip', { hasText: 'Healer' })).toBeVisible();
+
+  await banner.getByRole('button', { name: 'Dismiss' }).click();
+  await expect(banner).toHaveCount(0);
+
+  await page.reload();
+  await expect(page.locator('.recruit-banner')).toHaveCount(0);
+
+  await page.goto(`${SITE}/members/foobu`);
+  await expect(page.locator('.recruit-banner')).toHaveCount(0);
+});

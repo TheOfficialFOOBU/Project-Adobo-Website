@@ -2,14 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
-import {
-  GUILD_MEMBERS,
-  imageBase,
-  memberBySlug,
-  memberFullImage,
-  memberNeighbors,
-  memberSlug,
-} from '@/lib/members';
+import { GUILD_MEMBERS, imageBase, memberBySlug, memberNeighbors, memberSlug } from '@/lib/members';
 import { CopyProfileLink } from '@/components/copy-profile-link';
 import { DiscordPresence } from '@/components/discord-presence';
 import { ProfileStickyBar } from '@/components/profile-sticky-bar';
@@ -46,6 +39,8 @@ export async function generateMetadata({ params }: MemberPageProps): Promise<Met
   const description = `${member.position} · ${member.class}${
     member.quote ? ` — "${member.quote}"` : ''
   }`;
+  // JPG social card — link previews (Discord/X/Facebook) don't render WebP.
+  const ogImage = asset(`/images/og/members/${memberSlug(member)}.jpg`);
 
   return {
     title,
@@ -54,7 +49,13 @@ export async function generateMetadata({ params }: MemberPageProps): Promise<Met
     openGraph: {
       title,
       description,
-      images: [{ url: memberFullImage(member) }],
+      images: [{ url: ogImage, width: 1200, height: 630, alt: `${member.name} — Adobo Guild` }],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images: [ogImage],
     },
   };
 }

@@ -1,0 +1,87 @@
+/* ---------- Background music toggle ---------- */
+
+.music-toggle {
+  position: fixed;
+  left: 16px;
+  bottom: 16px;
+  z-index: 3001;
+  width: 42px;
+  height: 42px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  border: 1px solid var(--menu-border);
+  background: var(--music-bg);
+  color: var(--accent);
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+  line-height: 1;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.music-toggle svg {
+  width: 17px;
+  height: 17px;
+}
+
+.back-to-top {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  z-index: 900;
+  width: 42px;
+  height: 42px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  border: 1px solid var(--menu-border);
+  background: var(--music-bg);
+  color: var(--accent);
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+  line-height: 1;
+  opacity: 0;
+  transform: translateY(12px);
+  pointer-events: none;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    opacity 0.25s ease,
+    transform 0.25s ease;
+}
+
+.back-to-top.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.back-to-top:hover {
+  background: var(--btn-wash);
+  border-color: rgb(var(--accent-rgb) / 0.6);
+}
+
+.music-toggle:hover {
+  background: var(--btn-wash);
+  border-color: rgb(var(--accent-rgb) / 0.6);
+}
+
+.music-toggle[aria-pressed='true']::after {
+  content: '';
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--crimson);
+}
+
+.music-toggle[aria-pressed='true'] {
+  position: fixed;
+}

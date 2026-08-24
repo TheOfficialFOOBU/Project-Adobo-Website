@@ -1,0 +1,128 @@
+/* ---------- Capabilities / Guild stats ---------- */
+
+.capabilities {
+  background: var(--surface);
+  border-top: 1px solid var(--border-softer);
+  border-bottom: 1px solid var(--border-softer);
+}
+
+.benefits-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+}
+
+/* The benefits grid actually used by the markup (capabilities-grid). */
+.capabilities-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+}
+
+.capability-item,
+.benefit-card {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 1rem 1.1rem;
+  background: var(--wash);
+  border: 1px solid var(--border-soft);
+  border-radius: 4px;
+  transition:
+    border-color 0.25s ease,
+    background-color 0.25s ease,
+    transform 0.25s ease;
+}
+
+.capability-item:hover,
+.benefit-card:hover {
+  border-color: rgb(var(--accent-rgb) / 0.45);
+  background: var(--btn-wash);
+  transform: translateY(-2px);
+}
+
+.capability-item svg,
+.benefit-card svg {
+  width: 17px;
+  height: 17px;
+  flex: none;
+  color: var(--crimson);
+}
+
+.capability-item svg {
+  width: 30px;
+  height: 30px;
+  padding: 6px;
+  box-sizing: content-box;
+  border: 1px solid rgb(var(--crimson-rgb) / 0.32);
+  border-radius: 3px;
+  background: rgb(var(--crimson-rgb) / 0.07);
+}
+
+.capability-item h4,
+.benefit-card h4 {
+  font-family: var(--font-sans);
+  font-size: 0.76rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--text);
+  margin: 0;
+  line-height: 1.45;
+}
+
+.guild-hall-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+.guild-stat-card {
+  position: relative;
+  background: var(--wash);
+  border: 1px solid var(--border-soft);
+  border-radius: 4px;
+  padding: 1.75rem 1.75rem 1.6rem;
+}
+
+/* Corner ticks — a quiet nod to framed scrolls. */
+.guild-stat-card::before,
+.guild-stat-card::after {
+  content: '';
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border-color: rgb(var(--crimson-rgb) / 0.55);
+  border-style: solid;
+  transition: border-color 0.3s ease;
+}
+
+.guild-stat-card::before {
+  top: -1px;
+  left: -1px;
+  border-width: 1px 0 0 1px;
+}
+
+.guild-stat-card::after {
+  bottom: -1px;
+  right: -1px;
+  border-width: 0 1px 1px 0;
+}
+
+.guild-stat-card:hover::before,
+.guild-stat-card:hover::after {
+  border-color: rgb(var(--crimson-rgb) / 0.95);
+}
+
+.guild-stat-card h3 {
+  margin: 0 0 0.8rem;
+  font-size: clamp(1.35rem, 2vw, 1.8rem);
+  color: var(--text);
+}
+
+.guild-stat-card p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.75;
+}

@@ -1,0 +1,257 @@
+/* ---------- Modal (contact leader) — unrolled scroll paper ---------- */
+
+.modal-positioner {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  overflow-y: auto;
+}
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  background: rgba(10, 8, 5, 0.86);
+  backdrop-filter: blur(8px);
+  animation: modalBackdropFadeIn 0.3s ease-out;
+}
+
+.modal-content {
+  /* Paper scroll reads beautifully in BOTH themes against the dark veil. */
+  background: linear-gradient(175deg, var(--modal-paper-a) 0%, var(--modal-paper-b) 100%);
+  color: var(--paper-ink);
+  margin: 8% auto;
+  padding: 0;
+  border: 1px solid rgba(158, 124, 54, 0.55);
+  border-radius: 4px;
+  width: 90%;
+  max-width: 480px;
+  position: relative;
+  box-shadow:
+    0 30px 80px rgba(0, 0, 0, 0.55),
+    0 0 0 6px rgba(158, 124, 54, 0.07);
+  animation: modalSlideIn 0.4s cubic-bezier(0.34, 1.4, 0.64, 1);
+  overflow: hidden;
+}
+
+/* Cinnabar-to-gold header bar replaces the old orange gradient strip. */
+.modal-content::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--crimson), #c9a45c 55%, rgba(201, 164, 92, 0.25));
+  z-index: 1;
+}
+
+.close-modal {
+  position: absolute;
+  top: 1.25rem;
+  right: 1.25rem;
+  color: #8a774f;
+  font-size: 1.7rem;
+  font-weight: 300;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: rgba(43, 36, 22, 0.06);
+  z-index: 2;
+}
+
+.close-modal:hover {
+  color: var(--crimson);
+  background: rgba(160, 58, 40, 0.1);
+  transform: rotate(90deg);
+}
+
+.modal-content h3,
+.modal-content .modal-title {
+  text-align: center;
+  margin: 0;
+  padding: 2.1rem 2rem 0.75rem;
+  color: var(--paper-ink);
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+.leader-info {
+  text-align: center;
+  padding: 0 2rem 2rem;
+  border-bottom: 1px solid var(--paper-line);
+}
+
+.leader-avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  border: 3px solid transparent;
+  background:
+    linear-gradient(#f8f2e2, #f8f2e2) padding-box,
+    linear-gradient(135deg, #b8903f, #e0bd75) border-box;
+  margin: 0 auto 1.25rem;
+  box-shadow: 0 8px 24px rgba(122, 94, 40, 0.35);
+  object-fit: cover;
+}
+
+.leader-info h4 {
+  font-family: var(--font-display);
+  font-size: 1.7rem;
+  margin-bottom: 0.5rem;
+  color: var(--paper-ink);
+  font-weight: 600;
+}
+
+.leader-title {
+  color: #a03a28;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 0.72rem;
+  margin-bottom: 1.1rem;
+  background: rgba(160, 58, 40, 0.08);
+  border: 1px solid rgba(160, 58, 40, 0.35);
+  padding: 0.4rem 0.9rem;
+  border-radius: 2px;
+  display: inline-block;
+}
+
+.leader-quote {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 500;
+  color: var(--paper-muted);
+  font-size: 1.15rem;
+  line-height: 1.55;
+  margin: 0;
+}
+
+.leader-quote::before {
+  content: '\201C\2009';
+  color: #b8903f;
+  font-size: 1.25em;
+}
+
+.leader-quote::after {
+  content: '\2009\201D';
+  color: #b8903f;
+  font-size: 1.25em;
+}
+
+.leader-socials {
+  padding: 2rem;
+}
+
+.leader-socials h4 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: var(--paper-muted);
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+}
+
+.social-links-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 1rem;
+  max-width: 300px;
+  margin: 0 auto;
+}
+
+.social-link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1.5rem 1rem;
+  background: rgba(43, 36, 22, 0.04);
+  border: 1px solid var(--paper-line);
+  border-radius: 4px;
+  text-decoration: none;
+  color: var(--paper-ink);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.social-link::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(184, 144, 63, 0.14), transparent);
+  transition: left 0.5s;
+}
+
+.social-link:hover::before {
+  left: 100%;
+}
+
+.social-link:hover {
+  background: rgba(201, 164, 92, 0.12);
+  border-color: rgba(158, 124, 54, 0.55);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(122, 94, 40, 0.18);
+}
+
+.social-icon-small {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+  filter: brightness(0) invert(1);
+  transition: all 0.3s ease;
+}
+
+.social-link:hover .social-icon-small {
+  filter: brightness(0) invert(1) sepia(1) saturate(5) hue-rotate(5deg);
+  transform: scale(1.1);
+}
+
+.social-emoji {
+  font-size: 1.8rem;
+  transition: all 0.3s ease;
+}
+
+.social-link:hover .social-emoji {
+  transform: scale(1.1);
+}
+
+.social-link span:last-child {
+  font-size: 0.82rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  transition: color 0.3s ease;
+}
+
+.social-link:hover span:last-child {
+  color: #8a6a2c;
+}
+
+/* Discord glyph inside the paper modal needs ink-on-paper treatment. */
+.social-link .social-icon {
+  width: 28px;
+  height: 28px;
+  filter: brightness(0) opacity(0.82);
+  transition:
+    filter 0.3s ease,
+    transform 0.3s ease;
+}
+
+.social-link:hover .social-icon {
+  filter: brightness(0);
+  transform: scale(1.08);
+}

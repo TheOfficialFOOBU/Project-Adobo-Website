@@ -1,0 +1,237 @@
+/* ---------- Responsive ---------- */
+
+@media (min-width: 1100px) {
+  .container {
+    padding-left: 4rem;
+    padding-right: 4rem;
+  }
+  header {
+    padding: 1rem 4rem;
+  }
+}
+
+@media (max-width: 1024px) {
+  .benefits-grid,
+  .capabilities-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .team-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .members-grid-container {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .projects-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .philosophy-content {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+
+  .footer-content {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+  }
+  .footer-bottom {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+}
+
+/* Single mobile breakpoint */
+@media (max-width: 768px) {
+  /* Fixed grain + vignette layers force constant compositing — skip on phones. */
+  body::before,
+  body::after {
+    display: none;
+  }
+
+  header {
+    padding: 1rem 1.25rem;
+    background: var(--header-bg-mobile);
+  }
+  .logo-text {
+    font-size: 0.85rem;
+    letter-spacing: 0.28em;
+    margin-right: -0.28em;
+  }
+  .menu-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: var(--btn-wash);
+    border: 1px solid var(--menu-border);
+    color: var(--accent);
+    padding: 8px 10px;
+    border-radius: 4px;
+    z-index: 1600;
+  }
+  nav ul {
+    display: none;
+    flex-direction: column;
+    gap: 1rem;
+    font-size: 0.78rem;
+    padding: 12px;
+  }
+  #site-nav {
+    position: fixed;
+    inset: 60px 0 0 0;
+    top: 60px;
+    background: var(--nav-panel);
+    transform: translateY(-120%);
+    transition: transform 220ms ease;
+    padding: 1rem;
+    z-index: 1500;
+    overflow: auto;
+    border-top: 1px solid var(--border-softer);
+  }
+  #site-nav.open {
+    transform: translateY(0);
+  }
+  #site-nav:not(.open) ul {
+    display: none;
+  }
+  #site-nav.open ul {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 8px;
+  }
+  nav a {
+    display: block;
+    padding: 10px 12px;
+    border-radius: 4px;
+  }
+  nav a::after {
+    display: none;
+  }
+  nav a:hover {
+    background: var(--hover-wash);
+    color: var(--accent);
+  }
+  .container {
+    padding: 0 1.25rem;
+  }
+
+  .hero-frame {
+    inset: 5.5rem 1rem 1rem;
+  }
+
+  .hero-mark--right,
+  .hero-mark--left {
+    display: none;
+  }
+
+  .hero-2 {
+    padding: 5rem 1.5rem;
+  }
+
+  .benefits-grid,
+  .capabilities-grid {
+    grid-template-columns: 1fr;
+  }
+  .team-grid {
+    grid-template-columns: 1fr;
+  }
+  .members-grid-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .projects-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  .footer-content {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  .footer-bottom {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+
+  /* Contact leader modal */
+  .modal-content {
+    margin: 5% auto;
+    max-width: 95%;
+  }
+  .modal-content h3 {
+    font-size: 1.6rem;
+    padding: 1.6rem 1.5rem 0.75rem;
+  }
+  .leader-info {
+    padding: 0 1.5rem 1.5rem;
+  }
+  .leader-socials {
+    padding: 1.5rem;
+  }
+  .social-links-grid {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+
+  section {
+    padding: 5rem 0;
+  }
+}
+
+@media (max-width: 640px) {
+  footer {
+    padding: 3.5rem 1.25rem 2.5rem;
+  }
+  .footer-content {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  #lightbox {
+    padding: 1rem;
+  }
+  .hero {
+    padding-top: 28px;
+    padding-bottom: 28px;
+  }
+  .sorting-controls {
+    flex-wrap: wrap;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body::after {
+    opacity: 0;
+  }
+  .hero::before,
+  .hero::after {
+    animation: none;
+  }
+  .hero-mark--right,
+  .hero-mark--left,
+  .member-card-hint,
+  [data-animate].in-view .team-member {
+    animation: none;
+  }
+  .discord-live-dot {
+    animation: none;
+  }
+  [data-animate] .team-member {
+    opacity: 1;
+  }
+  .member-card,
+  .profile-sticky-bar,
+  #lb-image {
+    transition: none;
+  }
+  .cta-button.glow {
+    animation: none;
+  }
+  .cta-button.glow::before,
+  .cta-button::after {
+    display: none;
+  }
+}

@@ -1,0 +1,248 @@
+/* ============================================================
+   ADOBO GUILD — "Ink & Gold" wuxia design system
+   Refined reskin of the consolidated site styles.
+   Class names are preserved 1:1 with the markup; only the
+   visual language changed (palette, type, decoration).
+   ============================================================ */
+
+/* ---------- Self-hosted fonts (latin subsets) ---------- */
+
+@font-face {
+  font-family: 'Cormorant Garamond';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('../fonts/cormorant-garamond-500.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Cormorant Garamond';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('../fonts/cormorant-garamond-600.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Cormorant Garamond';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('../fonts/cormorant-garamond-700.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Cormorant Garamond';
+  font-style: italic;
+  font-weight: 500;
+  font-display: swap;
+  src: url('../fonts/cormorant-garamond-500-italic.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../fonts/inter-400.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('../fonts/inter-500.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('../fonts/inter-600.woff2') format('woff2');
+}
+
+/* ---------- Design tokens ---------- */
+
+:root {
+  /* Ink & Gold — dark is the default (night ink over lacquer) */
+  --bg: #12100d;
+  --surface: #181510;
+  --accent: #c9a45c; /* antique gold */
+  --accent-strong: #e0bd75;
+  --accent2: #85b39d; /* celadon jade */
+  --crimson: #b8432e; /* seal-stamp cinnabar */
+  --accent-rgb: 201 164 92;
+  --accent2-rgb: 133 179 157;
+  --crimson-rgb: 184 67 46;
+  --type-scale-ratio: 1.195;
+  --lead: 1.05rem;
+
+  /* Spacing rhythm */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4rem;
+  --section-pad: clamp(4.5rem, 9vw, 7.5rem);
+
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif;
+  --font-display: 'Cormorant Garamond', 'Songti SC', 'STSong', SimSun, 'Noto Serif SC', serif;
+  --max-hero-height: 88vh;
+  --muted: #a89c85;
+  --text: #ede5d3;
+  --card-border: #2e281e;
+  --max-width: 1100px;
+
+  /* Theme-aware surface tokens */
+  --header-bg: #14110d;
+  --header-bg-mobile: #14110d;
+  --nav-panel: linear-gradient(180deg, var(--surface), rgba(10, 9, 7, 0.96));
+  --hover-wash: rgb(var(--accent-rgb) / 0.05);
+  --btn-wash: rgb(var(--accent-rgb) / 0.07);
+  --wash: rgb(255 255 255 / 0.02);
+  --border-soft: rgba(237, 229, 211, 0.1);
+  --border-softer: rgba(237, 229, 211, 0.06);
+  --border-strong: rgba(237, 229, 211, 0.2);
+  --menu-border: rgba(201, 164, 92, 0.28);
+  --on-accent: #20180a;
+  --on-crimson: #fdf3e6;
+  --raised: rgba(29, 25, 19, 0.97);
+  --photo-bg: #211c14;
+  --hint: rgba(237, 229, 211, 0.55);
+  --close-x: #8a7c60;
+  --quote-text: #cfc4ab;
+  --select-bg: #100e0b;
+  --select-border: #3a3325;
+  --select-border-hover: #57492f;
+  --modal-paper-a: #f8f2e2;
+  --modal-paper-b: #efe6cf;
+  --paper-ink: #241d10;
+  --paper-muted: #57492e;
+  --paper-line: rgba(43, 36, 22, 0.16);
+  --footer-bg: #0d0b09;
+  --footer-rule: #262117;
+  --footer-text: #857a63;
+  --icon-border: #35301f;
+  --shimmer-lo: rgba(255, 255, 255, 0.02);
+  --shimmer-hi: rgb(var(--accent-rgb) / 0.05);
+  --hero-fade: rgba(18, 16, 13, 0.97);
+  --hero-scrim: linear-gradient(
+    180deg,
+    rgba(10, 8, 6, 0.58) 0%,
+    rgba(10, 8, 6, 0.34) 45%,
+    var(--hero-fade) 100%
+  );
+  --lb-nav-bg: rgba(13, 11, 9, 0.4);
+  --music-bg: rgba(18, 16, 13, 0.92);
+
+  /* shadcn/ui token bridge */
+  --background: var(--bg);
+  --foreground: var(--text);
+  --card: var(--surface);
+  --card-foreground: var(--text);
+  --popover: var(--surface);
+  --popover-foreground: var(--text);
+  --primary: var(--accent);
+  --primary-foreground: var(--on-accent);
+  --secondary: var(--surface);
+  --secondary-foreground: var(--text);
+  --muted-foreground: var(--muted);
+  --accent-foreground: var(--on-accent);
+  --destructive: #c24536;
+  --border: var(--card-border);
+  --input: var(--card-border);
+  --ring: rgb(var(--accent-rgb) / 0.28);
+  --radius: 4px;
+}
+
+/* Light theme — rice paper & ink (宣紙) */
+:root[data-theme='light'] {
+  --bg: #f2ecdf;
+  --surface: #faf6ec;
+  --accent: #9d7a32; /* deeper gold for contrast on paper */
+  --accent-strong: #7f6128;
+  --accent2: #48705c;
+  --crimson: #a03a28;
+  --accent-rgb: 157 122 50;
+  --accent2-rgb: 72 112 92;
+  --crimson-rgb: 160 58 40;
+  --muted: #75694f;
+  --text: #2a2317;
+  --card-border: #ddd2ba;
+
+  --header-bg: #faf6ec;
+  --header-bg-mobile: #faf6ec;
+  --nav-panel: linear-gradient(180deg, var(--surface), rgba(242, 236, 223, 0.97));
+  --hover-wash: rgba(42, 35, 23, 0.05);
+  --btn-wash: rgb(var(--accent-rgb) / 0.09);
+  --wash: rgba(42, 35, 23, 0.03);
+  --border-soft: rgba(42, 35, 23, 0.14);
+  --border-softer: rgba(42, 35, 23, 0.08);
+  --border-strong: rgba(42, 35, 23, 0.26);
+  --menu-border: rgba(157, 122, 50, 0.4);
+  --on-accent: #fdf9ef;
+  --on-crimson: #fdf6ee;
+  --raised: rgba(255, 253, 246, 0.98);
+  --photo-bg: #e7dfcb;
+  --hint: rgba(42, 35, 23, 0.52);
+  --close-x: #8a7c60;
+  --quote-text: #5f5340;
+  --select-bg: #fffdf6;
+  --select-border: #d3c6aa;
+  --select-border-hover: #b3a179;
+  --footer-bg: #ebe3d0;
+  --footer-rule: #dbd0b6;
+  --footer-text: #7d7157;
+  --icon-border: #d3c6aa;
+  --shimmer-lo: rgba(42, 35, 23, 0.04);
+  --shimmer-hi: rgba(42, 35, 23, 0.08);
+  --hero-fade: rgba(242, 236, 223, 0.97);
+  --hero-scrim: linear-gradient(
+    180deg,
+    rgba(15, 11, 6, 0.68) 0%,
+    rgba(15, 11, 6, 0.4) 45%,
+    var(--hero-fade) 100%
+  );
+  --lb-nav-bg: rgba(255, 253, 246, 0.65);
+  --music-bg: rgba(250, 246, 236, 0.93);
+
+  --background: var(--bg);
+  --foreground: var(--text);
+  --card: var(--surface);
+  --card-foreground: var(--text);
+  --popover: var(--surface);
+  --popover-foreground: var(--text);
+  --secondary: #ece5d3;
+  --secondary-foreground: var(--text);
+  --muted-foreground: var(--muted);
+  --border: var(--card-border);
+  --input: var(--card-border);
+
+  body::before {
+    opacity: 0.4;
+  }
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--surface);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --radius-sm: calc(var(--radius) - 2px);
+  --radius-md: var(--radius);
+  --radius-lg: calc(var(--radius) + 2px);
+  --radius-xl: calc(var(--radius) + 6px);
+}

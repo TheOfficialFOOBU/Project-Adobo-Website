@@ -36,7 +36,7 @@ export function DiscordPresenceBadge({ initial }: { initial: DiscordPresence }) 
     <p className="discord-live-badge">
       <span className="discord-live-dot" aria-hidden="true" />
       <span aria-live="polite">
-        {presence.online} warrior{presence.online === 1 ? '' : 's'} online now
+        {presence.online} wanderer{presence.online === 1 ? '' : 's'} online now
       </span>
       {presence.avatars.length > 0 ? (
         <span className="discord-live-avatars" aria-hidden="true">

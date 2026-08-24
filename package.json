@@ -15,6 +15,7 @@
     "format:check": "prettier --check \"**/*.{ts,tsx,js,mjs,css,json,md}\"",
     "convert-images": "node ./scripts/convert-images.js",
     "generate-og-image": "node ./scripts/generate-og-image.js",
+    "generate-member-og": "node ./scripts/generate-member-og.js",
     "check-assets": "node ./scripts/check-assets.js",
     "test:e2e": "playwright test",
     "prepare": "husky install"

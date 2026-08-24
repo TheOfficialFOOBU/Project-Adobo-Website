@@ -1,0 +1,38 @@
+/* ---------- Roster role filter chips ---------- */
+
+.filter-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.chip {
+  border: 1px solid var(--border-soft);
+  background: transparent;
+  color: var(--muted);
+  padding: 0.42rem 0.95rem;
+  font-family: var(--font-sans);
+  font-size: 0.7rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  border-radius: 2px;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.chip:hover {
+  color: var(--text);
+  border-color: rgb(var(--accent-rgb) / 0.45);
+}
+
+.chip.chip-active,
+.chip[aria-pressed='true'] {
+  background: var(--crimson);
+  border-color: var(--crimson);
+  color: var(--on-crimson);
+}

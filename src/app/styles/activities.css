@@ -1,0 +1,94 @@
+/* ---------- Projects (Guild Activities) ---------- */
+
+.projects {
+  background: var(--bg);
+}
+
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+  margin-bottom: 4rem;
+}
+
+.project-card {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 1;
+  border-radius: 4px;
+  box-shadow: 0 0 0 1px var(--border-softer);
+}
+
+.project-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: translateY(4px);
+  transition: transform 0.6s ease;
+}
+
+.project-card.loaded img {
+  transform: none;
+}
+
+.project-card.loaded:hover img {
+  transform: scale(1.05);
+}
+
+.project-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: linear-gradient(180deg, rgba(12, 9, 6, 0.35) 0%, rgba(12, 9, 6, 0.88) 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 2rem;
+  opacity: 0;
+  transition: opacity 0.4s;
+  cursor: pointer;
+}
+
+.project-card:hover .project-overlay {
+  opacity: 1;
+}
+
+/* Touch devices have no hover — pin a bottom scrim with the caption visible. */
+@media (hover: none) {
+  .project-overlay {
+    opacity: 1;
+    cursor: pointer;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0) 45%, rgba(12, 9, 6, 0.9) 100%);
+  }
+}
+
+.project-overlay h3 {
+  font-size: 1.65rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.project-overlay .project-type {
+  font-size: 0.72rem;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  margin-bottom: 0.9rem;
+}
+
+.project-overlay p {
+  color: rgba(237, 229, 211, 0.78);
+  font-size: 0.95rem;
+  margin-bottom: 1.1rem;
+}
+
+.project-overlay a {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--accent-strong, var(--accent));
+  border-bottom: 1px solid rgb(var(--accent-rgb) / 0.5);
+  display: inline-block;
+  padding-bottom: 0.3rem;
+  align-self: flex-start;
+}

@@ -1,0 +1,132 @@
+/* ---------- Header / nav ---------- */
+
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 0.9rem 1rem;
+  z-index: 1000;
+  background: var(--header-bg);
+  border-bottom: 1px solid var(--border-softer);
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  font-size: 1.05rem;
+  font-weight: 600;
+  font-family: var(--font-sans);
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.logo-image {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  border-radius: 4px;
+  border: 1px solid var(--menu-border);
+  background: var(--wash);
+}
+
+.logo-text {
+  display: inline-block;
+  letter-spacing: 0.34em;
+  font-weight: 600;
+  /* Optical centering for wide tracking */
+  margin-right: -0.34em;
+}
+
+nav ul {
+  display: flex;
+  list-style: none;
+  gap: 2.6rem;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-weight: 500;
+}
+
+nav a {
+  position: relative;
+  padding: 6px 2px;
+  transition: color 0.25s ease;
+}
+
+nav a::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.28s ease;
+}
+
+nav a:hover {
+  opacity: 1;
+  color: var(--accent);
+  background: transparent;
+}
+
+nav a:hover::after {
+  transform: scaleX(1);
+}
+
+/* Scroll-spy: the section currently crossing mid-viewport. */
+nav a.active {
+  color: var(--accent);
+}
+
+nav a.active::after {
+  transform: scaleX(1);
+}
+
+/* Thin gold read-progress bar along the header's bottom edge. */
+.scroll-progress {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 2px;
+  background: linear-gradient(90deg, var(--crimson), var(--accent));
+  transform: scaleX(0);
+  transform-origin: left;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.menu-btn {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: transparent;
+  border: 1px solid var(--menu-border);
+  color: var(--accent);
+  padding: 8px 10px;
+  border-radius: 4px;
+  font-weight: 500;
+  cursor: pointer;
+  line-height: 0;
+}
+
+.menu-btn svg {
+  width: 18px;
+  height: 18px;
+}
+
+.menu-btn:hover {
+  background: var(--btn-wash);
+}

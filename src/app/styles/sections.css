@@ -1,0 +1,152 @@
+/* ---------- Generic sections ---------- */
+
+section {
+  padding: var(--section-pad) 0;
+  position: relative;
+}
+
+/* Skip rendering work for far-below-fold sections until approached. */
+.projects,
+.capabilities,
+.philosophy,
+.team,
+.contact-cta {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 900px;
+}
+
+:focus-visible {
+  outline: 2px solid rgb(var(--accent-rgb) / 0.75);
+  outline-offset: 3px;
+}
+
+.section-title {
+  font-size: clamp(2.4rem, 4.2vw, 3.6rem);
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  line-height: 1;
+  margin: 0 0 2.5rem;
+  position: relative;
+  display: inline-block;
+}
+
+/* Brush-rule flourish under each section title. */
+.section-title::after {
+  content: '';
+  position: absolute;
+  left: 2px;
+  bottom: -1.1rem;
+  width: 64px;
+  height: 2px;
+  background: linear-gradient(90deg, var(--crimson), rgb(var(--crimson-rgb) / 0));
+}
+
+/* Corner bracket above the title. */
+.section-title::before {
+  content: '';
+  position: absolute;
+  top: -0.85rem;
+  left: -0.85rem;
+  width: 20px;
+  height: 20px;
+  border-top: 1px solid rgb(var(--crimson-rgb) / 0.65);
+  border-left: 1px solid rgb(var(--crimson-rgb) / 0.65);
+}
+
+/* Hero call-to-action row (Join Discord / Meet the Guild). */
+.hero-cta-row {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.hero-cta-row .cta-button {
+  margin-right: 0;
+}
+
+/* Ghost chapter numerals (壹貳參肆) — engraved outline style where supported. */
+.section-number {
+  font-family: var(--font-display);
+  font-size: clamp(3.4rem, 9vw, 7rem);
+  font-weight: 600;
+  position: absolute;
+  left: 0;
+  top: -1.6rem;
+  z-index: 0;
+  pointer-events: none;
+  line-height: 1;
+  color: rgb(var(--accent-rgb) / 0.12);
+  font-style: italic;
+}
+
+@supports (-webkit-text-stroke: 1px black) {
+  .section-number {
+    color: transparent;
+    -webkit-text-stroke: 1px rgb(var(--accent-rgb) / 0.3);
+  }
+}
+
+[data-animate] {
+  opacity: 0;
+  transform: translateY(20px);
+  transition:
+    opacity 0.75s ease,
+    transform 0.75s ease;
+}
+
+[data-animate].in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Staggered entrance for roster cards once their section reveals. */
+[data-animate] .team-member {
+  opacity: 0;
+}
+
+[data-animate].in-view .team-member {
+  opacity: 1;
+  animation: card-in 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) backwards;
+}
+
+[data-animate].in-view .team-member:nth-child(1) {
+  animation-delay: 40ms;
+}
+[data-animate].in-view .team-member:nth-child(2) {
+  animation-delay: 100ms;
+}
+[data-animate].in-view .team-member:nth-child(3) {
+  animation-delay: 160ms;
+}
+[data-animate].in-view .team-member:nth-child(4) {
+  animation-delay: 220ms;
+}
+[data-animate].in-view .team-member:nth-child(5) {
+  animation-delay: 280ms;
+}
+[data-animate].in-view .team-member:nth-child(6) {
+  animation-delay: 340ms;
+}
+[data-animate].in-view .team-member:nth-child(7) {
+  animation-delay: 400ms;
+}
+[data-animate].in-view .team-member:nth-child(8) {
+  animation-delay: 460ms;
+}
+[data-animate].in-view .team-member:nth-child(9) {
+  animation-delay: 520ms;
+}
+[data-animate].in-view .team-member:nth-child(10) {
+  animation-delay: 580ms;
+}
+[data-animate].in-view .team-member:nth-child(11) {
+  animation-delay: 640ms;
+}
+[data-animate].in-view .team-member:nth-child(12) {
+  animation-delay: 700ms;
+}
+
+.capabilities .container + .container {
+  margin-top: 4rem;
+}

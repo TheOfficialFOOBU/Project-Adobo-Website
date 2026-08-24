@@ -1,0 +1,50 @@
+/* ---------- Philosophy ---------- */
+
+.philosophy {
+  background: var(--bg);
+}
+
+.philosophy-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+}
+
+.philosophy h3 {
+  font-size: clamp(2.2rem, 4vw, 3.2rem);
+  font-weight: 600;
+  line-height: 1.05;
+  margin-bottom: 1.5rem;
+}
+
+.philosophy p {
+  font-size: 1rem;
+  line-height: 1.85;
+  color: var(--muted);
+  margin-bottom: 1.75rem;
+}
+
+.philosophy picture {
+  display: block;
+  position: relative;
+}
+
+.philosophy picture img {
+  border-radius: 4px;
+  box-shadow: 0 0 0 1px var(--border-softer);
+}
+
+.philosophy picture::after {
+  content: '';
+  position: absolute;
+  inset: -12px;
+  border: 1px solid rgb(var(--accent-rgb) / 0.25);
+  border-radius: 4px;
+  pointer-events: none;
+}
+
+.philosophy-content > div:first-child {
+  position: relative;
+  z-index: 1;
+}

@@ -2,6 +2,8 @@ import type { Metadata, Viewport } from 'next';
 
 import { BackToTop } from '@/components/back-to-top';
 import { MusicToggle } from '@/components/music-toggle';
+import { RecruitmentBanner } from '@/components/recruitment-banner';
+import { RECRUITMENT } from '@/lib/recruitment';
 import { ScrollReveal } from '@/components/scroll-reveal';
 import { SiteFooter } from '@/components/site-footer';
 import { SiteHeader } from '@/components/site-header';
@@ -80,6 +82,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           Skip to content
         </a>
         <SiteHeader />
+        <RecruitmentBanner config={RECRUITMENT} />
         {children}
         <SiteFooter />
         <MusicToggle />
