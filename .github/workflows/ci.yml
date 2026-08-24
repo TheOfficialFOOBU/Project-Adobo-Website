@@ -2,25 +2,39 @@ name: CI
 
 on:
   push:
-    branches: [ master ]
+    branches: [master]
   pull_request:
-    branches: [ master ]
+    branches: [master]
 
 jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Use Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: '20'
+          cache: npm
       - name: Install dependencies
         run: npm ci
       - name: Run Prettier check
-        run: npx prettier --check "**/*.{js,css,html,json,md}"
+        run: npx prettier --check '**/*.{ts,tsx,mjs,css,json,md}'
       - name: Run ESLint
-        run: npx eslint . --ext .js
-      - name: Fail if linting/formatting failed
-        if: ${{ failure() }}
-        run: exit 1
+        run: npm run lint
+      - name: TypeScript check
+        run: npm run typecheck
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      - name: Verify referenced assets exist
+        run: npm run check-assets
+      - name: Build static export
+        run: npm run build

@@ -1,5 +1,0 @@
-node_modules
-images
-dist
-netlify/functions/**/node_modules
-*.min.js
