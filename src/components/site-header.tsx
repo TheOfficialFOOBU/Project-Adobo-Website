@@ -12,6 +12,7 @@ const NAV_LINKS = [
   { href: '#team', label: 'Members' },
   { href: '#philosophy', label: 'About' },
   { href: '#faq', label: 'FAQ' },
+  { href: '/rules', label: 'Rules' },
   { href: '#contact', label: 'Contact' },
 ] as const;
 
@@ -31,9 +32,9 @@ export function SiteHeader() {
   const progressRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    const sections = NAV_LINKS.map((link) => document.querySelector<HTMLElement>(link.href)).filter(
-      (el): el is HTMLElement => el !== null
-    );
+    const sections = NAV_LINKS.filter((link) => link.href.startsWith('#'))
+      .map((link) => document.querySelector<HTMLElement>(link.href))
+      .filter((el): el is HTMLElement => el !== null);
 
     if (sections.length === 0 || !('IntersectionObserver' in window)) return;
 
@@ -148,7 +149,7 @@ export function SiteHeader() {
             width={42}
             height={42}
             decoding="async"
-            loading="lazy"
+            loading="eager"
           />
         </picture>
         <span className="logo-text">ADOBO</span>
@@ -159,8 +160,16 @@ export function SiteHeader() {
             <li key={link.href}>
               <a
                 href={link.href}
-                className={activeSection === link.href.slice(1) ? 'active' : undefined}
-                aria-current={activeSection === link.href.slice(1) ? 'page' : undefined}
+                className={
+                  link.href.startsWith('#') && activeSection === link.href.slice(1)
+                    ? 'active'
+                    : undefined
+                }
+                aria-current={
+                  link.href.startsWith('#') && activeSection === link.href.slice(1)
+                    ? 'page'
+                    : undefined
+                }
               >
                 {link.label}
               </a>

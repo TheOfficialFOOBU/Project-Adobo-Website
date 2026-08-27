@@ -9,6 +9,7 @@ export interface RecruitmentConfig {
   open: boolean;
   seeking: string[];
   note: string;
+  lastUpdated?: string;
 }
 
 export const RECRUITMENT: RecruitmentConfig = rawRecruitment;

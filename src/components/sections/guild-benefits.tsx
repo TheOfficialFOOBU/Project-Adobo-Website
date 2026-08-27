@@ -1,5 +1,6 @@
 import {
   BookOpen,
+  Crown,
   Feather,
   Footprints,
   GraduationCap,
@@ -8,6 +9,7 @@ import {
   ShieldCheck,
   Sprout,
   Crosshair,
+  Trophy,
   TrendingUp,
   Users,
   Wind,
@@ -28,6 +30,34 @@ const HALL_OF_FAME_CARDS = [
     description: 'The number of times a guild member completes a 67-second BA.',
   },
 ] as const;
+
+/** Curated guild milestones — manually maintained by officers. */
+const GUILD_HIGHLIGHTS: readonly { icon: LucideIcon; title: string; description: string }[] = [
+  {
+    icon: Crown,
+    title: 'Guild Founding',
+    description:
+      'Born from a 5-member squad, Adobo Guild grew into a 20+ strong community united by good vibes.',
+  },
+  {
+    icon: Trophy,
+    title: 'First Guild Picture',
+    description:
+      'Our first official photo as a full guild — the moment we stopped being a group and became a family.',
+  },
+  {
+    icon: ShieldCheck,
+    title: 'GvG Ready',
+    description:
+      'Built a roster that can hold its own in Guild vs Guild —战术 enough to win, chaotic enough to have fun.',
+  },
+  {
+    icon: Users,
+    title: '20+ Members',
+    description:
+      'Crossed the 20-member mark with a waitlist — proof that chill vibes attract chill people.',
+  },
+];
 
 const GUILD_BENEFITS: readonly { label: string; icon: LucideIcon; description: string }[] = [
   {
@@ -92,7 +122,7 @@ const GUILD_BENEFITS: readonly { label: string; icon: LucideIcon; description: s
   },
 ];
 
-/** Guild Hall of Fame cards + Guild Benefits grid. */
+/** Guild Hall of Fame cards + Highlights + Guild Benefits grid. */
 export function GuildBenefitsSection() {
   return (
     <section className="capabilities" data-animate>
@@ -112,6 +142,17 @@ export function GuildBenefitsSection() {
             </div>
           ))}
         </div>
+        <div className="guild-highlights">
+          {GUILD_HIGHLIGHTS.map(({ icon: Icon, title, description }) => (
+            <div className="guild-highlight-card" key={title}>
+              <Icon aria-hidden="true" className="guild-highlight-icon" />
+              <div>
+                <h3>{title}</h3>
+                <p>{description}</p>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
       <div className="container">
         <h2 className="section-title">
@@ -122,7 +163,7 @@ export function GuildBenefitsSection() {
         </h2>
         <div className="capabilities-grid">
           {GUILD_BENEFITS.map(({ label, icon: Icon, description }) => (
-            <div className="capability-item" key={label} tabIndex={0}>
+            <div className="capability-item" key={label}>
               <Icon aria-hidden="true" />
               <h4>{label}</h4>
               <div className="capability-desc">
