@@ -160,5 +160,5 @@ test('returning home from a member profile re-arms scroll reveals', async ({ pag
 test('unknown route serves the branded 404', async ({ page }) => {
   const response = await page.goto('/does-not-exist', { waitUntil: 'domcontentloaded' });
   expect(response?.status()).toBe(404);
-  await expect(page.locator('.cta-button')).toHaveText('Back to Home');
+  await expect(page.locator('main .cta-button')).toHaveText('Back to Home');
 });

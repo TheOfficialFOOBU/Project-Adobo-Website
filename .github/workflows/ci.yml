@@ -60,9 +60,15 @@ jobs:
             sleep 1
           done
           echo "preview server did not start" && exit 1
-      - name: Run Lighthouse
+      - name: Run Lighthouse (desktop)
         uses: treosh/lighthouse-ci-action@v12
         with:
           urls: |
             http://localhost:3199/Project-Adobo-Website/
           configPath: ./lighthouserc.json
+      - name: Run Lighthouse (mobile)
+        uses: treosh/lighthouse-ci-action@v12
+        with:
+          urls: |
+            http://localhost:3199/Project-Adobo-Website/
+          configPath: ./lighthouserc-mobile.json

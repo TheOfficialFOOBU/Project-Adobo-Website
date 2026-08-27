@@ -76,6 +76,20 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           href={asset('/images/hero-bg-1920.webp')}
           media="(min-width: 1536px)"
         />
+        <link
+          rel="preload"
+          as="font"
+          type="font/woff2"
+          href={asset('/fonts/inter-400.woff2')}
+          crossOrigin="anonymous"
+        />
+        <link
+          rel="preload"
+          as="font"
+          type="font/woff2"
+          href={asset('/fonts/cormorant-garamond-600.woff2')}
+          crossOrigin="anonymous"
+        />
       </head>
       <body>
         <a className="skip-link" href="#main">

@@ -91,10 +91,9 @@ function EmptyRoster({ onReset }: { onReset: () => void }) {
 }
 
 /**
- * “Guild Roster” — founders / core / members tabs rendered with Radix Tabs
- * (shadcn/ui) styled with the original Adobo classes. Panels use
- * forceMount so every grid stays registered (matching the original DOM)
- * while inactive panels are hidden by the ported CSS.
+ * "Guild Roster" — founders / core / members tabs rendered with Radix Tabs
+ * (shadcn/ui) styled with the original Adobo classes. Only the active panel
+ * is mounted; inactive tabs are unmounted to reduce initial rendering cost.
  *
  * The search/sort/role toolbar sits above the tabs and filters every
  * roster group; pagination applies to the paginated Members tab.
@@ -290,7 +289,7 @@ export function RosterSection() {
             </TabsTrigger>
           </TabsList>
 
-          <TabsContent value="founders-tab" className="tab-panel" forceMount>
+          <TabsContent value="founders-tab" className="tab-panel">
             {filteredFounders.length > 0 ? (
               memberGrid(filteredFounders)
             ) : (
@@ -298,7 +297,7 @@ export function RosterSection() {
             )}
           </TabsContent>
 
-          <TabsContent value="core-tab" className="tab-panel" id="core-tab" forceMount>
+          <TabsContent value="core-tab" className="tab-panel" id="core-tab">
             {filteredCore.length > 0 ? (
               memberGrid(filteredCore)
             ) : (
@@ -306,7 +305,7 @@ export function RosterSection() {
             )}
           </TabsContent>
 
-          <TabsContent value="members-tab" className="tab-panel" id="members-tab" forceMount>
+          <TabsContent value="members-tab" className="tab-panel" id="members-tab">
             {filtered.length > 0 ? (
               <p className="members-count" role="status">
                 Showing {rangeStart}&ndash;{rangeEnd} of {filtered.length} members

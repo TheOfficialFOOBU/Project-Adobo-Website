@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 
+import activitiesData from '@/data/activities.json';
 import { useLightbox } from '@/components/lightbox-provider';
 import { asset, assetSrcSet } from '@/lib/site';
 import { cn } from '@/lib/utils';
@@ -20,61 +21,7 @@ interface Activity {
   linkLabel: string;
 }
 
-const ACTIVITIES: Activity[] = [
-  {
-    id: 'activity-guild-picture',
-    src: '/images/events/2-800.webp',
-    srcSet:
-      '/images/events/2-1600.webp 1600w, /images/events/2-1024.webp 1024w, /images/events/2-800.webp 800w, /images/events/2-640.webp 640w, /images/events/2-480.webp 480w, /images/events/2-320.webp 320w',
-    full: '/images/events/2-1600.webp',
-    lqip: '/images/events/2-320.webp',
-    alt: '100 Casual Raids',
-    type: 'Guild Milestone',
-    title: '‘Guild Picture Taking’',
-    description: 'Our biggest member count guild picture.',
-    linkLabel: 'View Milestone',
-  },
-  {
-    id: 'activity-first-picture',
-    src: '/images/events/Pogi-800.webp',
-    srcSet:
-      '/images/events/Pogi-1600.webp 1600w, /images/events/Pogi-1024.webp 1024w, /images/events/Pogi-800.webp 800w, /images/events/Pogi-640.webp 640w, /images/events/Pogi-480.webp 480w, /images/events/Pogi-320.webp 320w',
-    full: '/images/events/Pogi-1600.webp',
-    lqip: '/images/events/Pogi-320.webp',
-    alt: 'Community United',
-    type: 'Community Bond',
-    title: '‘First Ever Guild Picture’',
-    description: 'The first picture we took as a Guild since expanding from a 5 Member Guild.',
-    linkLabel: 'View Achievement',
-  },
-  {
-    id: 'activity-prison-break',
-    src: '/images/events/1.JPG-800.webp',
-    srcSet:
-      '/images/events/1.JPG-1600.webp 1600w, /images/events/1.JPG-1024.webp 1024w, /images/events/1.JPG-800.webp 800w, /images/events/1.JPG-640.webp 640w, /images/events/1.JPG-480.webp 480w, /images/events/1.JPG-320.webp 320w',
-    full: '/images/events/1.JPG-1600.webp',
-    lqip: '/images/events/1.JPG-320.webp',
-    alt: 'Tournament Victory',
-    type: 'Funny Prison Break',
-    title: '‘Prison Break’',
-    description:
-      "We tried to do Prison Break as Guild and ended up getting swarmed and camped. It's still funny to think as of this day.",
-    linkLabel: 'View the Demolition',
-  },
-  {
-    id: 'activity-nmw',
-    src: '/images/events/4-800.webp',
-    srcSet:
-      '/images/events/4-1600.webp 1600w, /images/events/4-1024.webp 1024w, /images/events/4-800.webp 800w, /images/events/4-640.webp 640w, /images/events/4-480.webp 480w, /images/events/4-320.webp 320w',
-    full: '/images/events/4-1600.webp',
-    lqip: '/images/events/4-320.webp',
-    alt: 'Guild Picnic',
-    type: 'NMW Prank Guild Picture',
-    title: "‘We Got NMW'd during Picture Taking’",
-    description: 'waterlloyd used the NMW trick during our guild picture session.',
-    linkLabel: 'View Event',
-  },
-];
+const ACTIVITIES = activitiesData as Activity[];
 
 function ActivityCard({ activity }: { activity: Activity }) {
   const { register, openLightbox } = useLightbox();

@@ -40,7 +40,7 @@ test('recruitment banner shows on home, persists dismissal, stays off profiles',
   await page.goto(`${SITE}/`);
   const banner = page.locator('.recruit-banner');
   await expect(banner).toBeVisible();
-  await expect(banner.locator('.chip', { hasText: 'Healer' })).toBeVisible();
+  await expect(banner.locator('.chip', { hasText: 'Nameless Sword' })).toBeVisible();
 
   await banner.getByRole('button', { name: 'Dismiss' }).click();
   await expect(banner).toHaveCount(0);
