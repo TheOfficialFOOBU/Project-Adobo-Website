@@ -22,7 +22,8 @@ section {
 .capabilities,
 .philosophy,
 .faq,
-.contact-cta {
+.contact-cta,
+.video-gallery {
   content-visibility: auto;
   contain-intrinsic-size: auto 900px;
 }

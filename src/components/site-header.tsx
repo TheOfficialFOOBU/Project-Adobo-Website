@@ -10,6 +10,7 @@ import { asset, BASE_PATH } from '@/lib/site';
 const NAV_LINKS = [
   { href: '#home', label: 'Home' },
   { href: '#projects', label: 'Activities' },
+  { href: '#videos', label: 'Videos' },
   { href: '#team', label: 'Members' },
   { href: '#philosophy', label: 'About' },
   { href: '#faq', label: 'FAQ' },

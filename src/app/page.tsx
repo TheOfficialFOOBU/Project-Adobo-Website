@@ -6,6 +6,7 @@ import { GuildBenefitsSection } from '@/components/sections/guild-benefits';
 import { HeroSection } from '@/components/sections/hero';
 import { PhilosophySection } from '@/components/sections/philosophy';
 import { RosterSection } from '@/components/sections/roster';
+import { VideoGallerySection } from '@/components/sections/video-gallery';
 import { WhatWeDoSection, WarriorLedSection } from '@/components/sections/intro-splits';
 
 export default function HomePage() {
@@ -16,6 +17,7 @@ export default function HomePage() {
         <WarriorLedSection />
         <WhatWeDoSection />
         <ActivitiesSection />
+        <VideoGallerySection />
         <GuildBenefitsSection />
         <PhilosophySection />
         <RosterSection />
