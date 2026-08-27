@@ -90,21 +90,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           rel="preload"
           as="font"
           type="font/woff2"
-          href={asset('/fonts/inter-500.woff2')}
-          crossOrigin="anonymous"
-        />
-        <link
-          rel="preload"
-          as="font"
-          type="font/woff2"
           href={asset('/fonts/cormorant-garamond-600.woff2')}
-          crossOrigin="anonymous"
-        />
-        <link
-          rel="preload"
-          as="font"
-          type="font/woff2"
-          href={asset('/fonts/cormorant-garamond-700.woff2')}
           crossOrigin="anonymous"
         />
       </head>
