@@ -4,7 +4,7 @@ import { Menu, X } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 
 import { ThemeToggle } from '@/components/theme-toggle';
-import { asset } from '@/lib/site';
+import { asset, BASE_PATH } from '@/lib/site';
 
 const NAV_LINKS = [
   { href: '#home', label: 'Home' },
@@ -12,7 +12,7 @@ const NAV_LINKS = [
   { href: '#team', label: 'Members' },
   { href: '#philosophy', label: 'About' },
   { href: '#faq', label: 'FAQ' },
-  { href: '/rules', label: 'Rules' },
+  { href: `${BASE_PATH}/rules`, label: 'Rules' },
   { href: '#contact', label: 'Contact' },
 ] as const;
 
