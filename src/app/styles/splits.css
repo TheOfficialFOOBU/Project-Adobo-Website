@@ -87,14 +87,14 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 84px;
-  height: 84px;
+  width: clamp(64px, 20vw, 84px);
+  height: clamp(64px, 20vw, 84px);
   margin-bottom: 1.75rem;
   border: 3px solid rgb(var(--crimson-rgb) / 0.85);
   border-radius: 10px;
   color: rgb(var(--crimson-rgb) / 0.92);
   font-family: var(--font-display);
-  font-size: 44px;
+  font-size: clamp(32px, 10vw, 44px);
   font-weight: 600;
   line-height: 1;
   transform: rotate(-6deg);

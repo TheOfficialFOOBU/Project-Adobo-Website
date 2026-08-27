@@ -81,7 +81,7 @@
   --space-7: 3rem;
   --space-8: 4rem;
   --section-pad: clamp(4.5rem, 9vw, 7.5rem);
-  --section-pad-sm: 5rem;
+  --section-pad-sm: clamp(3.5rem, 7vw, 5rem);
 
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif;
   --font-display: 'Cormorant Garamond', 'Songti SC', 'STSong', SimSun, 'Noto Serif SC', serif;

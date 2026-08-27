@@ -84,7 +84,6 @@
   #site-nav {
     position: fixed;
     inset: 60px 0 0 0;
-    top: 60px;
     background: var(--nav-panel);
     transform: translateY(-120%);
     transition: transform 220ms ease;
@@ -198,8 +197,8 @@
     padding: 1rem;
   }
   .hero {
-    padding-top: 28px;
-    padding-bottom: 28px;
+    padding-top: clamp(1.5rem, 5vw, 2.5rem);
+    padding-bottom: clamp(1.5rem, 5vw, 2.5rem);
   }
   .sorting-controls {
     flex-wrap: wrap;

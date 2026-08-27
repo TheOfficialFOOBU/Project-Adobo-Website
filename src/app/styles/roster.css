@@ -276,7 +276,7 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  font-size: 0.66rem;
+  font-size: 0.72rem;
   text-transform: uppercase;
   letter-spacing: 0.2em;
   color: var(--muted);
@@ -314,7 +314,7 @@
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  font-size: 0.62rem;
+  font-size: 0.68rem;
   letter-spacing: 0.2em;
   text-transform: uppercase;
   color: var(--hint);
@@ -325,16 +325,6 @@
 .member-card-hint svg {
   width: 10px;
   height: 10px;
-}
-
-@keyframes hint-pulse {
-  0%,
-  100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.35;
-  }
 }
 
 .team-member a {
@@ -511,9 +501,9 @@
 
 /* Numbered page buttons (aria-current marks the active page). */
 .page-btn {
-  min-width: 34px;
-  height: 34px;
-  padding: 0 6px;
+  min-width: 44px;
+  height: 44px;
+  padding: 0 8px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
