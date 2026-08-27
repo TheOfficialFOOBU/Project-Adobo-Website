@@ -19,8 +19,7 @@
   gap: 1rem;
 }
 
-.capability-item,
-.benefit-card {
+.capability-item {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -40,15 +39,13 @@
   flex-basis: 100%;
 }
 
-.capability-item:hover,
-.benefit-card:hover {
+.capability-item:hover {
   border-color: rgb(var(--accent-rgb) / 0.45);
   background: var(--btn-wash);
   transform: translateY(-2px);
 }
 
-.capability-item svg,
-.benefit-card svg {
+.capability-item svg {
   width: 17px;
   height: 17px;
   flex: none;
@@ -65,8 +62,7 @@
   background: rgb(var(--crimson-rgb) / 0.07);
 }
 
-.capability-item h4,
-.benefit-card h4 {
+.capability-item h4 {
   font-family: var(--font-sans);
   font-size: 0.76rem;
   font-weight: 500;

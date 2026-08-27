@@ -122,7 +122,7 @@ export function SiteHeader() {
       >
         {menuOpen ? <X aria-hidden="true" /> : <Menu aria-hidden="true" />}
       </button>
-      <div className="logo">
+      <a href="#home" className="logo" aria-label="Home">
         <picture>
           <source
             type="image/webp"
@@ -140,13 +140,8 @@ export function SiteHeader() {
           />
         </picture>
         <span className="logo-text">ADOBO</span>
-      </div>
-      <nav
-        id="site-nav"
-        role="navigation"
-        aria-label="Main navigation"
-        className={menuOpen ? 'open' : undefined}
-      >
+      </a>
+      <nav id="site-nav" aria-label="Main navigation" className={menuOpen ? 'open' : undefined}>
         <ul onClick={() => setMenuOpen(false)}>
           {NAV_LINKS.map((link) => (
             <li key={link.href}>

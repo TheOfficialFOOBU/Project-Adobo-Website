@@ -3,6 +3,7 @@
 section {
   padding: var(--section-pad) 0;
   position: relative;
+  scroll-margin-top: 5rem;
 }
 
 /* Skip rendering work for far-below-fold sections until approached. */

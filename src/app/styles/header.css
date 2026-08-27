@@ -26,6 +26,7 @@ header {
   letter-spacing: 0.34em;
   text-transform: uppercase;
   color: var(--accent);
+  text-decoration: none;
 }
 
 .logo-image {
@@ -115,7 +116,7 @@ nav a.active::after {
   background: transparent;
   border: 1px solid var(--menu-border);
   color: var(--accent);
-  padding: 8px 10px;
+  padding: 10px 12px;
   border-radius: 4px;
   font-weight: 500;
   cursor: pointer;

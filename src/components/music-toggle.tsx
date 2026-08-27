@@ -17,6 +17,15 @@ export function MusicToggle() {
   const [volume, setVolume] = useState(0.2);
   const [showSlider, setShowSlider] = useState(false);
 
+  const toggleRef = useRef<HTMLButtonElement | null>(null);
+  const hideTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const showSliderTemporarily = useCallback(() => {
+    if (hideTimerRef.current) clearTimeout(hideTimerRef.current);
+    setShowSlider(true);
+    hideTimerRef.current = setTimeout(() => setShowSlider(false), 3000);
+  }, []);
+
   const toggle = useCallback(async () => {
     let audio = audioRef.current;
     if (!audio) {
@@ -34,10 +43,11 @@ export function MusicToggle() {
     try {
       await audio.play();
       setPlaying(true);
+      showSliderTemporarily();
     } catch {
       setPlaying(false);
     }
-  }, [playing, volume]);
+  }, [playing, volume, showSliderTemporarily]);
 
   const changeVolume = useCallback((newVol: number) => {
     setVolume(newVol);
@@ -65,11 +75,14 @@ export function MusicToggle() {
         />
       ) : null}
       <button
+        ref={toggleRef}
         type="button"
         className="music-toggle"
         aria-label="Toggle background music"
         aria-pressed={playing}
         onClick={() => void toggle()}
+        onFocus={() => playing && setShowSlider(true)}
+        onBlur={() => setShowSlider(false)}
       >
         <VolumeIcon aria-hidden="true" />
       </button>
