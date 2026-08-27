@@ -79,7 +79,11 @@ export function SiteHeader() {
   }, []);
 
   useEffect(() => {
-    if (!menuOpen) return;
+    if (!menuOpen) {
+      document.body.style.overflow = '';
+      return;
+    }
+    document.body.style.overflow = 'hidden';
     const nav = document.getElementById('site-nav');
     if (!nav) return;
 
@@ -106,7 +110,10 @@ export function SiteHeader() {
     };
 
     document.addEventListener('keydown', onKeyDown);
-    return () => document.removeEventListener('keydown', onKeyDown);
+    return () => {
+      document.removeEventListener('keydown', onKeyDown);
+      document.body.style.overflow = '';
+    };
   }, [menuOpen]);
 
   return (
@@ -148,7 +155,7 @@ export function SiteHeader() {
               <a
                 href={link.href}
                 className={activeSection === link.href.slice(1) ? 'active' : undefined}
-                aria-current={activeSection === link.href.slice(1) ? 'true' : undefined}
+                aria-current={activeSection === link.href.slice(1) ? 'page' : undefined}
               >
                 {link.label}
               </a>

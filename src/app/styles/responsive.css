@@ -237,4 +237,11 @@
   .cta-button::after {
     display: none;
   }
+  .cta-button:hover {
+    transform: none;
+    box-shadow: none;
+  }
+  .skeleton-wrap.skeleton::before {
+    animation: none;
+  }
 }

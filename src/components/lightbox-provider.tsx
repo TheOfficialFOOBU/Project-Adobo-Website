@@ -191,12 +191,13 @@ export function LightboxProvider({ children }: { children: ReactNode }) {
 
     document.addEventListener('keydown', onKeyDown);
     document.addEventListener('wheel', onWheel, { passive: false });
+    const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
     closeBtnRef.current?.focus();
     return () => {
       document.removeEventListener('keydown', onKeyDown);
       document.removeEventListener('wheel', onWheel);
-      document.body.style.overflow = 'auto';
+      document.body.style.overflow = previousOverflow;
     };
   }, [active, closeLightbox, showPrev, showNext, zoom]);
 
@@ -331,6 +332,11 @@ export function LightboxProvider({ children }: { children: ReactNode }) {
             {activeIndex > -1 && items.length > 1 ? (
               <div className="lb-counter" aria-hidden="true">
                 {activeIndex + 1} / {items.length}
+              </div>
+            ) : null}
+            {activeIndex > -1 && items.length > 1 ? (
+              <div className="sr-only" aria-live="polite">
+                Image {activeIndex + 1} of {items.length}
               </div>
             ) : null}
             <div className="lb-nav">

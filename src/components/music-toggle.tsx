@@ -32,7 +32,7 @@ export function MusicToggle() {
       audio = new Audio(asset('/audio/background.mp3'));
       audio.loop = true;
       audio.volume = volume;
-      audio.preload = 'none';
+      audio.preload = 'metadata';
       audioRef.current = audio;
     }
     if (playing) {
@@ -78,7 +78,7 @@ export function MusicToggle() {
         ref={toggleRef}
         type="button"
         className="music-toggle"
-        aria-label="Toggle background music"
+        aria-label={playing ? 'Pause background music' : 'Play background music'}
         aria-pressed={playing}
         onClick={() => void toggle()}
         onFocus={() => playing && setShowSlider(true)}

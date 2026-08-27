@@ -10,11 +10,14 @@ section {
 .projects,
 .capabilities,
 .philosophy,
-.team,
 .faq,
 .contact-cta {
   content-visibility: auto;
   contain-intrinsic-size: auto 900px;
+}
+.team {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 1400px;
 }
 
 /* Focus-visible styling lives once in base.css. */
@@ -97,6 +100,13 @@ section {
 [data-animate].in-view {
   opacity: 1;
   transform: translateY(0);
+}
+
+@media (scripting: none) {
+  [data-animate] {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 /* Staggered entrance for roster cards once their section reveals. */

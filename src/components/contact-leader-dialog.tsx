@@ -41,7 +41,7 @@ export function ContactLeaderDialog() {
                 <source
                   type="image/webp"
                   srcSet={`${asset('/images/members/FOOBU-lossless-1024.webp')} 1024w, ${asset('/images/members/FOOBU-lossless-640.webp')} 640w`}
-                  sizes="100px"
+                  sizes="100w"
                 />
                 <img
                   src={asset('/images/members/FOOBU-lossless-640.webp')}
