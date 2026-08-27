@@ -144,6 +144,9 @@
   .members-grid-container {
     grid-template-columns: repeat(2, 1fr);
   }
+  .member-card-inner {
+    min-height: 320px;
+  }
   .projects-grid {
     grid-template-columns: 1fr;
     gap: 1rem;

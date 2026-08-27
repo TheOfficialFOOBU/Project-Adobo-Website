@@ -1,7 +1,15 @@
-import { asset, assetSrcSet } from '@/lib/site';
+'use client';
 
-/** “Our Guild Philosophy” split with guild photo. */
+import { useRef, useState } from 'react';
+
+import { asset, assetSrcSet } from '@/lib/site';
+import { cn } from '@/lib/utils';
+
+/** "Our Guild Philosophy" split with guild photo. */
 export function PhilosophySection() {
+  const [loaded, setLoaded] = useState(false);
+  const imgRef = useRef<HTMLImageElement | null>(null);
+
   return (
     <section className="philosophy" id="philosophy" data-animate>
       <div className="container">
@@ -21,7 +29,7 @@ export function PhilosophySection() {
             <p>
               Adobo is not built by chance it is forged through trust, discipline, and shared
               purpose. We are more than players chasing victories; we are individuals bound by
-              respect, loyalty, and growth. Every member carries the guild’s name not just in
+              respect, loyalty, and growth. Every member carries the guild&apos;s name not just in
               battle, but in character. We rise together, we improve together, and we never leave
               our own behind.
             </p>
@@ -29,7 +37,7 @@ export function PhilosophySection() {
               Join Our Guild
             </a>
           </div>
-          <picture>
+          <picture className={cn('skeleton-wrap', loaded ? 'loaded' : 'skeleton')}>
             <source
               type="image/webp"
               srcSet={assetSrcSet(
@@ -38,11 +46,14 @@ export function PhilosophySection() {
               sizes="(max-width:600px) 100vw, 50vw"
             />
             <img
+              ref={imgRef}
               src={asset('/images/events/3-1024.webp')}
               alt="Guild Philosophy"
               style={{ maxWidth: '100%', height: 'auto' }}
               loading="lazy"
               decoding="async"
+              onLoad={() => setLoaded(true)}
+              onError={() => setLoaded(true)}
             />
           </picture>
         </div>

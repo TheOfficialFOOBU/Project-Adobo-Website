@@ -17,6 +17,7 @@ interface CopyButtonProps {
  */
 export function CopyButton({ value, label, copiedLabel = 'Copied', className }: CopyButtonProps) {
   const [copied, setCopied] = useState(false);
+  const [error, setError] = useState(false);
   const timerRef = useRef<number | null>(null);
 
   useEffect(() => {
@@ -37,10 +38,13 @@ export function CopyButton({ value, label, copiedLabel = 'Copied', className }: 
     try {
       await navigator.clipboard.writeText(value);
       setCopied(true);
+      setError(false);
       if (timerRef.current !== null) window.clearTimeout(timerRef.current);
       timerRef.current = window.setTimeout(() => setCopied(false), 2000);
     } catch {
-      // Clipboard unavailable (permissions/insecure context) — no-op.
+      setError(true);
+      if (timerRef.current !== null) window.clearTimeout(timerRef.current);
+      timerRef.current = window.setTimeout(() => setError(false), 2000);
     }
   };
 
@@ -52,7 +56,7 @@ export function CopyButton({ value, label, copiedLabel = 'Copied', className }: 
       aria-live="polite"
     >
       {copied ? <Check aria-hidden="true" /> : <Link2 aria-hidden="true" />}
-      {copied ? copiedLabel : label}
+      {copied ? copiedLabel : error ? 'Failed' : label}
     </button>
   );
 }

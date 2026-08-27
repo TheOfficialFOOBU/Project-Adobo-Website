@@ -12,6 +12,8 @@ import {
   type ReactNode,
 } from 'react';
 
+import { cn } from '@/lib/utils';
+
 export interface LightboxItem {
   /** Stable unique key used for registration. */
   id: string;
@@ -60,16 +62,18 @@ export function LightboxProvider({ children }: { children: ReactNode }) {
   const [active, setActive] = useState<ActiveImage | null>(null);
   const [failedSrc, setFailedSrc] = useState<string | null>(null);
   const [zoom, setZoom] = useState<{ x: number; y: number } | null>(null);
+  const [fading, setFading] = useState(false);
   const containerRef = useRef<HTMLDivElement | null>(null);
   const closeBtnRef = useRef<HTMLButtonElement | null>(null);
   const lastFocusedRef = useRef<Element | null>(null);
-  const touchStartRef = useRef<{ x: number; y: number } | null>(null);
+  const touchStartRef = useRef<{ x: number; y: number; dist: number } | null>(null);
+  const fadeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   /**
    * Derived display URL: starts from the primary source and permanently
    * swaps to the fallback once that specific source has failed to load.
    */
-  const displaySrc =
+  const effectiveSrc =
     active === null
       ? null
       : failedSrc === active.src && active.fallback
@@ -107,25 +111,33 @@ export function LightboxProvider({ children }: { children: ReactNode }) {
     restoreFocus();
   }, [restoreFocus]);
 
+  const triggerFade = useCallback(() => {
+    setFading(true);
+    if (fadeTimerRef.current) clearTimeout(fadeTimerRef.current);
+    fadeTimerRef.current = setTimeout(() => setFading(false), 150);
+  }, []);
+
   const showPrev = useCallback(() => {
     if (!active) return;
     const index = items.findIndex((i) => i.src === active.src);
     const prev = index > 0 ? items[index - 1] : undefined;
     if (prev) {
+      triggerFade();
       setActive({ src: prev.src, alt: prev.alt, fallback: prev.fallback });
       setZoom(null);
     }
-  }, [items, active]);
+  }, [items, active, triggerFade]);
 
   const showNext = useCallback(() => {
     if (!active) return;
     const index = items.findIndex((i) => i.src === active.src);
     const next = index >= 0 && index < items.length - 1 ? items[index + 1] : undefined;
     if (next) {
+      triggerFade();
       setActive({ src: next.src, alt: next.alt, fallback: next.fallback });
       setZoom(null);
     }
-  }, [items, active]);
+  }, [items, active, triggerFade]);
 
   useEffect(() => {
     if (!active) return;
@@ -156,14 +168,37 @@ export function LightboxProvider({ children }: { children: ReactNode }) {
       }
     };
 
+    const onWheel = (event: WheelEvent) => {
+      if (!event.ctrlKey && !event.metaKey) return;
+      event.preventDefault();
+      if (event.deltaY < 0) {
+        // Scroll up = zoom in
+        if (!zoom) {
+          const rect = (
+            document.getElementById('lb-image') as HTMLElement
+          )?.getBoundingClientRect();
+          if (rect) {
+            const x = ((event.clientX - rect.left) / rect.width) * 100;
+            const y = ((event.clientY - rect.top) / rect.height) * 100;
+            setZoom({ x, y });
+          }
+        }
+      } else {
+        // Scroll down = zoom out
+        if (zoom) setZoom(null);
+      }
+    };
+
     document.addEventListener('keydown', onKeyDown);
+    document.addEventListener('wheel', onWheel, { passive: false });
     document.body.style.overflow = 'hidden';
     closeBtnRef.current?.focus();
     return () => {
       document.removeEventListener('keydown', onKeyDown);
+      document.removeEventListener('wheel', onWheel);
       document.body.style.overflow = 'auto';
     };
-  }, [active, closeLightbox, showPrev, showNext]);
+  }, [active, closeLightbox, showPrev, showNext, zoom]);
 
   /* ---------- URL-hash deep linking ---------- */
 
@@ -221,16 +256,59 @@ export function LightboxProvider({ children }: { children: ReactNode }) {
           aria-modal="true"
           onTouchStart={(e) => {
             const touch = e.touches[0];
-            touchStartRef.current = { x: touch.clientX, y: touch.clientY };
+            const second = e.touches[1];
+            const dist = second
+              ? Math.hypot(second.clientX - touch.clientX, second.clientY - touch.clientY)
+              : 0;
+            touchStartRef.current = { x: touch.clientX, y: touch.clientY, dist };
+          }}
+          onTouchMove={(e) => {
+            if (!zoom || !touchStartRef.current) return;
+            const touch = e.touches[0];
+            const rect = (
+              e.currentTarget.querySelector('#lb-image') as HTMLElement
+            )?.getBoundingClientRect();
+            if (!rect) return;
+            const x = ((touch.clientX - rect.left) / rect.width) * 100;
+            const y = ((touch.clientY - rect.top) / rect.height) * 100;
+            setZoom({ x, y });
           }}
           onTouchEnd={(e) => {
             const start = touchStartRef.current;
             touchStartRef.current = null;
             if (!start) return;
             const touch = e.changedTouches[0];
+
+            // Pinch-to-zoom: two-finger spread = zoom in, pinch = zoom out
+            if (e.touches.length === 0 && e.changedTouches.length >= 1) {
+              const second = e.changedTouches[1];
+              if (second) {
+                const endDist = Math.hypot(
+                  second.clientX - touch.clientX,
+                  second.clientY - touch.clientY
+                );
+                const ratio = endDist / start.dist;
+                if (ratio > 1.3 && !zoom) {
+                  const rect = (
+                    e.currentTarget.querySelector('#lb-image') as HTMLElement
+                  )?.getBoundingClientRect();
+                  if (rect) {
+                    const x = ((touch.clientX - rect.left) / rect.width) * 100;
+                    const y = ((touch.clientY - rect.top) / rect.height) * 100;
+                    setZoom({ x, y });
+                  }
+                  return;
+                }
+                if (ratio < 0.7 && zoom) {
+                  setZoom(null);
+                  return;
+                }
+              }
+            }
+
+            // Swipe: horizontal swipe only
             const dx = touch.clientX - start.x;
             const dy = touch.clientY - start.y;
-            // Horizontal swipe only — vertical scrolls must not page images.
             if (Math.abs(dx) > 48 && Math.abs(dx) > Math.abs(dy) * 1.4) {
               if (dx < 0) showNext();
               else showPrev();
@@ -279,10 +357,10 @@ export function LightboxProvider({ children }: { children: ReactNode }) {
               {/* eslint-disable-next-line @next/next/no-img-element -- lightbox displays pre-generated full-size assets */}
               <img
                 id="lb-image"
-                className={zoom ? 'zoomed' : undefined}
+                className={cn(zoom ? 'zoomed' : undefined, fading && 'lb-fading')}
                 style={zoom ? { transformOrigin: `${zoom.x}% ${zoom.y}%` } : undefined}
                 alt={active.alt}
-                src={displaySrc ?? active.src}
+                src={effectiveSrc ?? active.src}
                 onError={() => setFailedSrc(active.src)}
                 onClick={(e) => {
                   e.stopPropagation();
@@ -297,7 +375,7 @@ export function LightboxProvider({ children }: { children: ReactNode }) {
               </div>
               <a
                 className="lb-open"
-                href={displaySrc ?? active.src}
+                href={effectiveSrc ?? active.src}
                 target="_blank"
                 rel="noopener noreferrer"
               >

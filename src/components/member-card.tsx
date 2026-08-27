@@ -2,7 +2,7 @@
 
 import { ArrowRight, RotateCw } from 'lucide-react';
 import Link from 'next/link';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState, useSyncExternalStore } from 'react';
 
 import { useLightbox } from '@/components/lightbox-provider';
 import { Highlight } from '@/components/highlight';
@@ -23,6 +23,17 @@ interface MemberCardProps {
   highlight?: string;
 }
 
+function subscribeHover() {
+  return () => {};
+}
+function getHoverSnapshot() {
+  if (typeof window === 'undefined') return true;
+  return window.matchMedia('(hover: hover)').matches;
+}
+function getHoverServerSnapshot() {
+  return true;
+}
+
 /**
  * 3D flip card — click / Enter / Space flips the card, clicking the photo
  * opens the lightbox with the full-resolution image. Image loading uses the
@@ -35,6 +46,7 @@ export function MemberCard({ member, highlight = '' }: MemberCardProps) {
   const [loaded, setLoaded] = useState(false);
   const [srcIndex, setSrcIndex] = useState(-1); // -1 = original src, then fallbacks, then placeholder
   const photoRef = useRef<HTMLImageElement | null>(null);
+  const hasHover = useSyncExternalStore(subscribeHover, getHoverSnapshot, getHoverServerSnapshot);
 
   const base = useMemo(() => imageBase(member.image), [member.image]);
   const full = useMemo(() => memberFullImage(member), [member]);
@@ -123,7 +135,7 @@ export function MemberCard({ member, highlight = '' }: MemberCardProps) {
             </div>
             <div className="member-card-hint">
               <RotateCw aria-hidden="true" />
-              Click to reveal
+              {hasHover ? 'Click to reveal' : 'Tap to reveal'}
             </div>
           </div>
         </div>

@@ -56,7 +56,9 @@ export async function HeroSection() {
         </div>
         {presence ? <DiscordPresenceBadge initial={presence} /> : null}
       </div>
-      <div className="scroll-indicator">SCROLL</div>
+      <div className="scroll-indicator" aria-hidden="true">
+        SCROLL
+      </div>
       <HeroScrollFx />
     </section>
   );

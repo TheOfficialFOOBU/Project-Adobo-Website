@@ -1,10 +1,42 @@
 /* ---------- Background music toggle ---------- */
 
-.music-toggle {
+.music-control {
   position: fixed;
   left: 16px;
   bottom: 16px;
   z-index: 3001;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.music-volume-slider {
+  width: 70px;
+  height: 4px;
+  appearance: none;
+  background: var(--card-border);
+  border-radius: 2px;
+  outline: none;
+  cursor: pointer;
+}
+.music-volume-slider::-webkit-slider-thumb {
+  appearance: none;
+  width: 12px;
+  height: 12px;
+  border-radius: 999px;
+  background: var(--accent);
+  cursor: pointer;
+}
+.music-volume-slider::-moz-range-thumb {
+  width: 12px;
+  height: 12px;
+  border-radius: 999px;
+  background: var(--accent);
+  border: none;
+  cursor: pointer;
+}
+
+.music-toggle {
   width: 42px;
   height: 42px;
   display: inline-flex;
@@ -80,8 +112,4 @@
   height: 6px;
   border-radius: 999px;
   background: var(--crimson);
-}
-
-.music-toggle[aria-pressed='true'] {
-  position: fixed;
 }

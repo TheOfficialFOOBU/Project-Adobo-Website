@@ -1,6 +1,6 @@
 'use client';
 
-import { Volume2, VolumeX } from 'lucide-react';
+import { Volume1, Volume2, VolumeX } from 'lucide-react';
 import { useCallback, useRef, useState } from 'react';
 
 import { asset } from '@/lib/site';
@@ -14,13 +14,15 @@ import { asset } from '@/lib/site';
 export function MusicToggle() {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const [playing, setPlaying] = useState(false);
+  const [volume, setVolume] = useState(0.2);
+  const [showSlider, setShowSlider] = useState(false);
 
   const toggle = useCallback(async () => {
     let audio = audioRef.current;
     if (!audio) {
       audio = new Audio(asset('/audio/background.mp3'));
       audio.loop = true;
-      audio.volume = 0.2;
+      audio.volume = volume;
       audio.preload = 'none';
       audioRef.current = audio;
     }
@@ -35,17 +37,42 @@ export function MusicToggle() {
     } catch {
       setPlaying(false);
     }
-  }, [playing]);
+  }, [playing, volume]);
+
+  const changeVolume = useCallback((newVol: number) => {
+    setVolume(newVol);
+    if (audioRef.current) audioRef.current.volume = newVol;
+  }, []);
+
+  const VolumeIcon = !playing ? VolumeX : volume < 0.5 ? Volume1 : Volume2;
 
   return (
-    <button
-      type="button"
-      className="music-toggle"
-      aria-label="Toggle background music"
-      aria-pressed={playing}
-      onClick={() => void toggle()}
+    <div
+      className="music-control"
+      onMouseEnter={() => playing && setShowSlider(true)}
+      onMouseLeave={() => setShowSlider(false)}
     >
-      {playing ? <Volume2 aria-hidden="true" /> : <VolumeX aria-hidden="true" />}
-    </button>
+      {playing && showSlider ? (
+        <input
+          type="range"
+          min="0"
+          max="1"
+          step="0.05"
+          value={volume}
+          onChange={(e) => changeVolume(parseFloat(e.target.value))}
+          className="music-volume-slider"
+          aria-label="Volume"
+        />
+      ) : null}
+      <button
+        type="button"
+        className="music-toggle"
+        aria-label="Toggle background music"
+        aria-pressed={playing}
+        onClick={() => void toggle()}
+      >
+        <VolumeIcon aria-hidden="true" />
+      </button>
+    </div>
   );
 }

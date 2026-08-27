@@ -8,7 +8,7 @@
 .faq-item {
   border: 1px solid var(--border-soft);
   border-radius: 4px;
-  background: var(--wash);
+  background: var(--surface);
   transition:
     background-color 0.25s ease,
     border-color 0.25s ease;
@@ -64,4 +64,18 @@
   max-width: 65ch;
   color: var(--muted);
   line-height: 1.75;
+}
+
+/* Animated open/close using the grid-row trick */
+.faq-item {
+  display: grid;
+  grid-template-rows: auto;
+}
+
+.faq-item[open] {
+  grid-template-rows: auto 1fr;
+}
+
+.faq-answer {
+  overflow: hidden;
 }

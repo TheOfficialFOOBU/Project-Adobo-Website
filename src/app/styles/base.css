@@ -92,7 +92,7 @@ p {
   color: var(--text);
 }
 
-/* Thin themed scrollbars (WebKit/Blink) */
+/* Thin themed scrollbars (WebKit/Blink + Firefox) */
 ::-webkit-scrollbar {
   width: 10px;
   height: 10px;
@@ -104,6 +104,10 @@ p {
   background: color-mix(in srgb, var(--card-border) 82%, var(--accent));
   border-radius: 999px;
   border: 2px solid var(--bg);
+}
+html {
+  scrollbar-color: color-mix(in srgb, var(--card-border) 82%, var(--accent)) transparent;
+  scrollbar-width: thin;
 }
 
 /* Focus visibility for accessibility */

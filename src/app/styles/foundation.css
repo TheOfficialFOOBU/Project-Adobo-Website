@@ -165,7 +165,7 @@
   --accent-rgb: 157 122 50;
   --accent2-rgb: 72 112 92;
   --crimson-rgb: 160 58 40;
-  --muted: #75694f;
+  --muted: #5e5340;
   --text: #2a2317;
   --card-border: #ddd2ba;
 
@@ -191,7 +191,7 @@
   --select-border-hover: #b3a179;
   --footer-bg: #ebe3d0;
   --footer-rule: #dbd0b6;
-  --footer-text: #7d7157;
+  --footer-text: #5e5340;
   --icon-border: #d3c6aa;
   --shimmer-lo: rgba(42, 35, 23, 0.04);
   --shimmer-hi: rgba(42, 35, 23, 0.08);
