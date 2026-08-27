@@ -12,11 +12,13 @@ interface LocalVideo {
   id: string;
   src: string;
   title: string;
+  label?: string;
   description: string;
   featured?: boolean;
 }
 
 const VIDEOS = videosData as LocalVideo[];
+const COLLAPSED_GRID_COUNT = 2;
 
 function LocalVideoPlayer({ video }: { video: LocalVideo }) {
   const videoRef = useRef<HTMLVideoElement | null>(null);
@@ -51,6 +53,7 @@ function LocalVideoPlayer({ video }: { video: LocalVideo }) {
         )}
       </div>
       <div className="video-info">
+        {video.label && <span className="video-label">{video.label}</span>}
         <h3>{video.title}</h3>
         <p>{video.description}</p>
       </div>
@@ -60,8 +63,11 @@ function LocalVideoPlayer({ video }: { video: LocalVideo }) {
 
 /** "Guild Videos" — locally hosted Discord clips. */
 export function VideoGallerySection() {
+  const [expanded, setExpanded] = useState(false);
   const featured = VIDEOS.find((v) => v.featured);
   const rest = VIDEOS.filter((v) => !v.featured);
+  const visibleRest = expanded ? rest : rest.slice(0, COLLAPSED_GRID_COUNT);
+  const hasMore = rest.length > COLLAPSED_GRID_COUNT;
 
   return (
     <section className="video-gallery" id="videos" data-animate>
@@ -79,11 +85,24 @@ export function VideoGallerySection() {
           </div>
         )}
 
-        {rest.length > 0 && (
+        {visibleRest.length > 0 && (
           <div className="video-grid">
-            {rest.map((video) => (
+            {visibleRest.map((video) => (
               <LocalVideoPlayer key={video.id} video={video} />
             ))}
+          </div>
+        )}
+
+        {hasMore && (
+          <div className="video-toggle-wrap">
+            <button
+              type="button"
+              className="chip"
+              onClick={() => setExpanded((prev) => !prev)}
+              aria-expanded={expanded}
+            >
+              {expanded ? 'Show less' : `Show more (${rest.length - COLLAPSED_GRID_COUNT})`}
+            </button>
           </div>
         )}
       </div>

@@ -4,6 +4,7 @@
     "id": "discord-aura-farm",
     "src": "/videos/Calialy Aura Farm.mp4",
     "title": "Calialy Aura Farm",
+    "label": "Discord Clip",
     "description": "Calialy doing Calialy things",
     "featured": true
   },
@@ -12,6 +13,7 @@
     "id": "discord-schalsweiser-fanbrella",
     "src": "/videos/Schalsweiser Denying Fanbrella.mp4",
     "title": "Schalsweiser Denying Fanbrella",
-    "description": "Schalsweiser said no"
+    "label": "Discord Clip",
+    "description": "Schalsweiser Epic Deflect to a Fanbrella User"
   }
 ]
