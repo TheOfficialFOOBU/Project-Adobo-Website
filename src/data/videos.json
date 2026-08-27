@@ -1,32 +1,11 @@
 [
   {
-    "type": "tiktok",
-    "id": "tiktok-aura-farm",
-    "embedId": "7631629496684236052",
-    "title": "Guild Aura Farm",
-    "description": "Adobo Guild vibes",
-    "featured": true
-  },
-  {
-    "type": "tiktok",
-    "id": "tiktok-slideshow-1",
-    "embedId": "7609473829634706709",
-    "title": "Guild Moments",
-    "description": "Memories from our adventures"
-  },
-  {
-    "type": "tiktok",
-    "id": "tiktok-slideshow-2",
-    "embedId": "7607602121428585749",
-    "title": "Guild Life",
-    "description": "What it's like being part of Adobo"
-  },
-  {
     "type": "local",
     "id": "discord-aura-farm",
     "src": "/videos/Calialy Aura Farm.mp4",
     "title": "Calialy Aura Farm",
-    "description": "Calialy doing Calialy things"
+    "description": "Calialy doing Calialy things",
+    "featured": true
   },
   {
     "type": "local",

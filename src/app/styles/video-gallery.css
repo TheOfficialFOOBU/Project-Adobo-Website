@@ -17,8 +17,8 @@
 }
 
 .video-featured .video-embed-wrapper {
-  aspect-ratio: 9 / 14;
-  max-height: 520px;
+  aspect-ratio: 16 / 9;
+  max-height: 480px;
 }
 
 /* Grid for remaining videos */
@@ -46,7 +46,7 @@
 
 .video-embed-wrapper {
   position: relative;
-  aspect-ratio: 9 / 14;
+  aspect-ratio: 16 / 9;
   background: var(--bg);
   overflow: hidden;
   border-bottom: 1px solid var(--border-softer);
@@ -113,15 +113,6 @@
   line-height: 1.5;
   color: var(--muted);
 }
-
-/* Skeleton for TikTok embeds loading */
-.video-embed-wrapper .skeleton-bg {
-  position: absolute;
-  inset: 0;
-  background: var(--bg);
-  z-index: 0;
-}
-
 @media (max-width: 1024px) {
   .video-grid {
     grid-template-columns: repeat(2, 1fr);

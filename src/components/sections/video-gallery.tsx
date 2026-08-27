@@ -7,15 +7,6 @@ import { cn } from '@/lib/utils';
 
 import videosData from '@/data/videos.json';
 
-interface TikTokVideo {
-  type: 'tiktok';
-  id: string;
-  embedId: string;
-  title: string;
-  description: string;
-  featured?: boolean;
-}
-
 interface LocalVideo {
   type: 'local';
   id: string;
@@ -25,34 +16,7 @@ interface LocalVideo {
   featured?: boolean;
 }
 
-type Video = TikTokVideo | LocalVideo;
-
-const VIDEOS = videosData as Video[];
-
-function TikTokEmbed({ video }: { video: TikTokVideo }) {
-  const [loaded, setLoaded] = useState(false);
-
-  return (
-    <div className={cn('video-card', video.featured && 'video-card--featured')}>
-      <div className="video-embed-wrapper">
-        {!loaded && <div className="skeleton-bg" aria-hidden="true" />}
-        <iframe
-          src={`https://www.tiktok.com/embed/v2/${video.embedId}`}
-          title={video.title}
-          allowFullScreen
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          loading="lazy"
-          onLoad={() => setLoaded(true)}
-          className={cn('video-embed', loaded && 'loaded')}
-        />
-      </div>
-      <div className="video-info">
-        <h3>{video.title}</h3>
-        <p>{video.description}</p>
-      </div>
-    </div>
-  );
-}
+const VIDEOS = videosData as LocalVideo[];
 
 function LocalVideoPlayer({ video }: { video: LocalVideo }) {
   const videoRef = useRef<HTMLVideoElement | null>(null);
@@ -94,7 +58,7 @@ function LocalVideoPlayer({ video }: { video: LocalVideo }) {
   );
 }
 
-/** "Guild Videos" — TikTok embeds + locally hosted Discord clips. */
+/** "Guild Videos" — locally hosted Discord clips. */
 export function VideoGallerySection() {
   const featured = VIDEOS.find((v) => v.featured);
   const rest = VIDEOS.filter((v) => !v.featured);
@@ -111,23 +75,15 @@ export function VideoGallerySection() {
 
         {featured && (
           <div className="video-featured">
-            {featured.type === 'tiktok' ? (
-              <TikTokEmbed video={featured} />
-            ) : (
-              <LocalVideoPlayer video={featured} />
-            )}
+            <LocalVideoPlayer video={featured} />
           </div>
         )}
 
         {rest.length > 0 && (
           <div className="video-grid">
-            {rest.map((video) =>
-              video.type === 'tiktok' ? (
-                <TikTokEmbed key={video.id} video={video} />
-              ) : (
-                <LocalVideoPlayer key={video.id} video={video} />
-              )
-            )}
+            {rest.map((video) => (
+              <LocalVideoPlayer key={video.id} video={video} />
+            ))}
           </div>
         )}
       </div>
