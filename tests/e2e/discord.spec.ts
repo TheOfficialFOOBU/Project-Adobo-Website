@@ -2,14 +2,15 @@ import { expect, test } from '@playwright/test';
 
 const SITE = '/Project-Adobo-Website';
 
-test('footer widget swaps to a static card when Discord is blocked', async ({ page }) => {
+test('footer widget shows a static card when Discord is blocked', async ({ page }) => {
   // Simulate an ad blocker / firewall dropping the widget iframe.
   await page.route(/discord\.com\/widget/, (route) => route.abort());
   await page.goto(`${SITE}/`);
 
   const fallback = page.locator('.discord-fallback');
   await expect(fallback).toBeVisible({ timeout: 15000 });
-  await expect(fallback.getByRole('link', { name: /join us on discord/i })).toBeAttached();
+  // Widget starts disabled — shows a button, not a link
+  await expect(fallback.getByRole('button', { name: /show online members/i })).toBeVisible();
   await expect(page.locator('.discord-iframe')).toHaveCount(0);
 });
 

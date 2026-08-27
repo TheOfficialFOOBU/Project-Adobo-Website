@@ -45,7 +45,7 @@
     "prettier": "^3.8.4",
     "sharp": "^0.34.5",
     "tailwindcss": "^4.3.3",
-    "typescript": "^5.9.3"
+    "typescript": "~6.0.0"
   },
   "lint-staged": {
     "*.{ts,tsx,js,mjs}": [

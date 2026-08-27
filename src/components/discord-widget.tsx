@@ -37,7 +37,7 @@ const LOAD_TIMEOUT_MS = 8000;
  */
 export function DiscordWidget() {
   const theme = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
-  const [enabled, setEnabled] = useState(true);
+  const [enabled, setEnabled] = useState(false);
   const [loaded, setLoaded] = useState(false);
   const [failed, setFailed] = useState(false);
 
