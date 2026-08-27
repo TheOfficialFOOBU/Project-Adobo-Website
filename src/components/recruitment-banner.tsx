@@ -17,7 +17,11 @@ export function RecruitmentBanner({ config }: { config: RecruitmentConfig }) {
 
   // Homepage-only chrome: profiles have their own fixed member bar at the
   // same slot, and error pages shouldn't carry recruitment noise.
-  if (pathname !== '/' || !config.open || dismissed) return null;
+  const isHome =
+    pathname === '/' ||
+    pathname.endsWith('/Project-Adobo-Website/') ||
+    pathname === '/Project-Adobo-Website';
+  if (!isHome || !config.open || dismissed) return null;
 
   const dismiss = () => {
     setDismissed(true);
