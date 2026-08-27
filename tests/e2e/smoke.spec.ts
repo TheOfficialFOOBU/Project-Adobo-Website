@@ -76,7 +76,7 @@ test('homepage renders with full functionality and captures design snapshots', a
   await expect(modal).toHaveCount(0);
 
   // Background music toggle injected and present
-  await expect(page.getByRole('button', { name: 'Toggle background music' })).toBeVisible();
+  await expect(page.getByRole('button', { name: /Play|Pause background music/ })).toBeVisible();
 
   // Theme toggle flips <html data-theme> and persists across reloads
   const themeToggle = page.getByRole('button', { name: /Switch to (light|dark) theme/ });
