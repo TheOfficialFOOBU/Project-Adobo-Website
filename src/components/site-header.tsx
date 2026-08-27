@@ -1,6 +1,7 @@
 'use client';
 
 import { Menu, X } from 'lucide-react';
+import { usePathname } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 
 import { ThemeToggle } from '@/components/theme-toggle';
@@ -27,9 +28,20 @@ const NAV_LINKS = [
  *  - scroll progress: a thin gold bar along the header's bottom edge
  */
 export function SiteHeader() {
+  const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('');
   const progressRef = useRef<HTMLDivElement | null>(null);
+
+  /** True when on the homepage (matches "/" or "/Project-Adobo-Website/"). */
+  const isHome = pathname === '/' || pathname === BASE_PATH || pathname === `${BASE_PATH}/`;
+
+  /** Resolve a nav href — hash anchors stay as-is on the homepage, but
+   *  on other pages they need the full homepage path so they navigate back. */
+  const resolveHref = (href: string) => {
+    if (!href.startsWith('#')) return href;
+    return isHome ? href : `${BASE_PATH}/${href}`;
+  };
 
   useEffect(() => {
     const sections = NAV_LINKS.filter((link) => link.href.startsWith('#'))
@@ -135,7 +147,7 @@ export function SiteHeader() {
       >
         {menuOpen ? <X aria-hidden="true" /> : <Menu aria-hidden="true" />}
       </button>
-      <a href="#home" className="logo" aria-label="Home">
+      <a href={resolveHref('#home')} className="logo" aria-label="Home">
         <picture>
           <source
             type="image/webp"
@@ -159,7 +171,7 @@ export function SiteHeader() {
           {NAV_LINKS.map((link) => (
             <li key={link.href}>
               <a
-                href={link.href}
+                href={resolveHref(link.href)}
                 className={
                   link.href.startsWith('#') && activeSection === link.href.slice(1)
                     ? 'active'
