@@ -47,8 +47,9 @@
 .video-embed-wrapper {
   position: relative;
   aspect-ratio: 9 / 14;
-  background: #000;
+  background: var(--bg);
   overflow: hidden;
+  border-bottom: 1px solid var(--border-softer);
 }
 
 .video-embed {
@@ -96,6 +97,7 @@
 /* Video info */
 .video-info {
   padding: 0.85rem 1rem;
+  background: var(--surface);
 }
 
 .video-info h3 {
@@ -116,7 +118,7 @@
 .video-embed-wrapper .skeleton-bg {
   position: absolute;
   inset: 0;
-  background: var(--wash);
+  background: var(--bg);
   z-index: 0;
 }
 
