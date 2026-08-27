@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 
 import { BackToTop } from '@/components/back-to-top';
-import { SiteFooter } from '@/components/site-footer';
 import { SiteHeader } from '@/components/site-header';
 import { SITE_TITLE } from '@/lib/site';
 
@@ -182,7 +181,6 @@ export default function RulesPage() {
           </div>
         </section>
       </main>
-      <SiteFooter />
       <BackToTop />
       <style>{`
         .rules-container {
