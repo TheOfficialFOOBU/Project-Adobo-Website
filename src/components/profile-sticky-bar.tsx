@@ -56,7 +56,7 @@ export function ProfileStickyBar({
         inert={!visible}
       >
         {/* eslint-disable-next-line @next/next/no-img-element -- pre-generated WebP assets */}
-        <img src={thumb} alt="" width={34} height={34} loading="lazy" />
+        <img src={thumb} alt={name} width={34} height={34} loading="lazy" />
         <div className="profile-sticky-meta">
           <strong>{name}</strong>
           <span>{position}</span>

@@ -40,7 +40,9 @@ export async function generateMetadata({ params }: MemberPageProps): Promise<Met
     member.quote ? ` — "${member.quote}"` : ''
   }`;
   // JPG social card — link previews (Discord/X/Facebook) don't render WebP.
-  const ogImage = asset(`/images/og/members/${memberSlug(member)}.jpg`);
+  // Fallback to the default og-card.jpg if the member-specific card doesn't exist.
+  const memberOgImage = asset(`/images/og/members/${memberSlug(member)}.jpg`);
+  const ogImage = member.founder ? memberOgImage : asset('/images/og-card.jpg');
 
   return {
     title,

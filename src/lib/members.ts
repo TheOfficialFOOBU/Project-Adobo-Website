@@ -56,7 +56,7 @@ export const REGULAR_MEMBERS: GuildMember[] = GUILD_MEMBERS.filter(
 export type MemberSortKey = 'name' | 'position' | 'class' | 'weapon';
 
 const SORT_POSITION_ORDER: Record<string, number> = {
-  'Guild Leader': 1,
+  'Guild Master': 1,
   'Vice Master': 2,
   Officer: 3,
   Member: 4,

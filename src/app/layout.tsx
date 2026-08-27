@@ -18,6 +18,9 @@ export const metadata: Metadata = {
   description: SITE_DESCRIPTION,
   authors: [{ name: 'FOOBU' }],
   manifest: asset('/manifest.json'),
+  alternates: {
+    canonical: SITE_URL,
+  },
   openGraph: {
     title: SITE_TITLE,
     description: SITE_DESCRIPTION,
@@ -87,7 +90,21 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           rel="preload"
           as="font"
           type="font/woff2"
+          href={asset('/fonts/inter-500.woff2')}
+          crossOrigin="anonymous"
+        />
+        <link
+          rel="preload"
+          as="font"
+          type="font/woff2"
           href={asset('/fonts/cormorant-garamond-600.woff2')}
+          crossOrigin="anonymous"
+        />
+        <link
+          rel="preload"
+          as="font"
+          type="font/woff2"
+          href={asset('/fonts/cormorant-garamond-700.woff2')}
           crossOrigin="anonymous"
         />
       </head>
@@ -103,6 +120,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <BackToTop />
         <ScrollReveal />
         <SmoothAnchors />
+        <noscript>
+          <style
+            dangerouslySetInnerHTML={{
+              __html: '[data-animate]{opacity:1!important;transform:none!important}',
+            }}
+          />
+        </noscript>
       </body>
     </html>
   );
