@@ -1,37 +1,18 @@
 'use client';
 
 import { usePathname } from 'next/navigation';
-import { useSyncExternalStore } from 'react';
+import { useState } from 'react';
 
 import { DISCORD_INVITE } from '@/lib/site';
 import type { RecruitmentConfig } from '@/lib/recruitment';
 
-const DISMISS_KEY = 'recruit-banner-dismissed';
-
-function subscribe(onChange: () => void) {
-  window.addEventListener('storage', onChange);
-  return () => window.removeEventListener('storage', onChange);
-}
-
-function getSnapshot(): boolean {
-  try {
-    return window.localStorage.getItem(DISMISS_KEY) === '1';
-  } catch {
-    return true;
-  }
-}
-
-/** SSR/hydration snapshot — banner stays hidden until the client confirms. */
-function getServerSnapshot(): boolean {
-  return true;
-}
-
 /**
- * Slim recruitment strip under the fixed site header. Dismissal persists in
- * localStorage; officers toggle openings via src/data/recruitment.json.
+ * Slim recruitment strip under the fixed site header. Dismissed state is
+ * in-memory only — the banner reappears on every page load/refresh.
+ * Officers toggle openings via src/data/recruitment.json.
  */
 export function RecruitmentBanner({ config }: { config: RecruitmentConfig }) {
-  const dismissed = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
+  const [dismissed, setDismissed] = useState(false);
   const pathname = usePathname();
 
   // Homepage-only chrome: profiles have their own fixed member bar at the
@@ -39,13 +20,7 @@ export function RecruitmentBanner({ config }: { config: RecruitmentConfig }) {
   if (pathname !== '/' || !config.open || dismissed) return null;
 
   const dismiss = () => {
-    try {
-      window.localStorage.setItem(DISMISS_KEY, '1');
-    } catch {
-      // Private mode — banner returns next visit, acceptable.
-    }
-    // storage only fires cross-tab; nudge this tab's subscription.
-    window.dispatchEvent(new Event('storage'));
+    setDismissed(true);
   };
 
   return (
