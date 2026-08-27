@@ -170,12 +170,9 @@ export function RosterSection() {
     );
   }, [query, roleFilter, sortKey, currentPage]);
 
-  /* "/" focuses the roster search when the roster section is visible.
-     Scoped to avoid hijacking the browser find shortcut. */
+  /* "/" focuses the roster search from anywhere on the page. The toolbar
+     is shared across tabs, so no tab switch is needed anymore. */
   useEffect(() => {
-    const rosterSection = document.getElementById('team');
-    if (!rosterSection) return;
-
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key !== '/') return;
       const target = event.target as HTMLElement | null;
@@ -183,9 +180,6 @@ export function RosterSection() {
       if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || target?.isContentEditable) {
         return;
       }
-      const rect = rosterSection.getBoundingClientRect();
-      const inView = rect.top < window.innerHeight && rect.bottom > 0;
-      if (!inView) return;
       event.preventDefault();
       document.getElementById('member-search')?.focus();
     };
