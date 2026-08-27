@@ -27,5 +27,12 @@
     "src": "/videos/Calialy Aura Farm.mp4",
     "title": "Calialy Aura Farm",
     "description": "Calialy doing Calialy things"
+  },
+  {
+    "type": "local",
+    "id": "discord-schalsweiser-fanbrella",
+    "src": "/videos/Schalsweiser Denying Fanbrella.mp4",
+    "title": "Schalsweiser Denying Fanbrella",
+    "description": "Schalsweiser said no"
   }
 ]
