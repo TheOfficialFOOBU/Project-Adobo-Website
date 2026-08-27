@@ -2,6 +2,7 @@ import { CopyButton } from '@/components/copy-button';
 import { DiscordPresenceBadge } from '@/components/discord-presence-badge';
 import { GlowCta } from '@/components/glow-cta';
 import { HeroScrollFx } from '@/components/hero-scroll-fx';
+import { MagneticButton } from '@/components/magnetic-button';
 import { fetchDiscordPresence } from '@/lib/discord';
 import { DISCORD_INVITE, asset } from '@/lib/site';
 
@@ -46,13 +47,17 @@ export async function HeroSection() {
         </h1>
         <p className="subtitle">Where Winds Meet</p>
         <div className="hero-cta-row">
-          <GlowCta className="cta-button glow" href={DISCORD_INVITE}>
-            Join the Discord
-          </GlowCta>
+          <MagneticButton>
+            <GlowCta className="cta-button glow" href={DISCORD_INVITE}>
+              Join the Discord
+            </GlowCta>
+          </MagneticButton>
           <CopyButton value={DISCORD_INVITE} label="Copy invite" className="copy-invite-button" />
-          <a className="cta-button light" href="#team">
-            Meet the Guild
-          </a>
+          <MagneticButton>
+            <a className="cta-button light" href="#team">
+              Meet the Guild
+            </a>
+          </MagneticButton>
         </div>
         {presence ? <DiscordPresenceBadge initial={presence} /> : null}
       </div>

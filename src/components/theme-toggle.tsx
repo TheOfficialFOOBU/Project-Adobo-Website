@@ -38,12 +38,18 @@ export function ThemeToggle({ className = 'theme-toggle' }: { className?: string
 
   const toggle = useCallback(() => {
     const next: Theme = getSnapshot() === 'light' ? 'dark' : 'light';
+    // Add transition class for smooth theme crossfade
+    document.documentElement.classList.add('theme-transitioning');
     document.documentElement.dataset.theme = next;
     try {
       localStorage.setItem(STORAGE_KEY, next);
     } catch {
       // Private mode / storage disabled — theme still applies for the session.
     }
+    // Remove transition class after animation completes
+    setTimeout(() => {
+      document.documentElement.classList.remove('theme-transitioning');
+    }, 350);
   }, []);
 
   return (

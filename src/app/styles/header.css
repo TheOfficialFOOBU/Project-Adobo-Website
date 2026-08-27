@@ -106,6 +106,22 @@ nav a.active::after {
   transform-origin: left;
   pointer-events: none;
   z-index: 1;
+  transition: box-shadow 0.3s ease;
+}
+
+/* Milestone glow effects as user scrolls */
+.scroll-progress.milestone-25 {
+  box-shadow: 0 0 8px rgb(var(--crimson-rgb) / 0.4);
+}
+.scroll-progress.milestone-50 {
+  box-shadow: 0 0 10px rgb(var(--accent-rgb) / 0.5);
+}
+.scroll-progress.milestone-75 {
+  box-shadow: 0 0 12px rgb(var(--accent-rgb) / 0.6);
+}
+.scroll-progress.milestone-100 {
+  box-shadow: 0 0 14px rgb(var(--accent-rgb) / 0.7);
+  height: 3px;
 }
 
 .menu-btn {

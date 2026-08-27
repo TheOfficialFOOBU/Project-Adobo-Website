@@ -64,6 +64,11 @@ export function SiteHeader() {
       const max = document.documentElement.scrollHeight - window.innerHeight;
       const progress = max > 0 ? Math.min(window.scrollY / max, 1) : 0;
       bar.style.transform = `scaleX(${progress})`;
+      // Add milestone class at 25%, 50%, 75%, 100%
+      bar.classList.toggle('milestone-25', progress >= 0.25);
+      bar.classList.toggle('milestone-50', progress >= 0.5);
+      bar.classList.toggle('milestone-75', progress >= 0.75);
+      bar.classList.toggle('milestone-100', progress >= 0.99);
     };
     const onScroll = () => {
       if (!raf) raf = requestAnimationFrame(update);

@@ -1,6 +1,6 @@
 'use client';
 
-import { ArrowRight, RotateCw } from 'lucide-react';
+import { ArrowRight, RotateCw, Link2, Check } from 'lucide-react';
 import Link from 'next/link';
 import { useEffect, useMemo, useRef, useState, useSyncExternalStore } from 'react';
 
@@ -45,6 +45,7 @@ export function MemberCard({ member, highlight = '' }: MemberCardProps) {
   const [flipped, setFlipped] = useState(false);
   const [loaded, setLoaded] = useState(false);
   const [srcIndex, setSrcIndex] = useState(-1); // -1 = original src, then fallbacks, then placeholder
+  const [copied, setCopied] = useState(false);
   const photoRef = useRef<HTMLImageElement | null>(null);
   const hasHover = useSyncExternalStore(subscribeHover, getHoverSnapshot, getHoverServerSnapshot);
 
@@ -166,6 +167,22 @@ export function MemberCard({ member, highlight = '' }: MemberCardProps) {
             View full profile
             <ArrowRight aria-hidden="true" />
           </Link>
+          <button
+            type="button"
+            className="member-copy-link"
+            onClick={(event) => {
+              event.stopPropagation();
+              const url = `${window.location.origin}/Project-Adobo-Website/members/${memberSlug(member)}`;
+              navigator.clipboard.writeText(url).then(() => {
+                setCopied(true);
+                setTimeout(() => setCopied(false), 2000);
+              });
+            }}
+            aria-label={copied ? 'Link copied' : `Copy link to ${member.name}'s profile`}
+          >
+            {copied ? <Check aria-hidden="true" /> : <Link2 aria-hidden="true" />}
+            {copied ? 'Copied!' : 'Copy link'}
+          </button>
         </div>
       </div>
     </div>

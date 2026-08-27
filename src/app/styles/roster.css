@@ -98,19 +98,30 @@
 .member-card {
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
-  transition: transform 0.35s ease;
+  transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
 @media (hover: hover) {
   .member-card:hover {
-    transform: translateY(-4px);
+    transform: translateY(-6px) scale(1.01);
   }
 }
 
-.member-card:hover .member-card-face {
-  box-shadow:
-    0 18px 40px rgba(8, 6, 3, 0.35),
-    0 26px 56px rgba(8, 6, 3, 0.4);
+@media (hover: hover) {
+  .member-card:hover .member-card-face {
+    box-shadow:
+      0 20px 50px rgba(8, 6, 3, 0.4),
+      0 30px 70px rgba(8, 6, 3, 0.25),
+      0 0 0 1px rgb(var(--accent-rgb) / 0.3);
+    border-color: rgb(var(--accent-rgb) / 0.5);
+  }
+}
+
+@media (hover: hover) {
+  .member-card:hover .member-card-photo {
+    transform: scale(1.03);
+    transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
 }
 
 .member-card-inner {
@@ -143,7 +154,9 @@
   box-shadow: 0 18px 40px rgba(8, 6, 3, 0.35);
   backface-visibility: hidden;
   overflow: hidden;
-  transition: border-color 0.3s ease;
+  transition:
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
 .member-card:hover .member-card-face {
@@ -177,6 +190,7 @@
   margin: 0 auto;
   padding: 0;
   border-bottom: 0;
+  transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
 .member-card-front .skeleton-wrap {
@@ -325,6 +339,46 @@
 .member-card-hint svg {
   width: 10px;
   height: 10px;
+}
+
+.member-copy-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  align-self: center;
+  margin-top: 0.5rem;
+  padding: 0.35rem 0.75rem;
+  font-family: var(--font-sans);
+  font-size: 0.65rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--muted);
+  background: transparent;
+  border: 1px solid var(--border-soft);
+  border-radius: 2px;
+  cursor: pointer;
+  transition:
+    color 0.25s ease,
+    border-color 0.25s ease,
+    background 0.25s ease;
+}
+
+.member-copy-link svg {
+  width: 11px;
+  height: 11px;
+}
+
+@media (hover: hover) {
+  .member-copy-link:hover {
+    color: var(--accent);
+    border-color: rgb(var(--accent-rgb) / 0.5);
+    background: var(--btn-wash);
+  }
+}
+
+.member-copy-link:has(svg) {
+  gap: 4px;
 }
 
 .team-member a {
