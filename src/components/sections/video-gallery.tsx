@@ -18,7 +18,7 @@ interface LocalVideo {
 }
 
 const VIDEOS = videosData as LocalVideo[];
-const COLLAPSED_GRID_COUNT = 2;
+const COLLAPSED_GRID_COUNT = 3;
 
 function LocalVideoPlayer({ video }: { video: LocalVideo }) {
   const videoRef = useRef<HTMLVideoElement | null>(null);
