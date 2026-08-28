@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { asset } from '@/lib/site';
 import { cn } from '@/lib/utils';
@@ -20,24 +20,38 @@ interface LocalVideo {
 const VIDEOS = videosData as LocalVideo[];
 const COLLAPSED_GRID_COUNT = 3;
 
-function LocalVideoPlayer({
-  video,
-  preload,
-}: {
-  video: LocalVideo;
-  preload?: 'metadata' | 'none';
-}) {
+function LocalVideoPlayer({ video, lazy }: { video: LocalVideo; lazy?: boolean }) {
   const videoRef = useRef<HTMLVideoElement | null>(null);
+  const wrapperRef = useRef<HTMLDivElement | null>(null);
   const [playing, setPlaying] = useState(false);
+  const [inView, setInView] = useState(!lazy);
+
+  useEffect(() => {
+    if (!lazy || inView) return;
+    const el = wrapperRef.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setInView(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: '200px' }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [lazy, inView]);
 
   return (
-    <div className={cn('video-card', video.featured && 'video-card--featured')}>
+    <div ref={wrapperRef} className={cn('video-card', video.featured && 'video-card--featured')}>
       <div className="video-embed-wrapper">
         <video
           ref={videoRef}
           src={asset(video.src)}
           controls
-          preload={preload ?? 'metadata'}
+          preload={inView ? 'metadata' : 'none'}
           playsInline
           className="video-embed loaded"
           onPause={() => setPlaying(false)}
@@ -94,7 +108,7 @@ export function VideoGallerySection() {
         {visibleRest.length > 0 && (
           <div className="video-grid">
             {visibleRest.map((video) => (
-              <LocalVideoPlayer key={video.id} video={video} preload="none" />
+              <LocalVideoPlayer key={video.id} video={video} lazy />
             ))}
           </div>
         )}
