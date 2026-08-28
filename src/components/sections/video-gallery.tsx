@@ -20,7 +20,13 @@ interface LocalVideo {
 const VIDEOS = videosData as LocalVideo[];
 const COLLAPSED_GRID_COUNT = 3;
 
-function LocalVideoPlayer({ video }: { video: LocalVideo }) {
+function LocalVideoPlayer({
+  video,
+  preload,
+}: {
+  video: LocalVideo;
+  preload?: 'metadata' | 'none';
+}) {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const [playing, setPlaying] = useState(false);
 
@@ -31,7 +37,7 @@ function LocalVideoPlayer({ video }: { video: LocalVideo }) {
           ref={videoRef}
           src={asset(video.src)}
           controls
-          preload="metadata"
+          preload={preload ?? 'metadata'}
           playsInline
           className="video-embed loaded"
           onPause={() => setPlaying(false)}
@@ -88,7 +94,7 @@ export function VideoGallerySection() {
         {visibleRest.length > 0 && (
           <div className="video-grid">
             {visibleRest.map((video) => (
-              <LocalVideoPlayer key={video.id} video={video} />
+              <LocalVideoPlayer key={video.id} video={video} preload="none" />
             ))}
           </div>
         )}
