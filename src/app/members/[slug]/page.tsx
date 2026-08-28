@@ -41,17 +41,20 @@ export async function generateMetadata({ params }: MemberPageProps): Promise<Met
     member.quote ? ` — "${member.quote}"` : ''
   }`;
   // JPG social card — link previews (Discord/X/Facebook) don't render WebP.
-  // Fallback to the default og-card.jpg if the member-specific card doesn't exist.
-  const memberOgImage = asset(`/images/og/members/${memberSlug(member)}.jpg`);
-  const ogImage = member.founder ? memberOgImage : asset('/images/og-card.jpg');
+  // Use all member OG images (not just founders) since they are pre-generated.
+  const ogImage = `/images/og/members/${memberSlug(member)}.jpg`;
+  const profileUrl = `${SITE_URL}/members/${memberSlug(member)}`;
 
   return {
     title,
     description,
-    // Unprefixed on purpose — metadataBase joins these with the site URL.
+    alternates: {
+      canonical: profileUrl,
+    },
     openGraph: {
       title,
       description,
+      url: profileUrl,
       images: [{ url: ogImage, width: 1200, height: 630, alt: `${member.name} — Adobo Guild` }],
     },
     twitter: {
@@ -84,6 +87,25 @@ export default async function MemberProfilePage({ params }: MemberPageProps) {
 
   return (
     <main id="main" className="profile-main">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'Person',
+            name: member.name,
+            url: `${SITE_URL}/members/${memberSlug(member)}`,
+            image: `${SITE_URL}${fallbackSrc}`,
+            jobTitle: member.position,
+            description: member.quote ? `"${member.quote}"` : undefined,
+            memberOf: {
+              '@type': 'Organization',
+              name: 'Adobo Guild',
+              url: SITE_URL,
+            },
+          }),
+        }}
+      />
       <div className="container">
         <Link href="/" className="profile-back">
           ← Back to the Guild

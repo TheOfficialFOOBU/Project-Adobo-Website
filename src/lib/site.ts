@@ -13,8 +13,7 @@ export function assetSrcSet(srcSet: string): string {
 }
 
 /** Canonical site URL and shared metadata strings. */
-export const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL ?? 'https://foobu.github.io/Project-Adobo-Website';
+export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://adobowwm.vercel.app';
 
 export const SITE_TITLE = 'Adobo Guild - Where Winds Meet';
 

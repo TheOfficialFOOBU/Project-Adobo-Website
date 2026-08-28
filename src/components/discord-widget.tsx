@@ -72,6 +72,7 @@ export function DiscordWidget() {
           className="cta-button small"
         >
           Join us on Discord
+          <span className="sr-only">(opens in new tab)</span>
         </a>
       </div>
     );

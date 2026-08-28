@@ -51,6 +51,15 @@
 }
 
 /* Single mobile breakpoint */
+@media (max-width: 900px) {
+  .hero-2 {
+    padding: 4rem 1.25rem;
+  }
+  .contact-cta {
+    padding: 4rem 1.25rem;
+  }
+}
+
 @media (max-width: 768px) {
   /* Fixed grain + vignette layers force constant compositing — skip on phones. */
   body::before,
@@ -98,7 +107,7 @@
     right: 0;
     bottom: 0;
     background: var(--nav-panel);
-    z-index: 999;
+    z-index: 1100;
     padding: 5rem 1.5rem 2rem;
     overflow-y: auto;
     opacity: 0;
@@ -169,8 +178,8 @@
   .members-grid-container {
     grid-template-columns: repeat(2, 1fr);
   }
-  .member-card-front h4,
-  .member-card-back h4 {
+  .member-card-front h3,
+  .member-card-back h3 {
     font-size: 1.1rem;
   }
 
@@ -300,6 +309,59 @@
   [data-animate].in-view .team-member {
     animation: none;
   }
+  .hero-inner,
+  .hero .subtitle {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+  .scroll-indicator {
+    animation: none;
+    opacity: 1;
+  }
+  header {
+    animation: none;
+    opacity: 1;
+  }
+  [data-animate] {
+    transition: none;
+    opacity: 1;
+    transform: none;
+  }
+  [data-animate].in-view {
+    transition: none;
+  }
+  [data-animate='slide-left'],
+  [data-animate='slide-left'].in-view,
+  [data-animate='slide-right'],
+  [data-animate='slide-right'].in-view,
+  [data-animate='scale-in'],
+  [data-animate='scale-in'].in-view {
+    transform: none;
+  }
+  .profile-card {
+    animation: none;
+  }
+  .modal-overlay {
+    animation: none;
+  }
+  .modal-content {
+    animation: none;
+  }
+  .modal-positioner[data-state='closed'] .modal-content {
+    animation: none;
+  }
+  .faq-item {
+    transition: none;
+  }
+  .faq-item summary svg {
+    transition: none;
+  }
+  .back-to-top {
+    transition:
+      opacity 0.01s,
+      transform 0.01s;
+  }
   .discord-live-dot {
     animation: none;
   }
@@ -324,5 +386,17 @@
   }
   .skeleton-wrap.skeleton::before {
     animation: none;
+  }
+  .member-card.is-flipped .member-card-back {
+    animation: none;
+  }
+  .rule-card {
+    transition: none;
+  }
+  .social-link {
+    transition: none;
+  }
+  .social-link::before {
+    transition: none;
   }
 }

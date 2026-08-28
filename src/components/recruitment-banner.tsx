@@ -47,6 +47,7 @@ export function RecruitmentBanner({ config }: { config: RecruitmentConfig }) {
         className="cta-button small"
       >
         Join up
+        <span className="sr-only">(opens in new tab)</span>
       </a>
       <button type="button" className="recruit-dismiss" aria-label="Dismiss" onClick={dismiss}>
         &times;

@@ -53,6 +53,7 @@ function LocalVideoPlayer({ video, lazy }: { video: LocalVideo; lazy?: boolean }
           controls
           preload={inView ? 'metadata' : 'none'}
           playsInline
+          title={video.title}
           className="video-embed loaded"
           onPause={() => setPlaying(false)}
           onPlay={() => setPlaying(true)}

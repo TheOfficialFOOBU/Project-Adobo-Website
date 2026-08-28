@@ -32,7 +32,7 @@ footer::before {
   align-items: start;
 }
 
-.footer-section h5 {
+.footer-section h3 {
   font-family: var(--font-sans);
   font-size: 0.7rem;
   font-weight: 600;

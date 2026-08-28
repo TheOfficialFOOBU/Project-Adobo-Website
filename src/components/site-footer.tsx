@@ -23,14 +23,14 @@ export function SiteFooter() {
       <div className="container">
         <div className="footer-content">
           <div className="footer-section">
-            <h5>Community</h5>
+            <h3>Community</h3>
             <div className="discord-widget" id="discord-widget">
               <DiscordWidget />
               <small className="discord-widget-note">Adobo Where Winds Meet Discord</small>
             </div>
           </div>
           <div className="footer-section" aria-label="Guild navigation">
-            <h5>Guild</h5>
+            <h3>Guild</h3>
             {GUILD_LINKS.map((link) => (
               <a href={link.href} key={link.href}>
                 {link.label}
@@ -38,7 +38,7 @@ export function SiteFooter() {
             ))}
           </div>
           <div className="footer-section" aria-label="Where Winds Meet navigation">
-            <h5>Where Winds Meet</h5>
+            <h3>Where Winds Meet</h3>
             {WWM_LINKS.map((link) => (
               <a href={link.href} key={link.href}>
                 {link.label}
@@ -46,6 +46,7 @@ export function SiteFooter() {
             ))}
             <a href={DISCORD_INVITE} target="_blank" rel="noopener noreferrer">
               Join our Discord
+              <span className="sr-only">(opens in new tab)</span>
             </a>
           </div>
         </div>

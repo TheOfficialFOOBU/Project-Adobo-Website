@@ -7,6 +7,7 @@ import { RecruitmentBanner } from '@/components/recruitment-banner';
 import { RECRUITMENT } from '@/lib/recruitment';
 import { SiteFooter } from '@/components/site-footer';
 import { SiteHeader } from '@/components/site-header';
+import { GUILD_MEMBERS } from '@/lib/members';
 import { asset, SITE_DESCRIPTION, SITE_TITLE, SITE_URL } from '@/lib/site';
 
 import './globals.css';
@@ -16,17 +17,20 @@ export const metadata: Metadata = {
   title: SITE_TITLE,
   description: SITE_DESCRIPTION,
   authors: [{ name: 'FOOBU' }],
-  manifest: asset('/manifest.json'),
+  manifest: '/manifest.json',
   alternates: {
     canonical: SITE_URL,
   },
   openGraph: {
     title: SITE_TITLE,
     description: SITE_DESCRIPTION,
+    url: SITE_URL,
+    siteName: SITE_TITLE,
+    locale: 'en_US',
     type: 'website',
     images: [
       {
-        url: asset('/images/og-card.jpg'),
+        url: '/images/og-card.jpg',
         width: 1200,
         height: 630,
         alt: 'Adobo Guild — Where Winds Meet',
@@ -37,7 +41,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: SITE_TITLE,
     description: SITE_DESCRIPTION,
-    images: [asset('/images/og-card.jpg')],
+    images: ['/images/og-card.jpg'],
   },
 };
 
@@ -54,11 +58,35 @@ export const viewport: Viewport = {
  */
 const THEME_INIT_SCRIPT = `(function(){try{var t=localStorage.getItem('theme');if(t!=='light'&&t!=='dark'){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: light)').matches?'light':'dark';}document.documentElement.dataset.theme=t;}catch(e){document.documentElement.dataset.theme='dark';}})();`;
 
+const GUILD_ORG_SCHEMA = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: SITE_TITLE,
+  url: SITE_URL,
+  logo: `${SITE_URL}/images/logo-640.webp`,
+  description: SITE_DESCRIPTION,
+  sameAs: ['https://discord.gg/NdZXkmYJnS'],
+  foundingDate: '2024',
+  member: GUILD_MEMBERS.map((m) => ({
+    '@type': 'OrganizationRole',
+    member: {
+      '@type': 'Person',
+      name: m.name,
+      url: `${SITE_URL}/members/${m.name.toLowerCase().replace(/\s+/g, '-')}`,
+    },
+    roleName: m.position,
+  })),
+};
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(GUILD_ORG_SCHEMA) }}
+        />
         {/* The hero art is the LCP element — start fetching it before CSS parses. */}
         <link
           rel="preload"

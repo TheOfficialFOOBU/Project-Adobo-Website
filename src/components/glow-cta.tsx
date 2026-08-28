@@ -39,6 +39,7 @@ export function GlowCta({ href, className, children }: GlowCtaProps) {
       onPointerMove={onPointerMove}
     >
       {children}
+      <span className="sr-only">(opens in new tab)</span>
     </a>
   );
 }

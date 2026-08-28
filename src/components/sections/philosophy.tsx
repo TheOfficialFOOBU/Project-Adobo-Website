@@ -27,7 +27,7 @@ export function PhilosophySection() {
               Together
             </h3>
             <p>
-              Adobo is not built by chance it is forged through trust, discipline, and shared
+              Adobo is not built by chance; it is forged through trust, discipline, and shared
               purpose. We are more than players chasing victories; we are individuals bound by
               respect, loyalty, and growth. Every member carries the guild&apos;s name not just in
               battle, but in character. We rise together, we improve together, and we never leave

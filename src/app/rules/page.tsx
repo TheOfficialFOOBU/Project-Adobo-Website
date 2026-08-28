@@ -1,16 +1,26 @@
 import type { Metadata } from 'next';
 
-import { SITE_TITLE } from '@/lib/site';
+import { SITE_TITLE, SITE_URL } from '@/lib/site';
 
 export const metadata: Metadata = {
   title: `Guild Rules — ${SITE_TITLE}`,
   description:
     'Code of conduct for Adobo Guild members in Where Winds Meet. Respect, chill vibes, and no drama.',
+  alternates: {
+    canonical: `${SITE_URL}/rules`,
+  },
   openGraph: {
     title: `Guild Rules — ${SITE_TITLE}`,
     description:
       'Code of conduct for Adobo Guild members in Where Winds Meet. Respect, chill vibes, and no drama.',
+    url: `${SITE_URL}/rules`,
     type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: `Guild Rules — ${SITE_TITLE}`,
+    description:
+      'Code of conduct for Adobo Guild members in Where Winds Meet. Respect, chill vibes, and no drama.',
   },
 };
 

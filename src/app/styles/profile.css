@@ -2,6 +2,7 @@
 
 .profile-main {
   min-height: 100vh;
+  min-height: 100dvh;
   padding: 7rem 0 5rem;
   background:
     radial-gradient(60rem 30rem at 85% -10%, rgb(var(--accent-rgb) / 0.08), transparent 60%),

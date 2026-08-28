@@ -207,8 +207,8 @@
   pointer-events: none;
 }
 
-.member-card-front h4,
-.member-card-back h4 {
+.member-card-front h3,
+.member-card-back h3 {
   font-size: 1.45rem;
   font-weight: 600;
   margin: 0;
@@ -473,7 +473,9 @@
   border-radius: 2px;
   font-size: 0.85rem;
   cursor: pointer;
-  transition: all 0.3s;
+  transition:
+    border-color 0.3s,
+    box-shadow 0.3s;
 }
 
 .sorting-controls select:hover {

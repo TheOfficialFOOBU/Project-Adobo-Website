@@ -128,9 +128,9 @@ export function MemberCard({ member, highlight = '' }: MemberCardProps) {
             />
           </picture>
           <div className="member-card-front-body">
-            <h4>
+            <h3>
               <Highlight text={member.name} query={highlight} />
-            </h4>
+            </h3>
             <div className="member-position">
               <Highlight text={member.position} query={highlight} />
             </div>
@@ -141,9 +141,9 @@ export function MemberCard({ member, highlight = '' }: MemberCardProps) {
           </div>
         </div>
         <div className="member-card-face member-card-back">
-          <h4>
+          <h3>
             <Highlight text={member.name} query={highlight} />
-          </h4>
+          </h3>
           <div className="member-card-meta">
             <div className="member-card-detail">
               <span>Class</span>

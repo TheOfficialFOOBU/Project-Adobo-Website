@@ -71,7 +71,8 @@ export function ContactLeaderDialog() {
                     className="social-icon"
                     alt="Discord"
                   />
-                  <span>Discord</span>
+                  <span className="social-name">Discord</span>
+                  <span className="sr-only">(opens in new tab)</span>
                 </a>
               </div>
             </div>

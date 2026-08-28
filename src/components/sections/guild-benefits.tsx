@@ -49,7 +49,7 @@ const GUILD_HIGHLIGHTS: readonly { icon: LucideIcon; title: string; description:
     icon: ShieldCheck,
     title: 'GvG Ready',
     description:
-      'Built a roster that can hold its own in Guild vs Guild —战术 enough to win, chaotic enough to have fun.',
+      'Built a roster that can hold its own in Guild vs Guild — tactical enough to win, chaotic enough to have fun.',
   },
   {
     icon: Users,
@@ -165,7 +165,7 @@ export function GuildBenefitsSection() {
           {GUILD_BENEFITS.map(({ label, icon: Icon, description }) => (
             <div className="capability-item" key={label}>
               <Icon aria-hidden="true" />
-              <h4>{label}</h4>
+              <h3>{label}</h3>
               <div className="capability-desc">
                 <p>{description}</p>
               </div>

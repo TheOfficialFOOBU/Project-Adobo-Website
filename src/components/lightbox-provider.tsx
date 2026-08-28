@@ -255,6 +255,7 @@ export function LightboxProvider({ children }: { children: ReactNode }) {
           className="open"
           role="dialog"
           aria-modal="true"
+          aria-label="Image viewer"
           onTouchStart={(e) => {
             const touch = e.touches[0];
             const second = e.touches[1];
@@ -385,7 +386,7 @@ export function LightboxProvider({ children }: { children: ReactNode }) {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                Open original ↗
+                Open original ↗<span className="sr-only">(opens in new tab)</span>
               </a>
             </div>
           </div>

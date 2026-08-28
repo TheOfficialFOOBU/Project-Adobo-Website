@@ -49,7 +49,7 @@
   background: rgb(var(--crimson-rgb) / 0.07);
 }
 
-.capability-item h4 {
+.capability-item h3 {
   font-family: var(--font-sans);
   font-size: 0.76rem;
   font-weight: 500;
