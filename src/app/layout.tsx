@@ -2,14 +2,11 @@ import type { Metadata, Viewport } from 'next';
 
 import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
-import { BackToTop } from '@/components/back-to-top';
-import { MusicToggle } from '@/components/music-toggle';
+import { ClientShell } from '@/components/client-shell';
 import { RecruitmentBanner } from '@/components/recruitment-banner';
 import { RECRUITMENT } from '@/lib/recruitment';
-import { ScrollReveal } from '@/components/scroll-reveal';
 import { SiteFooter } from '@/components/site-footer';
 import { SiteHeader } from '@/components/site-header';
-import { SmoothAnchors } from '@/components/smooth-anchors';
 import { asset, SITE_DESCRIPTION, SITE_TITLE, SITE_URL } from '@/lib/site';
 
 import './globals.css';
@@ -104,10 +101,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <RecruitmentBanner config={RECRUITMENT} />
         {children}
         <SiteFooter />
-        <MusicToggle />
-        <BackToTop />
-        <ScrollReveal />
-        <SmoothAnchors />
+        <ClientShell />
         <Analytics />
         <SpeedInsights />
         <noscript>
