@@ -103,7 +103,7 @@ export function SiteHeader() {
       return;
     }
     document.body.style.overflow = 'hidden';
-    const nav = document.getElementById('site-nav');
+    const nav = document.getElementById('mobile-nav') || document.getElementById('site-nav');
     if (!nav) return;
 
     const onKeyDown = (event: KeyboardEvent) => {
@@ -136,79 +136,82 @@ export function SiteHeader() {
   }, [menuOpen]);
 
   return (
-    <header>
-      <button
-        type="button"
-        className="menu-btn"
-        id="menu-btn"
-        aria-controls="site-nav"
-        aria-expanded={menuOpen}
-        aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+    <>
+      <header>
+        <button
+          type="button"
+          className="menu-btn"
+          id="menu-btn"
+          aria-controls="mobile-nav"
+          aria-expanded={menuOpen}
+          aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+          onClick={() => setMenuOpen((open) => !open)}
+        >
+          {menuOpen ? <X aria-hidden="true" /> : <Menu aria-hidden="true" />}
+        </button>
+        <a href={resolveHref('#home')} className="logo" aria-label="Home">
+          <picture>
+            <source
+              type="image/webp"
+              srcSet={`${asset('/images/logo-320.webp')} 320w, ${asset('/images/logo-480.webp')} 480w, ${asset('/images/logo-640.webp')} 640w`}
+              sizes="48px"
+            />
+            <img
+              src={asset('/images/logo-320.webp')}
+              alt="Guild Logo"
+              className="logo-image"
+              width={42}
+              height={42}
+              decoding="async"
+              loading="eager"
+            />
+          </picture>
+          <span className="logo-text">ADOBO</span>
+        </a>
+        <nav id="site-nav" aria-label="Main navigation">
+          <ul>
+            {NAV_LINKS.map((link) => (
+              <li key={link.href}>
+                <a
+                  href={resolveHref(link.href)}
+                  className={
+                    link.href.startsWith('#') && activeSection === link.href.slice(1)
+                      ? 'active'
+                      : undefined
+                  }
+                  aria-current={
+                    link.href.startsWith('#') && activeSection === link.href.slice(1)
+                      ? 'page'
+                      : undefined
+                  }
+                >
+                  {link.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+        <ThemeToggle />
+        <div className="scroll-progress" ref={progressRef} aria-hidden="true" />
+      </header>
+
+      {/* Mobile-only nav — completely separate from desktop, no stacking context issues */}
+      <nav
+        id="mobile-nav"
+        aria-label="Main navigation"
+        className={menuOpen ? 'mobile-nav open' : 'mobile-nav'}
         onClick={(e) => {
-          e.stopPropagation();
-          setMenuOpen((open) => !open);
+          if ((e.target as HTMLElement).closest('a')) setMenuOpen(false);
         }}
       >
-        {menuOpen ? <X aria-hidden="true" /> : <Menu aria-hidden="true" />}
-      </button>
-      <a href={resolveHref('#home')} className="logo" aria-label="Home">
-        <picture>
-          <source
-            type="image/webp"
-            srcSet={`${asset('/images/logo-320.webp')} 320w, ${asset('/images/logo-480.webp')} 480w, ${asset('/images/logo-640.webp')} 640w`}
-            sizes="48px"
-          />
-          <img
-            src={asset('/images/logo-320.webp')}
-            alt="Guild Logo"
-            className="logo-image"
-            width={42}
-            height={42}
-            decoding="async"
-            loading="eager"
-          />
-        </picture>
-        <span className="logo-text">ADOBO</span>
-      </a>
-      <nav id="site-nav" aria-label="Main navigation" className={menuOpen ? 'open' : undefined}>
-        <ul
-          onClick={() => setMenuOpen(false)}
-          style={
-            menuOpen
-              ? {
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: '12px',
-                  padding: '8px',
-                  listStyle: 'none',
-                  margin: 0,
-                }
-              : undefined
-          }
-        >
+        <ul>
           {NAV_LINKS.map((link) => (
-            <li key={link.href} style={menuOpen ? { display: 'block' } : undefined}>
-              <a
-                href={resolveHref(link.href)}
-                className={
-                  link.href.startsWith('#') && activeSection === link.href.slice(1)
-                    ? 'active'
-                    : undefined
-                }
-                aria-current={
-                  link.href.startsWith('#') && activeSection === link.href.slice(1)
-                    ? 'page'
-                    : undefined
-                }
-              >
-                {link.label}
-              </a>
+            <li key={link.href}>
+              <a href={resolveHref(link.href)}>{link.label}</a>
             </li>
           ))}
         </ul>
       </nav>
-      <ThemeToggle />
-      <div className="scroll-progress" ref={progressRef} aria-hidden="true" />
-    </header>
+    </>
   );
 }
