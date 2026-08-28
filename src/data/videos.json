@@ -5,7 +5,7 @@
     "src": "/videos/Calialy Aura Farm.mp4",
     "title": "Calialy Aura Farm",
     "label": "Discord Clip",
-    "description": "Calialy doing Calialy things",
+    "description": "Calialy grinding aura with maximum efficiency",
     "featured": true
   },
   {
@@ -14,6 +14,30 @@
     "src": "/videos/Schalsweiser Denying Fanbrella.mp4",
     "title": "Schalsweiser Denying Fanbrella",
     "label": "Discord Clip",
-    "description": "Schalsweiser Epic Deflect to a Fanbrella User"
+    "description": "Schalsweiser with the clutch deflection"
+  },
+  {
+    "type": "local",
+    "id": "discord-hydride-theory-pictorial",
+    "src": "/videos/HyßrıðTheøry Pictorial Gone Wrong.mp4",
+    "title": "Hybrid Theory Pictorial Gone Wrong",
+    "label": "Discord Clip",
+    "description": "The photoshoot did not go as planned"
+  },
+  {
+    "type": "local",
+    "id": "discord-ambon-mahjong",
+    "src": "/videos/Ambón POV Mahjong Distraction.mp4",
+    "title": "Ambon POV Mahjong Distraction",
+    "label": "Discord Clip",
+    "description": "Ambon got sidetracked at the Mahjong table"
+  },
+  {
+    "type": "local",
+    "id": "discord-ambon-airlines",
+    "src": "/videos/Ambón POV Adobo Airlines.mp4",
+    "title": "Ambon POV Adobo Airlines",
+    "label": "Discord Clip",
+    "description": "Ambon taking the guild on a sky-high ride"
   }
 ]
