@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 
 import { ThemeToggle } from '@/components/theme-toggle';
+import { MobileNav } from '@/components/mobile-nav';
 import { asset, BASE_PATH } from '@/lib/site';
 
 const NAV_LINKS = [
@@ -194,24 +195,7 @@ export function SiteHeader() {
         <ThemeToggle />
         <div className="scroll-progress" ref={progressRef} aria-hidden="true" />
       </header>
-
-      {/* Mobile-only nav — completely separate from desktop, no stacking context issues */}
-      <nav
-        id="mobile-nav"
-        aria-label="Main navigation"
-        className={menuOpen ? 'mobile-nav open' : 'mobile-nav'}
-        onClick={(e) => {
-          if ((e.target as HTMLElement).closest('a')) setMenuOpen(false);
-        }}
-      >
-        <ul>
-          {NAV_LINKS.map((link) => (
-            <li key={link.href}>
-              <a href={resolveHref(link.href)}>{link.label}</a>
-            </li>
-          ))}
-        </ul>
-      </nav>
+      <MobileNav open={menuOpen} onClose={() => setMenuOpen(false)} isHome={isHome} />
     </>
   );
 }
