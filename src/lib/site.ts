@@ -21,7 +21,7 @@ export const SITE_TITLE = 'Adobo Guild - Where Winds Meet';
 export const DISCORD_INVITE = 'https://discord.gg/NdZXkmYJnS';
 
 export const SITE_DESCRIPTION =
-  'Adobo Guild — peace-first, fun-obsessed community in Where Winds Meet. Relax, make friends, and enjoy the game together.';
+  'Adobo Guild — a peace-first, fun-obsessed community in Where Winds Meet. Relax, make friends, and enjoy the game together.';
 
 /** Repository sub-path for GitHub Pages (e.g. "/Project-Adobo-Website"). */
 export const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH ?? '';

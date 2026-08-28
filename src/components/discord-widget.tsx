@@ -84,7 +84,7 @@ export function DiscordWidget() {
       className={loaded ? 'discord-iframe loaded' : 'discord-iframe'}
       width="350"
       height="440"
-      title="Adobo Guild Discord — online members"
+      title="Adobo Guild Discord, online members"
       loading="lazy"
       referrerPolicy="no-referrer"
       sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"

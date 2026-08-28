@@ -43,19 +43,18 @@ const GUILD_HIGHLIGHTS: readonly { icon: LucideIcon; title: string; description:
     icon: Trophy,
     title: 'First Guild Picture',
     description:
-      'Our first official photo as a full guild — the moment we stopped being a group and became a family.',
+      'Our first official photo as a full guild, the moment we stopped being a group and became a family.',
   },
   {
     icon: ShieldCheck,
     title: 'GvG Ready',
     description:
-      'Built a roster that can hold its own in Guild vs Guild — tactical enough to win, chaotic enough to have fun.',
+      'Built a roster that can hold its own in Guild vs Guild, tactical enough to win, chaotic enough to have fun.',
   },
   {
     icon: Users,
-    title: '20+ Members',
-    description:
-      'Crossed the 20-member mark with a waitlist — proof that chill vibes attract chill people.',
+    title: '60+ Members',
+    description: 'Crossed the 60-member mark, no waitlist, openly recruiting, no requirements.',
   },
 ];
 
@@ -68,7 +67,7 @@ const GUILD_BENEFITS: readonly { label: string; icon: LucideIcon; description: s
   {
     label: 'Tactical Strategy',
     icon: Crosshair,
-    description: 'Plan fights together — then laugh together when the plan falls apart.',
+    description: 'Plan fights together, then laugh together when the plan falls apart.',
   },
   {
     label: 'Player Mentoring',
@@ -83,7 +82,7 @@ const GUILD_BENEFITS: readonly { label: string; icon: LucideIcon; description: s
   {
     label: 'Stress-free Environment',
     icon: Feather,
-    description: 'No yelling, no blame games, no drama — just good vibes.',
+    description: 'No yelling, no blame games, no drama. Just good vibes.',
   },
   {
     label: 'Skill Development',
@@ -103,7 +102,7 @@ const GUILD_BENEFITS: readonly { label: string; icon: LucideIcon; description: s
   {
     label: 'Play at your own pace',
     icon: Hourglass,
-    description: 'Daily grinder or weekend wanderer — both are equally at home.',
+    description: 'Daily grinder or weekend wanderer, both are equally at home.',
   },
   {
     label: 'No Pressure',
@@ -113,7 +112,7 @@ const GUILD_BENEFITS: readonly { label: string; icon: LucideIcon; description: s
   {
     label: 'Honor & Respect',
     icon: ShieldCheck,
-    description: 'Treat everyone well in and out of the guild — non-negotiable.',
+    description: 'Treat everyone well in and out of the guild. Non-negotiable.',
   },
   {
     label: 'Friendship First',

@@ -4,7 +4,7 @@ const FAQS = [
   {
     question: 'What kind of guild is Adobo?',
     answer:
-      'A casual, PvX guild in Where Winds Meet. We are peace-first and fun-obsessed: no sweaty requirements, no mandatory grind — just good people sharing the journey together.',
+      'A casual, PvX guild in Where Winds Meet. We are peace-first and fun-obsessed: no sweaty requirements, no mandatory grind, just good people sharing the journey together.',
   },
   {
     question: 'How do I join?',

@@ -117,10 +117,10 @@
   },
   {
     "name": "NikPicken",
-    "class": "DPS/Healer",
+    "class": "DPS",
     "position": "Member",
-    "weapon": "Vernal Umbrella / Inkwell-Panacea Fan",
-    "image": "/images/members/NikPicken.jpg",
+    "weapon": "Vernal Umbrella/Inkwell Gauntlets/Ropedart",
+    "image": "/images/members/NikPicken.png",
     "quote": "Remember this eternal truth: Girls with pink hair are never to be underestimated."
   },
   {
