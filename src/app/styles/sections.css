@@ -85,14 +85,14 @@ section {
   z-index: 0;
   pointer-events: none;
   line-height: 1;
-  color: rgb(var(--accent-rgb) / 0.12);
+  color: rgb(var(--accent2-rgb) / 0.12);
   font-style: italic;
 }
 
 @supports (-webkit-text-stroke: 1px black) {
   .section-number {
     color: transparent;
-    -webkit-text-stroke: 1px rgb(var(--accent-rgb) / 0.3);
+    -webkit-text-stroke: 1px rgb(var(--accent2-rgb) / 0.3);
   }
 }
 
@@ -192,6 +192,36 @@ section {
 }
 [data-animate].in-view .team-member:nth-child(12) {
   animation-delay: 700ms;
+}
+[data-animate].in-view .team-member:nth-child(13) {
+  animation-delay: 740ms;
+}
+[data-animate].in-view .team-member:nth-child(14) {
+  animation-delay: 780ms;
+}
+[data-animate].in-view .team-member:nth-child(15) {
+  animation-delay: 820ms;
+}
+[data-animate].in-view .team-member:nth-child(16) {
+  animation-delay: 860ms;
+}
+[data-animate].in-view .team-member:nth-child(17) {
+  animation-delay: 900ms;
+}
+[data-animate].in-view .team-member:nth-child(18) {
+  animation-delay: 940ms;
+}
+[data-animate].in-view .team-member:nth-child(19) {
+  animation-delay: 980ms;
+}
+[data-animate].in-view .team-member:nth-child(20) {
+  animation-delay: 1020ms;
+}
+[data-animate].in-view .team-member:nth-child(21) {
+  animation-delay: 1060ms;
+}
+[data-animate].in-view .team-member:nth-child(22) {
+  animation-delay: 1100ms;
 }
 
 .capabilities .container + .container {

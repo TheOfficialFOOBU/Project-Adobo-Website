@@ -129,13 +129,13 @@ footer::before {
   padding: 0.5rem 1rem;
   border-radius: 999px;
   border: 1px solid var(--border-soft);
-  background: rgba(10, 8, 6, 0.45);
+  background: var(--wash);
   backdrop-filter: blur(4px);
   font-family: var(--font-sans);
   font-size: 0.66rem;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: rgba(242, 236, 223, 0.78);
+  color: var(--muted);
 }
 
 .discord-live-dot {

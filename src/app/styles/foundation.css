@@ -5,58 +5,6 @@
    visual language changed (palette, type, decoration).
    ============================================================ */
 
-/* ---------- Self-hosted fonts (latin subsets) ---------- */
-
-@font-face {
-  font-family: 'Cormorant Garamond';
-  font-style: normal;
-  font-weight: 500;
-  font-display: swap;
-  src: url('/Project-Adobo-Website/fonts/cormorant-garamond-500.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Cormorant Garamond';
-  font-style: normal;
-  font-weight: 600;
-  font-display: swap;
-  src: url('/Project-Adobo-Website/fonts/cormorant-garamond-600.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Cormorant Garamond';
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: url('/Project-Adobo-Website/fonts/cormorant-garamond-700.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Cormorant Garamond';
-  font-style: italic;
-  font-weight: 500;
-  font-display: swap;
-  src: url('/Project-Adobo-Website/fonts/cormorant-garamond-500-italic.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url('/Project-Adobo-Website/fonts/inter-400.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 500;
-  font-display: swap;
-  src: url('/Project-Adobo-Website/fonts/inter-500.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 600;
-  font-display: swap;
-  src: url('/Project-Adobo-Website/fonts/inter-600.woff2') format('woff2');
-}
-
 /* ---------- Design tokens ---------- */
 
 :root {
@@ -70,6 +18,16 @@
   --accent-rgb: 201 164 92;
   --accent2-rgb: 133 179 157;
   --crimson-rgb: 184 67 46;
+
+  /* Shadow system */
+  --shadow-sm: 0 1px 3px rgba(8, 6, 3, 0.25);
+  --shadow-md: 0 4px 12px rgba(8, 6, 3, 0.3);
+  --shadow-lg: 0 8px 24px rgba(8, 6, 3, 0.35);
+  --shadow-xl: 0 16px 48px rgba(8, 6, 3, 0.4);
+  --shadow-glow: 0 0 20px rgb(var(--accent-rgb) / 0.15);
+
+  /* CTA button gradient */
+  --cta-gradient: linear-gradient(135deg, var(--crimson) 0%, rgb(var(--crimson-rgb) / 0.8) 100%);
 
   /* Spacing rhythm */
   --space-1: 0.25rem;
@@ -165,6 +123,16 @@
   --accent-rgb: 157 122 50;
   --accent2-rgb: 72 112 92;
   --crimson-rgb: 160 58 40;
+
+  /* Shadow system — lighter for paper theme */
+  --shadow-sm: 0 1px 3px rgba(42, 35, 23, 0.12);
+  --shadow-md: 0 4px 12px rgba(42, 35, 23, 0.15);
+  --shadow-lg: 0 8px 24px rgba(42, 35, 23, 0.18);
+  --shadow-xl: 0 16px 48px rgba(42, 35, 23, 0.2);
+  --shadow-glow: 0 0 20px rgb(var(--accent-rgb) / 0.1);
+
+  /* CTA button gradient — theme-aware */
+  --cta-gradient: linear-gradient(135deg, var(--crimson) 0%, rgb(var(--crimson-rgb) / 0.85) 100%);
   --muted: #5e5340;
   --text: #2a2317;
   --card-border: #ddd2ba;

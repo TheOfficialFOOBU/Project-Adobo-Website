@@ -98,8 +98,28 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           rel="preload"
           as="font"
           type="font/woff2"
+          href={asset('/fonts/inter-500.woff2')}
+          crossOrigin="anonymous"
+        />
+        <link
+          rel="preload"
+          as="font"
+          type="font/woff2"
           href={asset('/fonts/cormorant-garamond-600.woff2')}
           crossOrigin="anonymous"
+        />
+        <style
+          dangerouslySetInnerHTML={{
+            __html: `
+@font-face{font-family:'Cormorant Garamond';font-style:normal;font-weight:500;font-display:swap;src:url('${asset('/fonts/cormorant-garamond-500.woff2')}') format('woff2')}
+@font-face{font-family:'Cormorant Garamond';font-style:normal;font-weight:600;font-display:swap;src:url('${asset('/fonts/cormorant-garamond-600.woff2')}') format('woff2')}
+@font-face{font-family:'Cormorant Garamond';font-style:normal;font-weight:700;font-display:swap;src:url('${asset('/fonts/cormorant-garamond-700.woff2')}') format('woff2')}
+@font-face{font-family:'Cormorant Garamond';font-style:italic;font-weight:500;font-display:swap;src:url('${asset('/fonts/cormorant-garamond-500-italic.woff2')}') format('woff2')}
+@font-face{font-family:'Inter';font-style:normal;font-weight:400;font-display:swap;src:url('${asset('/fonts/inter-400.woff2')}') format('woff2')}
+@font-face{font-family:'Inter';font-style:normal;font-weight:500;font-display:swap;src:url('${asset('/fonts/inter-500.woff2')}') format('woff2')}
+@font-face{font-family:'Inter';font-style:normal;font-weight:600;font-display:swap;src:url('${asset('/fonts/inter-600.woff2')}') format('woff2')}
+`,
+          }}
         />
       </head>
       <body>

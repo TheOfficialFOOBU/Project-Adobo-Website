@@ -23,7 +23,7 @@
 }
 
 .faq-item[open] {
-  border-color: rgb(var(--accent-rgb) / 0.4);
+  border-color: rgb(var(--accent2-rgb) / 0.4);
   background: var(--btn-wash);
 }
 

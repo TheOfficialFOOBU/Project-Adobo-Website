@@ -219,9 +219,9 @@
 }
 
 .copy-invite-button {
-  background: rgba(10, 8, 6, 0.35);
+  background: var(--wash);
   border-color: rgb(var(--accent-rgb) / 0.35);
-  color: rgba(242, 236, 223, 0.8);
+  color: var(--muted);
   backdrop-filter: blur(4px);
 }
 

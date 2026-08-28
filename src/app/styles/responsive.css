@@ -53,7 +53,7 @@
 /* Single mobile breakpoint */
 @media (max-width: 900px) {
   .hero-2 {
-    padding: 4rem 1.25rem;
+    padding: 5rem 2rem;
   }
   .contact-cta {
     padding: 4rem 1.25rem;
