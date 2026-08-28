@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from 'next';
 
+import { Analytics } from '@vercel/analytics/next';
 import { BackToTop } from '@/components/back-to-top';
 import { MusicToggle } from '@/components/music-toggle';
 import { RecruitmentBanner } from '@/components/recruitment-banner';
@@ -106,6 +107,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <BackToTop />
         <ScrollReveal />
         <SmoothAnchors />
+        <Analytics />
         <noscript>
           <style
             dangerouslySetInnerHTML={{
