@@ -57,9 +57,9 @@
   position: absolute;
   top: 1rem;
   right: 1rem;
-  z-index: 2;
-  width: 36px;
-  height: 36px;
+  z-index: 10;
+  width: 40px;
+  height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -68,6 +68,8 @@
   background: var(--wash);
   color: var(--muted);
   cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
   transition:
     color 0.25s ease,
     border-color 0.25s ease,
