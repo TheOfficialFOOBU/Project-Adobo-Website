@@ -43,7 +43,7 @@
     "eslint-config-prettier": "^10.1.8",
     "husky": "^8.0.0",
     "lint-staged": "^17.0.7",
-    "prettier": "^3.8.4",
+    "prettier": "^3.9.6",
     "sharp": "^0.34.5",
     "tailwindcss": "^4.3.3",
     "typescript": "~6.0.0"
