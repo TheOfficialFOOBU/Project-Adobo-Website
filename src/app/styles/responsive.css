@@ -95,12 +95,16 @@
     transform: translateY(-120%);
     transition: transform 220ms ease;
     padding: 1rem;
-    z-index: 999;
+    z-index: 1;
     overflow: auto;
     border-top: 1px solid var(--border-softer);
   }
   #site-nav.open {
     transform: translateY(0);
+  }
+  .menu-btn {
+    position: relative;
+    z-index: 2;
   }
   #site-nav:not(.open) > ul {
     display: none;
