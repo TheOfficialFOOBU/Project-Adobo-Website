@@ -53,6 +53,38 @@
   pointer-events: none;
 }
 
+.profile-close-btn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  z-index: 2;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border: 1px solid var(--border-soft);
+  background: var(--wash);
+  color: var(--muted);
+  cursor: pointer;
+  transition:
+    color 0.25s ease,
+    border-color 0.25s ease,
+    background 0.25s ease;
+}
+
+.profile-close-btn:hover {
+  color: var(--text);
+  border-color: var(--border-strong);
+  background: var(--btn-wash);
+}
+
+.profile-close-btn svg {
+  width: 16px;
+  height: 16px;
+}
+
 .profile-photo-wrap {
   position: relative;
   border-radius: 4px;

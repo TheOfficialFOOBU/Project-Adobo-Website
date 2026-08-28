@@ -62,6 +62,12 @@
     letter-spacing: 0.28em;
     margin-right: -0.28em;
   }
+  .logo {
+    min-width: 0;
+    overflow: hidden;
+    flex-shrink: 1;
+    gap: 0.5rem;
+  }
   .menu-btn {
     display: inline-flex;
     align-items: center;
@@ -73,6 +79,7 @@
     padding: 8px 10px;
     border-radius: 4px;
     z-index: 1600;
+    flex-shrink: 0;
   }
   nav ul {
     display: none;
@@ -95,14 +102,29 @@
   #site-nav.open {
     transform: translateY(0);
   }
-  #site-nav:not(.open) ul {
+  #site-nav:not(.open) > ul {
     display: none;
   }
-  #site-nav.open ul {
-    display: flex;
+  #site-nav.open > ul {
+    display: flex !important;
     flex-direction: column;
     gap: 12px;
     padding: 8px;
+    list-style: none;
+    margin: 0;
+  }
+  #site-nav.open > ul > li {
+    display: block !important;
+  }
+  #site-nav.open > ul > li > a {
+    display: block !important;
+    padding: 10px 12px;
+    border-radius: 4px;
+    color: var(--text);
+    text-decoration: none;
+    font-size: 0.85rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
   }
   nav a {
     display: block;
@@ -147,12 +169,51 @@
   .members-grid-container {
     grid-template-columns: repeat(2, 1fr);
   }
-  .member-card-inner {
-    min-height: 320px;
-  }
   .member-card-front h4,
   .member-card-back h4 {
     font-size: 1.1rem;
+  }
+
+  /* Mobile: replace 3D flip with a slide transition so the photo doesn't
+     block the back-face content on small screens. */
+  .member-card-inner {
+    min-height: 320px;
+    transform-style: flat;
+    transition: none;
+  }
+  .member-card.is-flipped .member-card-inner {
+    transform: none;
+  }
+  .member-card-face {
+    position: relative;
+    backface-visibility: visible;
+  }
+  .member-card-front {
+    display: flex;
+    transition:
+      opacity 0.3s ease,
+      transform 0.3s ease;
+  }
+  .member-card.is-flipped .member-card-front {
+    display: none;
+  }
+  .member-card-back {
+    display: none;
+    transform: none;
+  }
+  .member-card.is-flipped .member-card-back {
+    display: flex;
+    animation: mobile-card-in 0.3s ease;
+  }
+  @keyframes mobile-card-in {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
   .guild-hall-grid {
     grid-template-columns: 1fr;

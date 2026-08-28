@@ -6,6 +6,7 @@ import { GUILD_MEMBERS, imageBase, memberBySlug, memberNeighbors, memberSlug } f
 import { CopyProfileLink } from '@/components/copy-profile-link';
 import { DiscordPresence } from '@/components/discord-presence';
 import { ProfileStickyBar } from '@/components/profile-sticky-bar';
+import { ProfileCloseButton } from '@/components/profile-close-button';
 import { asset, SITE_URL } from '@/lib/site';
 
 interface MemberPageProps {
@@ -96,6 +97,7 @@ export default async function MemberProfilePage({ params }: MemberPageProps) {
           next={nextLink}
         >
           <article className="profile-card">
+            <ProfileCloseButton />
             <div className="profile-photo-wrap">
               {/* eslint-disable-next-line @next/next/no-img-element -- pre-generated WebP assets */}
               <img

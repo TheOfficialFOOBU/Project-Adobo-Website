@@ -137,6 +137,7 @@ nav a.active::after {
   font-weight: 500;
   cursor: pointer;
   line-height: 0;
+  flex-shrink: 0;
 }
 
 .menu-btn svg {
