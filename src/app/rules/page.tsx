@@ -1,7 +1,5 @@
 import type { Metadata } from 'next';
 
-import { BackToTop } from '@/components/back-to-top';
-import { SiteHeader } from '@/components/site-header';
 import { SITE_TITLE } from '@/lib/site';
 
 export const metadata: Metadata = {
@@ -105,8 +103,7 @@ const ENFORCEMENT_STEPS = ['Reminder', 'Warning', 'Temporary Restriction', 'Remo
 export default function RulesPage() {
   return (
     <>
-      <SiteHeader />
-      <main id="main" style={{ paddingTop: '6rem' }}>
+      <main id="main">
         <section className="rules-page">
           <div className="container rules-container">
             <h1 className="section-title rules-title">Guild Rules</h1>
@@ -181,8 +178,10 @@ export default function RulesPage() {
           </div>
         </section>
       </main>
-      <BackToTop />
       <style>{`
+        .rules-page {
+          padding-top: 6rem;
+        }
         .rules-container {
           max-width: 760px;
           margin: 0 auto;

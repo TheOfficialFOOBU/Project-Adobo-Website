@@ -138,7 +138,13 @@ export default async function MemberProfilePage({ params }: MemberPageProps) {
                 {prev ? (
                   <Link href={`/members/${memberSlug(prev)}`}>
                     {/* eslint-disable-next-line @next/next/no-img-element -- pre-generated WebP assets */}
-                    <img src={portraitThumb(prev)} alt="" width={36} height={36} loading="lazy" />
+                    <img
+                      src={portraitThumb(prev)}
+                      alt={prev.name}
+                      width={36}
+                      height={36}
+                      loading="lazy"
+                    />
                     <span>&larr; {prev.name}</span>
                   </Link>
                 ) : (
@@ -148,7 +154,13 @@ export default async function MemberProfilePage({ params }: MemberPageProps) {
                   <Link href={`/members/${memberSlug(next)}`}>
                     <span>{next.name} &rarr;</span>
                     {/* eslint-disable-next-line @next/next/no-img-element -- pre-generated WebP assets */}
-                    <img src={portraitThumb(next)} alt="" width={36} height={36} loading="lazy" />
+                    <img
+                      src={portraitThumb(next)}
+                      alt={next.name}
+                      width={36}
+                      height={36}
+                      loading="lazy"
+                    />
                   </Link>
                 ) : (
                   <span aria-hidden="true" />

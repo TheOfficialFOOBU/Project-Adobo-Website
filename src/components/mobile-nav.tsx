@@ -3,18 +3,7 @@
 import { useSyncExternalStore } from 'react';
 import { createPortal } from 'react-dom';
 
-import { BASE_PATH } from '@/lib/site';
-
-const NAV_LINKS = [
-  { href: '#home', label: 'Home' },
-  { href: '#projects', label: 'Activities' },
-  { href: '#videos', label: 'Videos' },
-  { href: '#team', label: 'Members' },
-  { href: '#philosophy', label: 'About' },
-  { href: '#faq', label: 'FAQ' },
-  { href: `${BASE_PATH}/rules`, label: 'Rules' },
-  { href: '#contact', label: 'Contact' },
-] as const;
+import { BASE_PATH, NAV_LINKS } from '@/lib/site';
 
 function noop() {
   return () => {};

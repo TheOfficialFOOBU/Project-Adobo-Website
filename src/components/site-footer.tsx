@@ -3,7 +3,7 @@ import { DISCORD_INVITE } from '@/lib/site';
 
 const GUILD_LINKS = [
   { href: '#home', label: 'Home' },
-  { href: '#projects', label: 'Achievements' },
+  { href: '#projects', label: 'Activities' },
   { href: '#team', label: 'Members' },
   { href: '#philosophy', label: 'Philosophy' },
 ] as const;
@@ -29,7 +29,7 @@ export function SiteFooter() {
               <small className="discord-widget-note">Adobo Where Winds Meet Discord</small>
             </div>
           </div>
-          <div className="footer-section">
+          <div className="footer-section" aria-label="Guild navigation">
             <h5>Guild</h5>
             {GUILD_LINKS.map((link) => (
               <a href={link.href} key={link.href}>
@@ -37,7 +37,7 @@ export function SiteFooter() {
               </a>
             ))}
           </div>
-          <div className="footer-section">
+          <div className="footer-section" aria-label="Where Winds Meet navigation">
             <h5>Where Winds Meet</h5>
             {WWM_LINKS.map((link) => (
               <a href={link.href} key={link.href}>

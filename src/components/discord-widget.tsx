@@ -1,7 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { useSyncExternalStore } from 'react';
+import { useEffect, useState, useSyncExternalStore } from 'react';
 
 import { DISCORD_GUILD_ID, discordIcon } from '@/lib/discord';
 import { DISCORD_INVITE } from '@/lib/site';

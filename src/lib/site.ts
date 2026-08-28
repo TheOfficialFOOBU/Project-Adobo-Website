@@ -38,3 +38,15 @@ export function asset(path: string): string {
   if (external || alreadyPrefixed || !path.startsWith('/')) return path;
   return `${BASE_PATH}${path}`;
 }
+
+/** Shared navigation links used by both desktop header and mobile nav. */
+export const NAV_LINKS = [
+  { href: '#home', label: 'Home' },
+  { href: '#projects', label: 'Activities' },
+  { href: '#videos', label: 'Videos' },
+  { href: '#team', label: 'Members' },
+  { href: '#philosophy', label: 'About' },
+  { href: '#faq', label: 'FAQ' },
+  { href: `${BASE_PATH}/rules`, label: 'Rules' },
+  { href: '#contact', label: 'Contact' },
+] as const;

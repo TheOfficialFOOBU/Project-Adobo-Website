@@ -6,18 +6,7 @@ import { useEffect, useRef, useState } from 'react';
 
 import { ThemeToggle } from '@/components/theme-toggle';
 import { MobileNav } from '@/components/mobile-nav';
-import { asset, BASE_PATH } from '@/lib/site';
-
-const NAV_LINKS = [
-  { href: '#home', label: 'Home' },
-  { href: '#projects', label: 'Activities' },
-  { href: '#videos', label: 'Videos' },
-  { href: '#team', label: 'Members' },
-  { href: '#philosophy', label: 'About' },
-  { href: '#faq', label: 'FAQ' },
-  { href: `${BASE_PATH}/rules`, label: 'Rules' },
-  { href: '#contact', label: 'Contact' },
-] as const;
+import { asset, BASE_PATH, NAV_LINKS } from '@/lib/site';
 
 /**
  * Fixed site header with logo and main navigation.

@@ -14,7 +14,7 @@ import {
   memberSlug,
   type GuildMember,
 } from '@/lib/members';
-import { asset } from '@/lib/site';
+import { asset, BASE_PATH } from '@/lib/site';
 import { cn } from '@/lib/utils';
 
 interface MemberCardProps {
@@ -172,7 +172,7 @@ export function MemberCard({ member, highlight = '' }: MemberCardProps) {
             className="member-copy-link"
             onClick={(event) => {
               event.stopPropagation();
-              const url = `${window.location.origin}/Project-Adobo-Website/members/${memberSlug(member)}`;
+              const url = `${window.location.origin}${BASE_PATH}/members/${memberSlug(member)}`;
               navigator.clipboard.writeText(url).then(() => {
                 setCopied(true);
                 setTimeout(() => setCopied(false), 2000);

@@ -9,8 +9,7 @@
   background: rgba(8, 6, 4, 0.82);
   backdrop-filter: blur(6px);
   z-index: 3000;
-  padding: 2rem;
-  overflow: hidden;
+  padding: 2.5rem;
 }
 #lightbox.open {
   display: flex;
@@ -65,8 +64,8 @@
 }
 #lightbox .lb-close {
   position: absolute;
-  top: -18px;
-  right: -18px;
+  top: 0;
+  right: 0;
   background: var(--surface);
   border-radius: 999px;
   border: 1px solid var(--menu-border);
@@ -91,7 +90,7 @@
 }
 #lightbox .lb-counter {
   position: absolute;
-  top: -18px;
+  top: 0;
   left: 50%;
   transform: translateX(-50%);
   background: var(--surface);

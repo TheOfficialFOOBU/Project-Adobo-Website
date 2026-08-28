@@ -56,9 +56,8 @@ function LocalVideoPlayer({ video, lazy }: { video: LocalVideo; lazy?: boolean }
           className="video-embed loaded"
           onPause={() => setPlaying(false)}
           onPlay={() => setPlaying(true)}
-        >
-          <track kind="captions" />
-        </video>
+        />
+
         {!playing && (
           <button
             type="button"
@@ -95,7 +94,7 @@ export function VideoGallerySection() {
         <h2 className="section-title">
           Guild Videos
           <span className="section-number" aria-hidden="true">
-            伍
+            陸
           </span>
         </h2>
 

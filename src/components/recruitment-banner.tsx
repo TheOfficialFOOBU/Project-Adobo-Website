@@ -3,7 +3,7 @@
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 
-import { DISCORD_INVITE } from '@/lib/site';
+import { BASE_PATH, DISCORD_INVITE } from '@/lib/site';
 import type { RecruitmentConfig } from '@/lib/recruitment';
 
 /**
@@ -17,10 +17,7 @@ export function RecruitmentBanner({ config }: { config: RecruitmentConfig }) {
 
   // Homepage-only chrome: profiles have their own fixed member bar at the
   // same slot, and error pages shouldn't carry recruitment noise.
-  const isHome =
-    pathname === '/' ||
-    pathname.endsWith('/Project-Adobo-Website/') ||
-    pathname === '/Project-Adobo-Website';
+  const isHome = pathname === '/' || pathname === BASE_PATH || pathname === `${BASE_PATH}/`;
   if (!isHome || !config.open || dismissed) return null;
 
   const dismiss = () => {
