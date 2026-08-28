@@ -14,7 +14,7 @@ const FAQS = [
   {
     question: 'Are there activity requirements?',
     answer:
-      'None. Real life comes first. Whether you are online every day or only occasionally, there is always a place for you here — nobody gets kicked for playing less.',
+      "None. Real life comes first. Whether you're online every day or only occasionally, there's always a place for you here nobody gets kicked for playing less, unless you've been offline for more than 30 days.",
   },
   {
     question: 'Do I have to join GvG?',
