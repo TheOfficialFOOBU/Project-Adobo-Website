@@ -116,30 +116,31 @@
 .video-info {
   padding: 1rem 1.15rem 1.15rem;
   background: var(--surface);
+  text-align: center;
 }
 
 .video-label {
-  display: inline-block;
-  font-size: 0.65rem;
+  display: block;
+  font-size: 0.68rem;
   font-weight: 500;
   text-transform: uppercase;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.22em;
   color: var(--accent);
-  margin-bottom: 0.4rem;
+  margin-bottom: 0.5rem;
 }
 
 .video-info h3 {
-  margin: 0 0 0.35rem;
-  font-size: 0.95rem;
+  margin: 0 0 0.4rem;
+  font-size: 1.1rem;
   font-weight: 600;
   color: var(--text);
-  line-height: 1.3;
+  line-height: 1.25;
 }
 
 .video-info p {
   margin: 0;
-  font-size: 0.8rem;
-  line-height: 1.55;
+  font-size: 0.85rem;
+  line-height: 1.6;
   color: var(--muted);
 }
 
