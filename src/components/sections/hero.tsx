@@ -27,6 +27,25 @@ export async function HeroSection() {
 
   return (
     <section className="hero hero-animated" id="home" data-animate>
+      {/* Hero preloads — hoisted to <head> by React 19; only loaded on the homepage. */}
+      <link
+        rel="preload"
+        as="image"
+        href={asset('/images/hero-bg-768.webp')}
+        media="(max-width: 767px)"
+      />
+      <link
+        rel="preload"
+        as="image"
+        href={asset('/images/hero-bg-1280.webp')}
+        media="(min-width: 768px) and (max-width: 1535px)"
+      />
+      <link
+        rel="preload"
+        as="image"
+        href={asset('/images/hero-bg-1920.webp')}
+        media="(min-width: 1536px)"
+      />
       <div className="hero-bg" aria-hidden="true" style={HERO_BG_VARS} />
       <div className="hero-frame" aria-hidden="true" />
       <span className="hero-mark hero-mark--right" aria-hidden="true">

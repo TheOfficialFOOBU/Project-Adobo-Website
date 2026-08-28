@@ -87,25 +87,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(GUILD_ORG_SCHEMA) }}
         />
-        {/* The hero art is the LCP element — start fetching it before CSS parses. */}
-        <link
-          rel="preload"
-          as="image"
-          href={asset('/images/hero-bg-768.webp')}
-          media="(max-width: 767px)"
-        />
-        <link
-          rel="preload"
-          as="image"
-          href={asset('/images/hero-bg-1280.webp')}
-          media="(min-width: 768px) and (max-width: 1535px)"
-        />
-        <link
-          rel="preload"
-          as="image"
-          href={asset('/images/hero-bg-1920.webp')}
-          media="(min-width: 1536px)"
-        />
         <link
           rel="preload"
           as="font"

@@ -87,6 +87,8 @@ export default async function MemberProfilePage({ params }: MemberPageProps) {
 
   return (
     <main id="main" className="profile-main">
+      {/* Preload the member portrait — LCP element on this page. */}
+      <link rel="preload" as="image" href={asset(fallbackSrc)} />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
