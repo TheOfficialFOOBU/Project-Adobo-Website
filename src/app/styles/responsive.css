@@ -78,8 +78,9 @@
     color: var(--accent);
     padding: 8px 10px;
     border-radius: 4px;
-    z-index: 1600;
     flex-shrink: 0;
+    position: relative;
+    z-index: 2;
   }
   nav ul {
     display: none;
@@ -101,10 +102,6 @@
   }
   #site-nav.open {
     transform: translateY(0);
-  }
-  .menu-btn {
-    position: relative;
-    z-index: 2;
   }
   #site-nav:not(.open) > ul {
     display: none;

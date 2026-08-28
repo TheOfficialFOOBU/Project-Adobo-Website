@@ -171,9 +171,23 @@ export function SiteHeader() {
         <span className="logo-text">ADOBO</span>
       </a>
       <nav id="site-nav" aria-label="Main navigation" className={menuOpen ? 'open' : undefined}>
-        <ul onClick={() => setMenuOpen(false)}>
+        <ul
+          onClick={() => setMenuOpen(false)}
+          style={
+            menuOpen
+              ? {
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '12px',
+                  padding: '8px',
+                  listStyle: 'none',
+                  margin: 0,
+                }
+              : undefined
+          }
+        >
           {NAV_LINKS.map((link) => (
-            <li key={link.href}>
+            <li key={link.href} style={menuOpen ? { display: 'block' } : undefined}>
               <a
                 href={resolveHref(link.href)}
                 className={
