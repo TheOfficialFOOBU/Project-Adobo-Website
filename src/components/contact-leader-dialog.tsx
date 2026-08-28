@@ -40,11 +40,11 @@ export function ContactLeaderDialog() {
               <picture>
                 <source
                   type="image/webp"
-                  srcSet={`${asset('/images/members/FOOBU-lossless-1024.webp')} 1024w, ${asset('/images/members/FOOBU-lossless-640.webp')} 640w`}
+                  srcSet={`${asset('/images/members/FOOBU-1024.webp')} 1024w, ${asset('/images/members/FOOBU-640.webp')} 640w`}
                   sizes="100w"
                 />
                 <img
-                  src={asset('/images/members/FOOBU-lossless-640.webp')}
+                  src={asset('/images/members/FOOBU-640.webp')}
                   alt="FOOBU - Guild Leader"
                   className="leader-avatar"
                   loading="lazy"

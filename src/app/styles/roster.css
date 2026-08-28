@@ -93,6 +93,7 @@
   position: relative;
   perspective: 1200px;
   min-height: 420px;
+  contain: layout style;
 }
 
 .member-card {

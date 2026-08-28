@@ -142,8 +142,7 @@ body::before {
   position: fixed;
   inset: 0;
   pointer-events: none;
-  z-index: 2500;
-  mix-blend-mode: multiply;
+  z-index: 50;
   background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0) 46%, rgba(20, 14, 6, 0.32) 100%);
   opacity: 0.82;
 }

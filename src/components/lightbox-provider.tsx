@@ -23,7 +23,7 @@ export interface LightboxItem {
   alt: string;
   /**
    * Optional image shown if `src` fails to load (e.g. a missing
-   * lossless variant) — keeps the viewer from showing a broken frame.
+   * responsive variant) — keeps the viewer from showing a broken frame.
    */
   fallback?: string;
 }

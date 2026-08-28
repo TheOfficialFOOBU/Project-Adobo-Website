@@ -10,7 +10,6 @@ const sharp = require('sharp');
 
 const INPUT_DIR = path.join(__dirname, '..', 'public', 'images');
 const SIZES = [320, 480, 640, 800, 1024, 1600];
-const LOSSLESS_SIZES = [640, 1024];
 
 function walk(dir, filelist = []) {
   fs.readdirSync(dir).forEach((file) => {
@@ -36,27 +35,16 @@ function walk(dir, filelist = []) {
     try {
       const image = sharp(input);
       const metadata = await image.metadata();
-      // produce full-size webp at high quality (no enlargement)
-      await image.webp({ quality: 90 }).toFile(path.join(dir, `${base}.webp`));
+      // produce full-size webp at good quality (no enlargement)
+      await image.webp({ quality: 80 }).toFile(path.join(dir, `${base}.webp`));
       // produce responsive sizes (no upscaling)
       for (const w of SIZES) {
         if (metadata.width && metadata.width < w) continue;
         await sharp(input)
           .resize({ width: w, withoutEnlargement: true })
-          .webp({ quality: 85 })
+          .webp({ quality: 80 })
           .toFile(path.join(dir, `${base}-${w}.webp`));
       }
-
-      // Produce lossless variants for key sizes for better sharpness (no upscaling)
-      for (const w of LOSSLESS_SIZES) {
-        if (metadata.width && metadata.width < w) continue;
-        await sharp(input)
-          .resize({ width: w, withoutEnlargement: true })
-          .webp({ lossless: true })
-          .toFile(path.join(dir, `${base}-lossless-${w}.webp`));
-      }
-      // also produce a full-size lossless webp (if source large enough)
-      await image.webp({ lossless: true }).toFile(path.join(dir, `${base}-lossless.webp`));
       console.log('Converted', input);
     } catch (err) {
       console.error('Error converting', input, err.message);

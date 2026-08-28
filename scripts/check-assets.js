@@ -38,7 +38,7 @@ walk(SRC, (p) => {
 // 2. Variants computed at runtime from the roster data (src/data/members.json
 //    — the roster used to live in src/lib/members.ts, which made this check
 //    silently validate zero members once the data moved out):
-//    <picture> srcset uses -640/-1024, the lightbox uses -lossless-1024.
+//    <picture> srcset uses -640/-1024, the lightbox uses -1600.
 //    The raw original is only required for members flagged `webp: false`
 //    (everyone else is served the pre-generated WebP chain exclusively).
 const membersData = JSON.parse(
@@ -85,7 +85,7 @@ for (let i = 0; i < membersData.length; i += 1) {
   const base = img.replace(/\.(jpg|jpeg|png)$/i, '');
   refs.add(`${base}-640.webp`);
   refs.add(`${base}-1024.webp`);
-  refs.add(`${base}-lossless-1024.webp`);
+  refs.add(`${base}-1600.webp`);
 }
 
 const missing = [...refs].filter((r) => !fs.existsSync(path.join(PUB, r)));

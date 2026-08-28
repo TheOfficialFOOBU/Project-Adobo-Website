@@ -52,7 +52,7 @@
   position: absolute;
   border-radius: 50%;
   pointer-events: none;
-  filter: blur(64px);
+  filter: blur(32px);
 }
 
 .hero::before {

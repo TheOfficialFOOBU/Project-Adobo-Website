@@ -92,11 +92,11 @@ export function imageBase(image: string): string {
 
 /**
  * Full-resolution image used by the lightbox. The image tooling generates
- * lossless WebP at 640/1024 only, so -lossless-1024 is the highest variant
- * guaranteed to exist for every WebP member photo.
+ * lossy WebP at 1600w, so -1600 is the highest variant guaranteed to exist
+ * for every WebP member photo.
  */
 export function memberFullImage(member: GuildMember): string {
-  return member.webp === false ? member.image : `${imageBase(member.image)}-lossless-1024.webp`;
+  return member.webp === false ? member.image : `${imageBase(member.image)}-1600.webp`;
 }
 
 /**
