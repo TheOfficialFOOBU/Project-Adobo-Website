@@ -139,12 +139,32 @@
   }
   .team-grid {
     grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  .team-member {
+    min-height: auto;
   }
   .members-grid-container {
     grid-template-columns: repeat(2, 1fr);
   }
   .member-card-inner {
     min-height: 320px;
+  }
+  .member-card-front h4,
+  .member-card-back h4 {
+    font-size: 1.1rem;
+  }
+  .guild-hall-grid {
+    grid-template-columns: 1fr;
+  }
+  .guild-stat-card {
+    padding: 1.25rem 1.25rem 1.1rem;
+  }
+  .guild-stat-value {
+    font-size: clamp(2rem, 8vw, 2.8rem);
+  }
+  .contact-cta {
+    padding: 5rem 1.5rem;
   }
   .projects-grid {
     grid-template-columns: 1fr;
