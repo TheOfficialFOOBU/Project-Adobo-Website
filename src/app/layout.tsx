@@ -8,6 +8,7 @@ import { ScrollReveal } from '@/components/scroll-reveal';
 import { SiteFooter } from '@/components/site-footer';
 import { SiteHeader } from '@/components/site-header';
 import { SmoothAnchors } from '@/components/smooth-anchors';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 import { asset, SITE_DESCRIPTION, SITE_TITLE, SITE_URL } from '@/lib/site';
 
 import './globals.css';
@@ -106,6 +107,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <BackToTop />
         <ScrollReveal />
         <SmoothAnchors />
+        <SpeedInsights />
         <noscript>
           <style
             dangerouslySetInnerHTML={{
