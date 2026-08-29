@@ -75,7 +75,7 @@ const GUILD_BENEFITS: readonly { label: string; icon: LucideIcon; description: s
     description: 'Veterans happily walk newer players through builds, bosses, and basics.',
   },
   {
-    label: 'Approachable Officers/Members',
+    label: 'Approachable Members',
     icon: MessagesSquare,
     description: 'Questions are always welcome; nobody here bites.',
   },

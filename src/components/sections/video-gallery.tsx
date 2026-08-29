@@ -1,5 +1,6 @@
 'use client';
 
+import { Play } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 
 import { asset } from '@/lib/site';
@@ -11,6 +12,7 @@ interface LocalVideo {
   type: 'local';
   id: string;
   src: string;
+  poster?: string;
   title: string;
   label?: string;
   description: string;
@@ -51,26 +53,26 @@ function LocalVideoPlayer({ video, lazy }: { video: LocalVideo; lazy?: boolean }
           ref={videoRef}
           src={asset(video.src)}
           controls
+          controlsList="nodownload"
           preload={inView ? 'metadata' : 'none'}
           playsInline
+          // iOS Safari only treats a play() call as a user gesture when it
+          // fires from a tap on the <video> itself (or its native controls).
+          // A sibling button's click does not qualify, so we let the browser
+          // draw the native play affordance over a thumbnail poster instead.
+          disablePictureInPicture
+          poster={video.poster ? asset(video.poster) : undefined}
           title={video.title}
           className="video-embed loaded"
           onPause={() => setPlaying(false)}
           onPlay={() => setPlaying(true)}
         />
 
-        {!playing && (
-          <button
-            type="button"
-            className="video-play-overlay"
-            aria-label={`Watch ${video.title}`}
-            onClick={() => videoRef.current?.play()}
-          >
-            <svg viewBox="0 0 24 24" fill="currentColor" width="48" height="48">
-              <path d="M8 5v14l11-7z" />
-            </svg>
-          </button>
-        )}
+        {!playing && !video.poster ? (
+          <div className="video-play-overlay" aria-hidden="true">
+            <Play />
+          </div>
+        ) : null}
       </div>
       <div className="video-info">
         {video.label && <span className="video-label">{video.label}</span>}

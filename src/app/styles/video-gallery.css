@@ -84,32 +84,38 @@
   opacity: 1;
 }
 
-/* Play button overlay for local videos */
+/* Decorative play badge — purely visual. We do NOT add a click handler on
+   mobile Safari because the call would not be considered a user gesture on
+   the underlying <video>, so the play would be blocked. The poster frame
+   (or, failing that, the native browser play button) handles the actual
+   start of playback. */
 .video-play-overlay {
   position: absolute;
   inset: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgb(0 0 0 / 0.35);
-  border: 0;
+  background: rgb(0 0 0 / 0.28);
+  pointer-events: none;
   color: white;
-  cursor: pointer;
-  transition: background 0.25s ease;
   z-index: 1;
+  transition: background 0.25s ease;
 }
 
-.video-play-overlay:hover {
-  background: rgb(0 0 0 / 0.5);
+.video-card:hover .video-play-overlay {
+  background: rgb(0 0 0 / 0.45);
 }
 
 .video-play-overlay svg {
-  filter: drop-shadow(0 2px 8px rgb(0 0 0 / 0.4));
+  width: 56px;
+  height: 56px;
+  filter: drop-shadow(0 4px 14px rgb(0 0 0 / 0.5));
+  fill: white;
   transition: transform 0.25s ease;
 }
 
-.video-play-overlay:hover svg {
-  transform: scale(1.1);
+.video-card:hover .video-play-overlay svg {
+  transform: scale(1.08);
 }
 
 /* Video info */
@@ -175,7 +181,7 @@
   .video-card:hover {
     transform: none;
   }
-  .video-play-overlay:hover svg {
+  .video-card:hover .video-play-overlay svg {
     transform: none;
   }
 }
