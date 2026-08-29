@@ -6,10 +6,10 @@ import { asset, assetSrcSet } from '@/lib/site';
 import { cn } from '@/lib/utils';
 
 const PEACE_DECOR =
-  '/images/events/Gpic3-1600.webp 1600w, /images/events/Gpic3-1024.webp 1024w, /images/events/Gpic3-800.webp 800w, /images/events/Gpic3-640.webp 640w, /images/events/Gpic3-480.webp 480w, /images/events/Gpic3-320.webp 320w';
+  '/images/events/Gpic3-2400.webp 2400w, /images/events/Gpic3-1920.webp 1920w, /images/events/Gpic3-1600.webp 1600w, /images/events/Gpic3-1024.webp 1024w, /images/events/Gpic3-800.webp 800w, /images/events/Gpic3-640.webp 640w, /images/events/Gpic3-480.webp 480w, /images/events/Gpic3-320.webp 320w';
 
 const WHAT_DECOR =
-  '/images/events/GPIC2-1600.webp 1600w, /images/events/GPIC2-1024.webp 1024w, /images/events/GPIC2-800.webp 800w, /images/events/GPIC2-640.webp 640w, /images/events/GPIC2-480.webp 480w, /images/events/GPIC2-320.webp 320w';
+  '/images/events/GPIC2-2400.webp 2400w, /images/events/GPIC2-1920.webp 1920w, /images/events/GPIC2-1600.webp 1600w, /images/events/GPIC2-1024.webp 1024w, /images/events/GPIC2-800.webp 800w, /images/events/GPIC2-640.webp 640w, /images/events/GPIC2-480.webp 480w, /images/events/GPIC2-320.webp 320w';
 
 /** Responsive background image shown behind / beside a split section. */
 function SplitDecor({ srcSet, fallback }: { srcSet: string; fallback: string }) {
@@ -22,7 +22,11 @@ function SplitDecor({ srcSet, fallback }: { srcSet: string; fallback: string }) 
 
   return (
     <picture className={cn('hero-2-decor', loaded && 'loaded')}>
-      <source type="image/webp" srcSet={assetSrcSet(srcSet)} sizes="50vw" />
+      <source
+        type="image/webp"
+        srcSet={assetSrcSet(srcSet)}
+        sizes="(max-width:768px) 100vw, 50vw"
+      />
       <img
         ref={imgRef}
         className="hero-2-decor-img"
@@ -42,7 +46,7 @@ function SplitDecor({ srcSet, fallback }: { srcSet: string; fallback: string }) 
 export function WarriorLedSection() {
   return (
     <section className="hero-2 hero-2--with-decor hero-2--decor-right" data-animate>
-      <SplitDecor srcSet={PEACE_DECOR} fallback="/images/events/Gpic3-1024.webp" />
+      <SplitDecor srcSet={PEACE_DECOR} fallback="/images/events/Gpic3-1600.webp" />
       <div className="hero-2-content">
         <h2>
           Peace-first
@@ -93,7 +97,7 @@ const WHAT_WE_DO_PILLARS = [
 export function WhatWeDoSection() {
   return (
     <section className="hero-2 hero-2--with-decor hero-2--decor-left" data-animate>
-      <SplitDecor srcSet={WHAT_DECOR} fallback="/images/events/GPIC2-1024.webp" />
+      <SplitDecor srcSet={WHAT_DECOR} fallback="/images/events/GPIC2-1600.webp" />
       <div className="hero-2-content right-aligned">
         <h2>What we do</h2>
         <p className="what-we-do-lede">Five small promises. Read the ones you need.</p>

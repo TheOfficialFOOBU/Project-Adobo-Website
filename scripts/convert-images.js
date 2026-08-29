@@ -9,7 +9,7 @@ const path = require('path');
 const sharp = require('sharp');
 
 const INPUT_DIR = path.join(__dirname, '..', 'public', 'images');
-const SIZES = [320, 480, 640, 800, 1024, 1600];
+const SIZES = [320, 480, 640, 800, 1024, 1600, 1920, 2400];
 
 function walk(dir, filelist = []) {
   fs.readdirSync(dir).forEach((file) => {
