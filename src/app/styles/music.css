@@ -38,8 +38,8 @@
 }
 
 .music-toggle {
-  width: 42px;
-  height: 42px;
+  width: 44px;
+  height: 44px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -50,6 +50,7 @@
   cursor: pointer;
   backdrop-filter: blur(8px);
   line-height: 1;
+  -webkit-tap-highlight-color: transparent;
   transition:
     background 0.2s ease,
     border-color 0.2s ease,
@@ -67,8 +68,8 @@
   bottom: 16px;
   bottom: calc(16px + env(safe-area-inset-bottom, 0px));
   z-index: 900;
-  width: 42px;
-  height: 42px;
+  width: 44px;
+  height: 44px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -79,6 +80,7 @@
   cursor: pointer;
   backdrop-filter: blur(8px);
   line-height: 1;
+  -webkit-tap-highlight-color: transparent;
   opacity: 0;
   transform: translateY(12px);
   pointer-events: none;

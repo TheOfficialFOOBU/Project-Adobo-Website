@@ -36,6 +36,9 @@
   font-size: 0.95rem;
   margin-top: 0.75rem;
   text-align: center;
+  max-width: 90%;
+  margin-left: auto;
+  margin-right: auto;
 }
 #lb-image {
   cursor: zoom-in;
@@ -64,21 +67,24 @@
 }
 #lightbox .lb-close {
   position: absolute;
-  top: 0;
-  right: 0;
+  top: env(safe-area-inset-top, 0px);
+  right: calc(env(safe-area-inset-right, 0px) + 0px);
   background: var(--surface);
   border-radius: 999px;
   border: 1px solid var(--menu-border);
   color: var(--text);
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
   transition:
     color 0.2s ease,
-    border-color 0.2s ease;
+    border-color 0.2s ease,
+    background 0.2s ease,
+    transform 0.2s ease;
 }
 #lightbox .lb-close svg {
   width: 16px;
@@ -90,7 +96,7 @@
 }
 #lightbox .lb-counter {
   position: absolute;
-  top: 0;
+  top: calc(env(safe-area-inset-top, 0px) + 8px);
   left: 50%;
   transform: translateX(-50%);
   background: var(--surface);
@@ -119,12 +125,13 @@
   border: 1px solid var(--border-softer);
   border-radius: 999px;
   color: var(--text);
-  width: 44px;
-  height: 44px;
+  width: 48px;
+  height: 48px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
   transition:
     color 0.2s ease,
     border-color 0.2s ease,

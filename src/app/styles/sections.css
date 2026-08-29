@@ -37,6 +37,7 @@ section {
   margin: 0 0 2.5rem;
   position: relative;
   display: inline-block;
+  max-width: 100%;
 }
 
 /* Brush-rule flourish under each section title. */
@@ -62,6 +63,22 @@ section {
   border-left: 1px solid rgb(var(--crimson-rgb) / 0.65);
 }
 
+@media (max-width: 480px) {
+  .section-title {
+    margin-bottom: 2rem;
+  }
+  .section-title::before {
+    top: -0.5rem;
+    left: -0.5rem;
+    width: 14px;
+    height: 14px;
+  }
+  .section-title::after {
+    bottom: -0.9rem;
+    width: 48px;
+  }
+}
+
 /* Hero call-to-action row (Join Discord / Meet the Guild). */
 .hero-cta-row {
   display: flex;
@@ -72,6 +89,22 @@ section {
 
 .hero-cta-row .cta-button {
   margin-right: 0;
+}
+
+@media (max-width: 640px) {
+  .hero-cta-row {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+    max-width: 320px;
+    margin: 0 auto;
+  }
+  .hero-cta-row .cta-button,
+  .hero-cta-row .copy-profile-link {
+    width: 100%;
+    text-align: center;
+    justify-content: center;
+  }
 }
 
 /* Ghost chapter numerals (壹貳參肆) — engraved outline style where supported. */
@@ -87,6 +120,8 @@ section {
   line-height: 1;
   color: rgb(var(--accent2-rgb) / 0.12);
   font-style: italic;
+  white-space: nowrap;
+  user-select: none;
 }
 
 @supports (-webkit-text-stroke: 1px black) {

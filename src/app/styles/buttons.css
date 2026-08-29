@@ -98,6 +98,7 @@
 }
 
 .cta-button.small {
-  padding: 0.55rem 1.15rem;
+  padding: 0.65rem 1.15rem;
   font-size: 0.68rem;
+  min-height: 38px;
 }

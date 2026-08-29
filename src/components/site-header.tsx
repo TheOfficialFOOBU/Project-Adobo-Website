@@ -23,9 +23,17 @@ export function SiteHeader() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('');
   const progressRef = useRef<HTMLDivElement | null>(null);
+  const menuBtnRef = useRef<HTMLButtonElement | null>(null);
 
   /** True when on the homepage (matches "/" or "/Project-Adobo-Website/"). */
   const isHome = pathname === '/' || pathname === BASE_PATH || pathname === `${BASE_PATH}/`;
+
+  const closeMenu = () => {
+    setMenuOpen(false);
+    // Drop focus back on the trigger so keyboard users land where they
+    // started (the panel itself steals focus while it's open).
+    requestAnimationFrame(() => menuBtnRef.current?.focus());
+  };
 
   /** Resolve a nav href — hash anchors stay as-is on the homepage, but
    *  on other pages they need the full homepage path so they navigate back. */
@@ -98,7 +106,7 @@ export function SiteHeader() {
 
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
-        setMenuOpen(false);
+        closeMenu();
         return;
       }
       if (event.key !== 'Tab') return;
@@ -129,6 +137,7 @@ export function SiteHeader() {
     <>
       <header>
         <button
+          ref={menuBtnRef}
           type="button"
           className="menu-btn"
           id="menu-btn"
@@ -184,7 +193,7 @@ export function SiteHeader() {
         <ThemeToggle />
         <div className="scroll-progress" ref={progressRef} aria-hidden="true" />
       </header>
-      <MobileNav open={menuOpen} onClose={() => setMenuOpen(false)} isHome={isHome} />
+      <MobileNav open={menuOpen} onClose={closeMenu} isHome={isHome} />
     </>
   );
 }

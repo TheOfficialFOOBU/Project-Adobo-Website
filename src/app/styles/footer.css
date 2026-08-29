@@ -4,6 +4,7 @@ footer {
   background: var(--footer-bg);
   border-top: 1px solid var(--footer-rule);
   padding: 6rem 4rem 3rem;
+  padding-bottom: calc(3rem + env(safe-area-inset-bottom, 0px));
   position: relative;
 }
 
@@ -47,11 +48,14 @@ footer::before {
   font-size: 0.9rem;
   line-height: 1.9;
   color: var(--footer-text);
-  transition: color 0.3s;
+  transition:
+    color 0.3s,
+    transform 0.3s;
 }
 
 .footer-section a:hover {
   color: var(--text);
+  transform: translateX(2px);
 }
 
 .footer-bottom {

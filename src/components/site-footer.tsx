@@ -29,15 +29,15 @@ export function SiteFooter() {
               <small className="discord-widget-note">Adobo Where Winds Meet Discord</small>
             </div>
           </div>
-          <div className="footer-section" aria-label="Guild navigation">
+          <nav className="footer-section" aria-label="Guild navigation">
             <h3>Guild</h3>
             {GUILD_LINKS.map((link) => (
               <a href={link.href} key={link.href}>
                 {link.label}
               </a>
             ))}
-          </div>
-          <div className="footer-section" aria-label="Where Winds Meet navigation">
+          </nav>
+          <nav className="footer-section" aria-label="Where Winds Meet navigation">
             <h3>Where Winds Meet</h3>
             {WWM_LINKS.map((link) => (
               <a href={link.href} key={link.href}>
@@ -48,7 +48,7 @@ export function SiteFooter() {
               Join our Discord
               <span className="sr-only">(opens in new tab)</span>
             </a>
-          </div>
+          </nav>
         </div>
         <div className="footer-bottom">
           <div>© {new Date().getFullYear()} ADOBO GUILD — Where Winds Meet • Powered by FOOBU</div>

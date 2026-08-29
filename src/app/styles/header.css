@@ -11,6 +11,7 @@ header {
   justify-content: space-between;
   gap: 16px;
   padding: 0.9rem 1rem;
+  padding-top: calc(0.9rem + env(safe-area-inset-top, 0px));
   z-index: 1000;
   background: var(--header-bg);
   border-bottom: 1px solid var(--border-softer);
@@ -101,12 +102,19 @@ nav a.active::after {
   right: 0;
   bottom: -1px;
   height: 2px;
-  background: linear-gradient(90deg, var(--crimson), var(--accent));
+  background: linear-gradient(
+    90deg,
+    var(--crimson) 0%,
+    var(--accent) 50%,
+    var(--accent-strong) 100%
+  );
   transform: scaleX(0);
   transform-origin: left;
   pointer-events: none;
   z-index: 1;
-  transition: box-shadow 0.3s ease;
+  transition:
+    box-shadow 0.3s ease,
+    height 0.3s ease;
 }
 
 /* Milestone glow effects as user scrolls */

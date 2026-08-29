@@ -61,23 +61,27 @@
 
 .close-modal {
   position: absolute;
-  top: 1.25rem;
-  right: 1.25rem;
+  top: 1rem;
+  right: 1rem;
   color: var(--paper-muted);
-  font-size: 1.7rem;
-  font-weight: 300;
   cursor: pointer;
   transition:
     background 0.3s ease,
     color 0.3s ease;
-  width: 32px;
-  height: 32px;
+  width: 40px;
+  height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 50%;
   background: var(--btn-wash);
   z-index: 2;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.close-modal svg {
+  width: 18px;
+  height: 18px;
 }
 
 .close-modal:hover {

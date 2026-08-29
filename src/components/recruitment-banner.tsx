@@ -1,5 +1,6 @@
 'use client';
 
+import { X } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 
@@ -50,7 +51,7 @@ export function RecruitmentBanner({ config }: { config: RecruitmentConfig }) {
         <span className="sr-only">(opens in new tab)</span>
       </a>
       <button type="button" className="recruit-dismiss" aria-label="Dismiss" onClick={dismiss}>
-        &times;
+        <X aria-hidden="true" />
       </button>
     </div>
   );

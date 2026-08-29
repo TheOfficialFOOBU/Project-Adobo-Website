@@ -190,7 +190,7 @@ export default function RulesPage() {
       </main>
       <style>{`
         .rules-page {
-          padding-top: 6rem;
+          padding-top: calc(6rem + env(safe-area-inset-top, 0px));
         }
         .rules-container {
           max-width: 760px;
@@ -227,7 +227,8 @@ export default function RulesPage() {
           border-radius: 4px;
           transition: border-color 0.25s ease, transform 0.25s ease;
         }
-        .rule-card:hover {
+        .rule-card:hover,
+        .rule-card:focus-within {
           border-color: rgb(var(--accent-rgb) / 0.45);
           transform: translateY(-1px);
         }
@@ -368,9 +369,29 @@ export default function RulesPage() {
           }
           .enforcement-steps {
             gap: 0.35rem;
+            justify-content: center;
+          }
+          .step-text {
+            font-size: 0.72rem;
+            padding: 0.35rem 0.7rem;
+          }
+          .step-arrow {
+            font-size: 0.8rem;
           }
           .rules-closing {
             padding: 1.5rem;
+          }
+          .rules-title {
+            font-size: clamp(1.7rem, 6vw, 2.3rem);
+          }
+        }
+        @media (max-width: 380px) {
+          .enforcement-steps {
+            gap: 0.25rem;
+          }
+          .step-text {
+            padding: 0.3rem 0.55rem;
+            letter-spacing: 0.04em;
           }
         }
       `}</style>

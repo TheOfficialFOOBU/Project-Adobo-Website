@@ -1,5 +1,7 @@
 'use client';
 
+import { X } from 'lucide-react';
+
 import {
   Dialog,
   DialogClose,
@@ -31,7 +33,7 @@ export function ContactLeaderDialog() {
         <DialogContent className="modal-positioner" aria-labelledby="contact-modal-title">
           <div className="modal-content">
             <DialogClose className="close-modal" aria-label="Close">
-              &times;
+              <X aria-hidden="true" />
             </DialogClose>
             <DialogTitle className="modal-title" id="contact-modal-title">
               Contact Guild Leader

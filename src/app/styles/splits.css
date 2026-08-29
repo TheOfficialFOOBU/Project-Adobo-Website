@@ -8,6 +8,10 @@
   overflow: hidden;
 }
 
+.hero-2 + .hero-2 {
+  border-top: 1px solid var(--border-softer);
+}
+
 .hero-2-content {
   max-width: 700px;
   position: relative;

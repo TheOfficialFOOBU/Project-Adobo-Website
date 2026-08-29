@@ -50,6 +50,12 @@
   }
 }
 
+@media (max-width: 900px) {
+  .members-grid-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
 /* Single mobile breakpoint */
 @media (max-width: 900px) {
   .hero-2 {
@@ -69,6 +75,7 @@
 
   header {
     padding: 1rem 1.25rem;
+    padding-top: calc(1rem + env(safe-area-inset-top, 0px));
     background: var(--header-bg-mobile);
   }
   .logo-text {
@@ -90,9 +97,12 @@
     background: var(--btn-wash);
     border: 1px solid var(--menu-border);
     color: var(--accent);
-    padding: 8px 10px;
+    padding: 10px 12px;
     border-radius: 4px;
     flex-shrink: 0;
+    min-width: 44px;
+    min-height: 44px;
+    -webkit-tap-highlight-color: transparent;
   }
   /* Hide desktop nav completely on mobile */
   #site-nav {
@@ -101,6 +111,7 @@
   /* Mobile-only nav — sits outside the header, no stacking context issues */
   .mobile-nav {
     display: flex;
+    flex-direction: column;
     position: fixed;
     top: 0;
     left: 0;
@@ -108,7 +119,8 @@
     bottom: 0;
     background: var(--nav-panel);
     z-index: 1100;
-    padding: 5rem 1.5rem 2rem;
+    padding: 0 1.5rem calc(2rem + env(safe-area-inset-bottom, 0px));
+    padding-top: calc(4.5rem + env(safe-area-inset-top, 0px));
     overflow-y: auto;
     opacity: 0;
     visibility: hidden;
@@ -119,6 +131,57 @@
   .mobile-nav.open {
     opacity: 1;
     visibility: visible;
+  }
+  .mobile-nav-header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: calc(3.5rem + env(safe-area-inset-top, 0px));
+    display: flex;
+    align-items: center;
+    padding: env(safe-area-inset-top, 0px) 1.25rem 0;
+    border-bottom: 1px solid var(--border-softer);
+    background: var(--header-bg-mobile);
+  }
+  .mobile-nav-brand {
+    font-family: var(--font-sans);
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.28em;
+    color: var(--accent);
+  }
+  .mobile-nav-close {
+    position: absolute;
+    top: calc(0.4rem + env(safe-area-inset-top, 0px));
+    right: 0.75rem;
+    width: 44px;
+    height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--btn-wash);
+    border: 1px solid var(--menu-border);
+    border-radius: 999px;
+    color: var(--accent);
+    cursor: pointer;
+    line-height: 0;
+    -webkit-tap-highlight-color: transparent;
+    transition:
+      background 0.2s ease,
+      border-color 0.2s ease,
+      transform 0.2s ease;
+  }
+  .mobile-nav-close:hover {
+    background: var(--hover-wash);
+    border-color: rgb(var(--accent-rgb) / 0.6);
+  }
+  .mobile-nav-close:active {
+    transform: scale(0.95);
+  }
+  .mobile-nav-close svg {
+    width: 18px;
+    height: 18px;
   }
   .mobile-nav ul {
     list-style: none;
@@ -176,7 +239,7 @@
     min-height: auto;
   }
   .members-grid-container {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: 1fr;
   }
   .member-card-front h3,
   .member-card-back h3 {
@@ -186,7 +249,7 @@
   /* Mobile: replace 3D flip with a slide transition so the photo doesn't
      block the back-face content on small screens. */
   .member-card-inner {
-    min-height: 320px;
+    min-height: auto;
     transform-style: flat;
     transition: none;
   }
@@ -223,6 +286,9 @@
       opacity: 1;
       transform: translateY(0);
     }
+  }
+  .member-card-front .skeleton-wrap {
+    height: clamp(240px, 70vw, 360px);
   }
   .guild-hall-grid {
     grid-template-columns: 1fr;
@@ -278,6 +344,7 @@
 @media (max-width: 640px) {
   footer {
     padding: 3.5rem 1.25rem 2.5rem;
+    padding-bottom: calc(2.5rem + env(safe-area-inset-bottom, 0px));
   }
   .footer-content {
     grid-template-columns: 1fr;
@@ -292,6 +359,13 @@
   }
   .sorting-controls {
     flex-wrap: wrap;
+  }
+  .hero-cta-row .cta-button {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+  .hero-cta-row {
+    gap: 0.75rem;
   }
 }
 
