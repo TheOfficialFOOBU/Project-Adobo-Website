@@ -9,9 +9,13 @@ import { useLightbox } from '@/components/lightbox-provider';
 import {
   imageBase,
   initialsPlaceholder,
+  memberBadgeTier,
+  memberDisplayTitle,
   memberFullImage,
   memberImageFallbacks,
   memberSlug,
+  memberTier,
+  memberTierLabel,
   type GuildMember,
 } from '@/lib/members';
 import { asset, BASE_PATH } from '@/lib/site';
@@ -66,16 +70,16 @@ export function MemberRow({ member, highlight = '', reverse = false }: MemberRow
     srcIndex < 0 ? initialSrc : (fallbacks[srcIndex] ?? initialsPlaceholder(member.name))
   );
 
-  const isFounder = Boolean(member.founder);
-  const isOfficer = !isFounder && member.position === 'Officer';
-  const isCore = !isFounder && (member.position === 'Vice Master' || isOfficer);
+  const tier = memberTier(member);
+  const badgeTier = memberBadgeTier(member);
+  const tierLabel = memberTierLabel(member);
 
   const rowClass = cn(
     'member-row',
     reverse && 'member-row--reverse',
-    isFounder && 'member-row--founder',
-    !isFounder && isCore && 'member-row--core',
-    !isFounder && !isCore && 'member-row--member'
+    tier === 'leader' && 'member-row--founder',
+    tier === 'core' && 'member-row--core',
+    tier === 'member' && 'member-row--member'
   );
 
   return (
@@ -116,8 +120,8 @@ export function MemberRow({ member, highlight = '', reverse = false }: MemberRow
             }}
           />
         </picture>
-        <span className="member-row-tier" aria-hidden="true">
-          {isFounder ? 'Founder' : isCore ? member.position : 'Member'}
+        <span className={`member-row-seal member-row-seal--${badgeTier}`} aria-hidden="true">
+          {tierLabel}
         </span>
       </div>
 
@@ -127,7 +131,7 @@ export function MemberRow({ member, highlight = '', reverse = false }: MemberRow
             <Highlight text={member.name} query={highlight} />
           </h3>
           <span className="member-row-position">
-            <Highlight text={member.position} query={highlight} />
+            <Highlight text={memberDisplayTitle(member)} query={highlight} />
           </span>
         </div>
 

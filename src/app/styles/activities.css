@@ -1,22 +1,285 @@
-/* ---------- Projects (Guild Activities) ---------- */
+/* ---------- Guild Activities (editorial layout) ---------- */
 
-.projects {
+.guild-activities {
   background: var(--bg);
+  position: relative;
 }
 
-.projects-grid {
+.guild-activities::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(
+    circle at 1px 1px,
+    rgb(var(--accent-rgb) / 0.04) 1px,
+    transparent 1px
+  );
+  background-size: 28px 28px;
+  pointer-events: none;
+  opacity: 0.6;
+  z-index: 0;
+}
+
+.guild-activities > .container {
+  position: relative;
+  z-index: 1;
+}
+
+.activities-lede {
+  max-width: 60ch;
+  margin: -1rem 0 3rem;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(1.05rem, 1.6vw, 1.25rem);
+  line-height: 1.6;
+  color: var(--muted);
+}
+
+/* ---------- Featured chronicle (first item, wide) ---------- */
+
+.activities-feature {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 2rem;
-  margin-bottom: 4rem;
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+  gap: 3rem;
+  align-items: stretch;
+  margin-bottom: 3rem;
 }
 
-/* “Show more” affordance — sits centered under the grid, reuses the
-   secondary CTA pill so it matches the rest of the site. */
+.activities-feature-side {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 1.5rem 0;
+}
+
+.activities-feature-eyebrow {
+  font-family: var(--font-sans);
+  font-size: 0.66rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.42em;
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.activities-feature-eyebrow::before {
+  content: '';
+  display: block;
+  width: 28px;
+  height: 1px;
+  background: rgb(var(--accent-rgb) / 0.7);
+}
+
+.activities-feature-title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.85rem, 3.2vw, 2.6rem);
+  font-weight: 600;
+  line-height: 1.1;
+  color: var(--text);
+  letter-spacing: 0.005em;
+}
+
+.activities-feature-body {
+  margin: 0.25rem 0 0;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(1.05rem, 1.5vw, 1.2rem);
+  line-height: 1.5;
+  color: var(--quote-text);
+}
+
+.activities-feature-meta {
+  margin-top: 0.5rem;
+}
+
+.activities-feature-type {
+  display: inline-block;
+  padding: 0.35rem 0.85rem;
+  font-family: var(--font-sans);
+  font-size: 0.66rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: rgb(var(--crimson-rgb) / 0.95);
+  background: rgb(var(--crimson-rgb) / 0.06);
+  border: 1px solid rgb(var(--crimson-rgb) / 0.35);
+  border-radius: 2px;
+}
+
+/* ---------- Card base ---------- */
+
+.activity-card {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--border-soft);
+  border-radius: 4px;
+  background: var(--photo-bg);
+  cursor: zoom-in;
+  isolation: isolate;
+  transition:
+    border-color 0.4s ease,
+    transform 0.4s ease,
+    box-shadow 0.4s ease;
+}
+
+.activity-card:hover {
+  border-color: rgb(var(--accent-rgb) / 0.55);
+  transform: translateY(-3px);
+  box-shadow:
+    0 24px 60px rgba(8, 6, 3, 0.4),
+    0 0 0 1px rgb(var(--accent-rgb) / 0.25);
+}
+
+.activity-card .skeleton-wrap {
+  height: 100%;
+  width: 100%;
+  border-radius: 0;
+}
+
+.activity-card picture {
+  display: block;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  inset: 0;
+  margin: 0;
+}
+
+.activity-card img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  transition: transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.activity-card:hover img {
+  transform: scale(1.04);
+}
+
+.activity-card-index {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  z-index: 3;
+  font-family: var(--font-sans);
+  font-size: 0.62rem;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(242, 236, 223, 0.78);
+  background: rgba(10, 8, 6, 0.6);
+  padding: 0.32rem 0.6rem;
+  border-radius: 2px;
+  border: 1px solid rgba(242, 236, 223, 0.18);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+.activity-card-type {
+  position: absolute;
+  bottom: 1rem;
+  left: 1rem;
+  z-index: 3;
+  font-family: var(--font-sans);
+  font-size: 0.62rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: var(--on-crimson);
+  background: var(--crimson);
+  padding: 0.32rem 0.7rem;
+  border-radius: 2px;
+}
+
+/* Hover overlay — appears on hover/focus, fades on touch */
+.activity-card-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 1.75rem 1.5rem;
+  background: linear-gradient(
+    180deg,
+    rgba(12, 9, 6, 0.3) 0%,
+    rgba(12, 9, 6, 0.7) 60%,
+    rgba(12, 9, 6, 0.92) 100%
+  );
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  pointer-events: none;
+}
+
+.activity-card:hover .activity-card-overlay,
+.activity-card:focus-within .activity-card-overlay {
+  opacity: 1;
+}
+
+.activity-card-overlay h3 {
+  margin: 0 0 0.45rem;
+  font-family: var(--font-display);
+  font-size: clamp(1.4rem, 2vw, 1.85rem);
+  font-weight: 600;
+  line-height: 1.15;
+  color: #f2ecdf;
+  letter-spacing: 0.005em;
+}
+
+.activity-card-overlay p {
+  margin: 0 0 0.85rem;
+  font-size: 0.92rem;
+  line-height: 1.55;
+  color: rgba(237, 229, 211, 0.82);
+}
+
+.activity-card-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--font-sans);
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: var(--accent-strong);
+}
+
+/* ---------- Featured card variant ---------- */
+
+.activity-card--feature {
+  aspect-ratio: 16 / 11;
+  min-height: 360px;
+}
+
+/* ---------- Standard card variant ---------- */
+
+.activity-card--standard {
+  aspect-ratio: 4 / 3;
+  min-height: 240px;
+}
+
+/* ---------- Grid of standard cards ---------- */
+
+.activities-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.5rem;
+}
+
+/* ---------- Show more ---------- */
+
 .projects-more {
   display: flex;
   justify-content: center;
-  margin-bottom: 2rem;
+  margin: 3rem 0 1rem;
 }
 
 .projects-more .cta-button {
@@ -40,103 +303,58 @@
   line-height: 1.4;
 }
 
-.project-card {
-  position: relative;
-  overflow: hidden;
-  aspect-ratio: 1;
-  border-radius: 4px;
-  border: 1px solid var(--border-softer);
-  transition:
-    border-color 0.4s ease,
-    box-shadow 0.4s ease,
-    transform 0.4s ease;
-}
+/* ---------- Mobile ---------- */
 
-@media (hover: hover) {
-  .project-card:hover {
-    border-color: rgb(var(--accent-rgb) / 0.4);
-    box-shadow:
-      0 20px 50px rgba(0, 0, 0, 0.3),
-      0 0 0 1px rgb(var(--accent-rgb) / 0.2);
-    transform: translateY(-2px);
+@media (max-width: 1024px) {
+  .activities-feature {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  .activities-feature-side {
+    padding: 0 1.5rem;
+    text-align: center;
+    align-items: center;
+  }
+  .activities-feature-eyebrow {
+    justify-content: center;
+  }
+  .activities-feature-eyebrow::before {
+    display: none;
   }
 }
 
-.project-card:focus-within {
-  border-color: rgb(var(--accent-rgb) / 0.4);
-}
-
-.project-card img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transform: translateY(4px);
-  transition: transform 0.6s ease;
-}
-
-.project-card.loaded img {
-  transform: none;
-}
-
-.project-card.loaded:hover img {
-  transform: scale(1.05);
-}
-
-.project-overlay {
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  background: linear-gradient(180deg, rgba(12, 9, 6, 0.35) 0%, rgba(12, 9, 6, 0.88) 100%);
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  padding: 2rem;
-  opacity: 0;
-  transition: opacity 0.4s;
-  cursor: pointer;
-}
-
-.project-card:hover .project-overlay,
-.project-card:focus-within .project-overlay {
-  opacity: 1;
-}
-
-/* Touch devices have no hover — pin a bottom scrim with the caption visible. */
 @media (hover: none) {
-  .project-overlay {
+  /* Touch devices — show the overlay's title always, caption only on tap. */
+  .activity-card-overlay {
     opacity: 1;
-    cursor: pointer;
-    background: linear-gradient(180deg, rgba(0, 0, 0, 0) 45%, rgba(12, 9, 6, 0.9) 100%);
+    background: linear-gradient(180deg, rgba(12, 9, 6, 0) 45%, rgba(12, 9, 6, 0.9) 100%);
+  }
+  .activity-card-overlay p,
+  .activity-card-cta {
+    display: none;
   }
 }
 
-.project-overlay h3 {
-  font-size: 1.65rem;
-  font-weight: 600;
-  margin-bottom: 0.5rem;
+@media (max-width: 768px) {
+  .activities-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  .activity-card--feature {
+    aspect-ratio: 4 / 3;
+    min-height: 240px;
+  }
 }
 
-.project-overlay .project-type {
-  font-size: 0.72rem;
-  color: var(--accent);
-  text-transform: uppercase;
-  letter-spacing: 0.22em;
-  margin-bottom: 0.9rem;
-}
-
-.project-overlay p {
-  color: rgba(237, 229, 211, 0.78);
-  font-size: 0.95rem;
-  margin-bottom: 1.1rem;
-}
-
-.project-overlay a {
-  font-size: 0.72rem;
-  text-transform: uppercase;
-  letter-spacing: 0.2em;
-  color: var(--accent-strong, var(--accent));
-  border-bottom: 1px solid rgb(var(--accent-rgb) / 0.5);
-  display: inline-block;
-  padding-bottom: 0.3rem;
-  align-self: flex-start;
+@media (prefers-reduced-motion: reduce) {
+  .activity-card,
+  .activity-card img {
+    transition: none;
+  }
+  .activity-card:hover {
+    transform: none;
+  }
+  .activity-card:hover img {
+    transform: none;
+  }
 }

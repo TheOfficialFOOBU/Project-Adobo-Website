@@ -25,6 +25,58 @@ footer::before {
   );
 }
 
+/* Final seal — large ADOBO mark with cinnabar corner ticks, centered
+   between hairline rules. Visual close that mirrors the hero masthead. */
+.footer-seal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  margin: 3rem 0 2rem;
+  text-align: center;
+}
+
+.footer-seal-rule {
+  display: block;
+  flex: 1;
+  max-width: 220px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgb(var(--accent-rgb) / 0.55), transparent);
+}
+
+.footer-seal-mark {
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 3vw, 2.4rem);
+  font-weight: 700;
+  letter-spacing: 0.42em;
+  color: var(--accent);
+  text-transform: uppercase;
+  position: relative;
+  padding: 0 0.42em;
+}
+
+.footer-seal-mark::before,
+.footer-seal-mark::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 12px;
+  height: 12px;
+  border-color: rgb(var(--crimson-rgb) / 0.7);
+  border-style: solid;
+}
+
+.footer-seal-mark::before {
+  top: -22px;
+  border-width: 1px 0 0 1px;
+}
+
+.footer-seal-mark::after {
+  bottom: -22px;
+  border-width: 0 1px 1px 0;
+}
+
 .footer-content {
   display: grid;
   grid-template-columns: repeat(3, 1fr);

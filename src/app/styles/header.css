@@ -17,6 +17,30 @@ header {
   border-bottom: 1px solid var(--border-softer);
 }
 
+/* Hairline corner ticks — quiet identity beats that show up close. */
+header::before,
+header::after {
+  content: '';
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border-color: rgb(var(--accent-rgb) / 0.55);
+  border-style: solid;
+  pointer-events: none;
+}
+
+header::before {
+  top: calc(0.55rem + env(safe-area-inset-top, 0px));
+  left: 0.55rem;
+  border-width: 1px 0 0 1px;
+}
+
+header::after {
+  top: calc(0.55rem + env(safe-area-inset-top, 0px));
+  right: 0.55rem;
+  border-width: 1px 1px 0 0;
+}
+
 .logo {
   display: flex;
   align-items: center;
@@ -28,6 +52,25 @@ header {
   text-transform: uppercase;
   color: var(--accent);
   text-decoration: none;
+  position: relative;
+  padding: 2px 0;
+}
+
+.logo::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: linear-gradient(90deg, rgb(var(--accent-rgb) / 0.7), transparent 80%);
+  transform-origin: left;
+  transform: scaleX(0.6);
+  transition: transform 0.4s ease;
+}
+
+.logo:hover::before {
+  transform: scaleX(1);
 }
 
 .logo-image {
@@ -37,6 +80,11 @@ header {
   border-radius: 4px;
   border: 1px solid var(--menu-border);
   background: var(--wash);
+  transition: border-color 0.25s ease;
+}
+
+.logo:hover .logo-image {
+  border-color: rgb(var(--accent-rgb) / 0.7);
 }
 
 .logo-text {
@@ -63,22 +111,23 @@ nav a {
   transition: color 0.25s ease;
 }
 
+/* Brushstroke underline — wide, fades on either end like a hand-drawn mark. */
 nav a::after {
   content: '';
   position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 1px;
-  background: var(--accent);
+  left: -4px;
+  right: -4px;
+  bottom: -2px;
+  height: 4px;
+  background: radial-gradient(ellipse at center, rgb(var(--accent-rgb) / 0.85) 0%, transparent 70%);
   transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.28s ease;
+  transform-origin: center;
+  transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
 nav a:hover {
   opacity: 1;
-  color: var(--accent);
+  color: var(--accent-strong);
   background: transparent;
 }
 
@@ -88,7 +137,7 @@ nav a:hover::after {
 
 /* Scroll-spy: the section currently crossing mid-viewport. */
 nav a.active {
-  color: var(--accent);
+  color: var(--accent-strong);
 }
 
 nav a.active::after {
@@ -146,6 +195,9 @@ nav a.active::after {
   cursor: pointer;
   line-height: 0;
   flex-shrink: 0;
+  transition:
+    background 0.25s ease,
+    border-color 0.25s ease;
 }
 
 .menu-btn svg {
@@ -155,4 +207,5 @@ nav a.active::after {
 
 .menu-btn:hover {
   background: var(--btn-wash);
+  border-color: rgb(var(--accent-rgb) / 0.7);
 }

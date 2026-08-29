@@ -259,15 +259,17 @@
   border-color: var(--accent);
 }
 
-/* Tier badge (Founder, Officer, etc.) — sits at the bottom-left of the photo */
-.member-row-tier {
+/* Tier seal (Founder, Guild Master, Officer, Member) — sits at the bottom-left of the photo.
+   Founder is the only cinnabar tier; Guild Master uses gold; Officer uses jade;
+   regular Member uses a subtle dark wash. Color maps to actual standing. */
+.member-row-seal {
   position: absolute;
   bottom: 12px;
   left: 12px;
   z-index: 3;
   font-family: var(--font-sans);
   font-size: 0.62rem;
-  font-weight: 500;
+  font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.22em;
   padding: 0.3rem 0.6rem;
@@ -276,15 +278,22 @@
   border: 1px solid rgb(var(--accent-rgb) / 0.45);
   color: var(--accent-strong);
   backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
 }
 
-.member-row--founder .member-row-tier {
+.member-row-seal--founder {
   background: rgb(var(--crimson-rgb) / 0.85);
   border-color: rgb(var(--crimson-rgb) / 0.85);
   color: var(--on-crimson);
 }
 
-.member-row--core .member-row-tier {
+.member-row-seal--guild-master {
+  background: rgb(var(--accent-rgb) / 0.92);
+  border-color: rgb(var(--accent-rgb) / 0.92);
+  color: var(--on-accent);
+}
+
+.member-row-seal--core {
   background: rgb(var(--accent2-rgb) / 0.85);
   border-color: rgb(var(--accent2-rgb) / 0.85);
   color: #0c1813;

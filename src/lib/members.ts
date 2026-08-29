@@ -17,6 +17,11 @@ export interface GuildMember {
   position: string;
   weapon: string;
   image: string;
+  /** Optional display-only title that overrides `position` in the UI
+   *  (used for special roles like "Architect", "Cartographer", etc.).
+   *  Does NOT affect tier or role logic — `position` remains the source
+   *  of truth for permissions and grouping. */
+  title?: string;
   quote?: string;
   founder?: boolean;
   webp?: boolean;
@@ -160,6 +165,45 @@ export function memberSlug(member: GuildMember): string {
 
 export function memberBySlug(slug: string): GuildMember | undefined {
   return GUILD_MEMBERS.find((member) => memberSlug(member) === slug);
+}
+
+/**
+ * Single source of truth for "how senior is this member?" — used by the
+ * roster card badge and the profile page. Founder or Guild Master are
+ * `leader`, Vice Master / Officer are `core`, everyone else is `member`.
+ */
+export function memberTier(member: GuildMember): 'leader' | 'core' | 'member' {
+  if (member.founder || member.position === 'Guild Master') return 'leader';
+  if (member.position === 'Vice Master' || member.position === 'Officer') return 'core';
+  return 'member';
+}
+
+/** Short label shown on the roster card's cinnabar seal. */
+export function memberTierLabel(member: GuildMember): string {
+  if (member.founder) return 'Founder';
+  if (member.position === 'Guild Master') return 'Guild Master';
+  return memberDisplayTitle(member);
+}
+
+/**
+ * Badge-tier grouping — separates Founder (cinnabar) from a non-founder
+ * Guild Master (jade) so they don't share a color. Founders are the only
+ * tier using the cinnabar palette.
+ */
+export function memberBadgeTier(
+  member: GuildMember
+): 'founder' | 'guild-master' | 'core' | 'member' {
+  if (member.founder) return 'founder';
+  if (member.position === 'Guild Master') return 'guild-master';
+  if (member.position === 'Vice Master' || member.position === 'Officer') return 'core';
+  return 'member';
+}
+
+/**
+ ** Display title for a member — prefers the optional `title` field (used for
+ ** special guild roles like "Architect"), falls back to `position`. */
+export function memberDisplayTitle(member: GuildMember): string {
+  return member.title ?? member.position;
 }
 
 /** Adjacent roster entries for prev/next profile navigation. */

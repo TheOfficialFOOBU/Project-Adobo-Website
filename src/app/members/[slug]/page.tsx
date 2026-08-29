@@ -2,7 +2,15 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
-import { GUILD_MEMBERS, imageBase, memberBySlug, memberNeighbors, memberSlug } from '@/lib/members';
+import {
+  GUILD_MEMBERS,
+  imageBase,
+  memberBadgeTier,
+  memberBySlug,
+  memberDisplayTitle,
+  memberNeighbors,
+  memberSlug,
+} from '@/lib/members';
 import { CopyProfileLink } from '@/components/copy-profile-link';
 import { DiscordPresence } from '@/components/discord-presence';
 import { ProfileStickyBar } from '@/components/profile-sticky-bar';
@@ -37,7 +45,7 @@ export async function generateMetadata({ params }: MemberPageProps): Promise<Met
   if (!member) return {};
 
   const title = `${member.name} — Adobo Guild`;
-  const description = `${member.position} · ${member.class}${
+  const description = `${memberDisplayTitle(member)} · ${member.class}${
     member.quote ? ` — "${member.quote}"` : ''
   }`;
   const ogImage = `/images/og/members/${memberSlug(member)}.jpg`;
@@ -64,10 +72,11 @@ export async function generateMetadata({ params }: MemberPageProps): Promise<Met
   };
 }
 
-function badgeTier(member: (typeof GUILD_MEMBERS)[number]): 'leader' | 'core' | '' {
-  if (member.founder || member.position === 'Guild Master') return 'leader';
-  if (member.position === 'Vice Master' || member.position === 'Officer') return 'core';
-  return '';
+function profileBadgeTier(
+  member: (typeof GUILD_MEMBERS)[number]
+): 'founder' | 'guild-master' | 'core' | '' {
+  const t = memberBadgeTier(member);
+  return t === 'member' ? '' : t;
 }
 
 /** Deep-linkable member profile — full-width portrait hero, centered dossier,
@@ -78,7 +87,7 @@ export default async function MemberProfilePage({ params }: MemberPageProps) {
   if (!member) notFound();
 
   const { prev, next } = memberNeighbors(member);
-  const tier = badgeTier(member);
+  const tier = profileBadgeTier(member);
   const srcSet = portraitSrcSet(member);
   const fallbackSrc = member.webp === false ? member.image : `${imageBase(member.image)}-1024.webp`;
   const heroSrc = member.webp === false ? member.image : `${imageBase(member.image)}-1600.webp`;
@@ -98,7 +107,7 @@ export default async function MemberProfilePage({ params }: MemberPageProps) {
             name: member.name,
             url: `${SITE_URL}/members/${memberSlug(member)}`,
             image: `${SITE_URL}${fallbackSrc}`,
-            jobTitle: member.position,
+            jobTitle: memberDisplayTitle(member),
             description: member.quote ? `"${member.quote}"` : undefined,
             memberOf: {
               '@type': 'Organization',
@@ -138,7 +147,9 @@ export default async function MemberProfilePage({ params }: MemberPageProps) {
             &larr; Back to the Guild
           </Link>
           <div className="profile-hero-text">
-            <span className={`profile-badge profile-badge--hero ${tier}`}>{member.position}</span>
+            <span className={`profile-badge profile-badge--hero ${tier}`}>
+              {memberDisplayTitle(member)}
+            </span>
             <h1>{member.name}</h1>
             <p className="profile-hero-sub">{member.class || 'Unknown'}</p>
           </div>
@@ -148,7 +159,7 @@ export default async function MemberProfilePage({ params }: MemberPageProps) {
       {/* ---------- Centered dossier ---------- */}
       <ProfileStickyBar
         name={member.name}
-        position={member.position}
+        position={memberDisplayTitle(member)}
         thumb={portraitThumb(member)}
         prev={prevLink}
         next={nextLink}
@@ -182,7 +193,7 @@ export default async function MemberProfilePage({ params }: MemberPageProps) {
             </div>
             <div className="profile-meta-item">
               <span className="profile-meta-label">Position</span>
-              <span className="profile-meta-value">{member.position}</span>
+              <span className="profile-meta-value">{memberDisplayTitle(member)}</span>
             </div>
             <div className="profile-meta-item">
               <span className="profile-meta-label">Tier</span>

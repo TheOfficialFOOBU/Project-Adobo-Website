@@ -135,10 +135,17 @@
   backdrop-filter: blur(4px);
 }
 
-.profile-badge--hero.leader {
+.profile-badge--hero.founder {
   background: rgb(var(--crimson-rgb) / 0.85);
   border-color: rgb(var(--crimson-rgb) / 0.85);
   color: var(--on-crimson);
+}
+
+/* Guild Master (non-founder) — gold, distinct from Founder's cinnabar. */
+.profile-badge--hero.guild-master {
+  background: rgb(var(--accent-rgb) / 0.92);
+  border-color: rgb(var(--accent-rgb) / 0.92);
+  color: var(--on-accent);
 }
 
 .profile-badge--hero.core {

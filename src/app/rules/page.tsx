@@ -110,13 +110,28 @@ Just be respectful, have fun, and don't make the game worse for the people aroun
 
 const ENFORCEMENT_STEPS = ['Reminder', 'Warning', 'Temporary Restriction', 'Removal'];
 
+/**
+ * Guild Rules page — presented as an unrolled scroll-document. The whole
+ * page sits on a paper-toned gradient with corner brackets, cinnabar rule
+ * numbers, and Cormorant display headings.
+ */
 export default function RulesPage() {
   return (
     <>
       <main id="main">
         <section className="rules-page">
           <div className="container rules-container">
-            <h1 className="section-title rules-title">Guild Rules</h1>
+            {/* Scroll masthead */}
+            <header className="rules-masthead">
+              <span className="rules-masthead-rule" aria-hidden="true" />
+              <span className="rules-masthead-seal" aria-hidden="true">
+                規
+              </span>
+              <span className="rules-masthead-rule" aria-hidden="true" />
+              <h1 className="rules-title">Guild Rules</h1>
+              <p className="rules-subtitle">Eleven precepts for wandering Adobo together</p>
+            </header>
+
             <p className="rules-intro">
               Adobo was built to be a safe haven for players who want to enjoy{' '}
               <strong>Where Winds Meet</strong> without unnecessary pressure, toxicity, or drama. We
@@ -128,7 +143,7 @@ export default function RulesPage() {
               follow these rules.
             </p>
 
-            <div className="rules-list">
+            <ol className="rules-list">
               {RULES.map((rule) => (
                 <article className="rule-card" key={rule.number}>
                   <span className="rule-number" aria-hidden="true">
@@ -142,10 +157,14 @@ export default function RulesPage() {
                   </div>
                 </article>
               ))}
-            </div>
+            </ol>
 
-            <div className="rules-enforcement">
-              <h2>Rule Enforcement</h2>
+            <section className="rules-enforcement">
+              <header className="rules-enforcement-head">
+                <span className="rules-masthead-rule" aria-hidden="true" />
+                <h2>Rule Enforcement</h2>
+                <span className="rules-masthead-rule" aria-hidden="true" />
+              </header>
               <p>
                 We believe in handling issues fairly and reasonably. Depending on the situation,
                 violations may result in:
@@ -170,9 +189,12 @@ export default function RulesPage() {
                 We don&apos;t enjoy enforcing rules, but protecting the community and the people in
                 it will always come first.
               </p>
-            </div>
+            </section>
 
-            <div className="rules-closing">
+            <section className="rules-closing">
+              <span className="closing-seal" aria-hidden="true">
+                戒
+              </span>
               <h2>The Adobo Rule</h2>
               <p className="closing-bold">
                 Don&apos;t be toxic. Don&apos;t bring unnecessary drama. Don&apos;t ruin the fun.
@@ -184,217 +206,10 @@ export default function RulesPage() {
               <p className="closing-welcome">
                 Welcome to Adobo. Play your way. Have fun. Respect each other.
               </p>
-            </div>
+            </section>
           </div>
         </section>
       </main>
-      <style>{`
-        .rules-page {
-          padding-top: calc(6rem + env(safe-area-inset-top, 0px));
-        }
-        .rules-container {
-          max-width: 760px;
-          margin: 0 auto;
-        }
-        .rules-title {
-          font-size: clamp(2rem, 4vw, 3rem);
-          margin-bottom: 1.5rem;
-        }
-        .rules-intro {
-          color: var(--muted);
-          line-height: 1.75;
-          font-size: 0.95rem;
-          margin-bottom: 1rem;
-        }
-        .rules-intro strong {
-          color: var(--text);
-        }
-
-        /* Rule cards */
-        .rules-list {
-          display: flex;
-          flex-direction: column;
-          gap: 1.25rem;
-          margin-top: 2.5rem;
-        }
-        .rule-card {
-          display: flex;
-          align-items: flex-start;
-          gap: 1.1rem;
-          padding: 1.4rem 1.5rem;
-          background: var(--wash);
-          border: 1px solid var(--border-soft);
-          border-radius: 4px;
-          transition: border-color 0.25s ease, transform 0.25s ease;
-        }
-        .rule-card:hover,
-        .rule-card:focus-within {
-          border-color: rgb(var(--accent-rgb) / 0.45);
-          transform: translateY(-1px);
-        }
-        .rule-number {
-          flex-shrink: 0;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          width: 40px;
-          height: 40px;
-          font-family: var(--font-display);
-          font-size: 1rem;
-          font-weight: 700;
-          color: var(--accent-strong);
-          background: rgb(var(--crimson-rgb) / 0.08);
-          border: 1px solid rgb(var(--crimson-rgb) / 0.25);
-          border-radius: 50%;
-        }
-        .rule-content {
-          flex: 1;
-          min-width: 0;
-        }
-        .rule-content h2 {
-          margin: 0 0 0.5rem;
-          font-size: 1rem;
-          font-weight: 600;
-          color: var(--text);
-        }
-        .rule-content p {
-          margin: 0;
-          font-size: 0.85rem;
-          line-height: 1.7;
-          color: var(--muted);
-        }
-        .rule-content p + p {
-          margin-top: 0.5rem;
-        }
-
-        /* Enforcement section */
-        .rules-enforcement {
-          margin-top: 3rem;
-          padding: 1.75rem;
-          background: var(--wash);
-          border: 1px solid var(--border-soft);
-          border-radius: 4px;
-        }
-        .rules-enforcement h2 {
-          margin: 0 0 0.75rem;
-          font-size: 1.1rem;
-          font-weight: 600;
-          color: var(--text);
-        }
-        .rules-enforcement > p {
-          margin: 0;
-          font-size: 0.85rem;
-          line-height: 1.7;
-          color: var(--muted);
-        }
-        .enforcement-steps {
-          display: flex;
-          align-items: center;
-          gap: 0.5rem;
-          flex-wrap: wrap;
-          margin: 1rem 0;
-        }
-        .enforcement-step {
-          display: inline-flex;
-          align-items: center;
-          gap: 0.5rem;
-        }
-        .step-text {
-          display: inline-block;
-          padding: 0.3rem 0.75rem;
-          font-size: 0.8rem;
-          font-weight: 600;
-          color: var(--accent-strong);
-          background: rgb(var(--crimson-rgb) / 0.08);
-          border: 1px solid rgb(var(--crimson-rgb) / 0.25);
-          border-radius: 4px;
-        }
-        .step-arrow {
-          color: var(--muted);
-          font-size: 0.9rem;
-        }
-        .enforcement-note {
-          margin-top: 0.75rem;
-          font-size: 0.82rem;
-          line-height: 1.65;
-          color: var(--muted);
-        }
-        .enforcement-note:first-of-type {
-          margin-top: 1rem;
-        }
-
-        /* Closing / Adobo Rule */
-        .rules-closing {
-          margin-top: 2.5rem;
-          padding: 2rem;
-          text-align: center;
-          background: var(--wash);
-          border: 1px solid var(--border-soft);
-          border-radius: 4px;
-        }
-        .rules-closing h2 {
-          margin: 0 0 1rem;
-          font-size: 1.2rem;
-          font-weight: 600;
-          color: var(--text);
-        }
-        .rules-closing p {
-          margin: 0;
-          font-size: 0.88rem;
-          line-height: 1.7;
-          color: var(--muted);
-        }
-        .closing-bold {
-          font-size: 1rem !important;
-          font-weight: 600;
-          color: var(--text) !important;
-          margin-bottom: 0.75rem !important;
-        }
-        .closing-welcome {
-          margin-top: 1rem !important;
-          font-style: italic;
-          color: var(--accent-strong) !important;
-        }
-
-        @media (max-width: 768px) {
-          .rule-card {
-            flex-direction: column;
-            gap: 0.75rem;
-            padding: 1.25rem;
-          }
-          .rule-number {
-            width: 34px;
-            height: 34px;
-            font-size: 0.9rem;
-          }
-          .enforcement-steps {
-            gap: 0.35rem;
-            justify-content: center;
-          }
-          .step-text {
-            font-size: 0.72rem;
-            padding: 0.35rem 0.7rem;
-          }
-          .step-arrow {
-            font-size: 0.8rem;
-          }
-          .rules-closing {
-            padding: 1.5rem;
-          }
-          .rules-title {
-            font-size: clamp(1.7rem, 6vw, 2.3rem);
-          }
-        }
-        @media (max-width: 380px) {
-          .enforcement-steps {
-            gap: 0.25rem;
-          }
-          .step-text {
-            padding: 0.3rem 0.55rem;
-            letter-spacing: 0.04em;
-          }
-        }
-      `}</style>
     </>
   );
 }

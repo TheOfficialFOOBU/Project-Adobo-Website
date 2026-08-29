@@ -26,7 +26,15 @@ const ACTIVITIES = activitiesData as Activity[];
 /** Initial card count rendered before the user opts into the rest. */
 const INITIAL_COUNT = 4;
 
-function ActivityCard({ activity }: { activity: Activity }) {
+function ActivityCard({
+  activity,
+  index,
+  variant,
+}: {
+  activity: Activity;
+  index: number;
+  variant: 'feature' | 'standard';
+}) {
   const { register, openLightbox } = useLightbox();
   const [loaded, setLoaded] = useState(false);
   const imgRef = useRef<HTMLImageElement | null>(null);
@@ -51,19 +59,21 @@ function ActivityCard({ activity }: { activity: Activity }) {
     if (imgRef.current?.complete) setLoaded(true);
   }, []);
 
+  const open = () => openLightbox({ src: asset(activity.full), alt: activity.alt });
+
   return (
-    <div className={cn('project-card', loaded && 'loaded')} id={activity.id}>
+    <article
+      className={cn('activity-card', `activity-card--${variant}`, loaded && 'loaded')}
+      id={activity.id}
+      onClick={open}
+    >
       <div
-        className={cn('skeleton-bg', loaded && 'hidden')}
+        className={cn('activity-card-bg', loaded && 'hidden')}
         style={{ backgroundImage: `url(${asset(activity.lqip)})` }}
         aria-hidden="true"
       />
       <picture className={cn('skeleton-wrap', loaded ? 'loaded' : 'skeleton')}>
-        <source
-          type="image/webp"
-          srcSet={assetSrcSet(activity.srcSet)}
-          sizes="(max-width:600px) 100vw, 45vw"
-        />
+        <source type="image/webp" srcSet={assetSrcSet(activity.srcSet)} sizes="50vw" />
         <img
           ref={imgRef}
           className="lightbox-target"
@@ -73,37 +83,51 @@ function ActivityCard({ activity }: { activity: Activity }) {
           decoding="async"
           onLoad={() => setLoaded(true)}
           onError={() => setLoaded(true)}
-          onClick={() => openLightbox({ src: asset(activity.full), alt: activity.alt })}
+          onClick={(e) => {
+            e.stopPropagation();
+            open();
+          }}
         />
       </picture>
-      <div className="project-overlay">
-        <div className="project-type">{activity.type}</div>
+
+      {/* Always-visible chronicle index — top-right */}
+      <span className="activity-card-index" aria-hidden="true">
+        No. {String(index + 1).padStart(2, '0')}
+      </span>
+
+      {/* Type tag — bottom-left, always visible */}
+      <span className="activity-card-type">{activity.type}</span>
+
+      {/* Hover caption panel */}
+      <div className="activity-card-overlay">
         <h3>{activity.title}</h3>
         <p>{activity.description}</p>
-        <a
-          href={asset(activity.full)}
-          onClick={(e) => {
-            e.preventDefault();
-            openLightbox({ src: asset(activity.full), alt: activity.alt });
-          }}
-        >
+        <span className="activity-card-cta">
           {activity.linkLabel}
-        </a>
+          <span aria-hidden="true">&rarr;</span>
+        </span>
       </div>
-    </div>
+    </article>
   );
 }
 
-/** “Guild Activities” grid — hover overlay, skeleton/LQIP loading, lightbox,
- *  progressive disclosure (first 4 cards, “Show more” button reveals the rest). */
+/**
+ * "Guild Activities" — editorial layout: the first item is a wide feature
+ * card with the type tag and a layered overlay, the rest are 2-up standard
+ * cards. Each card carries a chronicle number and shows its title on hover.
+ * Progressive disclosure shows the first 4 cards; "Show more" reveals the rest.
+ */
 export function ActivitiesSection() {
   const [visible, setVisible] = useState(INITIAL_COUNT);
   const total = ACTIVITIES.length;
   const shown = ACTIVITIES.slice(0, visible);
   const remaining = total - visible;
 
+  const featured = shown[0];
+  const rest = shown.slice(1);
+
   return (
-    <section className="projects" id="projects" data-animate>
+    <section className="projects guild-activities" id="projects" data-animate>
       <div className="container">
         <h2 className="section-title">
           Guild Activities
@@ -111,11 +135,38 @@ export function ActivitiesSection() {
             壹
           </span>
         </h2>
-        <div className="projects-grid">
-          {shown.map((activity) => (
-            <ActivityCard key={activity.id} activity={activity} />
-          ))}
-        </div>
+        <p className="activities-lede">
+          Chronicles from the road — milestones, pranks, and pictures we&apos;ll pretend were
+          intentional.
+        </p>
+
+        {featured ? (
+          <div className="activities-feature">
+            <ActivityCard activity={featured} index={0} variant="feature" />
+            <aside className="activities-feature-side">
+              <span className="activities-feature-eyebrow">Featured Chronicle</span>
+              <h3 className="activities-feature-title">{featured.title}</h3>
+              <p className="activities-feature-body">{featured.description}</p>
+              <span className="activities-feature-meta">
+                <span className="activities-feature-type">{featured.type}</span>
+              </span>
+            </aside>
+          </div>
+        ) : null}
+
+        {rest.length > 0 ? (
+          <div className="activities-grid">
+            {rest.map((activity, i) => (
+              <ActivityCard
+                key={activity.id}
+                activity={activity}
+                index={i + 1}
+                variant="standard"
+              />
+            ))}
+          </div>
+        ) : null}
+
         {remaining > 0 ? (
           <div className="projects-more">
             <button

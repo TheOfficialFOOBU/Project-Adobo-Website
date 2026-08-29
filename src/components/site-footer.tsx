@@ -50,6 +50,15 @@ export function SiteFooter() {
             </a>
           </nav>
         </div>
+
+        {/* Final seal — large ADOBO mark with corner ticks, centered between
+            hairline rules. Closes the page the same way the hero opens it. */}
+        <div className="footer-seal">
+          <span className="footer-seal-rule" aria-hidden="true" />
+          <span className="footer-seal-mark">ADOBO</span>
+          <span className="footer-seal-rule" aria-hidden="true" />
+        </div>
+
         <div className="footer-bottom">
           <div className="footer-copyright">
             <span>© {new Date().getFullYear()} ADOBO GUILD — Where Winds Meet</span>
