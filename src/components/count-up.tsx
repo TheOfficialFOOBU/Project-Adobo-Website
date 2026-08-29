@@ -2,10 +2,14 @@
 
 import { useEffect, useRef, useState } from 'react';
 
+import { cn } from '@/lib/utils';
+
 interface CountUpProps {
   value: number;
   /** Animation length in ms once the element scrolls into view. */
   duration?: number;
+  /** Optional extra class for the rendered value span. */
+  className?: string;
 }
 
 /**
@@ -13,7 +17,7 @@ interface CountUpProps {
  * final number under prefers-reduced-motion. The final value stays in the
  * DOM after settling, so screen readers announce it normally.
  */
-export function CountUp({ value, duration = 1400 }: CountUpProps) {
+export function CountUp({ value, duration = 1400, className }: CountUpProps) {
   const ref = useRef<HTMLSpanElement | null>(null);
   const [display, setDisplay] = useState(0);
 
@@ -58,7 +62,7 @@ export function CountUp({ value, duration = 1400 }: CountUpProps) {
   }, [value, duration]);
 
   return (
-    <span ref={ref} className="guild-stat-value">
+    <span ref={ref} className={cn('guild-stat-value', className)}>
       {display}
     </span>
   );

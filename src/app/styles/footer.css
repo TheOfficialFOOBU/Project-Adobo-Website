@@ -69,6 +69,21 @@ footer::before {
   color: var(--footer-text);
 }
 
+.footer-copyright {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.footer-flavor {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 500;
+  font-size: 0.85rem;
+  color: var(--accent);
+  letter-spacing: 0.01em;
+}
+
 .discord-widget {
   display: block;
   text-align: center;

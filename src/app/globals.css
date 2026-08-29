@@ -13,7 +13,9 @@
 @import './styles/video-gallery.css';
 @import './styles/stats.css';
 @import './styles/philosophy.css';
+@import './styles/hall-of-fame.css';
 @import './styles/roster.css';
+@import './styles/scroll-of-members.css';
 @import './styles/faq.css';
 @import './styles/modal.css';
 @import './styles/lightbox.css';

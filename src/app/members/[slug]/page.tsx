@@ -13,11 +13,11 @@ interface MemberPageProps {
   params: Promise<{ slug: string }>;
 }
 
-/** Portrait source chain (mirrors the roster card's responsive WebP variants). */
+/** Portrait source chain (mirrors the roster row's responsive WebP variants). */
 function portraitSrcSet(member: (typeof GUILD_MEMBERS)[number]): string | undefined {
   if (member.webp === false) return undefined;
   const base = imageBase(member.image);
-  return `${asset(`${base}-640.webp`)} 640w, ${asset(`${base}-1024.webp`)} 1024w`;
+  return `${asset(`${base}-640.webp`)} 640w, ${asset(`${base}-1024.webp`)} 1024w, ${asset(`${base}-1600.webp`)} 1600w`;
 }
 
 /** Small round thumb for prev/next navigation links. */
@@ -40,8 +40,6 @@ export async function generateMetadata({ params }: MemberPageProps): Promise<Met
   const description = `${member.position} · ${member.class}${
     member.quote ? ` — "${member.quote}"` : ''
   }`;
-  // JPG social card — link previews (Discord/X/Facebook) don't render WebP.
-  // Use all member OG images (not just founders) since they are pre-generated.
   const ogImage = `/images/og/members/${memberSlug(member)}.jpg`;
   const profileUrl = `${SITE_URL}/members/${memberSlug(member)}`;
 
@@ -72,7 +70,8 @@ function badgeTier(member: (typeof GUILD_MEMBERS)[number]): 'leader' | 'core' | 
   return '';
 }
 
-/** Deep-linkable member profile — statically generated for every roster entry. */
+/** Deep-linkable member profile — full-width portrait hero, centered dossier,
+ *  floating prev/next chevrons. Statically generated for every roster entry. */
 export default async function MemberProfilePage({ params }: MemberPageProps) {
   const { slug } = await params;
   const member = memberBySlug(slug);
@@ -81,14 +80,15 @@ export default async function MemberProfilePage({ params }: MemberPageProps) {
   const { prev, next } = memberNeighbors(member);
   const tier = badgeTier(member);
   const srcSet = portraitSrcSet(member);
-  const fallbackSrc = member.webp === false ? member.image : `${imageBase(member.image)}-640.webp`;
+  const fallbackSrc = member.webp === false ? member.image : `${imageBase(member.image)}-1024.webp`;
+  const heroSrc = member.webp === false ? member.image : `${imageBase(member.image)}-1600.webp`;
   const prevLink = prev ? { name: prev.name, href: `/members/${memberSlug(prev)}` } : null;
   const nextLink = next ? { name: next.name, href: `/members/${memberSlug(next)}` } : null;
 
   return (
     <main id="main" className="profile-main">
-      {/* Preload the member portrait — LCP element on this page. */}
-      <link rel="preload" as="image" href={asset(fallbackSrc)} />
+      {/* Preload the hero portrait — LCP element on this page. */}
+      <link rel="preload" as="image" href={asset(heroSrc)} />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -108,92 +108,147 @@ export default async function MemberProfilePage({ params }: MemberPageProps) {
           }),
         }}
       />
-      <div className="container">
-        <Link href="/" className="profile-back">
-          ← Back to the Guild
-        </Link>
 
-        <ProfileStickyBar
-          name={member.name}
-          position={member.position}
-          thumb={portraitThumb(member)}
-          prev={prevLink}
-          next={nextLink}
-        >
-          <article className="profile-card">
-            <ProfileCloseButton />
-            <div className="profile-photo-wrap">
-              {/* eslint-disable-next-line @next/next/no-img-element -- pre-generated WebP assets */}
-              <img
-                src={asset(fallbackSrc)}
-                srcSet={srcSet}
-                alt={member.name}
-                width={640}
-                height={640}
-                decoding="async"
-                fetchPriority="high"
-              />
-            </div>
-
-            <div className="profile-info">
-              <span className={tier ? `profile-badge ${tier}` : 'profile-badge'}>
-                {member.position}
-              </span>
-              <h1>{member.name}</h1>
-              <CopyProfileLink url={`${SITE_URL}/members/${memberSlug(member)}`} />
-              {member.discordId ? <DiscordPresence discordId={member.discordId} /> : null}
-
-              <dl className="profile-meta">
-                <div>
-                  <dt>Class</dt>
-                  <dd>{member.class || 'Unknown'}</dd>
-                </div>
-                <div>
-                  <dt>Weapon</dt>
-                  <dd>{member.weapon || 'Unknown'}</dd>
-                </div>
-              </dl>
-
-              {member.quote ? (
-                <blockquote className="profile-quote">&ldquo;{member.quote}&rdquo;</blockquote>
-              ) : null}
-
-              <nav className="profile-nav" aria-label="Member navigation">
-                {prev ? (
-                  <Link href={`/members/${memberSlug(prev)}`}>
-                    {/* eslint-disable-next-line @next/next/no-img-element -- pre-generated WebP assets */}
-                    <img
-                      src={portraitThumb(prev)}
-                      alt={prev.name}
-                      width={36}
-                      height={36}
-                      loading="lazy"
-                    />
-                    <span>&larr; {prev.name}</span>
-                  </Link>
-                ) : (
-                  <span aria-hidden="true" />
-                )}
-                {next ? (
-                  <Link href={`/members/${memberSlug(next)}`}>
-                    <span>{next.name} &rarr;</span>
-                    {/* eslint-disable-next-line @next/next/no-img-element -- pre-generated WebP assets */}
-                    <img
-                      src={portraitThumb(next)}
-                      alt={next.name}
-                      width={36}
-                      height={36}
-                      loading="lazy"
-                    />
-                  </Link>
-                ) : (
-                  <span aria-hidden="true" />
-                )}
-              </nav>
-            </div>
-          </article>
-        </ProfileStickyBar>
+      {/* ---------- Full-width portrait hero ---------- */}
+      <div className="profile-hero">
+        <picture className="profile-hero-picture">
+          {member.webp !== false ? (
+            <source
+              type="image/webp"
+              srcSet={`${asset(`${imageBase(member.image)}-1024.webp`)} 1024w, ${asset(
+                `${imageBase(member.image)}-1600.webp`
+              )} 1600w`}
+              sizes="100vw"
+            />
+          ) : null}
+          <img
+            src={asset(heroSrc)}
+            srcSet={srcSet}
+            alt={member.name}
+            className="profile-hero-img"
+            width={1600}
+            height={1600}
+            decoding="async"
+            fetchPriority="high"
+          />
+        </picture>
+        <div className="profile-hero-scrim" aria-hidden="true" />
+        <div className="profile-hero-overlay">
+          <Link href="/" className="profile-back">
+            &larr; Back to the Guild
+          </Link>
+          <div className="profile-hero-text">
+            <span className={`profile-badge profile-badge--hero ${tier}`}>{member.position}</span>
+            <h1>{member.name}</h1>
+            <p className="profile-hero-sub">{member.class || 'Unknown'}</p>
+          </div>
+        </div>
       </div>
+
+      {/* ---------- Centered dossier ---------- */}
+      <ProfileStickyBar
+        name={member.name}
+        position={member.position}
+        thumb={portraitThumb(member)}
+        prev={prevLink}
+        next={nextLink}
+      >
+        <article className="profile-dossier">
+          <ProfileCloseButton />
+
+          {/* Quote pulled out as a full-width panel — the most important
+              piece of personality on the page. */}
+          {member.quote ? (
+            <blockquote className="profile-quote">
+              <span className="profile-quote-mark" aria-hidden="true">
+                &ldquo;
+              </span>
+              {member.quote}
+              <span className="profile-quote-mark profile-quote-mark--end" aria-hidden="true">
+                &rdquo;
+              </span>
+            </blockquote>
+          ) : null}
+
+          {/* Meta dossier */}
+          <section className="profile-meta">
+            <div className="profile-meta-item">
+              <span className="profile-meta-label">Class</span>
+              <span className="profile-meta-value">{member.class || 'Unknown'}</span>
+            </div>
+            <div className="profile-meta-item">
+              <span className="profile-meta-label">Weapon</span>
+              <span className="profile-meta-value">{member.weapon || 'Unknown'}</span>
+            </div>
+            <div className="profile-meta-item">
+              <span className="profile-meta-label">Position</span>
+              <span className="profile-meta-value">{member.position}</span>
+            </div>
+            <div className="profile-meta-item">
+              <span className="profile-meta-label">Tier</span>
+              <span className="profile-meta-value">
+                {member.founder
+                  ? 'Founder'
+                  : member.position === 'Vice Master' || member.position === 'Officer'
+                    ? 'Core'
+                    : 'Member'}
+              </span>
+            </div>
+          </section>
+
+          {/* Discord presence + profile link */}
+          <div className="profile-actions">
+            <CopyProfileLink url={`${SITE_URL}/members/${memberSlug(member)}`} />
+            {member.discordId ? <DiscordPresence discordId={member.discordId} /> : null}
+          </div>
+
+          {/* Floating prev/next chevrons */}
+          <nav className="profile-nav profile-nav--floating" aria-label="Member navigation">
+            {prev ? (
+              <Link
+                href={`/members/${memberSlug(prev)}`}
+                className="profile-nav-arrow profile-nav-arrow--prev"
+              >
+                {/* eslint-disable-next-line @next/next/no-img-element -- pre-generated WebP assets */}
+                <img
+                  src={portraitThumb(prev)}
+                  alt={prev.name}
+                  width={48}
+                  height={48}
+                  loading="lazy"
+                />
+                <span>
+                  <span className="profile-nav-arrow-label">Previous</span>
+                  <span className="profile-nav-arrow-name">{prev.name}</span>
+                </span>
+              </Link>
+            ) : (
+              <span aria-hidden="true" />
+            )}
+            {next ? (
+              <Link
+                href={`/members/${memberSlug(next)}`}
+                className="profile-nav-arrow profile-nav-arrow--next"
+              >
+                <span>
+                  <span className="profile-nav-arrow-label">Next</span>
+                  <span className="profile-nav-arrow-name">{next.name}</span>
+                </span>
+                {/* eslint-disable-next-line @next/next/no-img-element -- pre-generated WebP assets */}
+                <img
+                  src={portraitThumb(next)}
+                  alt={next.name}
+                  width={48}
+                  height={48}
+                  loading="lazy"
+                />
+              </Link>
+            ) : (
+              <span aria-hidden="true" />
+            )}
+          </nav>
+        </article>
+      </ProfileStickyBar>
     </main>
   );
 }

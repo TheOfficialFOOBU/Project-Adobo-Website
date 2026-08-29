@@ -51,7 +51,12 @@ export function SiteFooter() {
           </nav>
         </div>
         <div className="footer-bottom">
-          <div>© {new Date().getFullYear()} ADOBO GUILD — Where Winds Meet • Powered by FOOBU</div>
+          <div className="footer-copyright">
+            <span>© {new Date().getFullYear()} ADOBO GUILD — Where Winds Meet</span>
+            <span className="footer-flavor" aria-label="Guild motto">
+              Made with sinigang, Discord energy, and zero toxicity.
+            </span>
+          </div>
         </div>
       </div>
     </footer>

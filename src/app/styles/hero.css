@@ -175,12 +175,26 @@
   animation: heroFadeUp 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
 }
 
+.hero-eyebrow {
+  margin: 0 0 1rem;
+  font-family: var(--font-sans);
+  font-size: clamp(0.7rem, 1.2vw, 0.85rem);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.4em;
+  color: var(--accent);
+  opacity: 0;
+  transform: translateY(10px);
+  animation: heroFadeUp 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) 0.05s forwards;
+  padding-left: 0.5em;
+}
+
 .hero h1 {
-  font-size: clamp(3.4rem, 9vw, 6.75rem);
+  font-size: clamp(3rem, 8vw, 6rem);
   font-weight: 700;
-  line-height: 1;
+  line-height: 1.02;
   letter-spacing: 0.015em;
-  margin-bottom: 1.1rem;
+  margin-bottom: 1.5rem;
   max-width: 92%;
   /* The hero always sits over the darkened scrim — keep paper-toned type
      in both themes so the title never fights the artwork. */
@@ -193,17 +207,36 @@
   white-space: normal;
 }
 
+.hero-fun-accent {
+  color: var(--accent-strong);
+  font-style: italic;
+  position: relative;
+  display: inline-block;
+}
+
+.hero-fun-accent::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0.05em;
+  height: 0.18em;
+  background: linear-gradient(90deg, transparent, rgb(var(--crimson-rgb) / 0.6), transparent);
+  border-radius: 999px;
+  pointer-events: none;
+}
+
 .hero .subtitle {
-  font-size: clamp(0.78rem, 1.3vw, 1rem);
-  color: rgba(242, 236, 223, 0.78);
+  font-size: clamp(0.74rem, 1.2vw, 0.92rem);
+  color: rgba(242, 236, 223, 0.74);
   margin-bottom: 2.6rem;
   font-weight: 400;
-  letter-spacing: 0.5em;
+  letter-spacing: 0.32em;
   text-transform: uppercase;
   max-width: 70ch;
   opacity: 0;
   transform: translateY(10px);
-  animation: heroFadeUp 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) 0.15s forwards;
+  animation: heroFadeUp 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) 0.2s forwards;
   /* Balance the trailing tracking space */
   padding-left: 0.5em;
 }

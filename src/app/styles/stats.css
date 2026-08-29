@@ -39,25 +39,56 @@
   transform: translateY(-2px);
 }
 
-.capability-item svg {
-  width: 30px;
-  height: 30px;
-  padding: 6px;
-  box-sizing: content-box;
-  border: 1px solid rgb(var(--crimson-rgb) / 0.32);
-  border-radius: 3px;
-  background: rgb(var(--crimson-rgb) / 0.07);
+/* Wuxia-styled icon mark — diamond-ruled cinnabar seal instead of
+   a flat SaaS-style icon tile. */
+.capability-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid rgb(var(--accent-rgb) / 0.45);
+  border-radius: 2px;
+  background:
+    linear-gradient(135deg, rgb(var(--crimson-rgb) / 0.12), transparent 70%), var(--surface);
+  transform: rotate(45deg);
+  flex-shrink: 0;
+  position: relative;
+}
+
+.capability-mark::before {
+  content: '';
+  position: absolute;
+  inset: 4px;
+  border: 1px solid rgb(var(--accent-rgb) / 0.18);
+  border-radius: 2px;
+  pointer-events: none;
+}
+
+.capability-mark svg {
+  width: 18px;
+  height: 18px;
+  color: var(--accent);
+  transform: rotate(-45deg);
+}
+
+.capability-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  flex: 1;
+  min-width: 0;
 }
 
 .capability-item h3 {
   font-family: var(--font-sans);
-  font-size: 0.76rem;
-  font-weight: 500;
+  font-size: 0.78rem;
+  font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.14em;
   color: var(--text);
   margin: 0;
-  line-height: 1.45;
+  line-height: 1.4;
 }
 
 .guild-hall-grid {
@@ -128,36 +159,10 @@
   line-height: 1.75;
 }
 
-/* Expandable benefit descriptions — revealed on hover/focus, always
-   visible on touch devices (no hover to trigger them there). */
+/* Expandable benefit descriptions — always visible now; the tile is
+   short enough that hover-reveal would hide context the user needs. */
 .capability-desc {
-  max-height: 0;
-  opacity: 0;
-  overflow: hidden;
-  transform: translateY(-2px);
-  transition:
-    max-height 0.3s ease,
-    opacity 0.3s ease,
-    margin-top 0.3s ease,
-    transform 0.3s ease;
-}
-
-.capability-item:hover .capability-desc,
-.capability-item:focus-visible .capability-desc,
-.capability-item:focus-within .capability-desc {
-  max-height: 10rem;
-  opacity: 1;
-  margin-top: 0.6rem;
-  transform: translateY(0);
-}
-
-@media (hover: none) {
-  .capability-desc {
-    max-height: none;
-    opacity: 1;
-    margin-top: 0.6rem;
-    transform: none;
-  }
+  margin-top: 0.4rem;
 }
 
 .capability-desc p {
@@ -165,6 +170,7 @@
   font-size: 0.78rem;
   line-height: 1.6;
   letter-spacing: 0.01em;
+  color: var(--muted);
 }
 
 /* ---------- Guild Highlights ---------- */
@@ -174,6 +180,17 @@
   grid-template-columns: repeat(2, 1fr);
   gap: 1rem;
   margin-top: 1.5rem;
+}
+
+.benefits-lede {
+  max-width: 60ch;
+  margin: -1rem 0 2.5rem;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(1rem, 1.5vw, 1.2rem);
+  line-height: 1.6;
+  color: var(--muted);
 }
 
 .guild-highlight-card {

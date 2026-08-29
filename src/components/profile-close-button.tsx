@@ -1,25 +1,27 @@
 'use client';
 
 import { X } from 'lucide-react';
-import { useRouter } from 'next/navigation';
-import { useCallback } from 'react';
 
 import { BASE_PATH } from '@/lib/site';
 
 /**
- * Close (X) button for the member profile page — navigates to the
- * members section on the homepage so the user can keep browsing.
+ * Close (X) button for the member profile page — navigates back to
+ * the homepage anchored to the members roster so the user can keep
+ * browsing.
+ *
+ * Renders as a plain anchor rather than a router.push() call: in the
+ * static export, router.push('/#team') from a /members/[slug] route
+ * can be mis-parsed as a route match and bounce to the 404 page. A
+ * regular anchor navigation is reliable across all deployment modes.
  */
 export function ProfileCloseButton() {
-  const router = useRouter();
-
-  const close = useCallback(() => {
-    router.push(`${BASE_PATH}/#team`);
-  }, [router]);
-
   return (
-    <button type="button" className="profile-close-btn" aria-label="Close profile" onClick={close}>
+    <a
+      href={`${BASE_PATH}/#team`}
+      className="profile-close-btn"
+      aria-label="Close profile and return to members"
+    >
       <X aria-hidden="true" />
-    </button>
+    </a>
   );
 }

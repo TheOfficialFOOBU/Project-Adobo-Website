@@ -3,6 +3,7 @@ import { ActivitiesSection } from '@/components/sections/activities';
 import { ContactCtaSection } from '@/components/sections/contact-cta';
 import { FaqSection } from '@/components/sections/faq';
 import { GuildBenefitsSection } from '@/components/sections/guild-benefits';
+import { HallOfFameSection } from '@/components/sections/hall-of-fame';
 import { HeroSection } from '@/components/sections/hero';
 import { PhilosophySection } from '@/components/sections/philosophy';
 import { RosterSection } from '@/components/sections/roster';
@@ -18,6 +19,7 @@ export default function HomePage() {
         <WhatWeDoSection />
         <ActivitiesSection />
         <VideoGallerySection />
+        <HallOfFameSection />
         <GuildBenefitsSection />
         <PhilosophySection />
         <RosterSection />
