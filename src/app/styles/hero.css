@@ -17,31 +17,67 @@
 }
 
 /*
-  Hero artwork on its own layer so it can be parallaxed with a
-  compositor-friendly transform (see components/hero-scroll-fx.tsx).
-  Image URLs are injected as custom properties by HeroSection.
+  Hero artwork as a real <picture> + <img> so the browser can prioritize
+  it (`fetchpriority="high"`, async decode) and the parallax can still
+  move the layer via a compositor-friendly transform in
+  components/hero-scroll-fx.tsx. The element below the image is the scrim
+  defined via `--hero-scrim`; the LQIP gradient in `background-image`
+  paints while the WebP streams in so the section never looks empty.
 */
 .hero-bg {
   position: absolute;
   inset: -14% 0 0;
   z-index: -1;
-  background-image: var(--hero-scrim), var(--hero-bg-sm);
-  background-size: cover;
-  background-position: center 30%;
-  background-repeat: no-repeat;
+  display: block;
+  margin: 0;
+  overflow: hidden;
+  /* LQIP — the section's dark wash + a faint warm gradient so the image
+     appears to "emerge" rather than pop in. Keeps the same palette as
+     the actual artwork's top-left corner. */
+  background:
+    radial-gradient(ellipse at 30% 25%, rgb(40 30 20 / 0.6), transparent 60%),
+    radial-gradient(ellipse at 75% 70%, rgb(20 14 8 / 0.7), transparent 60%), var(--bg);
+  background-color: var(--bg);
   transform: translate3d(0, 0, 0);
   will-change: transform;
 }
 
-@media (min-width: 768px) {
-  .hero-bg {
-    background-image: var(--hero-scrim), var(--hero-bg-md);
-  }
+.hero-bg img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 30%;
+  /* Tiny blur-up: the image starts slightly blurred and un-scales into
+     focus as it decodes. Cheap (a CSS filter on the same layer), and
+     matches the LQIP aesthetic without needing a separate blurred copy. */
+  filter: blur(0px);
+  transform: scale(1.001);
+  transition:
+    filter 0.4s ease-out,
+    transform 0.4s ease-out,
+    opacity 0.4s ease-out;
 }
 
-@media (min-width: 1536px) {
-  .hero-bg {
-    background-image: var(--hero-scrim), var(--hero-bg-lg);
+.hero-bg img:not([src]):not([srcset]) {
+  opacity: 0;
+}
+
+/* Scrim overlay — same gradient that used to sit on top of the CSS
+   background-image. Keeps the title legible without darkening the LQIP
+   too much before the WebP arrives. */
+.hero-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--hero-scrim);
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-bg img {
+    transition: none;
+    transform: none;
   }
 }
 

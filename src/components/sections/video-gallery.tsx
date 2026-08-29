@@ -22,25 +22,37 @@ const VIDEOS = videosData as LocalVideo[];
 const COLLAPSED_GRID_COUNT = 3;
 
 /**
- * iOS Safari refuses to play HEVC and shows a slashed play button when it
- * can't decode the file. The native <video> element also won't render any
- * frame as a poster without metadata, so we lazily grab the first decoded
- * frame into a data URL once the card scrolls into view and feed that to
- * the <video poster> attribute. The capture video is muted + inline so
- * Safari allows the metadata fetch, and the seek happens entirely off
- * the main thread.
+ * Last-resort poster — only used when the JSON entry has no `poster` field
+ * AND the in-viewport frame capture (see `useVideoFrame`) hasn't produced
+ * one yet. A tiny SVG keeps the card a clean dark rectangle until the
+ * real thumbnail is decoded (~600 bytes vs. tens of KB).
  */
-function useVideoFrame(src: string, seekTo = 0.1): string | undefined {
+const FALLBACK_POSTER =
+  'data:image/svg+xml;utf8,' +
+  encodeURIComponent(
+    '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 36"><rect width="64" height="36" fill="#0d0b09"/></svg>'
+  );
+
+/**
+ * Lazy frame capture — used only as a fallback when no `poster` URL is
+ * supplied in the JSON. Skipped while the card is off-screen, so the
+ * first paint of a 4K video on the homepage doesn't trigger a metadata
+ * download for every clip in the grid. A muted inline
+ * `<video preload="metadata">` is created off-DOM, seeks to ~0.2s, draws
+ * the frame to a canvas, and exports a small JPEG data URL the parent
+ * component can pass to `<video poster>`.
+ */
+function useVideoFrame(src: string, enabled: boolean, seekTo = 0.2): string | undefined {
   const [frame, setFrame] = useState<string | undefined>(undefined);
 
   useEffect(() => {
+    if (!enabled || !src) return;
     if (typeof window === 'undefined') return;
     let cancelled = false;
     const video = document.createElement('video');
     video.muted = true;
     video.playsInline = true;
     video.preload = 'metadata';
-    video.crossOrigin = 'anonymous';
     video.src = src;
 
     const capture = () => {
@@ -58,15 +70,11 @@ function useVideoFrame(src: string, seekTo = 0.1): string | undefined {
         ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
         setFrame(canvas.toDataURL('image/jpeg', 0.75));
       } catch {
-        // Cross-origin or tainted canvas — give up silently and let the
-        // <video> render its own first frame on play.
+        // Cross-origin or tainted canvas — fall through, leave poster blank.
       }
     };
 
-    const onSeeked = () => capture();
     const onLoaded = () => {
-      // Some browsers fire 'seeked' before the frame is paintable; wait a
-      // tick via requestVideoFrameCallback when available.
       const rafSeek = () => {
         try {
           video.currentTime = Math.min(seekTo, (video.duration || seekTo) - 0.05);
@@ -83,12 +91,14 @@ function useVideoFrame(src: string, seekTo = 0.1): string | undefined {
       }
     };
 
+    const onSeeked = () => capture();
+    const onError = () => {
+      // Decoder failed or codec unsupported — keep the dark fallback poster.
+    };
+
     video.addEventListener('loadedmetadata', onLoaded);
     video.addEventListener('seeked', onSeeked);
-    video.addEventListener('error', () => {
-      // Decoder failed (e.g. unsupported codec). Leave poster undefined;
-      // the native browser will draw its own first frame on play.
-    });
+    video.addEventListener('error', onError);
 
     return () => {
       cancelled = true;
@@ -96,7 +106,7 @@ function useVideoFrame(src: string, seekTo = 0.1): string | undefined {
       video.removeEventListener('seeked', onSeeked);
       video.src = '';
     };
-  }, [src, seekTo]);
+  }, [src, enabled, seekTo]);
 
   return frame;
 }
@@ -105,8 +115,13 @@ function LocalVideoPlayer({ video, lazy }: { video: LocalVideo; lazy?: boolean }
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const wrapperRef = useRef<HTMLDivElement | null>(null);
   const [inView, setInView] = useState(!lazy);
-  const capturedFrame = useVideoFrame(inView ? asset(video.src) : '', 0.2);
-  const posterSrc = video.poster ? asset(video.poster) : capturedFrame;
+  // Only fetch a frame from the video itself if no static poster was set
+  // in the JSON. A pre-generated poster is ~30 KB and instant; the
+  // frame-capture path downloads video metadata (~hundreds of KB) just to
+  // grab one JPEG, so we want to avoid it on mobile whenever possible.
+  const hasStaticPoster = Boolean(video.poster);
+  const capturedFrame = useVideoFrame(inView ? asset(video.src) : '', inView && !hasStaticPoster);
+  const posterSrc = video.poster ? asset(video.poster) : (capturedFrame ?? FALLBACK_POSTER);
 
   useEffect(() => {
     if (!lazy || inView) return;

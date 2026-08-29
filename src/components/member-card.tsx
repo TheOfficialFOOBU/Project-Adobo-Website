@@ -173,10 +173,33 @@ export function MemberCard({ member, highlight = '' }: MemberCardProps) {
             onClick={(event) => {
               event.stopPropagation();
               const url = `${window.location.origin}${BASE_PATH}/members/${memberSlug(member)}`;
-              navigator.clipboard.writeText(url).then(() => {
-                setCopied(true);
-                setTimeout(() => setCopied(false), 2000);
-              });
+              // Prefer the native share sheet on mobile (iOS Safari, Android
+              // Chrome) — it avoids the clipboard permission prompt and
+              // gives users a richer share UX. Clipboard is the fallback.
+              if (typeof navigator.share === 'function') {
+                navigator
+                  .share({ url })
+                  .then(() => {
+                    setCopied(true);
+                    window.setTimeout(() => setCopied(false), 2000);
+                  })
+                  .catch(() => {
+                    // User dismissed the sheet — fall through silently.
+                  });
+                return;
+              }
+              if (navigator.clipboard?.writeText) {
+                navigator.clipboard.writeText(url).then(
+                  () => {
+                    setCopied(true);
+                    window.setTimeout(() => setCopied(false), 2000);
+                  },
+                  () => {
+                    // Clipboard blocked (insecure context, permissions) —
+                    // give up silently rather than misleading the user.
+                  }
+                );
+              }
             }}
             aria-label={copied ? 'Link copied' : `Copy link to ${member.name}'s profile`}
           >

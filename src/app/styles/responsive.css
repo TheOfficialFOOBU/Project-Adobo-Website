@@ -262,9 +262,6 @@
   }
   .member-card-front {
     display: flex;
-    transition:
-      opacity 0.3s ease,
-      transform 0.3s ease;
   }
   .member-card.is-flipped .member-card-front {
     display: none;
@@ -275,12 +272,12 @@
   }
   .member-card.is-flipped .member-card-back {
     display: flex;
-    animation: mobile-card-in 0.3s ease;
+    animation: mobile-card-in 0.2s ease;
   }
   @keyframes mobile-card-in {
     from {
       opacity: 0;
-      transform: translateY(12px);
+      transform: translateY(8px);
     }
     to {
       opacity: 1;
