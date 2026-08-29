@@ -23,6 +23,9 @@ interface Activity {
 
 const ACTIVITIES = activitiesData as Activity[];
 
+/** Initial card count rendered before the user opts into the rest. */
+const INITIAL_COUNT = 4;
+
 function ActivityCard({ activity }: { activity: Activity }) {
   const { register, openLightbox } = useLightbox();
   const [loaded, setLoaded] = useState(false);
@@ -91,8 +94,14 @@ function ActivityCard({ activity }: { activity: Activity }) {
   );
 }
 
-/** “Guild Activities” grid — hover overlay, skeleton/LQIP loading, lightbox. */
+/** “Guild Activities” grid — hover overlay, skeleton/LQIP loading, lightbox,
+ *  progressive disclosure (first 4 cards, “Show more” button reveals the rest). */
 export function ActivitiesSection() {
+  const [visible, setVisible] = useState(INITIAL_COUNT);
+  const total = ACTIVITIES.length;
+  const shown = ACTIVITIES.slice(0, visible);
+  const remaining = total - visible;
+
   return (
     <section className="projects" id="projects" data-animate>
       <div className="container">
@@ -103,10 +112,25 @@ export function ActivitiesSection() {
           </span>
         </h2>
         <div className="projects-grid">
-          {ACTIVITIES.map((activity) => (
+          {shown.map((activity) => (
             <ActivityCard key={activity.id} activity={activity} />
           ))}
         </div>
+        {remaining > 0 ? (
+          <div className="projects-more">
+            <button
+              type="button"
+              className="cta-button light"
+              onClick={() => setVisible((v) => Math.min(v + INITIAL_COUNT, total))}
+              aria-label={`Show ${Math.min(remaining, INITIAL_COUNT)} more activities`}
+            >
+              Show more
+              <span className="projects-more-count" aria-hidden="true">
+                +{Math.min(remaining, INITIAL_COUNT)}
+              </span>
+            </button>
+          </div>
+        ) : null}
       </div>
     </section>
   );

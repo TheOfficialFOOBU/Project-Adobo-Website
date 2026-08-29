@@ -11,6 +11,35 @@
   margin-bottom: 4rem;
 }
 
+/* “Show more” affordance — sits centered under the grid, reuses the
+   secondary CTA pill so it matches the rest of the site. */
+.projects-more {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+.projects-more .cta-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7rem;
+}
+
+.projects-more-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.6em;
+  padding: 0 0.45em;
+  font-size: 0.68rem;
+  letter-spacing: 0;
+  color: var(--accent);
+  border: 1px solid rgb(var(--accent-rgb) / 0.55);
+  border-radius: 999px;
+  background: rgb(var(--accent-rgb) / 0.08);
+  line-height: 1.4;
+}
+
 .project-card {
   position: relative;
   overflow: hidden;
