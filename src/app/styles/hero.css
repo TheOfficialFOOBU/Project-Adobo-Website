@@ -175,20 +175,6 @@
   animation: heroFadeUp 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
 }
 
-.hero-eyebrow {
-  margin: 0 0 1rem;
-  font-family: var(--font-sans);
-  font-size: clamp(0.7rem, 1.2vw, 0.85rem);
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.4em;
-  color: var(--accent);
-  opacity: 0;
-  transform: translateY(10px);
-  animation: heroFadeUp 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) 0.05s forwards;
-  padding-left: 0.5em;
-}
-
 .hero h1 {
   font-size: clamp(3rem, 8vw, 6rem);
   font-weight: 700;
@@ -227,16 +213,16 @@
 }
 
 .hero .subtitle {
-  font-size: clamp(0.74rem, 1.2vw, 0.92rem);
-  color: rgba(242, 236, 223, 0.74);
+  font-size: clamp(0.78rem, 1.3vw, 1rem);
+  color: rgba(242, 236, 223, 0.78);
   margin-bottom: 2.6rem;
   font-weight: 400;
-  letter-spacing: 0.32em;
+  letter-spacing: 0.5em;
   text-transform: uppercase;
   max-width: 70ch;
   opacity: 0;
   transform: translateY(10px);
-  animation: heroFadeUp 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) 0.2s forwards;
+  animation: heroFadeUp 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) 0.15s forwards;
   /* Balance the trailing tracking space */
   padding-left: 0.5em;
 }

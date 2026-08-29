@@ -55,7 +55,6 @@ export async function HeroSection() {
         刀鳴
       </span>
       <div className="hero-inner" data-animate>
-        <p className="hero-eyebrow">A guild in</p>
         <h1>
           Where
           <br />
@@ -65,7 +64,7 @@ export async function HeroSection() {
           <br />
           <span className="hero-fun-accent">FUN</span>tastic
         </h1>
-        <p className="subtitle">Where Winds Meet · Peace-first · Fun-obsessed</p>
+        <p className="subtitle">Where Winds Meet</p>
         <div className="hero-cta-row">
           <MagneticButton>
             <GlowCta className="cta-button glow" href={DISCORD_INVITE}>
