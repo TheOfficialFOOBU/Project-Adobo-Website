@@ -1,4 +1,4 @@
-/* ---------- Hall of Fame (dedicated section) ---------- */
+/* ---------- Hall of Records ---------- */
 
 .hall-of-fame {
   background:
@@ -22,6 +22,7 @@
   background-size: 24px 24px;
   pointer-events: none;
   opacity: 0.55;
+  z-index: 0;
 }
 
 .hall-of-fame > .container {
@@ -40,11 +41,12 @@
   color: var(--muted);
 }
 
+/* ---------- Two-card grid ---------- */
+
 .hof-stat-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 1.5rem;
-  margin-bottom: 4rem;
 }
 
 .hof-stat-card {
@@ -55,6 +57,7 @@
   padding: 2.5rem 2rem 2rem;
   overflow: hidden;
   isolation: isolate;
+  background-image: linear-gradient(135deg, rgb(var(--accent-rgb) / 0.04) 0%, transparent 40%);
 }
 
 /* Cinnabar seal stamp hovering top-right */
@@ -104,21 +107,7 @@
   border-width: 0 2px 2px 0;
 }
 
-.hof-stat-value {
-  display: block;
-  margin-bottom: 0.6rem;
-  font-family: var(--font-display);
-  font-size: clamp(4.5rem, 8vw, 7rem);
-  font-weight: 700;
-  line-height: 1;
-  font-variant-numeric: tabular-nums;
-  color: var(--accent-strong);
-  letter-spacing: -0.01em;
-  position: relative;
-  z-index: 1;
-}
-
-.hof-stat-card h3 {
+.hof-stat-card-title {
   margin: 0 0 0.6rem;
   font-family: var(--font-sans);
   font-size: clamp(1.1rem, 1.8vw, 1.4rem);
@@ -128,8 +117,8 @@
   z-index: 1;
 }
 
-.hof-stat-card p {
-  margin: 0;
+.hof-stat-card-description {
+  margin: 0 0 2rem;
   color: var(--muted);
   font-size: 0.92rem;
   line-height: 1.7;
@@ -137,85 +126,77 @@
   z-index: 1;
 }
 
-/* ---------- Highlights row ---------- */
+/* ---------- Record entries (member name + count) ---------- */
 
-.hof-highlights {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 0;
+.hof-record-list {
+  list-style: none;
+  margin: 0;
+  padding: 1.5rem 0 0;
   border-top: 1px solid var(--border-softer);
-  border-bottom: 1px solid var(--border-softer);
-}
-
-.hof-highlight-row {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  gap: 0.6rem;
-  padding: 1.75rem 1.5rem;
-  border-right: 1px solid var(--border-softer);
-  transition: background 0.3s ease;
+  gap: 0.85rem;
+  position: relative;
+  z-index: 1;
 }
 
-.hof-highlight-row:last-child {
-  border-right: 0;
+.hof-record-entry {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.85rem 1rem;
+  background: var(--wash);
+  border: 1px solid var(--border-softer);
+  border-radius: 2px;
+  transition:
+    border-color 0.25s ease,
+    background 0.25s ease,
+    transform 0.25s ease;
 }
 
-.hof-highlight-row:hover {
-  background: var(--hover-wash);
+.hof-record-entry:hover {
+  border-color: rgb(var(--accent-rgb) / 0.45);
+  background: var(--btn-wash);
+  transform: translateY(-1px);
 }
 
-.hof-highlight-count {
+.hof-record-name {
   font-family: var(--font-display);
-  font-size: clamp(1.8rem, 3.2vw, 2.4rem);
+  font-size: clamp(1.1rem, 1.8vw, 1.35rem);
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.1;
+  letter-spacing: 0.005em;
+}
+
+.hof-record-divider {
+  display: none;
+}
+
+.hof-record-count {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.15em;
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 2.6vw, 2.2rem);
   font-weight: 700;
   line-height: 1;
-  color: var(--accent);
+  color: var(--accent-strong);
+  font-variant-numeric: tabular-nums;
   letter-spacing: -0.01em;
 }
 
-.hof-highlight-divider {
-  display: block;
-  width: 32px;
-  height: 2px;
-  background: linear-gradient(90deg, var(--crimson), rgb(var(--crimson-rgb) / 0));
+.hof-record-count-suffix {
+  font-size: 0.6em;
+  color: var(--accent);
+  font-weight: 600;
+  margin-left: 0.1em;
 }
 
-.hof-highlight-body {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-}
+/* ---------- Mobile ---------- */
 
-.hof-highlight-label {
-  font-family: var(--font-sans);
-  font-size: 0.7rem;
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.18em;
-  color: var(--accent2);
-}
-
-.hof-highlight-detail {
-  font-size: 0.85rem;
-  line-height: 1.55;
-  color: var(--muted);
-}
-
-@media (max-width: 1024px) {
-  .hof-highlights {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-  .hof-highlight-row:nth-child(2) {
-    border-right: 0;
-  }
-  .hof-highlight-row:nth-child(1),
-  .hof-highlight-row:nth-child(2) {
-    border-bottom: 1px solid var(--border-softer);
-  }
-}
-
-@media (max-width: 640px) {
+@media (max-width: 768px) {
   .hof-stat-grid {
     grid-template-columns: 1fr;
     gap: 1.25rem;
@@ -223,15 +204,17 @@
   .hof-stat-card {
     padding: 2rem 1.5rem 1.75rem;
   }
-  .hof-highlights {
-    grid-template-columns: 1fr;
+  .hof-stat-seal {
+    width: 48px;
+    height: 48px;
+    font-size: 1.3rem;
+    top: 1.25rem;
+    right: 1.25rem;
   }
-  .hof-highlight-row {
-    border-right: 0;
-    border-bottom: 1px solid var(--border-softer);
-    padding: 1.25rem 1rem;
-  }
-  .hof-highlight-row:last-child {
-    border-bottom: 0;
+}
+
+@media (max-width: 480px) {
+  .hof-record-entry {
+    padding: 0.75rem 0.85rem;
   }
 }
