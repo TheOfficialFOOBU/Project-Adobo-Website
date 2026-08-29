@@ -22,34 +22,91 @@ const VIDEOS = videosData as LocalVideo[];
 const COLLAPSED_GRID_COUNT = 3;
 
 /**
- * Inline SVG poster used when a video has no real thumbnail. Includes the
- * guild mark so the empty card still reads as "video to play" without
- * ever sitting in front of the native controls.
+ * iOS Safari refuses to play HEVC and shows a slashed play button when it
+ * can't decode the file. The native <video> element also won't render any
+ * frame as a poster without metadata, so we lazily grab the first decoded
+ * frame into a data URL once the card scrolls into view and feed that to
+ * the <video poster> attribute. The capture video is muted + inline so
+ * Safari allows the metadata fetch, and the seek happens entirely off
+ * the main thread.
  */
-const PLACEHOLDER_POSTER =
-  'data:image/svg+xml;utf8,' +
-  encodeURIComponent(
-    '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360">' +
-      '<defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1">' +
-      '<stop offset="0%" stop-color="#1a1611"/>' +
-      '<stop offset="100%" stop-color="#0d0b09"/>' +
-      '</linearGradient></defs>' +
-      '<rect width="640" height="360" fill="url(#g)"/>' +
-      '<g fill="none" stroke="#c9a45c" stroke-opacity="0.35" stroke-width="1">' +
-      '<rect x="20" y="20" width="600" height="320" rx="4"/>' +
-      '<path d="M20 20 L40 40 M620 20 L600 40 M20 340 L40 320 M620 340 L600 320"/>' +
-      '</g>' +
-      '<text x="50%" y="48%" text-anchor="middle" fill="#c9a45c" ' +
-      'fill-opacity="0.7" font-family="serif" font-size="22" letter-spacing="6">ADOBO</text>' +
-      '<text x="50%" y="58%" text-anchor="middle" fill="#ede5d3" ' +
-      'fill-opacity="0.55" font-family="sans-serif" font-size="13" letter-spacing="3">GUILD CLIP</text>' +
-      '</svg>'
-  );
+function useVideoFrame(src: string, seekTo = 0.1): string | undefined {
+  const [frame, setFrame] = useState<string | undefined>(undefined);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    let cancelled = false;
+    const video = document.createElement('video');
+    video.muted = true;
+    video.playsInline = true;
+    video.preload = 'metadata';
+    video.crossOrigin = 'anonymous';
+    video.src = src;
+
+    const capture = () => {
+      if (cancelled || video.videoWidth === 0) return;
+      const w = video.videoWidth;
+      const h = video.videoHeight;
+      const max = 640;
+      const scale = Math.min(1, max / w);
+      const canvas = document.createElement('canvas');
+      canvas.width = Math.round(w * scale);
+      canvas.height = Math.round(h * scale);
+      const ctx = canvas.getContext('2d');
+      if (!ctx) return;
+      try {
+        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+        setFrame(canvas.toDataURL('image/jpeg', 0.75));
+      } catch {
+        // Cross-origin or tainted canvas — give up silently and let the
+        // <video> render its own first frame on play.
+      }
+    };
+
+    const onSeeked = () => capture();
+    const onLoaded = () => {
+      // Some browsers fire 'seeked' before the frame is paintable; wait a
+      // tick via requestVideoFrameCallback when available.
+      const rafSeek = () => {
+        try {
+          video.currentTime = Math.min(seekTo, (video.duration || seekTo) - 0.05);
+        } catch {
+          capture();
+        }
+      };
+      if ('requestVideoFrameCallback' in video) {
+        (
+          video as HTMLVideoElement & { requestVideoFrameCallback: (cb: () => void) => number }
+        ).requestVideoFrameCallback(rafSeek);
+      } else {
+        rafSeek();
+      }
+    };
+
+    video.addEventListener('loadedmetadata', onLoaded);
+    video.addEventListener('seeked', onSeeked);
+    video.addEventListener('error', () => {
+      // Decoder failed (e.g. unsupported codec). Leave poster undefined;
+      // the native browser will draw its own first frame on play.
+    });
+
+    return () => {
+      cancelled = true;
+      video.removeEventListener('loadedmetadata', onLoaded);
+      video.removeEventListener('seeked', onSeeked);
+      video.src = '';
+    };
+  }, [src, seekTo]);
+
+  return frame;
+}
 
 function LocalVideoPlayer({ video, lazy }: { video: LocalVideo; lazy?: boolean }) {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const wrapperRef = useRef<HTMLDivElement | null>(null);
   const [inView, setInView] = useState(!lazy);
+  const capturedFrame = useVideoFrame(inView ? asset(video.src) : '', 0.2);
+  const posterSrc = video.poster ? asset(video.poster) : capturedFrame;
 
   useEffect(() => {
     if (!lazy || inView) return;
@@ -68,8 +125,6 @@ function LocalVideoPlayer({ video, lazy }: { video: LocalVideo; lazy?: boolean }
     observer.observe(el);
     return () => observer.disconnect();
   }, [lazy, inView]);
-
-  const posterSrc = video.poster ? asset(video.poster) : PLACEHOLDER_POSTER;
 
   return (
     <div ref={wrapperRef} className={cn('video-card', video.featured && 'video-card--featured')}>
