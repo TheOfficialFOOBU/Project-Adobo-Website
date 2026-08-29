@@ -108,6 +108,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           href={asset('/fonts/cormorant-garamond-600.woff2')}
           crossOrigin="anonymous"
         />
+        <link rel="preconnect" href="https://discord.com" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://discord.gg" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://cdn.discordapp.com" crossOrigin="anonymous" />
         <style
           dangerouslySetInnerHTML={{
             __html: `
