@@ -1,7 +1,50 @@
+'use client';
+
+import { useEffect, useRef, useState } from 'react';
+
+import { asset, assetSrcSet } from '@/lib/site';
+import { cn } from '@/lib/utils';
+
+const PEACE_DECOR =
+  '/images/events/Gpic3-1600.webp 1600w, /images/events/Gpic3-1024.webp 1024w, /images/events/Gpic3-800.webp 800w, /images/events/Gpic3-640.webp 640w, /images/events/Gpic3-480.webp 480w, /images/events/Gpic3-320.webp 320w';
+
+const WHAT_DECOR =
+  '/images/events/GPIC2-1600.webp 1600w, /images/events/GPIC2-1024.webp 1024w, /images/events/GPIC2-800.webp 800w, /images/events/GPIC2-640.webp 640w, /images/events/GPIC2-480.webp 480w, /images/events/GPIC2-320.webp 320w';
+
+/** Responsive background image shown behind / beside a split section. */
+function SplitDecor({ srcSet, fallback }: { srcSet: string; fallback: string }) {
+  const [loaded, setLoaded] = useState(false);
+  const imgRef = useRef<HTMLImageElement | null>(null);
+
+  // Cached images can finish before hydration — settle the loaded flag from
+  // the actual <img> state on mount so we don't flicker the skeleton.
+  useEffect(() => {
+    if (imgRef.current?.complete) setLoaded(true);
+  }, []);
+
+  return (
+    <picture className={cn('hero-2-decor', loaded && 'loaded')}>
+      <source type="image/webp" srcSet={assetSrcSet(srcSet)} sizes="50vw" />
+      <img
+        ref={imgRef}
+        className="hero-2-decor-img"
+        src={asset(fallback)}
+        alt=""
+        aria-hidden="true"
+        loading="lazy"
+        decoding="async"
+        onLoad={() => setLoaded(true)}
+        onError={() => setLoaded(true)}
+      />
+    </picture>
+  );
+}
+
 /** “Peace-first / Fun-obsessed” intro split. */
 export function WarriorLedSection() {
   return (
-    <section className="hero-2" data-animate>
+    <section className="hero-2 hero-2--with-decor hero-2--decor-right" data-animate>
+      <SplitDecor srcSet={PEACE_DECOR} fallback="/images/events/Gpic3-1024.webp" />
       <div className="hero-2-content">
         <h2>
           Peace-first
@@ -23,7 +66,8 @@ export function WarriorLedSection() {
 /** “What we do” split (right-aligned). */
 export function WhatWeDoSection() {
   return (
-    <section className="hero-2" data-animate>
+    <section className="hero-2 hero-2--with-decor hero-2--decor-left" data-animate>
+      <SplitDecor srcSet={WHAT_DECOR} fallback="/images/events/GPIC2-1024.webp" />
       <div className="hero-2-content right-aligned">
         <h2>What we do</h2>
         <p>

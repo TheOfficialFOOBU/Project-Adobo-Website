@@ -18,6 +18,7 @@
   --accent-rgb: 201 164 92;
   --accent2-rgb: 133 179 157;
   --crimson-rgb: 184 67 46;
+  --bg-rgb: 18 16 13;
 
   /* Shadow system */
   --shadow-sm: 0 1px 3px rgba(8, 6, 3, 0.25);
@@ -123,6 +124,7 @@
   --accent-rgb: 157 122 50;
   --accent2-rgb: 72 112 92;
   --crimson-rgb: 160 58 40;
+  --bg-rgb: 242 236 223;
 
   /* Shadow system — lighter for paper theme */
   --shadow-sm: 0 1px 3px rgba(42, 35, 23, 0.12);
