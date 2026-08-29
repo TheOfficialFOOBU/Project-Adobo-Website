@@ -27,6 +27,30 @@ export const SITE_DESCRIPTION =
 export const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH ?? '';
 
 /**
+ * Encode characters that break media URLs on static hosts: spaces (Safari
+ * refuses them on <video src>) and non-ASCII letters (some CDNs drop
+ * them to Latin-1, producing 404s for filenames like "Ambón …"). Leaves
+ * already-encoded segments and safe URL chars alone.
+ */
+function encodeMediaPath(path: string): string {
+  return path
+    .split('/')
+    .map((segment) => {
+      if (!segment) return segment;
+      try {
+        // If the segment is already a fully-decoded ASCII-only path, skip.
+        if (/^[\x20-\x7E]*$/.test(segment)) {
+          return segment.includes(' ') ? encodeURIComponent(segment) : segment;
+        }
+        return encodeURIComponent(decodeURIComponent(segment));
+      } catch {
+        return encodeURIComponent(segment);
+      }
+    })
+    .join('/');
+}
+
+/**
  * Prefix a public/ asset URL so it resolves under the GitHub Pages base path.
  * Absolute URLs, data/blob URIs and already-prefixed paths pass through
  * untouched.
@@ -35,7 +59,7 @@ export function asset(path: string): string {
   const external = /^(https?:|data:|blob:)/i.test(path);
   const alreadyPrefixed = BASE_PATH !== '' && path.startsWith(`${BASE_PATH}/`);
   if (external || alreadyPrefixed || !path.startsWith('/')) return path;
-  return `${BASE_PATH}${path}`;
+  return `${BASE_PATH}${encodeMediaPath(path)}`;
 }
 
 /** Shared navigation links used by both desktop header and mobile nav. */

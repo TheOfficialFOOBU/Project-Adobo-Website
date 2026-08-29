@@ -1,6 +1,5 @@
 'use client';
 
-import { Play } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 
 import { asset } from '@/lib/site';
@@ -22,10 +21,34 @@ interface LocalVideo {
 const VIDEOS = videosData as LocalVideo[];
 const COLLAPSED_GRID_COUNT = 3;
 
+/**
+ * Inline SVG poster used when a video has no real thumbnail. Includes the
+ * guild mark so the empty card still reads as "video to play" without
+ * ever sitting in front of the native controls.
+ */
+const PLACEHOLDER_POSTER =
+  'data:image/svg+xml;utf8,' +
+  encodeURIComponent(
+    '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360">' +
+      '<defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1">' +
+      '<stop offset="0%" stop-color="#1a1611"/>' +
+      '<stop offset="100%" stop-color="#0d0b09"/>' +
+      '</linearGradient></defs>' +
+      '<rect width="640" height="360" fill="url(#g)"/>' +
+      '<g fill="none" stroke="#c9a45c" stroke-opacity="0.35" stroke-width="1">' +
+      '<rect x="20" y="20" width="600" height="320" rx="4"/>' +
+      '<path d="M20 20 L40 40 M620 20 L600 40 M20 340 L40 320 M620 340 L600 320"/>' +
+      '</g>' +
+      '<text x="50%" y="48%" text-anchor="middle" fill="#c9a45c" ' +
+      'fill-opacity="0.7" font-family="serif" font-size="22" letter-spacing="6">ADOBO</text>' +
+      '<text x="50%" y="58%" text-anchor="middle" fill="#ede5d3" ' +
+      'fill-opacity="0.55" font-family="sans-serif" font-size="13" letter-spacing="3">GUILD CLIP</text>' +
+      '</svg>'
+  );
+
 function LocalVideoPlayer({ video, lazy }: { video: LocalVideo; lazy?: boolean }) {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const wrapperRef = useRef<HTMLDivElement | null>(null);
-  const [playing, setPlaying] = useState(false);
   const [inView, setInView] = useState(!lazy);
 
   useEffect(() => {
@@ -46,6 +69,8 @@ function LocalVideoPlayer({ video, lazy }: { video: LocalVideo; lazy?: boolean }
     return () => observer.disconnect();
   }, [lazy, inView]);
 
+  const posterSrc = video.poster ? asset(video.poster) : PLACEHOLDER_POSTER;
+
   return (
     <div ref={wrapperRef} className={cn('video-card', video.featured && 'video-card--featured')}>
       <div className="video-embed-wrapper">
@@ -56,23 +81,16 @@ function LocalVideoPlayer({ video, lazy }: { video: LocalVideo; lazy?: boolean }
           controlsList="nodownload"
           preload={inView ? 'metadata' : 'none'}
           playsInline
-          // iOS Safari only treats a play() call as a user gesture when it
-          // fires from a tap on the <video> itself (or its native controls).
-          // A sibling button's click does not qualify, so we let the browser
-          // draw the native play affordance over a thumbnail poster instead.
+          // iOS Safari requires a real user gesture on the <video> element
+          // (or its native controls) to start playback. We deliberately do
+          // NOT layer a custom play button on top of the native controls —
+          // any overlay can swallow the tap, block the controls from
+          // appearing, and Safari will refuse to start the play.
           disablePictureInPicture
-          poster={video.poster ? asset(video.poster) : undefined}
+          poster={posterSrc}
           title={video.title}
-          className="video-embed loaded"
-          onPause={() => setPlaying(false)}
-          onPlay={() => setPlaying(true)}
+          className="video-embed"
         />
-
-        {!playing && !video.poster ? (
-          <div className="video-play-overlay" aria-hidden="true">
-            <Play />
-          </div>
-        ) : null}
       </div>
       <div className="video-info">
         {video.label && <span className="video-label">{video.label}</span>}
