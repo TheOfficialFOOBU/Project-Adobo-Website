@@ -27,6 +27,9 @@ export function RecruitmentBanner({ config }: { config: RecruitmentConfig }) {
 
   return (
     <div className="recruit-banner" role="status">
+      <span className="recruit-banner-chapter" aria-hidden="true">
+        募
+      </span>
       <span className="discord-live-dot" aria-hidden="true" />
       <p>
         <strong>Now recruiting</strong>

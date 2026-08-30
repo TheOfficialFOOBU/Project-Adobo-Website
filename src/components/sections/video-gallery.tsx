@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 
 import { asset } from '@/lib/site';
 import { cn } from '@/lib/utils';
@@ -16,10 +16,16 @@ interface LocalVideo {
   label?: string;
   description: string;
   featured?: boolean;
+  /** Optional short curator's note (one sentence) shown below the title. */
+  curatorNote?: string;
+  /** Optional ISO timestamp or date string — used for "newest" selection. */
+  capturedAt?: string;
+  /** Optional category tag (e.g., "Boss Fight", "Funny Moment"). */
+  category?: string;
 }
 
 const VIDEOS = videosData as LocalVideo[];
-const COLLAPSED_GRID_COUNT = 3;
+const CHAPTER_MARKS = ['壹', '貳', '參', '肆', '伍', '陸', '柒', '捌'];
 
 /**
  * Last-resort poster — only used when the JSON entry has no `poster` field
@@ -111,14 +117,37 @@ function useVideoFrame(src: string, enabled: boolean, seekTo = 0.2): string | un
   return frame;
 }
 
-function LocalVideoPlayer({ video, lazy }: { video: LocalVideo; lazy?: boolean }) {
+function FeaturedVideo({ video }: { video: LocalVideo }) {
+  return <VideoEmbed video={video} variant="featured" />;
+}
+
+function SupportingVideo({
+  video,
+  chapter,
+  index,
+}: {
+  video: LocalVideo;
+  chapter: string;
+  index: number;
+}) {
+  return <VideoEmbed video={video} variant="supporting" chapter={chapter} index={index} />;
+}
+
+function VideoEmbed({
+  video,
+  variant,
+  chapter,
+  index,
+}: {
+  video: LocalVideo;
+  variant: 'featured' | 'supporting';
+  chapter?: string;
+  index?: number;
+}) {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const wrapperRef = useRef<HTMLDivElement | null>(null);
+  const lazy = variant === 'supporting';
   const [inView, setInView] = useState(!lazy);
-  // Only fetch a frame from the video itself if no static poster was set
-  // in the JSON. A pre-generated poster is ~30 KB and instant; the
-  // frame-capture path downloads video metadata (~hundreds of KB) just to
-  // grab one JPEG, so we want to avoid it on mobile whenever possible.
   const hasStaticPoster = Boolean(video.poster);
   const capturedFrame = useVideoFrame(inView ? asset(video.src) : '', inView && !hasStaticPoster);
   const posterSrc = video.poster ? asset(video.poster) : (capturedFrame ?? FALLBACK_POSTER);
@@ -141,9 +170,21 @@ function LocalVideoPlayer({ video, lazy }: { video: LocalVideo; lazy?: boolean }
     return () => observer.disconnect();
   }, [lazy, inView]);
 
+  const isFeatured = variant === 'featured';
+
   return (
-    <div ref={wrapperRef} className={cn('video-card', video.featured && 'video-card--featured')}>
-      <div className="video-embed-wrapper">
+    <div
+      ref={wrapperRef}
+      className={cn(
+        'chronicles-video',
+        isFeatured ? 'chronicles-video--featured' : 'chronicles-video--supporting'
+      )}
+    >
+      <div className="chronicles-video-frame" aria-hidden="true">
+        <span className="chronicles-video-bracket chronicles-video-bracket--tl" />
+        <span className="chronicles-video-bracket chronicles-video-bracket--br" />
+      </div>
+      <div className="chronicles-video-embed">
         <video
           ref={videoRef}
           src={asset(video.src)}
@@ -159,62 +200,77 @@ function LocalVideoPlayer({ video, lazy }: { video: LocalVideo; lazy?: boolean }
           disablePictureInPicture
           poster={posterSrc}
           title={video.title}
-          className="video-embed"
+          className="chronicles-video-player"
         />
       </div>
-      <div className="video-info">
-        {video.label && <span className="video-label">{video.label}</span>}
-        <h3>{video.title}</h3>
-        <p>{video.description}</p>
+      <div className="chronicles-video-info">
+        <header className="chronicles-video-info-head">
+          {!isFeatured && chapter ? (
+            <span className="chronicles-video-chapter" aria-hidden="true">
+              {chapter}
+            </span>
+          ) : null}
+          {isFeatured ? (
+            <span className="chronicles-video-feature-tag" aria-hidden="true">
+              Featured Memory
+            </span>
+          ) : null}
+          {video.category ? (
+            <span className="chronicles-video-category">{video.category}</span>
+          ) : null}
+        </header>
+        <h3 className="chronicles-video-title">{video.title}</h3>
+        {video.curatorNote ? <p className="chronicles-video-curator">{video.curatorNote}</p> : null}
+        <p className="chronicles-video-description">{video.description}</p>
+        {typeof index === 'number' ? (
+          <span className="chronicles-video-position" aria-hidden="true">
+            第 {index + 1} 帧
+          </span>
+        ) : null}
       </div>
     </div>
   );
 }
 
-/** "Guild Videos" — locally hosted Discord clips. */
+/**
+ * "Guild Chronicles" — the curated video showcase. Concept A: featured
+ * main event above, 2x2 supporting grid below. Uses existing
+ * chapter-mark vocabulary (壹貳參肆) for the supporting clips and
+ * Cormorant display typography for the editorial beat.
+ */
 export function VideoGallerySection() {
-  const [expanded, setExpanded] = useState(false);
-  const featured = VIDEOS.find((v) => v.featured);
-  const rest = VIDEOS.filter((v) => !v.featured);
-  const visibleRest = expanded ? rest : rest.slice(0, COLLAPSED_GRID_COUNT);
-  const hasMore = rest.length > COLLAPSED_GRID_COUNT;
+  const videos = useMemo(() => VIDEOS, []);
+  const featured = videos.find((v) => v.featured) ?? videos[0];
+  const supporting = videos.filter((v) => v.id !== featured.id);
 
   return (
-    <section className="video-gallery" id="videos" data-animate>
+    <section className="video-gallery chronicles" id="videos" data-animate>
       <div className="container">
         <h2 className="section-title">
-          Guild Videos
+          Guild Chronicles
           <span className="section-number seal-press" aria-hidden="true">
             陸
           </span>
         </h2>
+        <p className="chronicles-lede">
+          Memorable moments from the road — the kind worth replaying on a slow evening.
+        </p>
 
-        {featured && (
-          <div className="video-featured">
-            <LocalVideoPlayer video={featured} />
-          </div>
-        )}
+        {featured ? <FeaturedVideo video={featured} /> : null}
 
-        {visibleRest.length > 0 && (
-          <div className="video-grid">
-            {visibleRest.map((video) => (
-              <LocalVideoPlayer key={video.id} video={video} lazy />
+        {supporting.length > 0 ? (
+          <div className="chronicles-grid" role="list">
+            {supporting.map((video, idx) => (
+              <div key={video.id} role="listitem">
+                <SupportingVideo
+                  video={video}
+                  chapter={CHAPTER_MARKS[idx % CHAPTER_MARKS.length] ?? '壹'}
+                  index={idx}
+                />
+              </div>
             ))}
           </div>
-        )}
-
-        {hasMore && (
-          <div className="video-toggle-wrap">
-            <button
-              type="button"
-              className="chip"
-              onClick={() => setExpanded((prev) => !prev)}
-              aria-expanded={expanded}
-            >
-              {expanded ? 'Show less' : `Show more (${rest.length - COLLAPSED_GRID_COUNT})`}
-            </button>
-          </div>
-        )}
+        ) : null}
       </div>
     </section>
   );

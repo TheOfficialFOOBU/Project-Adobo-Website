@@ -501,3 +501,122 @@
     opacity: 0;
   }
 }
+
+/* ---------- Ultrawide hero (>= 2200px) ----------
+   On extremely wide screens, a single centered column would float in
+   a sea of empty space. We give the hero a thoughtful two-column
+   composition: the existing editorial column on the left, and a
+   small "currently online / latest memory" sidebar on the right.
+   The sidebar uses native HTML only — no JS — and only renders when
+   the `.hero-sidecar` element exists (i.e. on the homepage where it
+   has been added). On smaller screens this rule has no effect. */
+@media (min-width: 2200px) {
+  .hero {
+    justify-content: flex-start;
+    padding-top: clamp(4rem, 7vw, 8rem);
+  }
+
+  .hero-inner {
+    max-width: 1040px;
+    display: grid;
+    grid-template-columns: minmax(0, 1.55fr) minmax(280px, 1fr);
+    column-gap: 4rem;
+    align-items: center;
+    text-align: left;
+    padding: 0 2rem;
+  }
+
+  .hero-inner > .hero-stamp,
+  .hero-inner > h1,
+  .hero-inner > .subtitle,
+  .hero-inner > .hero-motto,
+  .hero-inner > .hero-cta-row,
+  .hero-inner > .discord-presence-badge {
+    grid-column: 1 / 2;
+    justify-self: start;
+    text-align: left;
+    margin-left: 0;
+    margin-right: auto;
+  }
+
+  .hero-inner > .hero-stamp {
+    justify-self: start;
+  }
+
+  .hero-inner > .hero-cta-row {
+    justify-content: flex-start;
+  }
+
+  .hero-sidecar {
+    grid-column: 2 / 3;
+    grid-row: 1 / span 6;
+    justify-self: end;
+    width: 100%;
+    max-width: 320px;
+    padding: 1.5rem 1.4rem;
+    background: var(--wash);
+    border: 1px solid var(--menu-border);
+    border-radius: 4px;
+    position: relative;
+    opacity: 0;
+    transform: translateY(8px);
+    animation: heroFadeUp 1s cubic-bezier(0.2, 0.8, 0.2, 1) 0.6s forwards;
+  }
+
+  .hero-sidecar::before {
+    content: '';
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    width: 16px;
+    height: 16px;
+    border-top: 1px solid rgb(var(--accent-rgb) / 0.7);
+    border-left: 1px solid rgb(var(--accent-rgb) / 0.7);
+  }
+
+  .hero-sidecar::after {
+    content: '';
+    position: absolute;
+    bottom: 12px;
+    right: 12px;
+    width: 16px;
+    height: 16px;
+    border-bottom: 1px solid rgb(var(--accent-rgb) / 0.7);
+    border-right: 1px solid rgb(var(--accent-rgb) / 0.7);
+  }
+
+  .hero-sidecar-label {
+    display: block;
+    font-family: var(--font-sans);
+    font-size: 0.6rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.3em;
+    color: rgb(var(--crimson-rgb) / 0.85);
+    margin-bottom: 0.6rem;
+  }
+
+  .hero-sidecar-meta {
+    margin: 0.5rem 0 0;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 0.92rem;
+    line-height: 1.4;
+    color: var(--muted);
+  }
+
+  .hero-sidecar-quote {
+    margin: 0;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 0.95rem;
+    line-height: 1.4;
+    color: var(--text);
+  }
+
+  .hero-sidecar-quote::before {
+    content: '\201C';
+    color: rgb(var(--crimson-rgb) / 0.85);
+    margin-right: 0.05em;
+  }
+}

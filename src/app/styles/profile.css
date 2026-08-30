@@ -228,6 +228,72 @@
   border-radius: 1px;
 }
 
+/* ---------- Personal seal (bearer's chop) ----------
+   Sits above the quote, presses into view with a one-time
+   cinnabar stamp beat on load. */
+.profile-dossier-seal {
+  display: flex;
+  justify-content: center;
+  margin: 0 auto 1.5rem;
+  opacity: 0;
+  transform: translateY(-12px) scale(1.18);
+  animation: profileSealPress 0.85s cubic-bezier(0.2, 0.8, 0.2, 1) 0.2s forwards;
+}
+
+@keyframes profileSealPress {
+  0% {
+    opacity: 0;
+    transform: translateY(-12px) scale(1.18);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(2px) scale(0.96);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* ---------- Origin block (How I joined Adobo) ---------- */
+
+.profile-origin {
+  margin: 0 0 2rem;
+  padding: 0;
+}
+
+.profile-origin-label {
+  display: block;
+  font-family: var(--font-sans);
+  font-size: 0.6rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.28em;
+  color: rgb(var(--crimson-rgb) / 0.85);
+  margin-bottom: 0.6rem;
+  position: relative;
+  padding-left: 1.4rem;
+}
+
+.profile-origin-label::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 1.1rem;
+  height: 1px;
+  background: rgb(var(--crimson-rgb) / 0.55);
+}
+
+.profile-origin-text {
+  margin: 0;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1.05rem;
+  line-height: 1.65;
+  color: var(--text);
+}
+
 /* ---------- Meta dossier ---------- */
 
 .profile-meta {
@@ -372,8 +438,50 @@
   border-bottom: 1px solid rgb(var(--accent-rgb) / 0.28);
 }
 
+.recruit-banner::before {
+  content: '';
+  position: absolute;
+  left: 8px;
+  top: 6px;
+  width: 10px;
+  height: 10px;
+  border-top: 1px solid rgb(var(--crimson-rgb) / 0.5);
+  border-left: 1px solid rgb(var(--crimson-rgb) / 0.5);
+  pointer-events: none;
+}
+
+.recruit-banner::after {
+  content: '';
+  position: absolute;
+  right: 60px;
+  bottom: 6px;
+  width: 10px;
+  height: 10px;
+  border-bottom: 1px solid rgb(var(--crimson-rgb) / 0.5);
+  border-right: 1px solid rgb(var(--crimson-rgb) / 0.5);
+  pointer-events: none;
+}
+
 .recruit-banner .discord-live-dot {
   flex: none;
+}
+
+.recruit-banner-chapter {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: rgb(var(--crimson-rgb) / 0.95);
+  background: rgb(var(--crimson-rgb) / 0.06);
+  border: 1px solid rgb(var(--crimson-rgb) / 0.5);
+  border-radius: 3px;
+  line-height: 1;
 }
 
 .recruit-banner p {
@@ -660,5 +768,10 @@
 @media (prefers-reduced-motion: reduce) {
   .profile-dossier {
     animation: none;
+  }
+  .profile-dossier-seal {
+    animation: none;
+    opacity: 1;
+    transform: none;
   }
 }

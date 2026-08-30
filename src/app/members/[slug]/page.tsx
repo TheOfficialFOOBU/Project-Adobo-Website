@@ -13,6 +13,7 @@ import {
 } from '@/lib/members';
 import { CopyProfileLink } from '@/components/copy-profile-link';
 import { DiscordPresence } from '@/components/discord-presence';
+import { MemberPersonalSeal } from '@/components/member-personal-seal';
 import { ProfileStickyBar } from '@/components/profile-sticky-bar';
 import { ProfileCloseButton } from '@/components/profile-close-button';
 import { asset, SITE_URL } from '@/lib/site';
@@ -167,6 +168,12 @@ export default async function MemberProfilePage({ params }: MemberPageProps) {
         <article className="profile-dossier">
           <ProfileCloseButton />
 
+          {/* Personal seal stamp — the bearer's chop. One-time cinnabar
+              press animation when the dossier reveals. */}
+          <div className="profile-dossier-seal" aria-hidden="true">
+            <MemberPersonalSeal name={member.name} size={86} />
+          </div>
+
           {/* Quote pulled out as a full-width panel — the most important
               piece of personality on the page. */}
           {member.quote ? (
@@ -179,6 +186,13 @@ export default async function MemberProfilePage({ params }: MemberPageProps) {
                 &rdquo;
               </span>
             </blockquote>
+          ) : null}
+
+          {member.howIJoined ? (
+            <aside className="profile-origin">
+              <span className="profile-origin-label">How I joined Adobo</span>
+              <p className="profile-origin-text">{member.howIJoined}</p>
+            </aside>
           ) : null}
 
           {/* Meta dossier */}

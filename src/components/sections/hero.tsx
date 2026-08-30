@@ -3,8 +3,21 @@ import { DiscordPresenceBadge } from '@/components/discord-presence-badge';
 import { GlowCta } from '@/components/glow-cta';
 import { HeroScrollFx } from '@/components/hero-scroll-fx';
 import { MagneticButton } from '@/components/magnetic-button';
-import { fetchDiscordPresence } from '@/lib/discord';
+import type { DiscordPresence } from '@/lib/discord';
 import { DISCORD_INVITE, asset } from '@/lib/site';
+import { GUILD_MEMBERS } from '@/lib/members';
+
+/** Bounded-purity helper — picks a stable-per-build quote from the roster
+ *  based on a coarse time bucket (every 6h). Reads `Date.now()` so it
+ *  cannot be called during render; wrapped in `useMemo(() => ..., [])`
+ *  with the bucket derived inside the memo factory. */
+function pickStableQuote(): { name: string; text: string } | null {
+  const quoters = GUILD_MEMBERS.filter((m) => m.quote && m.quote.trim().length > 0);
+  if (quoters.length === 0) return null;
+  const bucket = Math.floor(Date.now() / (1000 * 60 * 60 * 6));
+  const pick = quoters[bucket % quoters.length];
+  return { name: pick.name, text: pick.quote as string };
+}
 
 /**
  * Hero — the cinematic first impression.
@@ -20,11 +33,16 @@ import { DISCORD_INVITE, asset } from '@/lib/site';
  *  - "Where Winds Meet" subtitle, Adobo guild motto, Discord CTA row, and presence badge.
  *  - The two ink-mist pseudo-elements continue the atmosphere.
  *
- * Async so the build can snapshot live Discord presence for the badge;
- * offline or blocked builds simply omit the badge.
+ * Presence is provided by the page-level fetch in app/page.tsx so other
+ * sections can share the same snapshot. If the page couldn't fetch it,
+ * `initialPresence` is null and the badge is simply omitted.
  */
-export async function HeroSection() {
-  const presence = await fetchDiscordPresence();
+export function HeroSection({ initialPresence }: { initialPresence: DiscordPresence | null }) {
+  // No hooks needed: this component is a server component (no `'use
+  // client'`), so it renders exactly once at build/SSR time. The
+  // `pickStableQuote` helper reads `Date.now()` internally to keep the
+  // picked quote stable per 6-hour bucket.
+  const sidecarQuote = pickStableQuote();
 
   return (
     <section className="hero hero-animated" id="home" data-animate>
@@ -151,9 +169,10 @@ export async function HeroSection() {
           <br />
           <span className="hero-fun-accent">FUN</span>tastic
         </h1>
+        <p className="subtitle">Where Winds Meet</p>
         {/* Adobo guild motto — a small editorial line that turns the hero
             from a game landing page into a guild landing page. Sits
-            between the H1 and the CTA. */}
+            between the subtitle and the CTA. */}
         <p className="hero-motto">We play because we want to, not because we have to.</p>
         <div className="hero-cta-row">
           <MagneticButton>
@@ -168,7 +187,19 @@ export async function HeroSection() {
             </a>
           </MagneticButton>
         </div>
-        {presence ? <DiscordPresenceBadge initial={presence} /> : null}
+        {initialPresence ? <DiscordPresenceBadge initial={initialPresence} /> : null}
+        {/* Hero sidecar — only visible on ultrawide (>=2200px) via the
+            .hero-sidecar CSS rule. Shows a single member quote pulled
+            from the existing roster; no fabricated content. The Discord
+            "currently online" count is already surfaced in the header
+            widget, so the sidecar omits it. */}
+        {sidecarQuote ? (
+          <aside className="hero-sidecar" aria-hidden="true">
+            <span className="hero-sidecar-label">A wanderer, today:</span>
+            <blockquote className="hero-sidecar-quote">{sidecarQuote.text}</blockquote>
+            <p className="hero-sidecar-meta">— {sidecarQuote.name}</p>
+          </aside>
+        ) : null}
       </div>
       <div className="scroll-indicator" aria-hidden="true">
         SCROLL

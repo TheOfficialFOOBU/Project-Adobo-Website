@@ -45,6 +45,24 @@
   height: 1px;
   margin: 0 auto 2.5rem;
   background: linear-gradient(90deg, transparent, rgb(var(--crimson-rgb) / 0.65), transparent);
+  position: relative;
+}
+
+/* Kalamansi dot — a tiny cinnabar pip at the center of the hairline,
+   the "kalamansi-dot" Filipino motif suggested in the audit. Subtle,
+   single, dec-orative; reads as a small drop of calamansi juice on a
+   porcelain plate. */
+.philosophy-rule::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgb(var(--accent2-rgb) / 0.95);
+  box-shadow: 0 0 6px rgb(var(--accent2-rgb) / 0.35);
 }
 
 /* Heading — Cormorant display, large */

@@ -12,6 +12,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
+import { AdoboWordmark } from '@/components/adobo-wordmark';
 import { asset, DISCORD_INVITE } from '@/lib/site';
 
 /**
@@ -32,12 +33,16 @@ export function ContactLeaderDialog() {
         <DialogOverlay className="modal-overlay" />
         <DialogContent className="modal-positioner" aria-labelledby="contact-modal-title">
           <div className="modal-content">
+            <span className="modal-chapter" aria-hidden="true">
+              門
+            </span>
             <DialogClose className="close-modal" aria-label="Close">
               <X aria-hidden="true" />
             </DialogClose>
             <DialogTitle className="modal-title" id="contact-modal-title">
               Contact Guild Leader
             </DialogTitle>
+            <span className="modal-hairline" aria-hidden="true" />
             <div className="leader-info">
               <picture>
                 <source
@@ -77,6 +82,9 @@ export function ContactLeaderDialog() {
                   <span className="sr-only">(opens in new tab)</span>
                 </a>
               </div>
+            </div>
+            <div className="modal-wordmark" aria-hidden="true">
+              <AdoboWordmark size={20} variant="muted" />
             </div>
           </div>
         </DialogContent>

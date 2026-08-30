@@ -26,6 +26,14 @@ export interface GuildMember {
   founder?: boolean;
   webp?: boolean;
   discordId?: string;
+  /** Optional "How I joined Adobo" prose — surfaced on the member's profile
+   *  dossier as a small editorial block. Existing members intentionally
+   *  leave this empty; only filled in for those with a real story. */
+  howIJoined?: string;
+  /** Optional explicit highlight field on tier seals — "founder" forces
+   *  the cinnabar chop even on non-founder positions. Reserved for future
+   *  curation; defaults are derived from `founder` + `position`. */
+  heroPick?: boolean;
 }
 
 export const GUILD_MEMBERS: GuildMember[] = rawMembers;

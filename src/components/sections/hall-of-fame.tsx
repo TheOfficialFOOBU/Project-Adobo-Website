@@ -13,20 +13,37 @@ const HALL_OF_FAME_CARDS: {
   seal: string;
   description: string;
   entries: readonly RecordEntry[];
+  /** "honor" prints in cinnabar; "humor" prints in celadon to keep the
+   *  名 / 辱 duality visually distinct. */
+  tone: 'honor' | 'humor';
 }[] = [
   {
     title: 'Hall of Fame',
     seal: '名',
     description: 'The number of times a guild member completes a 69-second BA.',
-    entries: [{ name: 'FOOBU', count: 12 }],
+    entries: [
+      { name: '独Sanji', count: 1 },
+      { name: 'Aeleigh', count: 1 },
+      { name: 'Nyxnoir', count: 1 },
+    ],
+    tone: 'honor',
   },
   {
     title: 'Hall of Shame',
     seal: '辱',
     description: 'The number of times a guild member completes a 67-second BA.',
-    entries: [{ name: 'Calialy', count: 27 }],
+    entries: [{ name: 'swaggo', count: 1 }],
+    tone: 'humor',
   },
 ];
+
+/**
+ * Sort a record's entries so the highest count renders first. Stable
+ * for equal counts so the original list order is preserved on ties.
+ */
+function sortEntries(entries: readonly RecordEntry[]): RecordEntry[] {
+  return [...entries].sort((a, b) => b.count - a.count);
+}
 
 /**
  * Hall of Records — community milestones with named record-holders. The
@@ -34,6 +51,7 @@ const HALL_OF_FAME_CARDS: {
  * members behind them) get proper weight.
  */
 export function HallOfFameSection() {
+  const records = HALL_OF_FAME_CARDS;
   return (
     <section className="hall-of-fame" id="hall-of-records" data-animate>
       <div className="container">
@@ -49,15 +67,15 @@ export function HallOfFameSection() {
         </p>
 
         <div className="hof-stat-grid">
-          {HALL_OF_FAME_CARDS.map((card) => (
-            <article className="hof-stat-card" key={card.title}>
+          {records.map((card) => (
+            <article className={`hof-stat-card hof-stat-card--${card.tone}`} key={card.title}>
               <span className="hof-stat-seal" aria-hidden="true">
                 {card.seal}
               </span>
               <h3 className="hof-stat-card-title">{card.title}</h3>
               <p className="hof-stat-card-description">{card.description}</p>
               <ul className="hof-record-list">
-                {card.entries.map((entry) => (
+                {sortEntries(card.entries).map((entry) => (
                   <li className="hof-record-entry" key={entry.name}>
                     <span className="hof-record-name">{entry.name}</span>
                     <span className="hof-record-divider" aria-hidden="true" />

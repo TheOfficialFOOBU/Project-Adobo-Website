@@ -27,6 +27,11 @@ export function PhilosophySection() {
           </span>
         </h2>
 
+        <p className="why-adobo-pull">
+          We play at our own pace. Real life comes first. The people around the campfire are the
+          point.
+        </p>
+
         <div className="philosophy-scroll">
           <div className="philosophy-rule" aria-hidden="true" />
 

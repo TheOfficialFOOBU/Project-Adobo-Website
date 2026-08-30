@@ -305,3 +305,117 @@ section {
 .capabilities .container + .container {
   margin-top: 4rem;
 }
+
+/* ---------- Brushstroke section transitions ----------
+   A subtle horizontal "page-turn" that sits between major sections.
+   Implementation uses two absolutely-positioned ::before / ::after
+   pseudo-elements on the next section, fading in when it scrolls into
+   view. The transition is intentionally soft so it never feels like a
+   "gaming website" effect — it should feel like turning a manuscript
+   page.
+
+   To opt a section out (e.g. to keep a clean banded layout between two
+   adjacent sections of the same colour), set `data-no-brush` on the
+   section element. */
+section + section:not([data-no-brush])::before {
+  content: '';
+  position: absolute;
+  top: -1px;
+  left: 5%;
+  right: 5%;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgb(var(--crimson-rgb) / 0.35) 18%,
+    rgb(var(--crimson-rgb) / 0.55) 50%,
+    rgb(var(--crimson-rgb) / 0.35) 82%,
+    transparent
+  );
+  border-radius: 999px;
+  opacity: 0;
+  transform: scaleX(0.85);
+  transition:
+    opacity 0.45s ease,
+    transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1);
+  pointer-events: none;
+  z-index: 1;
+}
+
+[data-animate].in-view::before {
+  opacity: 0.85;
+  transform: scaleX(1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  section + section:not([data-no-brush])::before {
+    transition: none;
+    opacity: 0.85;
+    transform: none;
+  }
+}
+
+/* ---------- Adobo wordmark ----------
+   The site's recurring visual signature: leaf · ADOBO · Baybayin ᜊ.
+   Extracted as a small inline component (AdoboWordmark) so it can
+   appear on Rules, Contact, Profiles, etc. without redefining the
+   geometry each time. Three visual variants:
+     - `cinnabar` (default) — the warm red seal colour
+     - `muted` — for very low-opacity watermarks
+     - `accent` — antique-gold variant for navy backgrounds
+   The compact variant drops the leaf and the rules. */
+.adobo-wordmark {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.85rem;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 500;
+  letter-spacing: 0.32em;
+  font-size: 0.9rem;
+  color: rgb(var(--crimson-rgb) / 0.85);
+  line-height: 1;
+}
+
+.adobo-wordmark--muted {
+  color: var(--muted);
+}
+
+.adobo-wordmark--accent {
+  color: var(--accent);
+}
+
+.adobo-wordmark-rule {
+  display: inline-block;
+  width: 36px;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.55;
+}
+
+.adobo-wordmark-text {
+  text-transform: uppercase;
+  letter-spacing: 0.34em;
+}
+
+.adobo-wordmark-leaf,
+.adobo-wordmark-ba {
+  color: currentColor;
+  opacity: 0.85;
+  flex-shrink: 0;
+}
+
+.adobo-wordmark--compact .adobo-wordmark-rule {
+  display: none;
+}
+
+@media (max-width: 480px) {
+  .adobo-wordmark {
+    gap: 0.55rem;
+    font-size: 0.78rem;
+    letter-spacing: 0.28em;
+  }
+  .adobo-wordmark-rule {
+    width: 18px;
+  }
+}

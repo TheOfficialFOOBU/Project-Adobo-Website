@@ -18,6 +18,7 @@
 
 .modal-overlay[data-state='closed'] {
   animation: modalBackdropFadeOut 0.2s ease-in forwards;
+  pointer-events: none;
 }
 
 .modal-content {
@@ -100,6 +101,39 @@
   font-size: 2rem;
   font-weight: 600;
   letter-spacing: 0.01em;
+}
+
+.modal-content .modal-chapter {
+  position: absolute;
+  top: 0.75rem;
+  left: 1rem;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: rgb(var(--crimson-rgb) / 0.75);
+  border: 1px solid rgb(var(--crimson-rgb) / 0.45);
+  padding: 0.25rem 0.55rem;
+  border-radius: 2px;
+  background: rgb(var(--crimson-rgb) / 0.05);
+  line-height: 1;
+}
+
+.modal-content .modal-hairline {
+  display: block;
+  width: 56px;
+  height: 1px;
+  margin: 0 auto 0.6rem;
+  background: linear-gradient(90deg, transparent, rgb(var(--crimson-rgb) / 0.85), transparent);
+}
+
+.modal-wordmark {
+  display: flex;
+  justify-content: center;
+  margin-top: 1.25rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--paper-line);
+  opacity: 0.55;
 }
 
 .leader-info {

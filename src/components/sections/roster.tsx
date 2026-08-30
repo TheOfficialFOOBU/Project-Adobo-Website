@@ -1,12 +1,15 @@
 'use client';
 
+import { LayoutGrid, Rows3 } from 'lucide-react';
 import { Search } from 'lucide-react';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
+import { MemberGridCard } from '@/components/member-grid-card';
 import { MemberRow } from '@/components/member-row';
 import {
   CORE_MEMBERS,
   FOUNDERS,
+  GUILD_MEMBERS,
   REGULAR_MEMBERS,
   sortMembers,
   type GuildMember,
@@ -15,6 +18,46 @@ import {
 import { cn } from '@/lib/utils';
 
 type RosterFilter = 'all' | 'founders' | 'core' | 'members';
+type RosterView = 'row' | 'grid';
+
+const NUMBER_WORDS = [
+  'Zero',
+  'One',
+  'Two',
+  'Three',
+  'Four',
+  'Five',
+  'Six',
+  'Seven',
+  'Eight',
+  'Nine',
+  'Ten',
+  'Eleven',
+  'Twelve',
+  'Thirteen',
+  'Fourteen',
+  'Fifteen',
+  'Sixteen',
+  'Seventeen',
+  'Eighteen',
+  'Nineteen',
+  'Twenty',
+  'Twenty-one',
+  'Twenty-two',
+  'Twenty-three',
+  'Twenty-four',
+  'Twenty-five',
+  'Twenty-six',
+  'Twenty-seven',
+  'Twenty-eight',
+  'Twenty-nine',
+  'Thirty',
+  'Thirty-one',
+  'Thirty-two',
+];
+
+/** Spell out the active roster count in the lede so it can never go stale. */
+const ROSTER_COUNT_PHRASE = NUMBER_WORDS[GUILD_MEMBERS.length] ?? `${GUILD_MEMBERS.length}`;
 
 /** Debounce a changing value (original search used a 200ms debounce). */
 function useDebouncedValue<T>(value: T, wait = 200): T {
@@ -30,13 +73,19 @@ function useDebouncedValue<T>(value: T, wait = 200): T {
 
 const SORT_KEYS = ['name', 'position', 'class', 'weapon'] as const;
 
-/** Initial toolbar state restored from the URL (?q=&filter=&sort=). */
+/** Initial toolbar state restored from the URL (?q=&filter=&sort=&view=). */
 function readRosterParams() {
-  const fallback = { q: '', filter: 'all' as RosterFilter, sort: 'name' as MemberSortKey };
+  const fallback = {
+    q: '',
+    filter: 'all' as RosterFilter,
+    sort: 'name' as MemberSortKey,
+    view: 'row' as RosterView,
+  };
   if (typeof window === 'undefined') return fallback;
   const params = new URLSearchParams(window.location.search);
   const filter = params.get('filter');
   const sort = params.get('sort');
+  const view = params.get('view');
   return {
     q: params.get('q') ?? '',
     filter:
@@ -47,6 +96,7 @@ function readRosterParams() {
       sort && SORT_KEYS.includes(sort as MemberSortKey)
         ? (sort as MemberSortKey)
         : ('name' as MemberSortKey),
+    view: view === 'grid' ? ('grid' as RosterView) : ('row' as RosterView),
   };
 }
 
@@ -75,6 +125,7 @@ export function RosterSection() {
   const [query, setQuery] = useState('');
   const [filter, setFilter] = useState<RosterFilter>('all');
   const [sortKey, setSortKey] = useState<MemberSortKey>('name');
+  const [view, setView] = useState<RosterView>('row');
   const debouncedQuery = useDebouncedValue(query, 200);
 
   // Refs as DOM element handles — populated when each group mounts. The
@@ -99,6 +150,7 @@ export function RosterSection() {
     if (restored.q) setQuery(restored.q);
     if (restored.filter !== 'all') setFilter(restored.filter);
     if (restored.sort !== 'name') setSortKey(restored.sort);
+    if (restored.view !== 'row') setView(restored.view);
     /* eslint-enable react-hooks/set-state-in-effect */
   }, []);
 
@@ -143,25 +195,58 @@ export function RosterSection() {
     if (query.trim()) params.set('q', query.trim());
     if (filter !== 'all') params.set('filter', filter);
     if (sortKey !== 'name') params.set('sort', sortKey);
+    if (view !== 'row') params.set('view', view);
     const search = params.toString();
     history.replaceState(
       null,
       '',
       `${window.location.pathname}${search ? `?${search}` : ''}${window.location.hash}`
     );
-  }, [query, filter, sortKey]);
+  }, [query, filter, sortKey, view]);
 
   // "/" focuses the roster search from anywhere on the page.
+  // "g g" (double-tap, under 600ms) scrolls to the roster from anywhere
+  // on the page. Browser devtools use single "g" to scroll, so we
+  // require two presses in quick succession and explicitly skip when
+  // the user is typing.
   useEffect(() => {
+    let lastG = 0;
     const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key !== '/') return;
       const target = event.target as HTMLElement | null;
       const tag = target?.tagName;
-      if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || target?.isContentEditable) {
+      const typing =
+        tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || target?.isContentEditable;
+      if (typing) {
+        lastG = 0;
         return;
       }
-      event.preventDefault();
-      document.getElementById('member-search')?.focus();
+      // Avoid stomping on browser/extension shortcuts — only intercept
+      // bare keys (no modifiers).
+      if (event.metaKey || event.ctrlKey || event.altKey) return;
+
+      if (event.key === '/') {
+        event.preventDefault();
+        document.getElementById('member-search')?.focus();
+        return;
+      }
+      if (event.key.toLowerCase() === 'g') {
+        const now = Date.now();
+        if (now - lastG < 600) {
+          event.preventDefault();
+          lastG = 0;
+          const reduce = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+          const el = document.getElementById('team');
+          el?.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+          // Move keyboard focus to the search input for immediate typing.
+          document.getElementById('member-search')?.focus({ preventScroll: true });
+        } else {
+          lastG = now;
+        }
+      } else {
+        // Any other key resets the "gg" chain so the user has to press
+        // both g's cleanly.
+        lastG = 0;
+      }
     };
     document.addEventListener('keydown', onKeyDown);
     return () => document.removeEventListener('keydown', onKeyDown);
@@ -193,7 +278,7 @@ export function RosterSection() {
           </span>
         </h2>
         <p className="scroll-of-members-lede">
-          Twenty-two wanderers, one guild, zero filters. Read every face.
+          {ROSTER_COUNT_PHRASE} wanderers, one guild, zero filters. Read every face.
         </p>
 
         {/* Filter / sort toolbar */}
@@ -254,6 +339,27 @@ export function RosterSection() {
               <option value="weapon">Weapon</option>
             </select>
           </div>
+
+          <div className="view-toggle" role="group" aria-label="Roster view">
+            <button
+              type="button"
+              className={cn('view-toggle-btn', view === 'row' && 'view-toggle-btn--active')}
+              aria-pressed={view === 'row'}
+              onClick={() => setView('row')}
+            >
+              <Rows3 aria-hidden="true" />
+              <span>Row</span>
+            </button>
+            <button
+              type="button"
+              className={cn('view-toggle-btn', view === 'grid' && 'view-toggle-btn--active')}
+              aria-pressed={view === 'grid'}
+              onClick={() => setView('grid')}
+            >
+              <LayoutGrid aria-hidden="true" />
+              <span>Grid</span>
+            </button>
+          </div>
         </div>
 
         {totalVisible === 0 ? (
@@ -275,7 +381,7 @@ export function RosterSection() {
         {visibleGroups.map((group) =>
           group.list.length === 0 ? null : (
             <div
-              className="scroll-group"
+              className={cn('scroll-group', view === 'grid' && 'scroll-group--grid')}
               key={group.key}
               ref={groupRefSetters[group.key as 'founders' | 'core' | 'members']}
             >
@@ -285,16 +391,24 @@ export function RosterSection() {
                 <span className="scroll-divider-rule scroll-divider-rule--right" />
                 <span className="scroll-divider-label">{group.label}</span>
               </div>
-              <div className="scroll-rows">
-                {group.list.map((member, index) => (
-                  <MemberRow
-                    key={member.name}
-                    member={member}
-                    highlight={debouncedQuery}
-                    reverse={index % 2 === 1}
-                  />
-                ))}
-              </div>
+              {view === 'row' ? (
+                <div className="scroll-rows">
+                  {group.list.map((member, index) => (
+                    <MemberRow
+                      key={member.name}
+                      member={member}
+                      highlight={debouncedQuery}
+                      reverse={index % 2 === 1}
+                    />
+                  ))}
+                </div>
+              ) : (
+                <div className="scroll-grid">
+                  {group.list.map((member) => (
+                    <MemberGridCard key={member.name} member={member} highlight={debouncedQuery} />
+                  ))}
+                </div>
+              )}
             </div>
           )
         )}

@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useEffect, useMemo, useRef, useState } from 'react';
 
 import { Highlight } from '@/components/highlight';
+import { MemberPersonalSeal } from '@/components/member-personal-seal';
 import { useLightbox } from '@/components/lightbox-provider';
 import {
   imageBase,
@@ -122,6 +123,9 @@ export function MemberRow({ member, highlight = '', reverse = false }: MemberRow
         </picture>
         <span className={`member-row-seal member-row-seal--${badgeTier}`} aria-hidden="true">
           {tierLabel}
+        </span>
+        <span className="member-row-chop" aria-hidden="true">
+          <MemberPersonalSeal name={member.name} size={64} />
         </span>
       </div>
 

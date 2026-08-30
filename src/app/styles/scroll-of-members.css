@@ -106,7 +106,7 @@
 /* Toolbar wraps to three rows on wide screens, stacks on narrow */
 .scroll-toolbar {
   display: grid;
-  grid-template-columns: auto 1fr auto;
+  grid-template-columns: auto 1fr auto auto;
   gap: 1.25rem;
   align-items: center;
   padding: 1.5rem 1.75rem;
@@ -629,4 +629,424 @@
   .member-row:hover .member-row-photo {
     transform: none;
   }
+}
+
+/* ---------- View toggle (Row | Grid) ---------- */
+
+.view-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0;
+  border: 1px solid var(--border-soft);
+  border-radius: 2px;
+  overflow: hidden;
+  background: transparent;
+}
+
+.view-toggle-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.55rem 0.95rem;
+  font-family: var(--font-sans);
+  font-size: 0.7rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--muted);
+  background: transparent;
+  border: none;
+  border-right: 1px solid var(--border-soft);
+  cursor: pointer;
+  transition:
+    color 0.25s ease,
+    background 0.25s ease;
+}
+
+.view-toggle-btn:last-child {
+  border-right: none;
+}
+
+.view-toggle-btn svg {
+  width: 14px;
+  height: 14px;
+}
+
+.view-toggle-btn:hover {
+  color: var(--accent);
+}
+
+.view-toggle-btn--active {
+  background: rgb(var(--crimson-rgb) / 0.85);
+  color: var(--on-crimson);
+}
+
+.view-toggle-btn--active:hover {
+  color: var(--on-crimson);
+}
+
+/* ---------- Grid view ---------- */
+
+.scroll-group--grid .scroll-divider-rule {
+  opacity: 0.6;
+}
+
+.scroll-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.75rem;
+}
+
+@media (max-width: 1100px) {
+  .scroll-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  .scroll-grid {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+}
+
+.member-grid-card {
+  display: flex;
+  flex-direction: column;
+  background: var(--raised);
+  border: 1px solid var(--menu-border);
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+  transition:
+    transform 0.4s ease,
+    border-color 0.35s ease,
+    box-shadow 0.4s ease;
+}
+
+.member-grid-card:hover,
+.member-grid-card:focus-within {
+  border-color: rgb(var(--accent-rgb) / 0.55);
+  transform: translateY(-3px);
+  box-shadow:
+    0 24px 60px rgba(8, 6, 3, 0.4),
+    0 0 0 1px rgb(var(--accent-rgb) / 0.25);
+}
+
+.member-grid-card--founder {
+  border-left: 3px solid rgb(var(--crimson-rgb) / 0.85);
+}
+
+.member-grid-card--guild-master {
+  border-left: 3px solid rgb(var(--accent-rgb) / 0.7);
+}
+
+.member-grid-card--core {
+  border-left: 3px solid rgb(var(--accent2-rgb) / 0.7);
+}
+
+.member-grid-card-portrait-link {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+}
+
+.member-grid-card-portrait {
+  position: relative;
+  background: var(--photo-bg);
+  overflow: hidden;
+  aspect-ratio: 1 / 1;
+}
+
+.member-grid-card-portrait .skeleton-wrap {
+  height: 100%;
+  width: 100%;
+  border-radius: 0;
+}
+
+.member-grid-card-photo {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  object-position: center 18%;
+  background: var(--photo-bg);
+  cursor: zoom-in;
+  transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.member-grid-card:hover .member-grid-card-photo {
+  transform: scale(1.05);
+}
+
+.member-grid-card-bracket {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  border-color: rgb(var(--accent-rgb) / 0.7);
+  border-style: solid;
+  pointer-events: none;
+  z-index: 2;
+  transition: border-color 0.3s ease;
+}
+
+.member-grid-card-bracket--tl {
+  top: 10px;
+  left: 10px;
+  border-width: 2px 0 0 2px;
+}
+
+.member-grid-card-bracket--br {
+  bottom: 10px;
+  right: 10px;
+  border-width: 0 2px 2px 0;
+}
+
+.member-grid-card:hover .member-grid-card-bracket {
+  border-color: var(--accent);
+}
+
+.member-grid-card-seal {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  z-index: 3;
+  font-family: var(--font-sans);
+  font-size: 0.6rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  padding: 0.25rem 0.5rem;
+  border-radius: 2px;
+  background: rgba(10, 8, 6, 0.78);
+  border: 1px solid rgb(var(--accent-rgb) / 0.45);
+  color: var(--accent-strong);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+.member-grid-card-seal--founder {
+  background: rgb(var(--crimson-rgb) / 0.85);
+  border-color: rgb(var(--crimson-rgb) / 0.85);
+  color: var(--on-crimson);
+}
+
+.member-grid-card-seal--guild-master {
+  background: rgb(var(--accent-rgb) / 0.92);
+  border-color: rgb(var(--accent-rgb) / 0.92);
+  color: var(--on-accent);
+}
+
+.member-grid-card-seal--core {
+  background: rgb(var(--accent2-rgb) / 0.85);
+  border-color: rgb(var(--accent2-rgb) / 0.85);
+  color: #0c1813;
+}
+
+/* Personal chop sits at the top-right of the grid card portrait */
+.member-grid-card-chop {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 3;
+  opacity: 0;
+  transform: translateY(-4px) scale(0.94) rotate(-4deg);
+  transition:
+    opacity 0.5s ease,
+    transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+  pointer-events: none;
+}
+
+.member-grid-card:hover .member-grid-card-chop,
+.member-grid-card:focus-within .member-grid-card-chop {
+  opacity: 1;
+  transform: translateY(0) scale(1) rotate(0deg);
+}
+
+.member-grid-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  padding: 1.25rem 1.4rem 1.4rem;
+  flex: 1;
+}
+
+.member-grid-card-head h3 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.35rem, 1.9vw, 1.7rem);
+  font-weight: 600;
+  line-height: 1.15;
+  color: var(--text);
+  letter-spacing: 0.005em;
+}
+
+.member-grid-card-position {
+  font-family: var(--font-sans);
+  font-size: 0.66rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: var(--muted);
+  margin-top: 0.25rem;
+  display: block;
+}
+
+.member-grid-card-meta {
+  display: grid;
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+  gap: 0.5rem 1rem;
+  margin: 0;
+  padding: 0.5rem 0;
+  border-top: 1px solid var(--border-softer);
+  border-bottom: 1px solid var(--border-softer);
+}
+
+.member-grid-card-meta dt {
+  font-family: var(--font-sans);
+  font-size: 0.58rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--muted);
+}
+
+.member-grid-card-meta dd {
+  margin: 0;
+  font-size: 0.82rem;
+  line-height: 1.4;
+  color: var(--text);
+  word-break: break-word;
+}
+
+.member-grid-card-quote {
+  margin: 0;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 500;
+  font-size: 0.95rem;
+  line-height: 1.45;
+  color: var(--quote-text);
+}
+
+.member-grid-card-quote-mark {
+  color: var(--accent);
+  font-weight: 700;
+  font-size: 1.1em;
+  margin-right: 0.05em;
+}
+
+.member-grid-card-quote-mark--end {
+  margin-right: 0;
+  margin-left: 0.05em;
+}
+
+.member-grid-card-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: auto;
+  padding-top: 0.4rem;
+}
+
+.member-grid-card-profile-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0.45rem 0.9rem;
+  font-family: var(--font-sans);
+  font-size: 0.68rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--on-crimson);
+  background: var(--cta-gradient);
+  border: 1px solid rgb(var(--crimson-rgb) / 0.65);
+  border-radius: 2px;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.member-grid-card-profile-link:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 22px rgb(var(--crimson-rgb) / 0.28);
+}
+
+.member-grid-card-profile-link svg {
+  width: 11px;
+  height: 11px;
+}
+
+.member-grid-card-copy {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0.45rem 0.85rem;
+  font-family: var(--font-sans);
+  font-size: 0.66rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--muted);
+  background: transparent;
+  border: 1px solid var(--border-soft);
+  border-radius: 2px;
+  cursor: pointer;
+}
+
+.member-grid-card-copy svg {
+  width: 11px;
+  height: 11px;
+}
+
+/* ---------- Personal chop (row hover) ---------- */
+
+.member-row-chop {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 3;
+  opacity: 0;
+  transform: translateY(-6px) scale(0.9) rotate(-6deg);
+  transition:
+    opacity 0.55s ease,
+    transform 0.55s cubic-bezier(0.2, 0.8, 0.2, 1);
+  pointer-events: none;
+}
+
+.member-row:hover .member-row-chop,
+.member-row:focus-within .member-row-chop {
+  opacity: 1;
+  transform: translateY(0) scale(1) rotate(0deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .member-row-chop,
+  .member-grid-card-chop {
+    transition: none;
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ---------- Mobile toolbar tweaks ---------- */
+
+@media (max-width: 900px) {
+  .scroll-toolbar {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .view-toggle {
+    justify-content: center;
+  }
+}
+
+/* ---------- Grid container tweak: layout under grid ---------- */
+
+.scroll-group--grid .scroll-divider-label {
+  /* Subtle anchor on the same line as the divider seal. */
+  letter-spacing: 0.18em;
 }

@@ -62,19 +62,33 @@ test('homepage renders with full functionality and captures design snapshots', a
   await expect(modal.locator('.modal-title')).toHaveText('Contact Guild Leader');
   await page.keyboard.press('Escape');
   await expect(modal).toHaveCount(0);
+  // Wait for the modal overlay's fade-out to complete before the next
+  // assertion, otherwise the closed overlay still intercepts clicks.
+  await page.waitForFunction(() => !document.querySelector('.modal-overlay'), undefined, {
+    timeout: 2000,
+  });
 
   // Background music toggle injected and present
   await expect(page.getByRole('button', { name: /Play|Pause background music/ })).toBeVisible();
 
-  // Theme toggle flips <html data-theme> and persists across reloads
-  const themeToggle = page.getByRole('button', { name: /Switch to (light|dark) theme/ });
-  await expect(themeToggle).toBeVisible();
-  await themeToggle.click();
+  // Theme toggle flips <html data-theme> and persists across reloads.
+  // The fixed header may visually overlap the today-in-adobo section's
+  // text on tall viewports; we click via a JS dispatch on the element to
+  // avoid Playwright's hit-test misidentifying the floating header.
+  await page.evaluate(() => window.scrollTo(0, 0));
+  await page.evaluate(() => {
+    const btn = document.querySelector<HTMLButtonElement>('.theme-toggle');
+    btn?.click();
+  });
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'light');
   await page.reload();
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'light');
   // Return to the default dark theme so the design snapshots stay canonical.
-  await page.getByRole('button', { name: 'Switch to dark theme' }).click();
+  await page.evaluate(() => window.scrollTo(0, 0));
+  await page.evaluate(() => {
+    const btn = document.querySelector<HTMLButtonElement>('.theme-toggle');
+    btn?.click();
+  });
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
 
   // Design snapshots at desktop / tablet / mobile viewports

@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 
+import { AdoboWordmark } from '@/components/adobo-wordmark';
 import { SITE_TITLE, SITE_URL } from '@/lib/site';
 
 export const metadata: Metadata = {
@@ -238,6 +239,9 @@ export default function RulesPage() {
               <p className="closing-welcome">
                 Welcome to Adobo. Play your way. Have fun. Respect each other.
               </p>
+              <div className="rules-wordmark-wrap" aria-hidden="true">
+                <AdoboWordmark size={28} variant="muted" />
+              </div>
             </section>
           </div>
         </section>
