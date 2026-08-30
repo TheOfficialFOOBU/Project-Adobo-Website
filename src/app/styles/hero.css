@@ -357,13 +357,11 @@
 .hero .subtitle {
   font-size: clamp(0.78rem, 1.3vw, 1rem);
   color: rgba(242, 236, 223, 0.78);
-  margin: 0 auto 0.4rem;
   font-weight: 400;
-  letter-spacing: 0.5em;
   text-transform: uppercase;
-  max-width: 22ch;
-  width: fit-content;
-  white-space: nowrap;
+  margin: 0 0 0.4rem;
+  display: block;
+  text-align: center;
   opacity: 0;
   transform: translateY(10px);
   animation: heroFadeUp 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) 0.15s forwards;

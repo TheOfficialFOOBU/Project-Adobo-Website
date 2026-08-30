@@ -151,10 +151,9 @@ export async function HeroSection() {
           <br />
           <span className="hero-fun-accent">FUN</span>tastic
         </h1>
-        <p className="subtitle">Where Winds Meet</p>
         {/* Adobo guild motto — a small editorial line that turns the hero
             from a game landing page into a guild landing page. Sits
-            between the subtitle and the CTA. */}
+            between the H1 and the CTA. */}
         <p className="hero-motto">We play because we want to, not because we have to.</p>
         <div className="hero-cta-row">
           <MagneticButton>
