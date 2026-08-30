@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useEffect, useMemo, useRef, useState } from 'react';
 
 import { MemberPersonalSeal } from '@/components/member-personal-seal';
+import { MemberDiscordStatus } from '@/components/member-discord-status';
 import { Highlight } from '@/components/highlight';
 import { useLightbox } from '@/components/lightbox-provider';
 import {
@@ -152,6 +153,9 @@ export function MemberGridCard({ member, highlight = '' }: MemberGridCardProps) 
         <header className="member-grid-card-head">
           <h3>
             <Highlight text={member.name} query={highlight} />
+            {member.discordId ? (
+              <MemberDiscordStatus discordId={member.discordId} variant="dot" />
+            ) : null}
           </h3>
           <span className="member-grid-card-position">
             <Highlight text={memberDisplayTitle(member)} query={highlight} />

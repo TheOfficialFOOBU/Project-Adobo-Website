@@ -13,7 +13,8 @@ import {
 } from '@/lib/members';
 import { CopyProfileLink } from '@/components/copy-profile-link';
 import { MemberDiscordStatus } from '@/components/member-discord-status';
-import { DiscordPresence } from '@/components/discord-presence';
+import { CopyDiscordId } from '@/components/copy-discord-id';
+import { DiscordProfileLink } from '@/components/discord-profile-link';
 import { MemberPersonalSeal } from '@/components/member-personal-seal';
 import { ProfileStickyBar } from '@/components/profile-sticky-bar';
 import { ProfileCloseButton } from '@/components/profile-close-button';
@@ -226,10 +227,16 @@ export default async function MemberProfilePage({ params }: MemberPageProps) {
           <div className="profile-actions">
             <CopyProfileLink url={`${SITE_URL}/members/${memberSlug(member)}`} />
             {member.discordId ? (
-              <>
-                <DiscordPresence discordId={member.discordId} />
-                <MemberDiscordStatus discordId={member.discordId} />
-              </>
+              <div className="discord-presence" data-testid="discord-presence">
+                <div className="discord-presence-head">
+                  <span className="discord-presence-label">Discord</span>
+                  <MemberDiscordStatus discordId={member.discordId} variant="line" />
+                </div>
+                <div className="discord-presence-actions">
+                  <DiscordProfileLink discordId={member.discordId} />
+                  <CopyDiscordId discordId={member.discordId} />
+                </div>
+              </div>
             ) : null}
           </div>
 

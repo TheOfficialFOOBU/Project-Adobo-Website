@@ -36,3 +36,5 @@ playwright-report/
 
 # bot (standalone presence relay)
 /bot/node_modules
+/bot/.env.local
+/bot/.env

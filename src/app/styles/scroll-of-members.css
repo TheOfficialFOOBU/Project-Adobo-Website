@@ -393,6 +393,63 @@
   line-height: 1.1;
   color: var(--text);
   letter-spacing: 0.005em;
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+/* ---------- Discord live status (member cards) ----------
+   Tiny status dot placed inline next to the member's name on both
+   the long row and the compact grid card. Drawn from the same cinnabar /
+   gold / muted palette as the rest of the dossier so it reads as part
+   of the manuscript rather than a Discord-themed pill. The dot is
+   decorative — the accessible name is carried by the wrapping <span>
+   (role="img", aria-label, title). */
+.member-discord-dot-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 0.95rem;
+  height: 0.95rem;
+  border-radius: 50%;
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: help;
+  align-self: center;
+  flex: none;
+  transition: transform 0.25s ease;
+}
+
+.member-discord-dot-badge:hover {
+  transform: scale(1.12);
+}
+
+.member-discord-dot {
+  display: block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex: none;
+  transition: transform 0.25s ease;
+}
+
+/* Online — a slow halo pulse, in the spirit of the existing footer
+   live-dot, but quieter (smaller ring, gentler timing) so it doesn't
+   compete with the more active motion on the roster row. */
+.member-discord-status[data-status='online'] .member-discord-dot {
+  animation: member-discord-pulse 2.6s ease-in-out infinite;
+}
+
+@keyframes member-discord-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.18);
+  }
 }
 
 .member-row-position {
@@ -879,6 +936,10 @@
   line-height: 1.15;
   color: var(--text);
   letter-spacing: 0.005em;
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0.45rem;
 }
 
 .member-grid-card-position {
@@ -1028,6 +1089,16 @@
     transition: none;
     opacity: 1;
     transform: none;
+  }
+
+  .member-discord-status[data-status='online'] .member-discord-dot,
+  .member-discord-line[data-status='online'] .discord-live-dot {
+    animation: none;
+  }
+
+  .member-discord-dot-badge,
+  .member-discord-dot {
+    transition: none;
   }
 }
 

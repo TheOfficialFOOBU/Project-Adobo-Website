@@ -4,6 +4,22 @@ import { useEffect, useState } from 'react';
 
 type DiscordStatus = 'online' | 'idle' | 'dnd' | 'offline';
 
+export interface MemberDiscordStatusData {
+  status: DiscordStatus | null;
+}
+
+interface MemberDiscordStatusProps {
+  discordId: string;
+  /**
+   * Visual treatment of the indicator. `dot` is the small ring/dot used
+   * beside a member's name on roster cards; `line` is the editorial
+   * status sentence used inside the profile dossier.
+   */
+  variant?: 'dot' | 'line';
+  /** Poll cadence in milliseconds. Defaults to 60s — keeps load light. */
+  refreshMs?: number;
+}
+
 const STATUS_LABEL: Record<DiscordStatus, string> = {
   online: 'Online on Discord',
   idle: 'Idle on Discord',
@@ -11,31 +27,57 @@ const STATUS_LABEL: Record<DiscordStatus, string> = {
   offline: 'Offline on Discord',
 };
 
-const STATUS_COLOR: Record<DiscordStatus, string> = {
-  online: 'var(--cinnabar)',
-  idle: 'var(--gold)',
-  dnd: 'var(--crimson)',
-  offline: 'var(--muted)',
+const STATUS_COPY: Record<DiscordStatus, string> = {
+  online: 'Online on Discord',
+  idle: 'Idle on Discord',
+  dnd: 'Do Not Disturb',
+  offline: 'Offline on Discord',
 };
 
-const STATUS_BACKGROUND: Record<DiscordStatus, string> = {
-  online: '#238636',
-  idle: '#eab308',
-  dnd: '#dc2626',
-  offline: '#6b7280',
+/**
+ * Status dot color — drawn from the existing Adobo palette tokens so the
+ * indicator reads as part of the manuscript visual language, not as a
+ * Discord-themed pill.
+ *   online  → cinnabar (signature active seal)
+ *   idle    → gold (warm, quiet — guild master off duty)
+ *   dnd     → crimson-deep (urgent, busy)
+ *   offline → muted parchment-ink (asleep, still present)
+ *
+ * `ring` is the soft halo behind the dot, drawn in the same hue at low
+ * opacity so the dot feels pressed into the page rather than painted on.
+ */
+const STATUS_DOT: Record<DiscordStatus, { color: string; ring: string }> = {
+  online: { color: 'rgb(184 67 46)', ring: 'rgb(184 67 46 / 0.28)' },
+  idle: { color: 'rgb(201 164 92)', ring: 'rgb(201 164 92 / 0.32)' },
+  dnd: { color: 'rgb(140 44 28)', ring: 'rgb(140 44 28 / 0.32)' },
+  offline: { color: 'rgb(168 156 133)', ring: 'rgb(168 156 133 / 0.22)' },
 };
 
-const REFRESH_MS = 60_000;
+const DEFAULT_REFRESH_MS = 60_000;
 
-export function MemberDiscordStatus({ discordId }: { discordId: string }) {
+/**
+ * Live Discord presence for a single member. Polls the configured
+ * `/presence` endpoint and matches the member by their `discordId`.
+ *
+ * - `variant="dot"`   → small status dot beside a member's name (cards).
+ * - `variant="line"`  → editorial status sentence used inside profile dossiers.
+ *
+ * Renders nothing until the first successful poll lands. If a member has no
+ * `discordId` the parent must not render this component at all.
+ */
+export function MemberDiscordStatus({
+  discordId,
+  variant = 'dot',
+  refreshMs = DEFAULT_REFRESH_MS,
+}: MemberDiscordStatusProps) {
   const [status, setStatus] = useState<DiscordStatus | null>(null);
 
   useEffect(() => {
     let cancelled = false;
     const liveUrl = process.env.NEXT_PUBLIC_DISCORD_PRESENCE_URL;
+    if (!liveUrl) return;
 
     const fetchStatus = async () => {
-      if (!liveUrl) return;
       try {
         const res = await fetch(`${liveUrl.replace(/\/$/, '')}/presence`, {
           signal: AbortSignal.timeout(10000),
@@ -59,29 +101,56 @@ export function MemberDiscordStatus({ discordId }: { discordId: string }) {
     };
 
     fetchStatus();
-    const timer = setInterval(fetchStatus, REFRESH_MS);
+    const timer = setInterval(fetchStatus, refreshMs);
     return () => {
       cancelled = true;
       clearInterval(timer);
     };
-  }, [discordId]);
+  }, [discordId, refreshMs]);
 
   if (!status) return null;
 
-  const label = STATUS_LABEL[status as DiscordStatus];
-  const color = STATUS_COLOR[status as DiscordStatus];
-  const background = STATUS_BACKGROUND[status as DiscordStatus];
+  const label = STATUS_LABEL[status];
+  const copy = STATUS_COPY[status];
+  const dot = STATUS_DOT[status];
+
+  if (variant === 'line') {
+    return (
+      <p
+        className={`discord-presence-line member-discord-line status-${status}`}
+        data-status={status}
+        aria-label={label}
+      >
+        <span
+          className="discord-live-dot member-discord-dot"
+          aria-hidden="true"
+          style={{
+            backgroundColor: dot.color,
+            boxShadow: `0 0 0 3px ${dot.ring}`,
+          }}
+        />
+        <span className="member-discord-text">{copy}</span>
+        <span className="sr-only">{label}</span>
+      </p>
+    );
+  }
 
   return (
     <span
-      className="member-discord-status"
+      className={`member-discord-dot-badge member-discord-status status-${status}`}
+      data-status={status}
+      role="img"
       aria-label={label}
-      style={{
-        color,
-        backgroundColor: background,
-      }}
+      title={label}
     >
-      <span className="member-discord-dot" aria-hidden="true" />
+      <span
+        className="member-discord-dot"
+        aria-hidden="true"
+        style={{
+          backgroundColor: dot.color,
+          boxShadow: `0 0 0 2px ${dot.ring}`,
+        }}
+      />
       <span className="sr-only">{label}</span>
     </span>
   );

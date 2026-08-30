@@ -63,7 +63,8 @@
     "weapon": "Strategic sword / Heavenquaker Spear",
     "image": "/images/members/Hrafna.jpeg",
     "founder": true,
-    "quote": "Sometimes we just have to lets go."
+    "quote": "Sometimes we just have to lets go.",
+    "discordId": "628711632637394959"
   },
   {
     "name": "Leiselle",
@@ -98,7 +99,8 @@
     "weapon": "Vernal umbrella / Inkwell fan",
     "image": "/images/members/Maxisle.png",
     "founder": true,
-    "quote": "\"Huwag kang mahiya ka.\" - GL Foobu"
+    "quote": "\"Huwag kang mahiya ka.\" - GL Foobu",
+    "discordId": "948439017446318140"
   },
   {
     "name": "Schalsweiser",
@@ -106,7 +108,8 @@
     "position": "Guild Master",
     "weapon": "Mo Blade / Stormbreaker Spear",
     "image": "/images/members/Schalsweiser.png",
-    "quote": "Kung ang hotdog jumbo, kaya mo ba to?"
+    "quote": "Kung ang hotdog jumbo, kaya mo ba to?",
+    "discordId": "232643045508513792"
   },
   {
     "name": "HyßrıðTheøry",

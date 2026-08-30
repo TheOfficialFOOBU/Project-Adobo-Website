@@ -58,3 +58,23 @@ DISCORD_BOT_TOKEN=... DISCORD_GUILD_ID=1454979473681285334 \
   DISCORD_PRESENCE_ALLOWED_ORIGIN=http://localhost:3000 \
   node bot/presence-bot.mjs
 ```
+
+### Optional: keep the token in a `.env.local` file
+
+If you'd rather not pass the token through PowerShell every time (and have
+it survive shell restarts), copy `bot/.env.local.example` to
+`bot/.env.local`, drop the token in, and run the launcher:
+
+```
+DISCORD_BOT_TOKEN=...  # fill the rest of the values in bot/.env.local
+node bot/start-bot.mjs
+```
+
+`bot/.env.local` is gitignored. The launcher reads it once on start and
+forwards everything to `presence-bot.mjs`.
+
+> Tip for local-only testing: set
+> `DISCORD_PRESENCE_ALLOWED_ORIGIN=http://localhost:8080` so the preview
+> server (the one `npm run preview` exposes) can hit `/presence` without
+> CORS errors. Use a comma-separated origin if you also need to allow the
+> production site during local QA.

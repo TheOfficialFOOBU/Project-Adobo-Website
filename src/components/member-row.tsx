@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useEffect, useMemo, useRef, useState } from 'react';
 
 import { Highlight } from '@/components/highlight';
+import { MemberDiscordStatus } from '@/components/member-discord-status';
 import { MemberPersonalSeal } from '@/components/member-personal-seal';
 import { useLightbox } from '@/components/lightbox-provider';
 import {
@@ -133,6 +134,9 @@ export function MemberRow({ member, highlight = '', reverse = false }: MemberRow
         <div className="member-row-head">
           <h3>
             <Highlight text={member.name} query={highlight} />
+            {member.discordId ? (
+              <MemberDiscordStatus discordId={member.discordId} variant="dot" />
+            ) : null}
           </h3>
           <span className="member-row-position">
             <Highlight text={memberDisplayTitle(member)} query={highlight} />
