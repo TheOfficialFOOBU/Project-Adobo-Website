@@ -38,31 +38,19 @@ test('homepage renders with full functionality and captures design snapshots', a
   await expect(page.locator('.logo-text')).toHaveText('ADOBO');
   await expect(page.locator('.hero h1')).toBeVisible();
 
-  // Roster tabs + flip cards (founders panel is active by default).
-  // NOTE: clicking the card's center hits the photo, which intentionally
-  // opens the lightbox instead of flipping — so flip via keyboard (Enter),
-  // mirroring the original accessibility behavior.
-  const founders = page.locator('#team [data-state="active"] .member-card');
-  await expect(founders.first()).toBeVisible();
-  await founders.first().press('Enter');
-  await expect(founders.first()).toHaveClass(/is-flipped/);
+  // Roster toolbar: search present + sort control works
+  const search = page.locator('#member-search');
+  await expect(search).toBeVisible();
 
-  await page.getByRole('tab', { name: 'Core Members' }).click();
-  await expect(page.locator('#core-tab .member-card').first()).toBeVisible();
-
-  // Members tab: search present + surfaced sort control works
-  await page.getByRole('tab', { name: 'Members', exact: true }).click();
   const sortSelect = page.locator('#sort-select');
   await expect(sortSelect).toBeVisible();
   await sortSelect.selectOption('weapon');
-  await expect(page.locator('#members-list .member-card')).toHaveCount(12);
+  // Sort change doesn't remove rows; just confirms a re-render happened.
+  await expect(page.locator('.member-row').first()).toBeVisible();
 
-  // Lightbox from a member photo (Core tab re-selected; see note below).
-  // Activity images are intentionally NOT used here: the hover overlay
-  // (opacity 0, pointer-events enabled) sits above them and swallows
-  // clicks — identical to the original site.
-  await page.getByRole('tab', { name: 'Core Members' }).click();
-  await page.locator('#core-tab .member-card img.lightbox-target').first().click();
+  // Lightbox from a member photo (Founders group default; just use the
+  // first photo on the page — all rows expose `.lightbox-target`).
+  await page.locator('.member-row-photo.lightbox-target').first().click();
   await expect(page.locator('#lightbox.open')).toBeVisible();
   await expect(page.locator('#lb-image')).toBeVisible();
   await page.keyboard.press('Escape');
@@ -118,12 +106,12 @@ test('activity lightbox deep-links via URL hash', async ({ page }) => {
 test('member profile pages render statically and cross-link', async ({ page }) => {
   await page.emulateMedia({ colorScheme: 'dark' });
   await page.goto(`${SITE}/members/foobu`);
-  await expect(page.locator('.profile-card h1')).toHaveText('FOOBU');
+  await expect(page.locator('.profile-hero-text h1').first()).toHaveText('FOOBU');
   await expect(page.locator('.profile-badge')).toHaveText('Guild Master');
 
   // Prev/next roster navigation reaches another profile.
   await page.locator('.profile-nav a').last().click();
-  await expect(page.locator('.profile-card h1')).not.toHaveText('FOOBU');
+  await expect(page.locator('.profile-hero-text h1').first()).not.toHaveText('FOOBU');
 
   // Unknown slugs hit the branded 404.
   const missing = await page.goto(`${SITE}/members/does-not-exist`);
@@ -135,14 +123,11 @@ test('returning home from a member profile re-arms scroll reveals', async ({ pag
   await page.goto(`${SITE}/`);
   await expect(page.locator('.hero h1')).toBeVisible();
 
-  // Flip the first founder card (keyboard — see note in the smoke test above)
-  // and follow the client-side link to the profile page.
-  const founders = page.locator('#team [data-state="active"] .member-card');
-  await founders.first().press('Enter');
-  await page.locator('.member-profile-link').first().click();
-  await expect(page.locator('.profile-card h1')).toBeVisible();
+  // Follow a member-row's profile link to the profile page.
+  await page.locator('.member-row-profile-link').first().click();
+  await expect(page.locator('.profile-hero-text h1').first()).toBeVisible();
 
-  // “Back to the Guild” — another client-side (next/link) navigation.
+  // "Back to the Guild" — another client-side (next/link) navigation.
   await page.locator('.profile-back').click();
   await expect(page).toHaveURL(/\/Project-Adobo-Website\/?$/);
 

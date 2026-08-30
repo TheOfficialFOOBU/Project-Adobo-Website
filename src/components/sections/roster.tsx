@@ -179,7 +179,7 @@ export function RosterSection() {
   const totalVisible = founders.length + core.length + regular.length;
 
   return (
-    <section className="team scroll-of-members" id="team">
+    <section className="team scroll-of-members" id="team" data-animate>
       {/* Corner ticks on the gold inner frame — top-left and bottom-right,
           matching the dossier / contact-modal bracket language. Decorative. */}
       <span className="scroll-of-members-tick scroll-of-members-tick--tl" aria-hidden="true" />
