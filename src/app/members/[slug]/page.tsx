@@ -12,6 +12,7 @@ import {
   memberSlug,
 } from '@/lib/members';
 import { CopyProfileLink } from '@/components/copy-profile-link';
+import { MemberDiscordStatus } from '@/components/member-discord-status';
 import { DiscordPresence } from '@/components/discord-presence';
 import { MemberPersonalSeal } from '@/components/member-personal-seal';
 import { ProfileStickyBar } from '@/components/profile-sticky-bar';
@@ -224,7 +225,12 @@ export default async function MemberProfilePage({ params }: MemberPageProps) {
           {/* Discord presence + profile link */}
           <div className="profile-actions">
             <CopyProfileLink url={`${SITE_URL}/members/${memberSlug(member)}`} />
-            {member.discordId ? <DiscordPresence discordId={member.discordId} /> : null}
+            {member.discordId ? (
+              <>
+                <DiscordPresence discordId={member.discordId} />
+                <MemberDiscordStatus discordId={member.discordId} />
+              </>
+            ) : null}
           </div>
 
           {/* Floating prev/next chevrons */}

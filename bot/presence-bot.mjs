@@ -57,6 +57,11 @@ function snapshot() {
     online: list.length,
     memberCount: list.length,
     avatars,
+    members: [...members.entries()].map(([id, m]) => ({
+      id,
+      status: m.status,
+      avatar: m.avatar,
+    })),
     asOf: lastAsOf,
     source: 'gateway',
   };
