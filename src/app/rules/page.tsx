@@ -157,7 +157,7 @@ export default function RulesPage() {
                 </g>
               </svg>
 
-              <span className="rules-seal seal-press" aria-hidden="true">
+              <span className="rules-seal" aria-hidden="true">
                 規
               </span>
               <h1 className="rules-title">Guild Rules</h1>
@@ -224,7 +224,7 @@ export default function RulesPage() {
             </section>
 
             <section className="rules-closing">
-              <span className="closing-seal seal-press" aria-hidden="true">
+              <span className="closing-seal" aria-hidden="true">
                 戒
               </span>
               <h2>The Adobo Rule</h2>
