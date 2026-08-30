@@ -187,5 +187,21 @@
     "weapon": "Everspring Umbrella / Unfettered Rope Dart / Snowparting Blade",
     "image": "/images/members/Nyxnoir.png",
     "quote": "[Inhale, Exhale] The sky, clouds, the grass, and the berries."
+  },
+  {
+    "name": "axolotelle",
+    "class": "Healer",
+    "position": "Member",
+    "weapon": "healer fanbrella",
+    "image": "/images/members/axolotelle2.png",
+    "quote": "Hi guys pls carry me"
+  },
+  {
+    "name": "pibble¹",
+    "class": "DPS",
+    "position": "Member",
+    "weapon": "shameless/chudbrella/fists/double d (dust)",
+    "image": "/images/members/pibble.png",
+    "quote": ""
   }
 ]

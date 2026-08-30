@@ -186,6 +186,18 @@
     gap: 1rem;
   }
 
+  /* Reset the desktop flex sizing — `flex: 1 1 0` makes cards collapse to
+     0px tall because the wrapper's aspect-ratio can't compute height from
+     a 0px parent in column flex. Letting cards size from their content
+     restores the wrapper's 16:9 ratio. */
+  .video-grid > * {
+    flex: 0 0 auto;
+  }
+
+  .video-grid > *:first-child {
+    flex: 0 0 auto;
+  }
+
   .video-grid > *:nth-child(2),
   .video-grid > *:nth-child(3) {
     transform: none;
