@@ -54,3 +54,16 @@ test('recruitment banner shows on home, reappears on reload, stays off profiles'
   await page.goto(`${SITE}/members/foobu`);
   await expect(page.locator('.recruit-banner')).toHaveCount(0);
 });
+
+test('hero presence badge renders with widget fallback when no live bot is configured', async ({
+  page,
+}) => {
+  // No NEXT_PUBLIC_DISCORD_PRESENCE_URL is set in the test build, so the
+  // badge should fall back to the public Discord widget. The badge
+  // exists regardless of whether the widget returns data.
+  await page.goto(`${SITE}/`);
+  const badge = page.locator('.discord-live-badge');
+  await expect(badge).toBeVisible();
+  // The text format is "N wanderer(s) online now".
+  await expect(badge).toContainText(/online now/);
+});

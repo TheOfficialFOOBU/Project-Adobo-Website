@@ -5,3 +5,4 @@ public
 package-lock.json
 next-env.d.ts
 tsconfig.tsbuildinfo
+bot/node_modules

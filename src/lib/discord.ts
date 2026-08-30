@@ -7,6 +7,12 @@ import { asset } from '@/lib/site';
  *
  * Fetches are build-safe: any failure (offline build, rate limit, blocked
  * network) resolves to null and callers render nothing.
+ *
+ * For true real-time presence, the optional presence bot (`bot/presence-bot.mjs`)
+ * exposes `/presence` and the client badge polls it via
+ * `NEXT_PUBLIC_DISCORD_PRESENCE_URL` (see `discord-presence-badge.tsx`).
+ * That URL is consumed client-side only; the build-time snapshot here
+ * remains the public widget for static-export builds.
  */
 export const DISCORD_GUILD_ID = '1454979473681285334';
 

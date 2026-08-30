@@ -33,3 +33,6 @@ playwright-report/
 # editor
 .vscode/
 /.cache/
+
+# bot (standalone presence relay)
+/bot/node_modules

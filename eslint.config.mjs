@@ -12,7 +12,15 @@ const eslintConfig = [
   ...nextTypescript,
   prettier,
   {
-    ignores: ['node_modules/**', '.next/**', 'out/**', 'scripts/**', 'public/**', 'next-env.d.ts'],
+    ignores: [
+      'node_modules/**',
+      '.next/**',
+      'out/**',
+      'scripts/**',
+      'public/**',
+      'next-env.d.ts',
+      'bot/**',
+    ],
   },
   {
     rules: {
