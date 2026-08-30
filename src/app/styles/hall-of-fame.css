@@ -41,18 +41,14 @@
   color: var(--muted);
 }
 
-/* ---------- Two-card grid ---------- */
-
+/* ---------- Two-card grid ----------
+   The section currently holds exactly two cards (Hall of Fame, Hall
+   of Shame). Capped at 2 columns at all sizes; on narrow viewports the
+   mobile breakpoint stacks them. */
 .hof-stat-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 1.5rem;
-}
-
-@media (min-width: 1100px) {
-  .hof-stat-grid {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-  }
 }
 
 .hof-stat-card {

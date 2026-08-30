@@ -505,25 +505,26 @@
 /* ---------- Ultrawide hero (>= 2200px) ----------
    On extremely wide screens, a single centered column would float in
    a sea of empty space. We give the hero a thoughtful two-column
-   composition: the existing editorial column on the left, and a
-   small "currently online / latest memory" sidebar on the right.
-   The sidebar uses native HTML only — no JS — and only renders when
-   the `.hero-sidecar` element exists (i.e. on the homepage where it
-   has been added). On smaller screens this rule has no effect. */
+   composition: the existing editorial column on the left, and a small
+   "wanderer quote" sidebar on the right. The sidebar uses native HTML
+   only — no JS — and only renders when the `.hero-sidecar` element
+   exists. On smaller screens this rule has no effect. */
 @media (min-width: 2200px) {
   .hero {
     justify-content: flex-start;
     padding-top: clamp(4rem, 7vw, 8rem);
   }
 
+  /* Widen the editorial column so the sidecar has its own column on
+     the right of the page rather than crowding against the H1. */
   .hero-inner {
-    max-width: 1040px;
+    max-width: 1480px;
     display: grid;
-    grid-template-columns: minmax(0, 1.55fr) minmax(280px, 1fr);
-    column-gap: 4rem;
+    grid-template-columns: minmax(0, 1fr) minmax(280px, 360px);
+    column-gap: clamp(2.5rem, 6vw, 6rem);
     align-items: center;
     text-align: left;
-    padding: 0 2rem;
+    padding: 0 3rem;
   }
 
   .hero-inner > .hero-stamp,
@@ -537,6 +538,7 @@
     text-align: left;
     margin-left: 0;
     margin-right: auto;
+    max-width: 56rem;
   }
 
   .hero-inner > .hero-stamp {
@@ -551,9 +553,10 @@
     grid-column: 2 / 3;
     grid-row: 1 / span 6;
     justify-self: end;
+    align-self: center;
     width: 100%;
-    max-width: 320px;
-    padding: 1.5rem 1.4rem;
+    max-width: 360px;
+    padding: 2rem 1.75rem;
     background: var(--wash);
     border: 1px solid var(--menu-border);
     border-radius: 4px;
@@ -561,6 +564,7 @@
     opacity: 0;
     transform: translateY(8px);
     animation: heroFadeUp 1s cubic-bezier(0.2, 0.8, 0.2, 1) 0.6s forwards;
+    box-shadow: 0 24px 60px rgba(8, 6, 3, 0.32);
   }
 
   .hero-sidecar::before {
