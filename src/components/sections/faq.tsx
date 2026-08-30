@@ -1,4 +1,6 @@
-import { ChevronDown } from 'lucide-react';
+'use client';
+
+import { useState } from 'react';
 
 const FAQS = [
   {
@@ -29,29 +31,62 @@ const FAQS = [
 ] as const;
 
 /**
- * “Guild FAQ” — native <details>/<summary> accordion, so it works with
- * zero client-side JavaScript and stays fully accessible by default.
+ * "Guild FAQ" — a two-column numbered index + answer panel.
+ * Left column is a numbered index of questions (Cormorant display
+ * cinnabar numerals + Cormorant italic questions). Right column shows
+ * the selected answer. On mobile, the index stacks above the answer.
+ *
+ * Single-open behavior: clicking a question in the index selects it
+ * and shows its answer in the panel; clicking the active question
+ * deselects it.
  */
 export function FaqSection() {
+  const [activeIndex, setActiveIndex] = useState<number | null>(0);
+
   return (
     <section className="faq" id="faq" data-animate>
       <div className="container">
         <h2 className="section-title">
           Guild FAQ
-          <span className="section-number" aria-hidden="true">
+          <span className="section-number seal-press" aria-hidden="true">
             伍
           </span>
         </h2>
-        <div className="faq-list">
-          {FAQS.map(({ question, answer }) => (
-            <details className="faq-item" key={question}>
-              <summary>
-                {question}
-                <ChevronDown aria-hidden="true" />
-              </summary>
-              <p className="faq-answer">{answer}</p>
-            </details>
-          ))}
+        <div className="faq-layout">
+          <ol className="faq-index">
+            {FAQS.map((item, i) => {
+              const isActive = activeIndex === i;
+              return (
+                <li key={item.question}>
+                  <button
+                    type="button"
+                    className={`faq-index-item${isActive ? ' faq-index-item--active' : ''}`}
+                    onClick={() => setActiveIndex((prev) => (prev === i ? null : i))}
+                    aria-expanded={isActive}
+                    aria-controls={`faq-panel-${i}`}
+                  >
+                    <span className="faq-index-num">{String(i + 1).padStart(2, '0')}</span>
+                    <span className="faq-index-q">{item.question}</span>
+                  </button>
+                </li>
+              );
+            })}
+          </ol>
+          <div
+            className="faq-panel"
+            id={`faq-panel-${activeIndex ?? 0}`}
+            role="region"
+            aria-live="polite"
+          >
+            {activeIndex !== null ? (
+              <>
+                <p className="faq-panel-question">{FAQS[activeIndex].question}</p>
+                <p className="faq-panel-answer">{FAQS[activeIndex].answer}</p>
+              </>
+            ) : (
+              <p className="faq-panel-placeholder">Select a question to read its answer.</p>
+            )}
+          </div>
         </div>
       </div>
     </section>

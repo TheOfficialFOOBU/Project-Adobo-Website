@@ -24,6 +24,74 @@
   z-index: 1;
 }
 
+/* Visual centerpiece treatment: thin gold inner border with corner ticks
+   on the top-left and bottom-right (matches the dossier / contact-modal
+   bracket language). The border is a single rule on `::after` so it
+   composes cleanly with the existing dotted-grid texture on `::before`. */
+.scroll-of-members::after {
+  content: '';
+  position: absolute;
+  inset: 1.25rem 1.5rem 2.5rem;
+  border: 1px solid rgb(var(--accent-rgb) / 0.18);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Corner ticks on the gold inner frame. Brighter than the border line
+   so they read as deliberate accents, not as edge-bleed. Each tick is
+   an L-shape: 12px horizontal + 12px vertical, drawn with two
+   border-edges on a small absolutely-positioned span. */
+.scroll-of-members-tick {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border-color: rgb(var(--accent-rgb) / 0.7);
+  border-style: solid;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.scroll-of-members-tick--tl {
+  top: 1.25rem;
+  left: 1.5rem;
+  border-width: 2px 0 0 2px;
+}
+
+.scroll-of-members-tick--br {
+  bottom: 2.5rem;
+  right: 1.5rem;
+  border-width: 0 2px 2px 0;
+}
+
+/* Chapter mark in the top-left corner — a quiet "section seal" that
+   reads as "this is the 4th chapter." The kanji 肆 is the same character
+   used next to the section title, but here it functions as a decorative
+   page mark, sized small and rotated slightly. Sits inside the gold
+   frame's top-left corner. */
+.scroll-of-members-chapter-mark {
+  position: absolute;
+  top: 0.5rem;
+  left: 0.5rem;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1;
+  color: rgb(var(--crimson-rgb) / 0.7);
+  background: rgb(var(--crimson-rgb) / 0.05);
+  border: 1px solid rgb(var(--crimson-rgb) / 0.45);
+  border-radius: 4px;
+  transform: rotate(-3deg);
+  pointer-events: none;
+  user-select: none;
+  box-shadow: inset 0 0 0 1px rgb(var(--crimson-rgb) / 0.18);
+}
+
 .scroll-of-members-lede {
   max-width: 60ch;
   margin: -1rem 0 3rem;
@@ -476,6 +544,18 @@
 /* ---------- Mobile ---------- */
 
 @media (max-width: 768px) {
+  /* Centerpiece frame collapses on mobile — the corner ticks are
+     hidden and the gold border keeps a small inset so the section
+     still feels framed without crowding the member cards. */
+  .scroll-of-members::after {
+    inset: 0.75rem 0.75rem 1.5rem;
+    border-width: 1px;
+  }
+
+  .scroll-of-members-tick {
+    display: none;
+  }
+
   .member-row,
   .member-row--reverse {
     grid-template-columns: 1fr;

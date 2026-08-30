@@ -111,9 +111,10 @@ Just be respectful, have fun, and don't make the game worse for the people aroun
 const ENFORCEMENT_STEPS = ['Reminder', 'Warning', 'Temporary Restriction', 'Removal'];
 
 /**
- * Guild Rules page — presented as an unrolled scroll-document. The whole
- * page sits on a paper-toned gradient with corner brackets, cinnabar rule
- * numbers, and Cormorant display headings.
+ * Guild Rules page — the seal and title sit as a compact header at the
+ * top of the content area (no big masthead, no padded card, no
+ * hairline rules). The mango-leaf sits above as a small flourish.
+ * The intro and rules continue from the header in normal flow.
  */
 export default function RulesPage() {
   return (
@@ -121,13 +122,44 @@ export default function RulesPage() {
       <main id="main">
         <section className="rules-page">
           <div className="container rules-container">
-            {/* Scroll masthead */}
-            <header className="rules-masthead">
-              <span className="rules-masthead-rule" aria-hidden="true" />
-              <span className="rules-masthead-seal" aria-hidden="true">
+            {/* Compact header: 規 seal inline with the title, subtitle
+                below. No big masthead, no padded box. */}
+            <header className="rules-header">
+              {/* Mango-leaf ink accent — experimental. Positioned
+                  absolutely to the LEFT of the header so it never enters
+                  the layout flow and can never overlap the seal/title. */}
+              <svg
+                className="rules-leaf"
+                viewBox="0 0 40 40"
+                width="42"
+                height="42"
+                aria-hidden="true"
+                focusable="false"
+              >
+                <g
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path
+                    d="M 21 37 C 18 36, 14 33, 12 27 C 10 21, 11 14, 16 9 C 20 5, 25 5, 26 7 C 27 11, 27 18, 25 24 C 23 30, 21 35, 21 37 Z"
+                    transform="rotate(-3 20 20)"
+                  />
+                  <path d="M 21 37 L 21 38.5" strokeWidth="1.25" />
+                  <path
+                    d="M 21 36 C 20 28, 19 19, 21 11"
+                    strokeWidth="0.75"
+                    strokeOpacity="0.55"
+                    transform="rotate(-3 20 20)"
+                  />
+                </g>
+              </svg>
+
+              <span className="rules-seal seal-press" aria-hidden="true">
                 規
               </span>
-              <span className="rules-masthead-rule" aria-hidden="true" />
               <h1 className="rules-title">Guild Rules</h1>
               <p className="rules-subtitle">Eleven precepts for wandering Adobo together</p>
             </header>
@@ -192,7 +224,7 @@ export default function RulesPage() {
             </section>
 
             <section className="rules-closing">
-              <span className="closing-seal" aria-hidden="true">
+              <span className="closing-seal seal-press" aria-hidden="true">
                 戒
               </span>
               <h2>The Adobo Rule</h2>

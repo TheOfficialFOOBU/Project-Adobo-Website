@@ -184,7 +184,7 @@ export function VideoGallerySection() {
       <div className="container">
         <h2 className="section-title">
           Guild Videos
-          <span className="section-number" aria-hidden="true">
+          <span className="section-number seal-press" aria-hidden="true">
             陸
           </span>
         </h2>

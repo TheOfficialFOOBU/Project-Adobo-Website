@@ -180,10 +180,15 @@ export function RosterSection() {
 
   return (
     <section className="team scroll-of-members" id="team">
+      {/* Corner ticks on the gold inner frame — top-left and bottom-right,
+          matching the dossier / contact-modal bracket language. Decorative. */}
+      <span className="scroll-of-members-tick scroll-of-members-tick--tl" aria-hidden="true" />
+      <span className="scroll-of-members-tick scroll-of-members-tick--br" aria-hidden="true" />
+
       <div className="container">
         <h2 className="section-title">
           Scroll of Members
-          <span className="section-number" aria-hidden="true">
+          <span className="section-number seal-press" aria-hidden="true">
             肆
           </span>
         </h2>

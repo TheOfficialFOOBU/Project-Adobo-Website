@@ -1,6 +1,6 @@
-/* ---------- Generic sections ---------- */
+﻿/* ---------- Generic sections ---------- */
 
-/* Page load sequence — staggered entrance for hero elements */
+/* Page load sequence â€” staggered entrance for hero elements */
 header {
   opacity: 0;
   animation: pageLoadReveal 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) 0.1s forwards;
@@ -107,7 +107,7 @@ section {
   }
 }
 
-/* Ghost chapter numerals (壹貳參肆) — engraved outline style where supported. */
+/* Ghost chapter numerals (å£¹è²³åƒè‚†) â€” engraved outline style where supported. */
 .section-number {
   font-family: var(--font-display);
   font-size: clamp(3.4rem, 9vw, 7rem);
@@ -144,7 +144,7 @@ section {
   transform: translateY(0);
 }
 
-/* Scroll reveal variety — different animations for different sections */
+/* Scroll reveal variety â€” different animations for different sections */
 [data-animate='slide-left'] {
   opacity: 0;
   transform: translateX(-40px);
@@ -179,6 +179,49 @@ section {
   [data-animate] {
     opacity: 1;
     transform: none;
+  }
+}
+
+/* ---------- Recurring seal-press motion ----------
+   A shared keyframe + class that lets any cinnabar seal in the design
+   press in from above when it scrolls into view. Used by the section
+   numerals and the rules seals. Combined with the hero chapter stamp,
+   this gives the entire site a single cinnabar seal vocabulary with
+   a single motion: a craftsman pressing a seal onto each section as
+   the visitor reads it. Respects reduced-motion. */
+.seal-press {
+  opacity: 0;
+  transform: translateY(-12px) scale(1.18);
+}
+[data-animate].in-view .seal-press {
+  animation: sealPress 1s cubic-bezier(0.2, 0.8, 0.2, 1) 0.25s forwards;
+  opacity: 1;
+  transform: none;
+}
+
+@keyframes sealPress {
+  0% {
+    opacity: 0;
+    transform: translateY(-12px) scale(1.18);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(2px) scale(0.96);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .seal-press {
+    opacity: 1;
+    transform: none;
+    animation: none;
+  }
+  [data-animate].in-view .seal-press {
+    animation: none;
   }
 }
 

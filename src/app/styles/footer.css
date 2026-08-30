@@ -44,6 +44,34 @@ footer::before {
   background: linear-gradient(90deg, transparent, rgb(var(--accent-rgb) / 0.55), transparent);
 }
 
+/* Mango-leaf ink accent — experimental. Sits at the start of the
+   footer-seal flex row as a quiet flourish preceding the ADOBO mark.
+   To remove: delete the .footer-leaf element in site-footer.tsx and
+   this rule. */
+.footer-leaf {
+  flex: 0 0 auto;
+  width: 36px;
+  height: 36px;
+  color: rgb(var(--accent-rgb) / 0.85);
+  opacity: 0.12;
+  pointer-events: none;
+  transform: rotate(8deg);
+}
+
+/* Baybayin ᜊ (Ba) glyph — paired with the mango-leaf. Closes the page
+   on the right side of the ADOBO mark. Same stroke-only, low-opacity
+   treatment as the leaf. The two read as a paired cultural mark:
+   organic Filipino leaf (left) + Baybayin script (right). */
+.footer-ba {
+  flex: 0 0 auto;
+  width: 36px;
+  height: 36px;
+  color: rgb(var(--crimson-rgb) / 0.85);
+  opacity: 0.18;
+  pointer-events: none;
+  transform: rotate(-3deg);
+}
+
 .footer-seal-mark {
   font-family: var(--font-display);
   font-size: clamp(1.6rem, 3vw, 2.4rem);

@@ -36,22 +36,25 @@
   color: var(--muted);
 }
 
-/* ---------- Featured chronicle (first item, wide) ---------- */
+/* ---------- Featured chronicle — magazine cover layout ---------- */
 
 .activities-feature {
   display: grid;
-  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
-  gap: 3rem;
-  align-items: stretch;
-  margin-bottom: 3rem;
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1fr);
+  gap: 3.5rem;
+  align-items: center;
+  margin-bottom: 3.5rem;
 }
 
+/* The featured ActivityCard sits on the left as a tall portrait-aspect
+   "cover" image (4:5), with a Cormorant display title + Cormorant italic
+   byline on the right. The side panel is editorial copy, not a CTA stack. */
 .activities-feature-side {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 0.75rem;
-  padding: 1.5rem 0;
+  gap: 1rem;
+  padding: 0.5rem 0;
 }
 
 .activities-feature-eyebrow {
@@ -77,9 +80,9 @@
 .activities-feature-title {
   margin: 0;
   font-family: var(--font-display);
-  font-size: clamp(1.85rem, 3.2vw, 2.6rem);
+  font-size: clamp(2rem, 3.4vw, 2.85rem);
   font-weight: 600;
-  line-height: 1.1;
+  line-height: 1.05;
   color: var(--text);
   letter-spacing: 0.005em;
 }
@@ -89,7 +92,7 @@
   font-family: var(--font-display);
   font-style: italic;
   font-weight: 500;
-  font-size: clamp(1.05rem, 1.5vw, 1.2rem);
+  font-size: clamp(1.1rem, 1.6vw, 1.3rem);
   line-height: 1.5;
   color: var(--quote-text);
 }
@@ -252,11 +255,11 @@
   color: var(--accent-strong);
 }
 
-/* ---------- Featured card variant ---------- */
+/* ---------- Featured card variant (magazine cover — portrait) ---------- */
 
 .activity-card--feature {
-  aspect-ratio: 16 / 11;
-  min-height: 360px;
+  aspect-ratio: 4 / 5;
+  min-height: 420px;
 }
 
 /* ---------- Standard card variant ---------- */

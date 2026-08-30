@@ -21,11 +21,67 @@
   max-height: 480px;
 }
 
-/* Grid for remaining videos */
+/* Film-strip layout — the visible videos read as frames on a
+   horizontal strip with dashed top/bottom borders (film perforations)
+   and small circle perforations along the edges. One wider featured
+   frame on the left, two smaller frames on the right, each slightly
+   offset vertically. On mobile, the strip collapses to a single
+   column. */
 .video-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  display: flex;
+  align-items: stretch;
   gap: 1.25rem;
+  padding: 1.75rem 1rem 2rem;
+  border-top: 2px dashed rgb(var(--accent-rgb) / 0.18);
+  border-bottom: 2px dashed rgb(var(--accent-rgb) / 0.18);
+  position: relative;
+}
+
+/* Film perforations — small accent-colored circles along the
+   top and bottom edges of the strip. Repeating-linear-gradient
+   gives a precise pattern without extra DOM. */
+.video-grid::before,
+.video-grid::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 8px;
+  background-image: radial-gradient(
+    circle at center,
+    rgb(var(--accent-rgb) / 0.35) 1.5px,
+    transparent 2px
+  );
+  background-size: 18px 8px;
+  background-repeat: repeat-x;
+  pointer-events: none;
+}
+
+.video-grid::before {
+  top: 0;
+  background-position: center -1px;
+}
+
+.video-grid::after {
+  bottom: 0;
+  background-position: center calc(100% + 1px);
+}
+
+.video-grid > * {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+.video-grid > *:first-child {
+  flex: 1.4 1 0;
+}
+
+.video-grid > *:nth-child(2) {
+  transform: translateY(0.4rem);
+}
+
+.video-grid > *:nth-child(3) {
+  transform: translateY(-0.4rem);
 }
 
 /* Video card */
@@ -120,14 +176,19 @@
 
 @media (max-width: 1024px) {
   .video-grid {
-    grid-template-columns: repeat(2, 1fr);
+    flex-wrap: wrap;
   }
 }
 
 @media (max-width: 768px) {
   .video-grid {
-    grid-template-columns: 1fr;
+    flex-direction: column;
     gap: 1rem;
+  }
+
+  .video-grid > *:nth-child(2),
+  .video-grid > *:nth-child(3) {
+    transform: none;
   }
 
   .video-featured .video-embed-wrapper {
