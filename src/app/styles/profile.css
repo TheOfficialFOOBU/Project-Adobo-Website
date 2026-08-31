@@ -787,6 +787,7 @@
   pointer-events: none;
   padding: 0.15rem 0.55rem;
   font-size: 0.6rem;
+  white-space: nowrap;
 }
 
 .recruit-note {

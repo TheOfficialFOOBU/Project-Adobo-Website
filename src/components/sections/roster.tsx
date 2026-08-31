@@ -86,11 +86,13 @@ function readRosterParams() {
     filter: 'all' as RosterFilter,
     sort: 'name' as ExposedSortKey,
     view: 'row' as RosterView,
+    dir: 'asc' as 'asc' | 'desc',
   };
   if (typeof window === 'undefined') return fallback;
   const params = new URLSearchParams(window.location.search);
   const filter = params.get('filter');
   const sort = params.get('sort');
+  const dir = params.get('dir');
   const view = params.get('view');
   return {
     q: params.get('q') ?? '',
@@ -103,6 +105,7 @@ function readRosterParams() {
         ? (sort as ExposedSortKey)
         : ('name' as ExposedSortKey),
     view: view === 'grid' ? ('grid' as RosterView) : ('row' as RosterView),
+    dir: dir === 'desc' ? 'desc' : 'asc',
   };
 }
 
@@ -131,6 +134,7 @@ export function RosterSection() {
   const [query, setQuery] = useState('');
   const [filter, setFilter] = useState<RosterFilter>('all');
   const [sortKey, setSortKey] = useState<ExposedSortKey>('name');
+  const [nameSortDir, setNameSortDir] = useState<'asc' | 'desc'>('asc');
   const [view, setView] = useState<RosterView>('row');
   const debouncedQuery = useDebouncedValue(query, 200);
 
@@ -157,21 +161,22 @@ export function RosterSection() {
     if (restored.filter !== 'all') setFilter(restored.filter);
     if (restored.sort !== 'name') setSortKey(restored.sort);
     if (restored.view !== 'row') setView(restored.view);
+    setNameSortDir(restored.dir as 'asc' | 'desc');
     /* eslint-enable react-hooks/set-state-in-effect */
   }, []);
 
-  const founders = useMemo(
-    () => sortMembers(filterMembers(FOUNDERS, debouncedQuery), sortKey),
-    [debouncedQuery, sortKey]
-  );
-  const core = useMemo(
-    () => sortMembers(filterMembers(CORE_MEMBERS, debouncedQuery), sortKey),
-    [debouncedQuery, sortKey]
-  );
-  const regular = useMemo(
-    () => sortMembers(filterMembers(REGULAR_MEMBERS, debouncedQuery), sortKey),
-    [debouncedQuery, sortKey]
-  );
+  const founders = useMemo(() => {
+    const sorted = sortMembers(filterMembers(FOUNDERS, debouncedQuery), sortKey);
+    return nameSortDir === 'desc' && sortKey === 'name' ? sorted.reverse() : sorted;
+  }, [debouncedQuery, sortKey, nameSortDir]);
+  const core = useMemo(() => {
+    const sorted = sortMembers(filterMembers(CORE_MEMBERS, debouncedQuery), sortKey);
+    return nameSortDir === 'desc' && sortKey === 'name' ? sorted.reverse() : sorted;
+  }, [debouncedQuery, sortKey, nameSortDir]);
+  const regular = useMemo(() => {
+    const sorted = sortMembers(filterMembers(REGULAR_MEMBERS, debouncedQuery), sortKey);
+    return nameSortDir === 'desc' && sortKey === 'name' ? sorted.reverse() : sorted;
+  }, [debouncedQuery, sortKey, nameSortDir]);
 
   const groups: { key: RosterFilter; label: string; cn: string; list: GuildMember[] }[] = [
     { key: 'founders', label: 'Founders', cn: '始', list: founders },
@@ -201,6 +206,7 @@ export function RosterSection() {
     if (query.trim()) params.set('q', query.trim());
     if (filter !== 'all') params.set('filter', filter);
     if (sortKey !== 'name') params.set('sort', sortKey);
+    if (nameSortDir === 'desc' && sortKey === 'name') params.set('dir', 'desc');
     if (view !== 'row') params.set('view', view);
     const search = params.toString();
     history.replaceState(
@@ -208,7 +214,7 @@ export function RosterSection() {
       '',
       `${window.location.pathname}${search ? `?${search}` : ''}${window.location.hash}`
     );
-  }, [query, filter, sortKey, view]);
+  }, [query, filter, sortKey, nameSortDir, view]);
 
   // "/" focuses the roster search from anywhere on the page.
   // "g g" (double-tap, under 600ms) scrolls to the roster from anywhere
@@ -287,9 +293,14 @@ export function RosterSection() {
           {ROSTER_COUNT_PHRASE} wanderers, one guild, zero filters. Read every face.
         </p>
 
+        {/* Result count — dynamically reflects filtered/search state. */}
+        <p className="result-count">
+          {totalVisible} of {GUILD_MEMBERS.length} wanderers
+        </p>
+
         {/* Filter chips — group navigation, sits on its own line inside the
-            toolbar so it reads as a separate concern from the per-card
-            search/sort/view controls below. */}
+              toolbar so it reads as a separate concern from the per-card
+              search/sort/view controls below. */}
         <div className="scroll-toolbar-chips" role="group" aria-label="Jump to roster group">
           {FILTERS.map((f) => (
             <button
@@ -344,9 +355,17 @@ export function RosterSection() {
               id="sort-select"
               className="toolbar-select"
               value={sortKey}
-              onChange={(event) => setSortKey(event.target.value as ExposedSortKey)}
+              onChange={(event) => {
+                const newSort = event.target.value as ExposedSortKey;
+                if (newSort === 'name') {
+                  setNameSortDir((prev) => (prev === 'asc' ? 'desc' : 'asc'));
+                } else {
+                  // keep nameSortDir unchanged when switching sort key
+                }
+                setSortKey(newSort);
+              }}
             >
-              <option value="name">Name (A-Z)</option>
+              <option value="name">Name</option>
               <option value="position">Position</option>
               <option value="class">Role</option>
             </select>
