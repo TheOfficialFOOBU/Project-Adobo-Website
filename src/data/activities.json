@@ -5,7 +5,7 @@
     "srcSet": "/images/events/2-1600.webp 1600w, /images/events/2-1024.webp 1024w, /images/events/2-800.webp 800w, /images/events/2-640.webp 640w, /images/events/2-480.webp 480w, /images/events/2-320.webp 320w",
     "full": "/images/events/2-1600.webp",
     "lqip": "/images/events/2-320.webp",
-    "alt": "100 Casual Raids",
+    "alt": "ADOBO Represent!",
     "type": "Guild Milestone",
     "title": "\u2018Guild Picture Taking\u2019",
     "description": "Our biggest member count guild picture.",
@@ -17,8 +17,8 @@
     "srcSet": "/images/events/Pogi-1600.webp 1600w, /images/events/Pogi-1024.webp 1024w, /images/events/Pogi-800.webp 800w, /images/events/Pogi-640.webp 640w, /images/events/Pogi-480.webp 480w, /images/events/Pogi-320.webp 320w",
     "full": "/images/events/Pogi-1600.webp",
     "lqip": "/images/events/Pogi-320.webp",
-    "alt": "Community United",
-    "type": "Community Bond",
+    "alt": "First Guild Picture (Credits to swaggo)",
+    "type": "First Guild Picture",
     "title": "\u2018First Ever Guild Picture\u2019",
     "description": "The first picture we took as a guild since expanding from a 5-member guild.",
     "linkLabel": "View Achievement"
@@ -29,7 +29,7 @@
     "srcSet": "/images/events/1.JPG-1600.webp 1600w, /images/events/1.JPG-1024.webp 1024w, /images/events/1.JPG-800.webp 800w, /images/events/1.JPG-640.webp 640w, /images/events/1.JPG-480.webp 480w, /images/events/1.JPG-320.webp 320w",
     "full": "/images/events/1.JPG-1600.webp",
     "lqip": "/images/events/1.JPG-320.webp",
-    "alt": "Tournament Victory",
+    "alt": "Prison Break Fail",
     "type": "Funny Prison Break",
     "title": "\u2018Prison Break\u2019",
     "description": "We tried to do Prison Break as Guild and ended up getting swarmed and camped. It's still funny to this day.",
@@ -41,10 +41,10 @@
     "srcSet": "/images/events/4-1600.webp 1600w, /images/events/4-1024.webp 1024w, /images/events/4-800.webp 800w, /images/events/4-640.webp 640w, /images/events/4-480.webp 480w, /images/events/4-320.webp 320w",
     "full": "/images/events/4-1600.webp",
     "lqip": "/images/events/4-320.webp",
-    "alt": "Guild Picnic",
+    "alt": "Guild Picture Prank",
     "type": "NMW Prank Guild Picture",
     "title": "\u2018We Got NMW'd during Picture Taking\u2019",
-    "description": "waterlloyd used the NMW trick during our guild picture session.",
+    "description": "waterlloyd used the Transforming Powder during our guild picture session.",
     "linkLabel": "View Event"
   },
   {
@@ -53,9 +53,9 @@
     "srcSet": "/images/events/3-1600.webp 1600w, /images/events/3-1024.webp 1024w, /images/events/3-800.webp 800w, /images/events/3-640.webp 640w, /images/events/3-480.webp 480w, /images/events/3-320.webp 320w",
     "full": "/images/events/3-1600.webp",
     "lqip": "/images/events/3-320.webp",
-    "alt": "Guild Adventure",
-    "type": "Open World Adventure",
-    "title": "‘Roaming the Wilds Together’",
+    "alt": "From Guild Picture Taking to Chaos",
+    "type": "Chaotic Picture Taking",
+    "title": "Full of Fun and Memories",
     "description": "Exploring the world as a pack — screenshots, secrets, and the occasional accidental cliff dive.",
     "linkLabel": "View Adventure"
   },
@@ -66,8 +66,8 @@
     "full": "/images/events/Guild Picture-1600.webp",
     "lqip": "/images/events/Guild Picture-320.webp",
     "alt": "Full Guild Picture",
-    "type": "Guild Snapshot",
-    "title": "‘The Classic Guild Lineup’",
+    "type": "Updated Guild Picture",
+    "title": "The Classic Guild Lineup",
     "description": "The full guild lined up in formation — every member, one frame, no exceptions.",
     "linkLabel": "View Picture"
   },
@@ -78,9 +78,9 @@
     "full": "/images/events/Guild Picture Aura-1600.webp",
     "lqip": "/images/events/Guild Picture Aura-320.webp",
     "alt": "Guild Picture with Auras",
-    "type": "Guild Snapshot",
-    "title": "‘Aura Check, Everyone’",
-    "description": "A glowing, chaotic portrait taken while everyone's strongest auras were active at once.",
+    "type": "Updated Guild Picture 2",
+    "title": "Aura Check, Everyone",
+    "description": "ADOBO - A family, A friend, A Companion.",
     "linkLabel": "View Picture"
   },
   {
@@ -90,9 +90,9 @@
     "full": "/images/events/GuildPic-1600.webp",
     "lqip": "/images/events/GuildPic-320.webp",
     "alt": "Another Guild Snapshot",
-    "type": "Guild Snapshot",
-    "title": "‘Take Two, Same Crew’",
-    "description": "A second attempt at a full roster shot — different angle, same chaos, same smiles.",
+    "type": "Updated Guild Picture 3",
+    "title": "Take Two, Same Crew",
+    "description": "A second attempt at a full roster shot, different angle, same chaos, same smiles.",
     "linkLabel": "View Picture"
   },
   {
@@ -102,9 +102,9 @@
     "full": "/images/events/GPic-1600.webp",
     "lqip": "/images/events/GPic-320.webp",
     "alt": "Guild Group Picture",
-    "type": "Guild Snapshot",
-    "title": "‘Round Three, Bigger Crew’",
-    "description": "Our third group shot as the roster kept growing proof that Adobo keeps attracting good people.",
+    "type": "Updated Guild Picture 4",
+    "title": "Round Three, Bigger Crew",
+    "description": "We keep will keep moving forward!",
     "linkLabel": "View Picture"
   },
   {
@@ -114,8 +114,8 @@
     "full": "/images/events/GPIC2-1600.webp",
     "lqip": "/images/events/GPIC2-320.webp",
     "alt": "Wide Guild Lineup",
-    "type": "Guild Snapshot",
-    "title": "‘Wide-Angle Roll Call’",
+    "type": "Updated Guild Picture 5",
+    "title": "Wide-Angle Roll Call",
     "description": "A wide-format lineup that finally fit everyone in without anyone getting clipped.",
     "linkLabel": "View Picture"
   },
@@ -126,8 +126,8 @@
     "full": "/images/events/Gpic3-1600.webp",
     "lqip": "/images/events/Gpic3-320.webp",
     "alt": "Big Guild Group Shot",
-    "type": "Guild Snapshot",
-    "title": "‘The Big One’",
+    "type": "Updated Guild Picture 6",
+    "title": "The Big One",
     "description": "Our largest group portrait yet a memory we'll keep returning to as the guild grows.",
     "linkLabel": "View Picture"
   },
@@ -187,8 +187,8 @@
     "lqip": "/images/events/NikLei-320.webp",
     "alt": "NikPicken & Leiselle's Picture",
     "type": "Member Highlight",
-    "title": "‘NikPicken & Leiselle's Frame’",
-    "description": "NikPicken & Leiselle's caught at the perfect angle, the kind of picture that ends up as a desktop wallpaper.",
+    "title": "‘NikPicken, Leiselle & Huephemia's Frame’",
+    "description": "NikPicken, Leiselle & Leiselle caught at the perfect angle, the kind of picture that ends up as a desktop wallpaper.",
     "linkLabel": "View Highlight"
   },
   {
@@ -200,7 +200,7 @@
     "alt": "Sanji and Hue Picture",
     "type": "Member Duo",
     "title": "‘Sanji & Hue, Side by Side’",
-    "description": "A paired-up shot of Sanji and Hue that captured their usual duo energy perfectly.",
+    "description": "A paired-up shot of Sanji and Hue that captured their usual couple energy perfectly.",
     "linkLabel": "View Duo"
   },
   {
