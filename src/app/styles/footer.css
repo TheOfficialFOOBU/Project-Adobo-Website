@@ -237,22 +237,27 @@ footer::before {
   color: var(--muted);
 }
 
+/* Shared live-indicator dot. Uses the Adobo palette token system so the
+   hero badge, recruitment banner, and footer widget all read as part of
+   the same on-brand presence language as the member cards. */
 .discord-live-dot {
-  width: 7px;
-  height: 7px;
+  width: 8px;
+  height: 8px;
   border-radius: 50%;
-  background: #3ba55d;
-  box-shadow: 0 0 0 3px rgb(59 165 93 / 0.22);
+  background-color: var(--discord-online);
+  box-shadow: 0 0 0 3px var(--discord-online-ring);
   animation: live-pulse 2.4s ease-in-out infinite;
 }
 
 @keyframes live-pulse {
   0%,
   100% {
-    box-shadow: 0 0 0 3px rgb(59 165 93 / 0.22);
+    box-shadow: 0 0 0 3px var(--discord-online-ring);
+    opacity: 1;
   }
   50% {
-    box-shadow: 0 0 0 5px rgb(59 165 93 / 0.08);
+    box-shadow: 0 0 0 5px var(--discord-online-ring);
+    opacity: 0.85;
   }
 }
 

@@ -93,6 +93,18 @@
   --lb-nav-bg: rgba(13, 11, 9, 0.4);
   --music-bg: rgba(18, 16, 13, 0.92);
 
+  /* Discord presence — unified Adobo palette (online=active cinnabar, idle=gold,
+     dnd=crimson-deep, offline=muted parchment). Keeps the indicator on-brand
+     wherever it appears (member card, profile dossier, hero badge, recruit banner). */
+  --discord-online: #b8432e;
+  --discord-online-ring: rgb(184 67 46 / 0.28);
+  --discord-idle: #c9a45c;
+  --discord-idle-ring: rgb(201 164 92 / 0.32);
+  --discord-dnd: #8c2c1c;
+  --discord-dnd-ring: rgb(140 44 28 / 0.32);
+  --discord-offline: #a89c85;
+  --discord-offline-ring: rgb(168 156 133 / 0.22);
+
   /* shadcn/ui token bridge */
   --background: var(--bg);
   --foreground: var(--text);
@@ -182,6 +194,16 @@
   );
   --lb-nav-bg: rgba(255, 253, 246, 0.65);
   --music-bg: rgba(250, 246, 236, 0.93);
+
+  /* Discord presence — light theme slightly deepens for paper contrast. */
+  --discord-online: #a03a28;
+  --discord-online-ring: rgb(160 58 40 / 0.28);
+  --discord-idle: #9d7a32;
+  --discord-idle-ring: rgb(157 122 50 / 0.32);
+  --discord-dnd: #6f1f12;
+  --discord-dnd-ring: rgb(111 31 18 / 0.32);
+  --discord-offline: #7d715a;
+  --discord-offline-ring: rgb(125 113 90 / 0.22);
 
   --background: var(--bg);
   --foreground: var(--text);

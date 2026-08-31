@@ -54,6 +54,7 @@ export function CopyButton({ value, label, copiedLabel = 'Copied', className }: 
       className={className ?? 'copy-profile-link'}
       onClick={onClick}
       aria-live="polite"
+      data-state={copied ? 'copied' : error ? 'error' : 'idle'}
     >
       {copied ? <Check aria-hidden="true" /> : <Link2 aria-hidden="true" />}
       {copied ? copiedLabel : error ? 'Failed' : label}

@@ -184,6 +184,14 @@ function VideoEmbed({
         <span className="chronicles-video-bracket chronicles-video-bracket--tl" />
         <span className="chronicles-video-bracket chronicles-video-bracket--br" />
       </div>
+      {/* Subtle play affordance — pure decoration (pointer-events: none, aria-hidden).
+          Native <video controls> stay primary; iOS Safari requires an actual user
+          gesture on the <video> element, which a custom overlay button would block. */}
+      <span className="chronicles-video-play-affordance" aria-hidden="true">
+        <svg viewBox="0 0 12 12" focusable="false">
+          <path d="M3 1.5 L10 6 L3 10.5 Z" fill="currentColor" />
+        </svg>
+      </span>
       <div className="chronicles-video-embed">
         <video
           ref={videoRef}
@@ -204,7 +212,7 @@ function VideoEmbed({
         />
       </div>
       <div className="chronicles-video-info">
-        <header className="chronicles-video-info-head">
+        <div className="chronicles-video-info-head">
           {!isFeatured && chapter ? (
             <span className="chronicles-video-chapter" aria-hidden="true">
               {chapter}
@@ -218,7 +226,7 @@ function VideoEmbed({
           {video.category ? (
             <span className="chronicles-video-category">{video.category}</span>
           ) : null}
-        </header>
+        </div>
         <h3 className="chronicles-video-title">{video.title}</h3>
         {video.curatorNote ? <p className="chronicles-video-curator">{video.curatorNote}</p> : null}
         <p className="chronicles-video-description">{video.description}</p>

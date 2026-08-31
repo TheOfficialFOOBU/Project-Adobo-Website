@@ -34,25 +34,6 @@ const STATUS_COPY: Record<DiscordStatus, string> = {
   offline: 'Offline on Discord',
 };
 
-/**
- * Status dot color — drawn from the existing Adobo palette tokens so the
- * indicator reads as part of the manuscript visual language, not as a
- * Discord-themed pill.
- *   online  → cinnabar (signature active seal)
- *   idle    → gold (warm, quiet — guild master off duty)
- *   dnd     → crimson-deep (urgent, busy)
- *   offline → muted parchment-ink (asleep, still present)
- *
- * `ring` is the soft halo behind the dot, drawn in the same hue at low
- * opacity so the dot feels pressed into the page rather than painted on.
- */
-const STATUS_DOT: Record<DiscordStatus, { color: string; ring: string }> = {
-  online: { color: 'rgb(184 67 46)', ring: 'rgb(184 67 46 / 0.28)' },
-  idle: { color: 'rgb(201 164 92)', ring: 'rgb(201 164 92 / 0.32)' },
-  dnd: { color: 'rgb(140 44 28)', ring: 'rgb(140 44 28 / 0.32)' },
-  offline: { color: 'rgb(168 156 133)', ring: 'rgb(168 156 133 / 0.22)' },
-};
-
 const DEFAULT_REFRESH_MS = 60_000;
 
 /**
@@ -112,7 +93,6 @@ export function MemberDiscordStatus({
 
   const label = STATUS_LABEL[status];
   const copy = STATUS_COPY[status];
-  const dot = STATUS_DOT[status];
 
   if (variant === 'line') {
     return (
@@ -121,14 +101,7 @@ export function MemberDiscordStatus({
         data-status={status}
         aria-label={label}
       >
-        <span
-          className="discord-live-dot member-discord-dot"
-          aria-hidden="true"
-          style={{
-            backgroundColor: dot.color,
-            boxShadow: `0 0 0 3px ${dot.ring}`,
-          }}
-        />
+        <span className="discord-live-dot member-discord-dot" aria-hidden="true" />
         <span className="member-discord-text">{copy}</span>
         <span className="sr-only">{label}</span>
       </p>
@@ -143,14 +116,7 @@ export function MemberDiscordStatus({
       aria-label={label}
       title={label}
     >
-      <span
-        className="member-discord-dot"
-        aria-hidden="true"
-        style={{
-          backgroundColor: dot.color,
-          boxShadow: `0 0 0 2px ${dot.ring}`,
-        }}
-      />
+      <span className="member-discord-dot" aria-hidden="true" />
       <span className="sr-only">{label}</span>
     </span>
   );

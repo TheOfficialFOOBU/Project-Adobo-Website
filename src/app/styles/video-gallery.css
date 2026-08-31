@@ -44,11 +44,12 @@
   height: 100%;
   object-fit: contain;
   background: #000;
-  transition: transform 12s ease-out;
+  transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
-.chronicles-video--featured:hover .chronicles-video-player {
-  transform: scale(1.04);
+.chronicles-video--featured:hover .chronicles-video-player,
+.chronicles-video--featured:focus-within .chronicles-video-player {
+  transform: scale(1.02);
 }
 
 .chronicles-video--featured .chronicles-video-info {
@@ -116,6 +117,67 @@
   border-color: var(--accent);
 }
 
+/* ---------- Play affordance ----------
+   A small play triangle tucked at the top-right of every embed. Decorative
+   only (aria-hidden) — the native <video controls> handle actual playback,
+   and any overlay that intercepted clicks would block the browser's play
+   gesture on iOS Safari. The icon brightens on hover/focus-within so the
+   card visibly responds to pointer + keyboard interaction. */
+.chronicles-video-play-affordance {
+  position: absolute;
+  top: 14px;
+  right: 50px;
+  z-index: 2;
+  width: 30px;
+  height: 30px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: rgba(10, 8, 6, 0.55);
+  border: 1px solid rgb(var(--accent-rgb) / 0.5);
+  color: var(--accent-strong);
+  pointer-events: none;
+  opacity: 0.85;
+  transition:
+    opacity 0.3s ease,
+    border-color 0.3s ease,
+    background 0.3s ease,
+    transform 0.3s ease;
+}
+
+.chronicles-video--supporting .chronicles-video-play-affordance {
+  top: 10px;
+  right: 38px;
+  width: 26px;
+  height: 26px;
+}
+
+.chronicles-video-play-affordance svg {
+  width: 12px;
+  height: 12px;
+  margin-left: 2px; /* optical centering of the triangle */
+}
+
+.chronicles-video:hover .chronicles-video-play-affordance,
+.chronicles-video:focus-within .chronicles-video-play-affordance {
+  opacity: 1;
+  border-color: var(--accent);
+  background: rgb(var(--crimson-rgb) / 0.78);
+  color: var(--on-crimson);
+  transform: scale(1.05);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chronicles-video-play-affordance {
+    transition: none;
+  }
+  .chronicles-video:hover .chronicles-video-play-affordance,
+  .chronicles-video:focus-within .chronicles-video-play-affordance {
+    transform: none;
+  }
+}
+
 /* ---------- Supporting grid (2x2 desktop, 1 col mobile) ---------- */
 
 .chronicles-grid {
@@ -162,11 +224,12 @@
   height: 100%;
   object-fit: contain;
   background: #000;
-  transition: transform 0.6s ease;
+  transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
-.chronicles-video--supporting:hover .chronicles-video-player {
-  transform: scale(1.03);
+.chronicles-video--supporting:hover .chronicles-video-player,
+.chronicles-video--supporting:focus-within .chronicles-video-player {
+  transform: scale(1.02);
 }
 
 .chronicles-video--supporting .chronicles-video-info {
@@ -279,7 +342,9 @@
     transition: none;
   }
   .chronicles-video--featured:hover .chronicles-video-player,
-  .chronicles-video--supporting:hover .chronicles-video-player {
+  .chronicles-video--featured:focus-within .chronicles-video-player,
+  .chronicles-video--supporting:hover .chronicles-video-player,
+  .chronicles-video--supporting:focus-within .chronicles-video-player {
     transform: none;
   }
   .chronicles-video--supporting:hover {

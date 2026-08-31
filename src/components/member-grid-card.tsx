@@ -150,7 +150,7 @@ export function MemberGridCard({ member, highlight = '' }: MemberGridCardProps) 
       </Link>
 
       <div className="member-grid-card-body">
-        <header className="member-grid-card-head">
+        <div className="member-grid-card-head">
           <h3>
             <Highlight text={member.name} query={highlight} />
             {member.discordId ? (
@@ -160,7 +160,7 @@ export function MemberGridCard({ member, highlight = '' }: MemberGridCardProps) 
           <span className="member-grid-card-position">
             <Highlight text={memberDisplayTitle(member)} query={highlight} />
           </span>
-        </header>
+        </div>
 
         <dl className="member-grid-card-meta">
           <div>
