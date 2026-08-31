@@ -1,7 +1,5 @@
 import type { Metadata, Viewport } from 'next';
 
-import { Analytics } from '@vercel/analytics/next';
-import { SpeedInsights } from '@vercel/speed-insights/next';
 import { ClientShell } from '@/components/client-shell';
 import { RecruitmentBanner } from '@/components/recruitment-banner';
 import { RECRUITMENT } from '@/lib/recruitment';
@@ -17,7 +15,7 @@ export const metadata: Metadata = {
   title: SITE_TITLE,
   description: SITE_DESCRIPTION,
   authors: [{ name: 'FOOBU' }],
-  manifest: '/manifest.json',
+  manifest: asset('/manifest.json'),
   alternates: {
     canonical: SITE_URL,
   },
@@ -134,8 +132,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         {children}
         <SiteFooter />
         <ClientShell />
-        <Analytics />
-        <SpeedInsights />
         <noscript>
           <style
             dangerouslySetInnerHTML={{

@@ -27,20 +27,15 @@ const TOKEN = process.env.DISCORD_BOT_TOKEN;
 const GUILD_ID = process.env.DISCORD_GUILD_ID;
 const PORT = Number.parseInt(process.env.DISCORD_PRESENCE_PORT ?? '8787', 10);
 const SECRET = process.env.DISCORD_PRESENCE_SECRET ?? null;
-const ALLOWED_ORIGIN = process.env.DISCORD_PRESENCE_ALLOWED_ORIGIN ?? null;
+const ALLOWED_ORIGINS_ENV = process.env.DISCORD_PRESENCE_ALLOWED_ORIGIN ?? '';
+const ALLOWED_ORIGINS = ALLOWED_ORIGINS_ENV
+  ? ALLOWED_ORIGINS_ENV.split(',')
+      .map((s) => s.trim())
+      .filter((s) => s.length > 0)
+  : [];
 
-function fail(message) {
-  console.error(`[presence-bot] ${message}`);
-  process.exit(1);
-}
-
-if (!TOKEN) fail('DISCORD_BOT_TOKEN is not set.');
-if (!GUILD_ID) fail('DISCORD_GUILD_ID is not set.');
-if (!ALLOWED_ORIGIN) {
-  console.warn(
-    '[presence-bot] WARNING: DISCORD_PRESENCE_ALLOWED_ORIGIN is not set; ' +
-      'CORS will allow every origin. Set it in production.'
-  );
+function isAllowedOrigin(origin) {
+  return ALLOWED_ORIGINS.includes(origin);
 }
 
 /** In-memory presence snapshot. { userId: { username, avatar, status } } */
@@ -131,24 +126,46 @@ client.login(TOKEN).catch((err) => {
 
 /* ---------- HTTP ---------- */
 
-function corsHeaders() {
+function corsHeaders(req) {
   const h = {
     'content-type': 'application/json',
     'cache-control': 'no-store',
   };
-  if (ALLOWED_ORIGIN) h['access-control-allow-origin'] = ALLOWED_ORIGIN;
+
+  // Handle OPTIONS preflight requests
+  if (req.method === 'OPTIONS') {
+    h['access-control-allow-origin'] = isAllowedOrigin(req.headers.origin)
+      ? req.headers.origin
+      : '';
+    h['access-control-allow-methods'] = 'GET, HEAD, PUT, PATCH, POST, DELETE';
+    h['access-control-allow-headers'] = 'Content-Type, X-Presence-Secret';
+    return h;
+  }
+
+  // For actual requests: dynamically return the requesting origin if allowed
+  if (isAllowedOrigin(req.headers.origin)) {
+    h['access-control-allow-origin'] = req.headers.origin;
+  }
+
   return h;
 }
 
 const server = createServer((req, res) => {
+  // Handle OPTIONS preflight requests
+  if (req.method === 'OPTIONS') {
+    res.writeHead(200, corsHeaders(req));
+    res.end();
+    return;
+  }
+
   if (req.method !== 'GET') {
-    res.writeHead(405, corsHeaders());
+    res.writeHead(405, corsHeaders(req));
     res.end(JSON.stringify({ error: 'method_not_allowed' }));
     return;
   }
 
   if (req.url === '/healthz') {
-    res.writeHead(200, corsHeaders());
+    res.writeHead(200, corsHeaders(req));
     res.end(JSON.stringify({ ok: true, uptime: process.uptime() }));
     return;
   }
@@ -157,17 +174,17 @@ const server = createServer((req, res) => {
     if (SECRET) {
       const provided = req.headers['x-presence-secret'];
       if (typeof provided !== 'string' || provided !== SECRET) {
-        res.writeHead(401, corsHeaders());
+        res.writeHead(401, corsHeaders(req));
         res.end(JSON.stringify({ error: 'unauthorized' }));
         return;
       }
     }
-    res.writeHead(200, corsHeaders());
+    res.writeHead(200, corsHeaders(req));
     res.end(JSON.stringify(snapshot()));
     return;
   }
 
-  res.writeHead(404, corsHeaders());
+  res.writeHead(404, corsHeaders(req));
   res.end(JSON.stringify({ error: 'not_found' }));
 });
 

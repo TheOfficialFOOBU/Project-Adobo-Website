@@ -942,6 +942,24 @@
   gap: 0.45rem;
 }
 
+/* The card head is a semantic <header> element, so the global
+   `header { position: fixed; ... }` site-nav rule in header.css (and
+   the matching padding override in responsive.css) leaks into every
+   card and stacks all 25 heads at the top of the viewport at z-index
+   1000. Reset positioning so the head flows normally inside its card. */
+.member-grid-card-head {
+  position: static;
+  z-index: auto;
+  top: auto;
+  left: auto;
+  right: auto;
+  width: auto;
+  padding: 0;
+  background: none;
+  border-bottom: 0;
+  display: block;
+}
+
 .member-grid-card-position {
   font-family: var(--font-sans);
   font-size: 0.66rem;
