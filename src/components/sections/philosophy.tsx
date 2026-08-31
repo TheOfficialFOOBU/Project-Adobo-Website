@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { asset, assetSrcSet } from '@/lib/site';
 import { cn } from '@/lib/utils';
@@ -16,6 +16,10 @@ import { cn } from '@/lib/utils';
 export function PhilosophySection() {
   const [loaded, setLoaded] = useState(false);
   const imgRef = useRef<HTMLImageElement | null>(null);
+
+  useEffect(() => {
+    if (imgRef.current?.complete) setLoaded(true);
+  }, []);
 
   return (
     <section className="philosophy" id="philosophy" data-animate>
