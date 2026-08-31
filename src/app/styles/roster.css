@@ -459,72 +459,89 @@
   }
 }
 
-/* Members tab toolbar */
+/* Members tab toolbar — search input (primary control). Lived here
+   historically; kept close to its old home so the rest of the toolbar
+   styles in scroll-of-members.css can read it without an import dance.
+   The wrapper now holds the icon, the input, and an optional inline
+   Clear button (only renders when the query is non-empty), so the
+   search reads as one cohesive field rather than two adjacent chips. */
 .member-search-wrap {
-  margin-bottom: 1.25rem;
-  display: flex;
-  gap: 0.75rem;
-  align-items: center;
-}
-
-.member-search-field {
   position: relative;
-  flex: 1;
   display: flex;
-}
-
-.member-search-field svg {
-  position: absolute;
-  left: 13px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 15px;
-  height: 15px;
-  color: var(--muted);
-  pointer-events: none;
-}
-
-.member-search-input {
-  flex: 1;
-  width: 100%;
-  padding: 11px 14px 11px 38px;
-  border-radius: 2px;
-  border: 1px solid var(--card-border);
-  background: transparent;
-  color: var(--text);
-  font-family: inherit;
-  font-size: 0.95rem;
+  align-items: center;
   min-height: 44px;
+  border: 1px solid var(--border-soft);
+  border-radius: 4px;
+  background: var(--select-bg);
   transition:
     border-color 0.25s ease,
     box-shadow 0.25s ease;
 }
 
-.member-search-input:focus {
-  border-color: rgb(var(--accent-rgb) / 0.6);
+.member-search-wrap:focus-within {
+  border-color: rgb(var(--accent-rgb) / 0.55);
   box-shadow: 0 0 0 3px rgb(var(--accent-rgb) / 0.12);
 }
 
-.member-search-input:focus + svg,
-.member-search-field:focus-within svg {
+.member-search-icon {
+  flex: none;
+  margin: 0 0.5rem 0 0.85rem;
+  width: 16px;
+  height: 16px;
+  color: var(--muted);
+  pointer-events: none;
+}
+
+.member-search-wrap:focus-within .member-search-icon {
   color: var(--accent);
+}
+
+.member-search-input {
+  flex: 1;
+  min-width: 0;
+  width: 100%;
+  height: 100%;
+  padding: 0 0.75rem 0 0;
+  border: none;
+  background: transparent;
+  color: var(--text);
+  font-family: inherit;
+  font-size: 0.95rem;
+  outline: none;
 }
 
 .member-search-input::placeholder {
   color: var(--muted);
 }
 
-/* Members-tab sort bar */
-.sorting-controls {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 1rem;
-  margin: 0 0 2rem 0;
-  padding: 0.9rem 1.25rem;
-  background: var(--wash);
+/* Inline Clear button — only renders inside .member-search-wrap when
+   the query is non-empty. Reads as a quiet secondary action next to the
+   search field, not a separate chip floating away from the toolbar. */
+.member-search-clear {
+  flex: none;
+  margin-right: 0.5rem;
+  padding: 0.3rem 0.6rem;
+  font-family: var(--font-sans);
+  font-size: 0.66rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--muted);
+  background: transparent;
   border: 1px solid var(--border-soft);
-  border-radius: 4px;
+  border-radius: 2px;
+  cursor: pointer;
+  min-height: 28px;
+  transition:
+    color 0.2s ease,
+    border-color 0.2s ease,
+    background 0.2s ease;
+}
+
+.member-search-clear:hover {
+  color: var(--accent);
+  border-color: rgb(var(--accent-rgb) / 0.55);
+  background: var(--btn-wash);
 }
 
 .sorting-controls label {

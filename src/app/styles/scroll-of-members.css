@@ -103,13 +103,18 @@
   color: var(--muted);
 }
 
-/* Toolbar wraps to three rows on wide screens, stacks on narrow */
+/* Toolbar — single dossier-style utility surface that holds the filter
+   chips (group navigation) on one row and the search/sort/view utility
+   controls on a second row. Replaces the previous 4-column grid that
+   crammed filter chips, search, sort, and view-toggle into one row at
+   mismatched heights. The two-row split makes the visual hierarchy
+   obvious: chips are "jump to a group", the utility row is "filter the
+   whole roster". */
 .scroll-toolbar {
-  display: grid;
-  grid-template-columns: auto 1fr auto auto;
-  gap: 1.25rem;
-  align-items: center;
-  padding: 1.5rem 1.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+  padding: 1.25rem 1.5rem 1.25rem;
   margin-bottom: 3rem;
   border: 1px solid var(--menu-border);
   border-radius: 4px;
@@ -137,11 +142,26 @@
   border-width: 0 2px 2px 0;
 }
 
-@media (max-width: 900px) {
-  .scroll-toolbar {
-    grid-template-columns: 1fr;
-    gap: 1rem;
-  }
+/* Filter chips inside the toolbar — group navigation, sits on its own
+   line so the chips read as a separate concern from the per-card
+   utility controls below. Uses the existing .chip styling from
+   chips.css so it remains a single design language. */
+.scroll-toolbar-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+/* Search + sort + view row. Search is the dominant control and grows to
+   fill available space; sort and view-toggle share a row of fixed-width
+   controls on the right. All three controls use the same height
+   (44px), border treatment, and corner radius (4px), so the row reads
+   as one designed utility surface. */
+.scroll-toolbar-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  gap: 0.85rem;
+  align-items: end;
 }
 
 /* ---------- Section dividers ---------- */
@@ -716,14 +736,17 @@
   }
 }
 
-/* ---------- View toggle (Row | Grid) ---------- */
-
+/* ---------- View toggle (Row | Grid) ----------
+   Segmented control sitting inside a .toolbar-field wrapper. Shares the
+   44px height, hairline border, and corner radius with the other utility
+   controls so the row feels cohesive. Active state uses the existing
+   cinnabar palette (the same wash used by the featured Memory tag). */
 .view-toggle {
   display: inline-flex;
-  align-items: center;
-  gap: 0;
+  align-items: stretch;
+  height: 44px;
   border: 1px solid var(--border-soft);
-  border-radius: 2px;
+  border-radius: 4px;
   overflow: hidden;
   background: transparent;
 }
@@ -731,10 +754,13 @@
 .view-toggle-btn {
   display: inline-flex;
   align-items: center;
-  gap: 0.45rem;
-  padding: 0.55rem 0.95rem;
+  justify-content: center;
+  gap: 0.4rem;
+  padding: 0 0.95rem;
+  min-width: 56px;
+  height: 100%;
   font-family: var(--font-sans);
-  font-size: 0.7rem;
+  font-size: 0.68rem;
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.18em;
@@ -768,6 +794,128 @@
 
 .view-toggle-btn--active:hover {
   color: var(--on-crimson);
+}
+
+.view-toggle-btn:focus-visible,
+.toolbar-field--view .view-toggle-btn:focus-visible {
+  outline: 2px solid rgb(var(--accent-rgb) / 0.85);
+  outline-offset: -2px;
+}
+
+/* ---------- Toolbar field wrappers (Sort + View) ----------
+   Small editorial label sits above each control so the utility row reads
+   as a labelled archive — the same eyebrow pattern used elsewhere on the
+   site (profile presence, section eyebrows). The control below the eyebrow
+   shares the 44px height and 4px corner radius with the search field
+   to its left. */
+.toolbar-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  min-width: 0;
+}
+
+.toolbar-field-label {
+  font-family: var(--font-sans);
+  font-size: 0.6rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: rgb(var(--crimson-rgb) / 0.85);
+  /* Cinnabar hairline on the left, matching the section eyebrow + dossier
+     pattern. Visually anchors the label as "what is this control." */
+  padding-left: 0.75rem;
+  position: relative;
+}
+
+.toolbar-field-label::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0.5rem;
+  height: 1px;
+  background: rgb(var(--crimson-rgb) / 0.55);
+}
+
+.toolbar-field--sort {
+  min-width: 150px;
+}
+
+.toolbar-field--view {
+  min-width: 0;
+}
+
+.toolbar-select {
+  width: 100%;
+  height: 44px;
+  padding: 0 0.75rem;
+  background: var(--select-bg);
+  color: var(--text);
+  border: 1px solid var(--border-soft);
+  border-radius: 4px;
+  font-family: inherit;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition:
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.toolbar-select:hover {
+  border-color: var(--select-border-hover);
+}
+
+.toolbar-select:focus,
+.toolbar-select:focus-visible {
+  outline: none;
+  border-color: rgb(var(--accent-rgb) / 0.55);
+  box-shadow: 0 0 0 3px rgb(var(--accent-rgb) / 0.12);
+}
+
+/* ---------- Mobile toolbar ---------- */
+
+@media (max-width: 900px) {
+  .scroll-toolbar-row {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .toolbar-field--sort {
+    min-width: 0;
+  }
+
+  .toolbar-field--view {
+    display: flex;
+    flex-direction: row;
+    align-items: end;
+    justify-content: space-between;
+    gap: 0.85rem;
+  }
+
+  .view-toggle {
+    flex: 0 0 auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .scroll-toolbar {
+    padding: 1rem 1rem 1rem;
+  }
+
+  .toolbar-field--view {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .view-toggle {
+    width: 100%;
+  }
+
+  .view-toggle-btn {
+    flex: 1 1 50%;
+  }
 }
 
 /* ---------- Grid view ---------- */
@@ -1184,19 +1332,6 @@
   .member-discord-dot-badge,
   .member-discord-dot {
     transition: none;
-  }
-}
-
-/* ---------- Mobile toolbar tweaks ---------- */
-
-@media (max-width: 900px) {
-  .scroll-toolbar {
-    grid-template-columns: 1fr;
-    gap: 1rem;
-  }
-
-  .view-toggle {
-    justify-content: center;
   }
 }
 

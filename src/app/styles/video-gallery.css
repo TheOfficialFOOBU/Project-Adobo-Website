@@ -19,6 +19,21 @@
   color: var(--muted);
 }
 
+/* Editorial eyebrow — frames the featured card as a curated premiere.
+   Cormorant italic + cinnabar, centered, small. Sits between the lede
+   and the featured card so the featured card reads as "now showing"
+   rather than "the first media block that happened to render." */
+.chronicles-now-showing {
+  margin: -1.5rem 0 1.75rem;
+  text-align: center;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(0.95rem, 1.4vw, 1.12rem);
+  letter-spacing: 0.32em;
+  color: rgb(var(--crimson-rgb) / 0.9);
+}
+
 /* ---------- Featured video (main event) ---------- */
 
 .chronicles-video--featured {
@@ -30,6 +45,41 @@
   overflow: hidden;
   position: relative;
   box-shadow: 0 24px 60px rgba(8, 6, 3, 0.4);
+  transition:
+    transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1),
+    border-color 0.35s ease,
+    box-shadow 0.4s ease;
+}
+
+/* Cinnabar top accent — the visual hook that says "this is the headline"
+   before any hover. A 3px hairline uses the existing Adobo crimson so the
+   card reads as part of the manuscript family. Drawn as a single rule on
+   ::before so it composes cleanly with the existing corner-bracket and
+   play-affordance overlays. */
+.chronicles-video--featured::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgb(var(--crimson-rgb) / 0.55) 20%,
+    rgb(var(--crimson-rgb) / 0.85) 50%,
+    rgb(var(--crimson-rgb) / 0.55) 80%,
+    transparent 100%
+  );
+  z-index: 3;
+  pointer-events: none;
+}
+
+.chronicles-video--featured:hover,
+.chronicles-video--featured:focus-within {
+  transform: translateY(-3px);
+  border-color: rgb(var(--crimson-rgb) / 0.45);
+  box-shadow: 0 32px 72px rgba(8, 6, 3, 0.5);
 }
 
 .chronicles-video--featured .chronicles-video-embed {
@@ -52,20 +102,39 @@
   transform: scale(1.02);
 }
 
+/* Unify the info panel with the card surface — removes the hard seam
+   between the black embed and a parchment-toned info block. The card
+   now reads as one continuous object. */
 .chronicles-video--featured .chronicles-video-info {
   padding: 2rem 2.25rem 2.25rem;
   text-align: center;
-  background: var(--surface);
+  background: transparent;
 }
 
 .chronicles-video--featured .chronicles-video-title {
   font-family: var(--font-display);
   font-size: clamp(1.6rem, 2.6vw, 2.1rem);
   font-weight: 600;
-  margin: 0 auto 0.6rem;
+  margin: 0 auto 1rem;
   max-width: 32rem;
   color: var(--text);
   letter-spacing: 0.005em;
+}
+
+/* Cinnabar brushstroke beneath the featured title — adapts the same
+   visual language used by .profile-quote::after (profile.css): a centered
+   transparent → crimson → transparent gradient hairline, 2px tall, ~88px
+   wide, with the existing Adobo crimson token. Static — no animation —
+   so it reads as an editorial mark rather than a flourish. Only applied
+   to the featured title; supporting titles are intentionally left clean. */
+.chronicles-video--featured .chronicles-video-title::after {
+  content: '';
+  display: block;
+  width: 88px;
+  height: 2px;
+  margin: 0.85rem auto 0;
+  background: linear-gradient(90deg, transparent, var(--crimson), transparent);
+  border-radius: 1px;
 }
 
 .chronicles-video-feature-tag {
@@ -117,19 +186,29 @@
   border-color: var(--accent);
 }
 
+/* Featured-card corner brackets brighten more aggressively on hover —
+   the featured card needs stronger reaction than supporting cards. */
+.chronicles-video--featured:hover .chronicles-video-bracket,
+.chronicles-video--featured:focus-within .chronicles-video-bracket {
+  border-color: rgb(var(--accent-rgb) / 1);
+}
+
 /* ---------- Play affordance ----------
    A small play triangle tucked at the top-right of every embed. Decorative
    only (aria-hidden) — the native <video controls> handle actual playback,
    and any overlay that intercepted clicks would block the browser's play
-   gesture on iOS Safari. The icon brightens on hover/focus-within so the
-   card visibly responds to pointer + keyboard interaction. */
+   gesture on iOS Safari. Sized to be unmistakable at rest so first-time
+   visitors immediately read the card as "playable," with a slow breath
+   pulse that borrows the Discord presence-dot motion vocabulary (same
+   timing curve + opacity breath) so the section feels like part of the
+   same family. The chip itself brightens on hover/focus-within. */
 .chronicles-video-play-affordance {
   position: absolute;
   top: 14px;
   right: 50px;
   z-index: 2;
-  width: 30px;
-  height: 30px;
+  width: 36px;
+  height: 36px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -138,43 +217,47 @@
   border: 1px solid rgb(var(--accent-rgb) / 0.5);
   color: var(--accent-strong);
   pointer-events: none;
-  opacity: 0.85;
+  opacity: 1;
   transition:
     opacity 0.3s ease,
     border-color 0.3s ease,
     background 0.3s ease,
     transform 0.3s ease;
+  animation: chronicles-play-breath 3s ease-in-out infinite;
 }
 
 .chronicles-video--supporting .chronicles-video-play-affordance {
   top: 10px;
   right: 38px;
-  width: 26px;
-  height: 26px;
+  width: 32px;
+  height: 32px;
 }
 
 .chronicles-video-play-affordance svg {
-  width: 12px;
-  height: 12px;
+  width: 13px;
+  height: 13px;
   margin-left: 2px; /* optical centering of the triangle */
 }
 
 .chronicles-video:hover .chronicles-video-play-affordance,
 .chronicles-video:focus-within .chronicles-video-play-affordance {
-  opacity: 1;
   border-color: var(--accent);
   background: rgb(var(--crimson-rgb) / 0.78);
   color: var(--on-crimson);
   transform: scale(1.05);
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .chronicles-video-play-affordance {
-    transition: none;
+/* Slow breath — opacity + a tiny scale, matching the Discord presence-dot
+   motion language. Feels alive without demanding attention. */
+@keyframes chronicles-play-breath {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
   }
-  .chronicles-video:hover .chronicles-video-play-affordance,
-  .chronicles-video:focus-within .chronicles-video-play-affordance {
-    transform: none;
+  50% {
+    transform: scale(1.06);
+    opacity: 0.85;
   }
 }
 
@@ -196,18 +279,19 @@
 
 .chronicles-video--supporting {
   background: var(--wash);
-  border: 1px solid var(--menu-border);
+  border: 1px solid rgb(var(--accent-rgb) / 0.25);
   border-radius: 4px;
   overflow: hidden;
   position: relative;
   transition:
-    transform 0.4s ease,
+    transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1),
     border-color 0.35s ease,
     box-shadow 0.4s ease;
 }
 
-.chronicles-video--supporting:hover {
-  border-color: rgb(var(--accent-rgb) / 0.45);
+.chronicles-video--supporting:hover,
+.chronicles-video--supporting:focus-within {
+  border-color: rgb(var(--accent-rgb) / 0.55);
   transform: translateY(-3px);
   box-shadow: 0 18px 44px rgba(8, 6, 3, 0.35);
 }
@@ -216,14 +300,23 @@
   aspect-ratio: 16 / 9;
   position: relative;
   overflow: hidden;
-  background: #000;
+  /* Soft cinnabar wash behind the embed so vertical Discord clips (most
+     of which aren't 16:9) don't read as a flat black panel at rest.
+     The poster image still sits on top; the wash only shows in the
+     letterbox gap. */
+  background: rgb(var(--crimson-rgb) / 0.04), #000;
 }
 
 .chronicles-video--supporting .chronicles-video-player {
   width: 100%;
   height: 100%;
-  object-fit: contain;
-  background: #000;
+  /* Cover crop + 30% offset crops vertical phone clips to a 16:9 plate
+     without losing the subject's face. If a specific clip needs a
+     different focal point, tune the player's object-position rather
+     than reverting the whole gallery to contain. */
+  object-fit: cover;
+  object-position: center 30%;
+  background: transparent;
   transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
@@ -308,15 +401,27 @@
   color: var(--muted);
 }
 
-.chronicles-video-position {
-  display: block;
-  margin-top: 0.6rem;
+/* ---------- Clip duration badge ----------
+   Replaces the previous 第 X 帧 ordinal marker. Sized as small metadata
+   rather than a chip — a soft dark wash + tabular Inter digits + gold
+   accent + uppercase M:SS label feel. Drawn from the same family as the
+   tier seals on member photos (rgba(10,8,6,0.78) wash + accent border)
+   so it reads as part of the manuscript visual language. */
+.chronicles-video-duration {
+  display: inline-flex;
+  align-items: center;
+  margin-top: 0.65rem;
+  padding: 0.18rem 0.5rem;
   font-family: var(--font-sans);
-  font-size: 0.58rem;
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.3em;
-  color: var(--muted);
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  font-variant-numeric: tabular-nums;
+  color: var(--accent-strong);
+  background: rgba(10, 8, 6, 0.78);
+  border: 1px solid rgb(var(--accent-rgb) / 0.45);
+  border-radius: 2px;
+  text-transform: none;
 }
 
 /* ---------- Responsive ---------- */
@@ -338,8 +443,18 @@
 @media (prefers-reduced-motion: reduce) {
   .chronicles-video-player,
   .chronicles-video--supporting,
-  .chronicles-video-bracket {
+  .chronicles-video-bracket,
+  .chronicles-video-play-affordance {
     transition: none;
+  }
+  /* Hard-stop the breath pulse and the hover scale on the affordance. */
+  .chronicles-video-play-affordance {
+    animation: none;
+    transform: none;
+  }
+  .chronicles-video:hover .chronicles-video-play-affordance,
+  .chronicles-video:focus-within .chronicles-video-play-affordance {
+    transform: none;
   }
   .chronicles-video--featured:hover .chronicles-video-player,
   .chronicles-video--featured:focus-within .chronicles-video-player,
@@ -347,7 +462,8 @@
   .chronicles-video--supporting:focus-within .chronicles-video-player {
     transform: none;
   }
-  .chronicles-video--supporting:hover {
+  .chronicles-video--supporting:hover,
+  .chronicles-video--featured:hover {
     transform: none;
   }
 }

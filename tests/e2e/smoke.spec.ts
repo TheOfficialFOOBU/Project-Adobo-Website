@@ -44,7 +44,7 @@ test('homepage renders with full functionality and captures design snapshots', a
 
   const sortSelect = page.locator('#sort-select');
   await expect(sortSelect).toBeVisible();
-  await sortSelect.selectOption('weapon');
+  await sortSelect.selectOption('class');
   // Sort change doesn't remove rows; just confirms a re-render happened.
   await expect(page.locator('.member-row').first()).toBeVisible();
 

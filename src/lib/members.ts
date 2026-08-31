@@ -68,12 +68,56 @@ export const REGULAR_MEMBERS: GuildMember[] = GUILD_MEMBERS.filter(
 
 export type MemberSortKey = 'name' | 'position' | 'class' | 'weapon';
 
+/**
+ * Position hierarchy for sorting — the same convention used elsewhere on
+ * the site (tier colors, profile badges, CORE_MEMBERS list). Ascending
+ * sort = highest rank first (Guild Master at the top).
+ */
 const SORT_POSITION_ORDER: Record<string, number> = {
-  'Guild Master': 1,
-  'Vice Master': 2,
-  Officer: 3,
-  Member: 4,
+  'Guild Master': 0,
+  'Vice Master': 1,
+  Officer: 2,
+  Member: 3,
 };
+
+/**
+ * Class priority — DPS > Tank > Healer. Dual-class combinations are
+ * treated as the highest-priority recognized class present, so
+ * `DPS/Tank` and `Tank/DPS` both sort into the DPS group. This only
+ * affects sorting — the displayed class text is preserved exactly as
+ * stored in the JSON (intentional jokey class values like "DPS tryhard
+ * with puhonk moosick jk" fall through to the unknown group).
+ */
+const CLASS_PRIORITY: Record<string, number> = {
+  DPS: 0,
+  Tank: 1,
+  Healer: 2,
+};
+
+/** Lowest priority = unrecognized / empty. Place after recognized groups. */
+const UNKNOWN_CLASS_RANK = 99;
+
+/**
+ * Resolve a member's class value to a sorting rank. Splits dual-class
+ * strings on common separators (`/`, `,`, ` & `) and returns the lowest
+ * (highest-priority) recognized rank found. Unknown / empty values
+ * land in the bottom-priority bucket so recognized values always sort
+ * first, while still keeping unknown group order stable via name.
+ */
+function classSortRank(classValue: string): number {
+  const trimmed = classValue.trim();
+  if (!trimmed) return UNKNOWN_CLASS_RANK;
+  const tokens = trimmed
+    .split(/[\/,]| & /)
+    .map((s) => s.trim())
+    .filter(Boolean);
+  let best = UNKNOWN_CLASS_RANK;
+  for (const token of tokens) {
+    const rank = CLASS_PRIORITY[token];
+    if (rank !== undefined && rank < best) best = rank;
+  }
+  return best;
+}
 
 export function sortMembers(members: GuildMember[], sortBy: MemberSortKey): GuildMember[] {
   const sorted = [...members];
@@ -83,13 +127,23 @@ export function sortMembers(members: GuildMember[], sortBy: MemberSortKey): Guil
       break;
     case 'position':
       sorted.sort((a, b) => {
-        const rankA = SORT_POSITION_ORDER[a.position] ?? Number.MAX_SAFE_INTEGER;
-        const rankB = SORT_POSITION_ORDER[b.position] ?? Number.MAX_SAFE_INTEGER;
-        return rankA - rankB;
+        const rankA = SORT_POSITION_ORDER[a.position] ?? UNKNOWN_CLASS_RANK;
+        const rankB = SORT_POSITION_ORDER[b.position] ?? UNKNOWN_CLASS_RANK;
+        if (rankA !== rankB) return rankA - rankB;
+        // Within the same position group, keep order deterministic by
+        // falling back to name. Stable enough for the few collisions.
+        return a.name.localeCompare(b.name);
       });
       break;
     case 'class':
-      sorted.sort((a, b) => a.class.localeCompare(b.class));
+      sorted.sort((a, b) => {
+        const rankA = classSortRank(a.class);
+        const rankB = classSortRank(b.class);
+        if (rankA !== rankB) return rankA - rankB;
+        // Same primary class group — fall back to name so ordering within
+        // a group stays deterministic without reordering member data.
+        return a.name.localeCompare(b.name);
+      });
       break;
     case 'weapon':
       sorted.sort((a, b) => a.weapon.localeCompare(b.weapon));

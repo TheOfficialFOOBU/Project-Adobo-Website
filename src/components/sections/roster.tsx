@@ -13,7 +13,6 @@ import {
   REGULAR_MEMBERS,
   sortMembers,
   type GuildMember,
-  type MemberSortKey,
 } from '@/lib/members';
 import { cn } from '@/lib/utils';
 
@@ -71,14 +70,21 @@ function useDebouncedValue<T>(value: T, wait = 200): T {
   return debounced;
 }
 
-const SORT_KEYS = ['name', 'position', 'class', 'weapon'] as const;
+/**
+ * Valid sort keys exposed in the toolbar dropdown. The `weapon` key still
+ * exists in the `MemberSortKey` type so the underlying `sortMembers`
+ * function handles it as a defensive fallback, but it isn't surfaced in
+ * the UI per the active taxonomy (Name, Position, Class).
+ */
+const SORT_KEYS = ['name', 'position', 'class'] as const;
+type ExposedSortKey = (typeof SORT_KEYS)[number];
 
 /** Initial toolbar state restored from the URL (?q=&filter=&sort=&view=). */
 function readRosterParams() {
   const fallback = {
     q: '',
     filter: 'all' as RosterFilter,
-    sort: 'name' as MemberSortKey,
+    sort: 'name' as ExposedSortKey,
     view: 'row' as RosterView,
   };
   if (typeof window === 'undefined') return fallback;
@@ -93,9 +99,9 @@ function readRosterParams() {
         ? filter
         : ('all' as RosterFilter),
     sort:
-      sort && SORT_KEYS.includes(sort as MemberSortKey)
-        ? (sort as MemberSortKey)
-        : ('name' as MemberSortKey),
+      sort && (SORT_KEYS as readonly string[]).includes(sort)
+        ? (sort as ExposedSortKey)
+        : ('name' as ExposedSortKey),
     view: view === 'grid' ? ('grid' as RosterView) : ('row' as RosterView),
   };
 }
@@ -124,7 +130,7 @@ const FILTERS: { key: RosterFilter; label: string; cnChar: string }[] = [
 export function RosterSection() {
   const [query, setQuery] = useState('');
   const [filter, setFilter] = useState<RosterFilter>('all');
-  const [sortKey, setSortKey] = useState<MemberSortKey>('name');
+  const [sortKey, setSortKey] = useState<ExposedSortKey>('name');
   const [view, setView] = useState<RosterView>('row');
   const debouncedQuery = useDebouncedValue(query, 200);
 
@@ -272,7 +278,7 @@ export function RosterSection() {
 
       <div className="container">
         <h2 className="section-title">
-          Scroll of Members
+          Members
           <span className="section-number seal-press" aria-hidden="true">
             肆
           </span>
@@ -281,84 +287,93 @@ export function RosterSection() {
           {ROSTER_COUNT_PHRASE} wanderers, one guild, zero filters. Read every face.
         </p>
 
-        {/* Filter / sort toolbar */}
-        <div className="scroll-toolbar">
-          <div className="filter-chips" role="group" aria-label="Jump to roster group">
-            {FILTERS.map((f) => (
-              <button
-                key={f.key}
-                type="button"
-                className={cn('chip', filter === f.key && 'chip-active')}
-                aria-pressed={filter === f.key}
-                onClick={() => jumpTo(f.key)}
-              >
-                {f.label}
-              </button>
-            ))}
-          </div>
-
-          <div className="member-search-wrap">
-            <div className="member-search-field">
-              <Search aria-hidden="true" />
-              <input
-                id="member-search"
-                type="search"
-                placeholder="Search members, class, or weapon"
-                aria-label="Search members"
-                className="member-search-input"
-                value={query}
-                onChange={(event) => setQuery(event.target.value)}
-                onKeyDown={(event) => {
-                  if (event.key === 'Escape') {
-                    setQuery('');
-                    event.currentTarget.blur();
-                  }
-                }}
-              />
-            </div>
+        {/* Filter chips — group navigation, sits on its own line inside the
+            toolbar so it reads as a separate concern from the per-card
+            search/sort/view controls below. */}
+        <div className="scroll-toolbar-chips" role="group" aria-label="Jump to roster group">
+          {FILTERS.map((f) => (
             <button
+              key={f.key}
               type="button"
-              className="chip"
-              onClick={() => setQuery('')}
-              aria-label="Clear search"
+              className={cn('chip', filter === f.key && 'chip-active')}
+              aria-pressed={filter === f.key}
+              onClick={() => jumpTo(f.key)}
             >
-              Clear
+              {f.label}
             </button>
+          ))}
+        </div>
+
+        {/* Search + Sort + View utility row — the primary dossier toolbar.
+            Search is the dominant control (full flex), then Sort and the
+            segmented Row/Grid toggle share the remainder with matching
+            height, border treatment, and corner radius. */}
+        <div className="scroll-toolbar-row">
+          <div className="member-search-wrap">
+            <Search className="member-search-icon" aria-hidden="true" />
+            <input
+              id="member-search"
+              type="search"
+              placeholder="Search Members, Class, Position"
+              aria-label="Search members"
+              className="member-search-input"
+              value={query}
+              onChange={(event) => setQuery(event.target.value)}
+              onKeyDown={(event) => {
+                if (event.key === 'Escape') {
+                  setQuery('');
+                  event.currentTarget.blur();
+                }
+              }}
+            />
+            {query ? (
+              <button
+                type="button"
+                className="member-search-clear"
+                onClick={() => setQuery('')}
+                aria-label="Clear search"
+              >
+                Clear
+              </button>
+            ) : null}
           </div>
 
-          <div className="sorting-controls">
-            <label htmlFor="sort-select">Sort by:</label>
+          <label className="toolbar-field toolbar-field--sort">
+            <span className="toolbar-field-label">Sort by</span>
             <select
               id="sort-select"
+              className="toolbar-select"
               value={sortKey}
-              onChange={(event) => setSortKey(event.target.value as MemberSortKey)}
+              onChange={(event) => setSortKey(event.target.value as ExposedSortKey)}
             >
               <option value="name">Name (A-Z)</option>
               <option value="position">Position</option>
               <option value="class">Role</option>
-              <option value="weapon">Weapon</option>
             </select>
-          </div>
+          </label>
 
-          <div className="view-toggle" role="group" aria-label="Roster view">
-            <button
-              type="button"
-              className={cn('view-toggle-btn', view === 'row' && 'view-toggle-btn--active')}
-              aria-pressed={view === 'row'}
-              onClick={() => setView('row')}
-            >
-              <Rows3 aria-hidden="true" />
-              <span>Row</span>
-            </button>
-            <button
-              type="button"
-              className={cn('view-toggle-btn', view === 'grid' && 'view-toggle-btn--active')}
-              aria-pressed={view === 'grid'}
-              onClick={() => setView('grid')}
-            >
-              <LayoutGrid aria-hidden="true" />
-              <span>Grid</span>
-            </button>
+          <div className="toolbar-field toolbar-field--view" role="group" aria-label="Roster view">
+            <span className="toolbar-field-label">View</span>
+            <div className="view-toggle">
+              <button
+                type="button"
+                className={cn('view-toggle-btn', view === 'row' && 'view-toggle-btn--active')}
+                aria-pressed={view === 'row'}
+                onClick={() => setView('row')}
+              >
+                <Rows3 aria-hidden="true" />
+                <span>Row</span>
+              </button>
+              <button
+                type="button"
+                className={cn('view-toggle-btn', view === 'grid' && 'view-toggle-btn--active')}
+                aria-pressed={view === 'grid'}
+                onClick={() => setView('grid')}
+              >
+                <LayoutGrid aria-hidden="true" />
+                <span>Grid</span>
+              </button>
+            </div>
           </div>
         </div>
 

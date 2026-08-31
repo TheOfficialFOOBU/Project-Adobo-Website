@@ -9,7 +9,7 @@ const SITE = '/Project-Adobo-Website';
  * scroll rather than a tabbed panel.
  */
 async function applyFilter(page: Page, label: 'All' | 'Founders' | 'Core' | 'Members') {
-  await page.locator('.filter-chips button').getByText(label, { exact: true }).click();
+  await page.locator('.scroll-toolbar-chips button').getByText(label, { exact: true }).click();
 }
 
 test('member search shows an empty state with a working reset', async ({ page }) => {
@@ -41,7 +41,7 @@ test('roster toolbar state is mirrored to the URL and restored on load', async (
   await page.goto(`${SITE}/?q=umbrella&filter=members`);
   await expect(page.locator('#member-search')).toHaveValue('umbrella');
   await expect(
-    page.locator('.filter-chips button').getByText('Members', { exact: true })
+    page.locator('.scroll-toolbar-chips button').getByText('Members', { exact: true })
   ).toHaveAttribute('aria-pressed', 'true');
 });
 

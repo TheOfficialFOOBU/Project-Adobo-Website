@@ -22,6 +22,9 @@ interface LocalVideo {
   capturedAt?: string;
   /** Optional category tag (e.g., "Boss Fight", "Funny Moment"). */
   category?: string;
+  /** Optional clip length in M:SS (e.g. "0:42"). Measured from the file,
+   *  not estimated. Rendered as a small duration badge on supporting cards. */
+  duration?: string;
 }
 
 const VIDEOS = videosData as LocalVideo[];
@@ -121,28 +124,18 @@ function FeaturedVideo({ video }: { video: LocalVideo }) {
   return <VideoEmbed video={video} variant="featured" />;
 }
 
-function SupportingVideo({
-  video,
-  chapter,
-  index,
-}: {
-  video: LocalVideo;
-  chapter: string;
-  index: number;
-}) {
-  return <VideoEmbed video={video} variant="supporting" chapter={chapter} index={index} />;
+function SupportingVideo({ video, chapter }: { video: LocalVideo; chapter: string }) {
+  return <VideoEmbed video={video} variant="supporting" chapter={chapter} />;
 }
 
 function VideoEmbed({
   video,
   variant,
   chapter,
-  index,
 }: {
   video: LocalVideo;
   variant: 'featured' | 'supporting';
   chapter?: string;
-  index?: number;
 }) {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const wrapperRef = useRef<HTMLDivElement | null>(null);
@@ -230,9 +223,9 @@ function VideoEmbed({
         <h3 className="chronicles-video-title">{video.title}</h3>
         {video.curatorNote ? <p className="chronicles-video-curator">{video.curatorNote}</p> : null}
         <p className="chronicles-video-description">{video.description}</p>
-        {typeof index === 'number' ? (
-          <span className="chronicles-video-position" aria-hidden="true">
-            第 {index + 1} 帧
+        {video.duration ? (
+          <span className="chronicles-video-duration" aria-label={`Clip length: ${video.duration}`}>
+            {video.duration}
           </span>
         ) : null}
       </div>
@@ -264,6 +257,15 @@ export function VideoGallerySection() {
           Memorable moments from the road — the kind worth replaying on a slow evening.
         </p>
 
+        {/* Editorial eyebrow that frames the featured memory as a curated
+            premiere — same magazine/programmatic vocabulary used by the
+            Activities eyebrow and section labels. Cinnabar, italic Cormorant,
+            sits between the lede and the featured card so the featured card
+            reads as "now showing" rather than "the first media block." */}
+        <p className="chronicles-now-showing" aria-hidden="true">
+          Now showing
+        </p>
+
         {featured ? <FeaturedVideo video={featured} /> : null}
 
         {supporting.length > 0 ? (
@@ -273,7 +275,6 @@ export function VideoGallerySection() {
                 <SupportingVideo
                   video={video}
                   chapter={CHAPTER_MARKS[idx % CHAPTER_MARKS.length] ?? '壹'}
-                  index={idx}
                 />
               </div>
             ))}

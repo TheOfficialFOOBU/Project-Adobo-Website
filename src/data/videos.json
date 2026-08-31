@@ -5,8 +5,8 @@
     "src": "/videos/Calialy Aura Farm.mp4",
     "poster": "/videos/Calialy Aura Farm.jpg",
     "title": "Calialy Aura Farm",
-    "label": "Discord Clip",
     "description": "Calialy grinding aura with maximum efficiency",
+    "duration": "0:07",
     "featured": true
   },
   {
@@ -15,8 +15,8 @@
     "src": "/videos/Schalsweiser Denying Fanbrella.mp4",
     "poster": "/videos/Schalsweiser Denying Fanbrella.jpg",
     "title": "Schalsweiser Denying Fanbrella",
-    "label": "Discord Clip",
-    "description": "Schalsweiser with the clutch deflection"
+    "description": "Schalsweiser with the clutch deflection",
+    "duration": "0:28"
   },
   {
     "type": "local",
@@ -24,8 +24,8 @@
     "src": "/videos/HyßrıðTheøry Pictorial Gone Wrong.mp4",
     "poster": "/videos/HyßrıðTheøry Pictorial Gone Wrong.jpg",
     "title": "HyßrıðTheøry Pictorial Gone Wrong",
-    "label": "Discord Clip",
-    "description": "The photoshoot did not go as planned"
+    "description": "The photoshoot did not go as planned",
+    "duration": "0:11"
   },
   {
     "type": "local",
@@ -33,8 +33,8 @@
     "src": "/videos/Ambón POV Mahjong Distraction.mp4",
     "poster": "/videos/Ambón POV Mahjong Distraction.jpg",
     "title": "Ambón's POV of Mahjong Fanatics",
-    "label": "Discord Clip",
-    "description": "Normal guild bonding at the Mahjong table"
+    "description": "Normal guild bonding at the Mahjong table",
+    "duration": "1:44"
   },
   {
     "type": "local",
@@ -42,7 +42,7 @@
     "src": "/videos/Ambón POV Adobo Airlines.mp4",
     "poster": "/videos/Ambón POV Adobo Airlines.jpg",
     "title": "Ambón's POV of Adobo Airlines",
-    "label": "Discord Clip",
-    "description": "Ambón's POV of Jianghu's Adobo Airlines from Breaking Army"
+    "description": "Ambón's POV of Jianghu's Adobo Airlines from Breaking Army",
+    "duration": "0:22"
   }
 ]
